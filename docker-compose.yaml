@@ -1,0 +1,47 @@
+version: "3.8"
+services:
+  auth:
+    build: ./auth
+    container_name: auth-container
+    depends_on:
+      - auth-db
+    develop:
+      watch:
+        - action: sync
+          path: ./auth
+          target: ./auth
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: ./auth/package.json
+    environment:
+      MONGO_URL: mongodb://auth-db:27017/auth
+    ports:
+      - 4000:4000
+
+  client:
+    build: ./client
+    container_name: client-container
+    develop:
+      watch:
+        - action: sync
+          path: ./client
+          target: ./client
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: ./client/package.json
+    ports:
+      - 3000:3000
+
+  auth-db:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - auth_db:/data/db
+
+volumes:
+  auth_db:
+    name: auth-data
