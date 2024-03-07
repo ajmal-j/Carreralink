@@ -1,0 +1,31 @@
+feat: A new feature for the user, not a new feature for the build script.
+
+Example: feat(auth-service): implement user authentication and sign-in
+
+fix: A bug fix for the user, not a fix to a build script.
+
+Example: fix(api-endpoint): resolve issue with user login validation
+
+chore: Routine tasks, maintenance, or updates that are not related to the user or a bug.
+
+Example: chore(docs): update README with new authentication features
+
+docs: Changes to documentation.
+
+Example: docs(auth-service): update API documentation for login and sign-in
+
+style: Code style changes (formatting, indentation) that do not affect the logic of the code.
+
+Example: style(auth-service): format code according to coding standards
+
+refactor: Code changes that neither fix a bug nor add a feature. This is often used for code restructuring.
+
+Example: refactor(auth-service): improve code readability in authentication logic
+
+test: Adding or modifying tests.
+
+Example: test(auth-service): add unit tests for authentication functionality
+
+perf: Performance-related changes.
+
+Example: perf(api-endpoint): optimize user login response time
