@@ -1,15 +1,24 @@
 require("dotenv").config();
 import express from "express";
+import { Connect } from "./database/connection";
 const port = 4000 ?? process.env.PORT;
+import AuthRouter from "./routes";
+
 const app = express();
 
-app.get("/check", (req, res) => {
-  res.send(`Server is up and running ${process.env.MONGO_URL}`);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+Connect(process.env.MONGO_URL!);
+
+app.use("/api/v1", AuthRouter);
+
+app.get("/api/v1/check", (req, res) => {
+  res.send(`Auth server is up and running`);
 });
 
-app.get("/", (req, res) => {
-  console.log("auth server is up and running");
-  res.send("Auth server is up and running");
+app.all("*", (req, res) => {
+  res.send(`${req.originalUrl} not found in auth server.`);
 });
 
 // listening

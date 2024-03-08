@@ -13,7 +13,7 @@ services:
           ignore:
             - node_modules/
         - action: rebuild
-          path: ./auth/package.json
+          path: ./auth/**/package*{.json,.*.json}
     environment:
       MONGO_URL: mongodb://auth-db:27017/auth
     ports:
@@ -30,7 +30,7 @@ services:
           ignore:
             - node_modules/
         - action: rebuild
-          path: ./client/package.json
+          path: ./client/package*.json
     ports:
       - 3000:3000
 
