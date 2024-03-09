@@ -1,7 +1,7 @@
 require("dotenv").config();
 import express from "express";
 import { Connect } from "./database/connection";
-const port = 4000 ?? process.env.PORT;
+const port = 4000;
 import AuthRouter from "./routes";
 
 const app = express();
@@ -11,9 +11,9 @@ app.use(express.urlencoded({ extended: true }));
 
 Connect(process.env.MONGO_URL!);
 
-app.use("/api/v1", AuthRouter);
+app.use("/api/v1/auth", AuthRouter);
 
-app.get("/api/v1/check", (req, res) => {
+app.get("/api/v1/auth/check", (_, res) => {
   res.send(`Auth server is up and running`);
 });
 

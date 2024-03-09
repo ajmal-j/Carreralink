@@ -1,5 +1,5 @@
 import { Repositories } from "../database/index";
-import buildSignUp from "./signup.controller";
+import { buildSignUp } from "./signup.controller";
 import { signUpSchema } from "../utils/validator.util";
 
 const signupController = buildSignUp(Repositories.UserRepo, signUpSchema);
