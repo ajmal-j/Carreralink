@@ -5,6 +5,7 @@ services:
     container_name: auth-container
     depends_on:
       - auth-db
+      - redpanda
     develop:
       watch:
         - action: sync
@@ -16,8 +17,29 @@ services:
           path: ./auth/**/package*{.json,.*.json}
     environment:
       MONGO_URL: mongodb://auth-db:27017/auth
+      KAFKA_BROKER: redpanda:29092
     ports:
       - 4000:4000
+  users:
+    build: ./users
+    container_name: users-container
+    depends_on:
+      - users-db
+      - redpanda
+    develop:
+      watch:
+        - action: sync
+          path: ./users
+          target: ./users
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: ./users/**/package*{.json,.*.json}
+    environment:
+      MONGO_URL: mongodb://users-db:27017/users
+      KAFKA_BROKER: redpanda:29092
+    ports:
+      - 5000:5000
 
   client:
     build: ./client
@@ -41,7 +63,26 @@ services:
       - 27017:27017
     volumes:
       - auth_db:/data/db
+  users-db:
+    image: mongo
+    restart: always
+    ports:
+      - 27018:27017
+    volumes:
+      - users_db:/data/db
+
+  redpanda:
+    image: docker.redpanda.com/vectorized/redpanda:v22.2.2
+    container_name: carreralink-redpanda
+    command:
+      - redpanda start
+      - --kafka-addr PLAINTEXT://0.0.0.0:29092
+      - --advertise-kafka-addr PLAINTEXT://redpanda:29092
+    ports:
+      - 29092:29092
 
 volumes:
   auth_db:
     name: auth-data
+  users_db:
+    name: users-data

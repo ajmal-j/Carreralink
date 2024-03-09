@@ -11,6 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 
 Connect(process.env.MONGO_URL!);
 
+
 app.use("/api/v1/auth", AuthRouter);
 
 app.get("/api/v1/auth/check", (_, res) => {
