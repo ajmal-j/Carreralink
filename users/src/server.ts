@@ -1,6 +1,8 @@
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import { Connect } from "./database/connection/index.js";
+import eventConsumer from "./events/consumer.js";
 
 const app = express();
 
@@ -19,4 +21,5 @@ app.all("*", (req, res) => {
 
 app.listen(5000, () => {
   console.log(`Users server is running on : http://localhost:5000`);
+  eventConsumer();
 });
