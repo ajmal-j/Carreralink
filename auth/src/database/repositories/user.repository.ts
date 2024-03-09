@@ -5,7 +5,11 @@ import { UserModelType, IUserAuth } from "../models/user.model";
 export interface IUserRepo {
   database: UserModelType;
   createUser(user: IUser): Promise<IUserAuth>;
-  isAlreadyTaken(): Promise<IUserAuth>;
+  isAlreadyTaken(user: {
+    email?: string;
+    contact?: number;
+    username?: string;
+  }): Promise<unknown>;
   findByEmail(email: string): Promise<IUserAuth | null>;
 }
 
@@ -16,16 +20,18 @@ export class UserRepository implements IUserRepo {
     return await this.database.create(user);
   }
 
-  async isAlreadyTaken(
-    email?: string,
-    contact?: number,
-    username?: string
-  ): Promise<IUserAuth> {
-    const user = await this.database.findOne({
+  async isAlreadyTaken({
+    email,
+    contact,
+    username,
+  }: {
+    email?: string;
+    contact?: number;
+    username?: string;
+  }): Promise<unknown> {
+    return await this.database.findOne({
       $or: [{ email }, { contact }, { username }],
     });
-    if (!user) throw new NotFoundError("User not found");
-    return user;
   }
 
   async findByEmail(email: string): Promise<IUserAuth | null> {
