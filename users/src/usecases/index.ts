@@ -1,5 +1,5 @@
-import { Repositories } from "../database";
-import { CreateUserUsecase } from "./createUser.usecase";
+import { Repositories } from "../database/index.js";
+import { CreateUserUsecase } from "./createUser.usecase.js";
 
 const createUserUsecase = new CreateUserUsecase(Repositories.UserDataRepo);
 

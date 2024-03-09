@@ -1,6 +1,7 @@
 import { passwordUtil } from "@carreralink/common";
-import buildSignup from "./signup.usecase";
+import { SignUpUsecase } from "./signup.usecase.js";
+import { Repositories } from "../database/index.js";
 
-const signupUseCase = buildSignup(passwordUtil);
+const signupUseCase = new SignUpUsecase(passwordUtil, Repositories.UserRepo);
 
 export { signupUseCase };

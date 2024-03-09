@@ -1,5 +1,5 @@
-import { IUser } from "../../entities/userData.entity";
-import { UserDataModelType, IUserData } from "../models/userData.model";
+import { IUser } from "../../entities/userData.entity.js";
+import { UserDataModelType, IUserData } from "../models/userData.model.js";
 
 export interface IUserRepo {
   database: UserDataModelType;

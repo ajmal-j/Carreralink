@@ -1,6 +1,6 @@
 import { NotFoundError } from "@carreralink/common";
-import { IUser } from "../../entities/user.entity";
-import { UserModelType, IUserAuth } from "../models/user.model";
+import { IUser } from "../../entities/user.entity.js";
+import { UserModelType, IUserAuth } from "../models/user.model.js";
 
 export interface IUserRepo {
   database: UserModelType;
