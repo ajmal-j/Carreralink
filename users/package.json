@@ -2,6 +2,7 @@
   "name": "users",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "",
   "scripts": {
     "dev": "concurrently \"npx tsc -w\"  \"nodemon dist/server.js\""

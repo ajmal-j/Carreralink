@@ -1,8 +1,8 @@
-import { Repositories } from "../database/index";
-import { buildSignUp } from "./signup.controller";
-import { signUpSchema } from "../utils/validator.util";
+import eventProducer from "../events/producer.js";
+import { buildSignUp } from "./signup.controller.js";
+import { signUpSchema } from "../utils/validator.util.js";
 
-const signupController = buildSignUp(Repositories.UserRepo, signUpSchema);
+const signupController = buildSignUp(signUpSchema, eventProducer);
 
 export const authControllers = Object.freeze({ signupController });
 

@@ -1,6 +1,6 @@
 import { Router } from "express";
-import buildAuthRouter from "./auth.routes";
-import { authControllers } from "../controller";
+import buildAuthRouter from "./auth.routes.js";
+import { authControllers } from "../controller/index.js";
 
 let router = Router();
 

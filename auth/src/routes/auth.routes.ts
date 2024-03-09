@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { IAuthControllers } from "../controller";
+import { IAuthControllers } from "../controller/index.js";
 import { expressCallback } from "@carreralink/common";
 
 export default (router: Router, authControllers: IAuthControllers) => {
