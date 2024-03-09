@@ -1,4 +1,6 @@
 import { Kafka } from "kafkajs";
+import { createUserUsecase } from "../usecases/index.js";
+import { IUser } from "../entities/userData.entity.js";
 
 const KAFKA_BROKERS = process.env.KAFKA_BROKER;
 
@@ -20,8 +22,10 @@ export default async () => {
 
     await consumer.run({
       eachMessage: async ({ message }) => {
-        console.log(`Message received: ${message.timestamp} ${message.key}`);
-        console.log(message?.value?.toString());
+        const data = message?.value?.toString();
+        if (!data) throw new Error("No data found");
+        const userData = JSON.parse(data) as IUser;
+        createUserUsecase.execute(userData);
       },
     });
   } catch (error) {

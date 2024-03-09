@@ -3,6 +3,7 @@ dotenv.config();
 import express from "express";
 import { Connect } from "./database/connection/index.js";
 import eventConsumer from "./events/consumer.js";
+import { errorMiddleware } from "@carreralink/common";
 
 const app = express();
 
@@ -17,6 +18,12 @@ app.get("/api/v1/users/check", (_, res) => {
 
 app.all("*", (req, res) => {
   res.send(`${req.originalUrl} not found in users server.`);
+});
+
+app.use(errorMiddleware);
+
+process.on("uncaughtException", (error) => {
+  console.log(error);
 });
 
 app.listen(5000, () => {

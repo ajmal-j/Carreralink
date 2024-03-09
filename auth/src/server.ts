@@ -2,16 +2,16 @@ import dotenv from "dotenv";
 import express from "express";
 import { Connect } from "./database/connection/index.js";
 import AuthRouter from "./routes/index.js";
+import { errorMiddleware } from "@carreralink/common";
 
 const port = 4000;
-dotenv.config()
+dotenv.config();
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 Connect(process.env.MONGO_URL!);
-
 
 app.use("/api/v1/auth", AuthRouter);
 
@@ -23,6 +23,7 @@ app.all("*", (req, res) => {
   res.send(`${req.originalUrl} not found in auth server.`);
 });
 
+app.use(errorMiddleware);
 // listening
 app.listen(port, () => {
   console.log(`Auth server is running on : http://localhost:${port}`);

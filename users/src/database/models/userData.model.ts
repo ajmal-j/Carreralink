@@ -24,7 +24,7 @@ export interface IUserData extends Document {
     title: string | null;
   }[];
   workingAt: string | null;
-  userName: string;
+  username: string;
   contact: number;
 }
 
@@ -65,7 +65,7 @@ const userSchema: Schema = new Schema({
     },
   ],
   workingAt: { type: String },
-  userName: { type: String, unique: true, required: true },
+  username: { type: String, unique: true, required: true },
   contact: { type: Number, unique: true, required: true },
 });
 
