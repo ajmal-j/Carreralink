@@ -20,18 +20,18 @@ export default function RootLayout({
       <body
         className={cn("min-h-screen font-sans antialiased", inter.className)}
       >
-        <div className="bg-[url('/bg.svg')] bg-cover bg-fixed bg-center bg-no-repeat">
-          <div className="backdrop-blur-[160px]">
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              {children}
-            </ThemeProvider>
-          </div>
-        </div>
+        {/* <div className="bg-[url('/bg.svg')] bg-cover bg-fixed bg-center bg-no-repeat">
+          <div className="backdrop-blur-[160px]"> */}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+        {/* </div>
+        </div> */}
       </body>
     </html>
   );
