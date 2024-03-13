@@ -2,7 +2,7 @@ import mongoose, { Schema, Document, ObjectId } from "mongoose";
 
 export interface IUserData extends Document {
   _id: ObjectId;
-  profile: string | null;
+  profile: string;
   email: string;
   currentStatus: string | null;
   interviews: ObjectId[] | null;
@@ -29,7 +29,11 @@ export interface IUserData extends Document {
 }
 
 const userSchema: Schema = new Schema({
-  profile: { type: String },
+  profile: {
+    type: String,
+    default:
+      "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+  },
   email: { type: String, unique: true, required: true },
   currentStatus: {
     type: String,

@@ -1,10 +1,13 @@
-import { ThemeToggler } from "@/components/theme-toggler";
-import Image from "next/image";
+import UserHeader from "@/components/UserHeader";
+import Wrapper from "@/components/Wrapper";
+import Main from "@/components/Main";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <ThemeToggler />
-    </main>
+    <Wrapper>
+      <main className="">
+        <Main />
+      </main>
+    </Wrapper>
   );
 }
