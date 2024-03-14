@@ -28,6 +28,14 @@ const config = {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
         },
+        primaryColor: {
+          DEFAULT: "hsl(var(--primaryColor))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondaryColor: {
+          DEFAULT: "hsl(var(--secondaryColor))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
@@ -68,10 +76,23 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        scroll: {
+          to: {
+            transform: "translate(calc(-50% - 0.5rem))",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        scroll:
+          "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
+      },
+      fontFamily: {
+        montserrat: ["var(--font-montserrat)"],
+      },
+      boxShadow: {
+        roundedPrimaryShadow: "var(--shadow)",
       },
     },
   },
