@@ -17,7 +17,7 @@ export default function PrimaryButton({
   return (
     <button
       className={cn(
-        "bg-primaryColor w-full rounded-full border-[0.2px] border-white/20 py-1.5 text-sm text-white text-white/90 transition-all duration-200 hover:bg-violet-900 ",
+        "bg-primaryColor w-full rounded-full border-[0.2px] border-white/20 py-1.5 text-sm text-white text-white/90 transition-all duration-200 hover:bg-violet-600 ",
         className,
       )}
       onClick={onClick}

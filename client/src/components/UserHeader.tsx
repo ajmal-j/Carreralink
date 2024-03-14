@@ -22,22 +22,30 @@ import {
 
 export default function UserHeader() {
   return (
-    <header className="flex items-center justify-between rounded-full border-[0.2px] px-6 py-3">
+    <header className="z-10 flex items-center justify-between rounded-full border-[0.2px] bg-background px-6 py-3">
       <div className="flex items-center gap-1">
         <Image
           alt="CarreraLink"
           className="dark:invert"
           src="/logo.svg"
-          width={20}
-          height={20}
+          width={23}
+          height={23}
         />
-        <div className="font-montserrat font-bold">CarreraLink</div>
+        <div className="font-montserrat text-lg font-bold">CarreraLink</div>
       </div>
       <div className="hidden flex-1 justify-end gap-3 px-3 font-montserrat text-foreground/60 md:flex">
-        <Link href="/jobs">Jobs</Link>
-        <Link href="/companies">Companies</Link>
-        <Link href="/hire">Hire</Link>
-        <Link href="/about">About</Link>
+        <Link className="hover:text-foreground" href="/jobs">
+          Jobs
+        </Link>
+        <Link className="hover:text-foreground" href="/companies">
+          Companies
+        </Link>
+        <Link className="hover:text-foreground" href="/hire">
+          Hire
+        </Link>
+        <Link className="hover:text-foreground" href="/about">
+          About
+        </Link>
       </div>
       <div className="flex flex-1 items-center justify-end md:hidden">
         <MobileNav />
