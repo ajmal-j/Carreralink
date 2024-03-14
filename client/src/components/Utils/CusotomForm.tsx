@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import PrimaryButton from "./PrimaryButton";
+import PrimaryButton from "../Buttons/PrimaryButton";
 import { ReactNode, useState } from "react";
 import { EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons";
 

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import PrimaryButton from "./PrimaryButton";
+import PrimaryButton from "../Buttons/PrimaryButton";
 
 const jobs = [
   {
@@ -29,7 +29,7 @@ export default function FeaturedJobs() {
     <div className="mt-6 flex flex-col items-center gap-2 rounded-xl border bg-background px-2 py-3">
       {jobs.map((job) => (
         <>
-          <div className="flex w-full font-montserrat items-center justify-between rounded-lg bg-background px-5 py-2">
+          <div className="flex w-full items-center justify-between rounded-lg bg-background px-5 py-2 font-montserrat">
             <div className="flex-1">
               <p className="pb-2 text-lg  text-foreground/90">{job.title}</p>
               <p className="text-foreground/60">{job.company}</p>

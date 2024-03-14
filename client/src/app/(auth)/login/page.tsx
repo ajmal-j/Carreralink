@@ -1,7 +1,7 @@
 "use client";
-import { CustomForm } from "@/components/LoginForm";
-import Title from "@/components/Title";
-import Wrapper from "@/components/Wrapper";
+import { CustomForm } from "@/components/Utils/CusotomForm";
+import Title from "@/components/Utils/Title";
+import Wrapper from "@/components/Utils/Wrapper";
 import Link from "next/link";
 import React from "react";
 import { z } from "zod";

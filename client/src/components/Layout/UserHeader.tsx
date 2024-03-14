@@ -8,7 +8,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import React from "react";
-import { ThemeToggler } from "./theme-toggler";
+import { ThemeToggler } from "../Buttons/theme-toggler";
 import Image from "next/image";
 import Link from "next/link";
 import {

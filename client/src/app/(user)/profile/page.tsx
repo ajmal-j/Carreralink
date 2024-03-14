@@ -1,5 +1,5 @@
-import Wrapper from "@/components/Wrapper";
-import Main from "@/components/Main";
+import Wrapper from "@/components/Utils/Wrapper";
+import Main from "@/components/Layout/Main";
 import Image from "next/image";
 import {
   BackpackIcon,
@@ -10,10 +10,10 @@ import {
   PlusIcon,
   WidthIcon,
 } from "@radix-ui/react-icons";
-import SecondaryButton from "@/components/SecondaryButton";
-import PrimaryButton from "@/components/PrimaryButton";
+import SecondaryButton from "@/components/Buttons/SecondaryButton";
+import PrimaryButton from "@/components/Buttons/PrimaryButton";
 import Link from "next/link";
-import AccentButton from "@/components/AccentButton";
+import AccentButton from "@/components/Buttons/AccentButton";
 
 const sampleUserData = {
   profile:

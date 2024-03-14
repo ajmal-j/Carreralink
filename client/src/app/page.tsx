@@ -1,11 +1,11 @@
-import Wrapper from "@/components/Wrapper";
-import Main from "@/components/Main";
+import Wrapper from "@/components/Utils/Wrapper";
+import Main from "@/components/Layout/Main";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import PrimaryButton from "@/components/PrimaryButton";
-import FeaturedJobs from "@/components/FeaturedJobs";
-import { ThreeDCard } from "@/components/ThreeDCard";
-import { SparklesTitle } from "@/components/SparklingTitle";
-import { InfiniteMovingCard } from "@/components/MovingCards";
+import PrimaryButton from "@/components/Buttons/PrimaryButton";
+import FeaturedJobs from "@/components/LandingPage/FeaturedJobs";
+import { ThreeDCard } from "@/components/LandingPage/ThreeDCard";
+import { SparklesTitle } from "@/components/LandingPage/SparklingTitle";
+import { InfiniteMovingCard } from "@/components/LandingPage/MovingCards";
 
 export default function Home() {
   return (
