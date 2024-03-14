@@ -17,7 +17,7 @@ export default function Home() {
         ></div>
         <article className="relative z-10">
           <div className="mx-auto flex max-w-[600px] flex-col gap-1 py-16">
-            <span className="block text-center font-montserrat text-4xl">
+            <span className="block text-center text-4xl">
               Job hunting made easy.
               <br />
               Your gateway to professional success!
@@ -27,7 +27,7 @@ export default function Home() {
             action="/jobs"
             className="mx-auto flex max-w-[400px] items-center justify-center"
           >
-            <div className="shadow-roundedPrimaryShadow flex w-full items-center justify-between rounded-full bg-background px-2 py-[5px] font-montserrat">
+            <div className="flex w-full items-center justify-between rounded-full bg-background px-2 py-[5px] font-montserrat shadow-roundedPrimaryShadow">
               <div className="flex items-center">
                 <MagnifyingGlassIcon className="ms-2 size-5" />
                 <input
@@ -42,7 +42,7 @@ export default function Home() {
             </div>
           </form>
           <FeaturedJobs />
-          <span className="block pb-3 pt-10 text-center font-montserrat text-2xl">
+          <span className="block pb-3 pt-10 text-center text-2xl">
             Popular Job Categorie&apos;s
           </span>
           <InfiniteMovingCard />

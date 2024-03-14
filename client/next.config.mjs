@@ -5,6 +5,7 @@ const nextConfig = {
       "cdn2.hubspot.net",
       "1000logos.net",
       "images.crowdspring.com",
+      "icon-library.com",
     ],
   },
 };

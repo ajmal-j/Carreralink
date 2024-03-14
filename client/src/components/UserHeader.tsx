@@ -23,17 +23,19 @@ import {
 export default function UserHeader() {
   return (
     <header className="z-10 flex items-center justify-between rounded-full border-[0.2px] bg-background px-6 py-3">
-      <div className="flex items-center gap-1">
-        <Image
-          alt="CarreraLink"
-          className="dark:invert"
-          src="/logo.svg"
-          width={23}
-          height={23}
-        />
-        <div className="font-montserrat text-lg font-bold">CarreraLink</div>
-      </div>
-      <div className="hidden flex-1 justify-end gap-3 px-3 font-montserrat text-foreground/60 md:flex">
+      <Link href="/">
+        <div className="flex items-center gap-1">
+          <Image
+            alt="CarreraLink"
+            className="dark:invert"
+            src="/logo.svg"
+            width={23}
+            height={23}
+          />
+          <h1 className="font-montserrat text-lg font-bold">CarreraLink</h1>
+        </div>
+      </Link>
+      <div className="hidden flex-1 justify-end gap-4 px-3  text-foreground/60 md:flex">
         <Link className="hover:text-foreground" href="/jobs">
           Jobs
         </Link>
@@ -85,7 +87,7 @@ export function MobileNav() {
         </div>
         <SheetFooter>
           <SheetClose asChild>
-            <ExitIcon className="mr-2 h-4 w-4 text-foreground" />
+            <ExitIcon className="mr-2 ms-auto h-4 w-4 text-foreground" />
           </SheetClose>
         </SheetFooter>
       </SheetContent>

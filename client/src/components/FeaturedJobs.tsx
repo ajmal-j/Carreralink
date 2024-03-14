@@ -29,11 +29,9 @@ export default function FeaturedJobs() {
     <div className="mt-6 flex flex-col items-center gap-2 rounded-xl border bg-background px-2 py-3">
       {jobs.map((job) => (
         <>
-          <div className="flex w-full items-center justify-between rounded-lg bg-background px-5 py-2">
+          <div className="flex w-full font-montserrat items-center justify-between rounded-lg bg-background px-5 py-2">
             <div className="flex-1">
-              <p className="pb-2 font-montserrat text-lg font-bold text-foreground/90">
-                {job.title}
-              </p>
+              <p className="pb-2 text-lg  text-foreground/90">{job.title}</p>
               <p className="text-foreground/60">{job.company}</p>
               <p className="text-foreground/60">{job.location}</p>
             </div>
@@ -49,7 +47,7 @@ export default function FeaturedJobs() {
           </div>
         </>
       ))}
-      <div className="ms-auto me-5 mt-5">
+      <div className="me-5 ms-auto mt-5">
         <PrimaryButton className="px-5">View all</PrimaryButton>
       </div>
     </div>

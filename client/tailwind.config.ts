@@ -32,6 +32,9 @@ const config = {
           DEFAULT: "hsl(var(--primaryColor))",
           foreground: "hsl(var(--primary-foreground))",
         },
+        accentColor: {
+          DEFAULT: "hsl(var(--accentColor))",
+        },
         secondaryColor: {
           DEFAULT: "hsl(var(--secondaryColor))",
           foreground: "hsl(var(--secondary-foreground))",

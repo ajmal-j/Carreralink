@@ -8,7 +8,7 @@ interface PropTypes {
   type?: "button" | "submit" | "reset" | undefined;
 }
 
-export default function PrimaryButton({
+export default function SecondaryButton({
   children,
   className,
   onClick,
@@ -17,7 +17,7 @@ export default function PrimaryButton({
   return (
     <button
       className={cn(
-        "w-full rounded-full border-[0.2px] border-white/20 bg-primaryColor py-1.5 text-sm text-white text-white/90 transition-all duration-200 hover:bg-violet-600 ",
+        "w-full rounded-full border-[0.2px] border-white/20 bg-secondaryColor py-1.5 text-sm text-white text-white/90 transition-all duration-200 hover:bg-violet-900 ",
         className,
       )}
       onClick={onClick}
