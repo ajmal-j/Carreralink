@@ -6,7 +6,7 @@ export default function Title({ className }: { className?: string }) {
     <div className={cn("flex items-center gap-1", className)}>
       <Image
         alt="CarreraLink"
-        className="invert"
+        className="dark:invert"
         src="/logo.svg"
         width={35}
         height={35}

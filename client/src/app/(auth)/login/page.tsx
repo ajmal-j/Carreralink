@@ -22,28 +22,30 @@ export default function Login() {
   };
 
   return (
-    <Wrapper className="flex items-center justify-center">
-      <div className="flex w-full max-w-[800px] flex-col items-center justify-center rounded-3xl py-32 dark:bg-black/40">
-        <div className="w-full max-w-[370px] px-3">
-          <Title className="pb-10" />
-          <CustomForm
-            formSchema={formSchema}
-            defaultValues={defaultValues}
-            onSubmit={onsubmit}
-            action="Login"
-            comment={
-              <>
-                <span className="text-foreground/70">
-                  Don&apos;t you have an account?{" "}
-                </span>
-                <Link className="underline" href={"/signup"}>
-                  Signup
-                </Link>
-              </>
-            }
-          />
+    <div className="bg-[url('/bg.svg')] bg-cover bg-center bg-no-repeat">
+      <Wrapper className="flex items-center justify-center backdrop-blur-[160px]">
+        <div className="flex w-full max-w-[800px] flex-col items-center justify-center rounded-3xl bg-background py-32">
+          <div className="w-full max-w-[370px] px-3">
+            <Title className="pb-10" />
+            <CustomForm
+              formSchema={formSchema}
+              defaultValues={defaultValues}
+              onSubmit={onsubmit}
+              action="Login"
+              comment={
+                <>
+                  <span className="text-foreground/70">
+                    Don&apos;t you have an account?{" "}
+                  </span>
+                  <Link className="underline" href={"/signup"}>
+                    Signup
+                  </Link>
+                </>
+              }
+            />
+          </div>
         </div>
-      </div>
-    </Wrapper>
+      </Wrapper>
+    </div>
   );
 }
