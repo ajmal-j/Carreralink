@@ -1,12 +1,9 @@
-import Wrapper from "@/components/Utils/Wrapper";
-import Main from "@/components/Layout/Main";
 import Image from "next/image";
 import {
   BackpackIcon,
   EyeOpenIcon,
   FileIcon,
   LinkBreak2Icon,
-  Pencil1Icon,
   Pencil2Icon,
   PlusIcon,
   Share2Icon,
