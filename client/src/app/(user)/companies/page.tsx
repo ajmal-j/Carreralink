@@ -60,7 +60,7 @@ const companies = [
 export default function Companies() {
   return (
     <>
-      <h1 className=" text-center text-4xl">Top companies hiring now</h1>
+      <h1 className="mt-6 text-center text-4xl">Top companies hiring now</h1>
       <Search action="/companies" className="mt-10 max-w-[600px]" />
       <div className="mt-10 flex flex-col gap-3">
         <div>

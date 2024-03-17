@@ -13,3 +13,7 @@ export const DateSchema = z.union([
   z.instanceof(Date),
   z.literal("Present"),
 ]);
+
+export const ImageSchema = z
+  .custom<File>()
+  
