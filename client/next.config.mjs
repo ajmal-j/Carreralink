@@ -6,6 +6,8 @@ const nextConfig = {
       "1000logos.net",
       "images.crowdspring.com",
       "icon-library.com",
+      "w7.pngwing.com",
+      "placehold.co",
     ],
   },
 };

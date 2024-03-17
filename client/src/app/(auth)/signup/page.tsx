@@ -1,5 +1,5 @@
 "use client";
-import { CustomForm } from "@/components/Utils/CusotomForm";
+import { CustomForm } from "@/components/FormsAndDialog/CusotomForm";
 import Title from "@/components/Utils/Title";
 import Wrapper from "@/components/Utils/Wrapper";
 import Link from "next/link";
@@ -37,7 +37,7 @@ export default function Login() {
   return (
     <div className="bg-[url('/bg.svg')] bg-cover bg-center bg-no-repeat">
       <Wrapper className="flex items-center justify-center backdrop-blur-[160px]">
-        <div className="flex w-full max-w-[800px] flex-col items-center justify-center rounded-3xl py-32 bg-background">
+        <div className="flex w-full max-w-[800px] flex-col items-center justify-center rounded-3xl bg-background py-32">
           <div className="w-full max-w-[370px] px-3">
             <Title className="pb-10" />
             <CustomForm

@@ -24,7 +24,7 @@ export default function RootLayout({
           <div className="backdrop-blur-[160px]"> */}
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >

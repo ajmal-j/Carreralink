@@ -1,3 +1,4 @@
+"use client";
 import {
   Sheet,
   SheetClose,
@@ -19,8 +20,11 @@ import {
   HamburgerMenuIcon,
   InfoCircledIcon,
 } from "@radix-ui/react-icons";
+import PrimaryButton from "../Buttons/PrimaryButton";
+import { usePathname } from "next/navigation";
 
 export default function UserHeader() {
+  const pathname = usePathname();
   return (
     <header className="z-10 flex items-center justify-between rounded-full border-[0.2px] bg-background px-6 py-3">
       <Link href="/">
@@ -35,13 +39,19 @@ export default function UserHeader() {
           <h1 className="font-montserrat text-lg font-bold">CarreraLink</h1>
         </div>
       </Link>
-      <div className="hidden flex-1 justify-end gap-4 px-3  text-foreground/60 md:flex">
+      <div className="hidden flex-1 items-center justify-end gap-4 px-3  text-foreground/60 md:flex">
         <Link className="hover:text-foreground" href="/jobs">
           Jobs
         </Link>
-        <Link className="hover:text-foreground" href="/companies">
-          Companies
-        </Link>
+        {pathname === "/companies" ? (
+          <Link className="hover:text-foreground" href="/companies/new">
+            RegisterCompany
+          </Link>
+        ) : (
+          <Link className="hover:text-foreground" href="/companies">
+            Companies
+          </Link>
+        )}
         <Link className="hover:text-foreground" href="/hire">
           Hire
         </Link>
@@ -53,15 +63,19 @@ export default function UserHeader() {
         <MobileNav />
       </div>
       <ThemeToggler />
+      <Link className="ms-3 hover:text-foreground" href="/login">
+        <PrimaryButton className="w-min px-5">login</PrimaryButton>
+      </Link>
     </header>
   );
 }
 
 export function MobileNav() {
+  const pathname = usePathname();
   return (
     <Sheet>
       <SheetTrigger asChild className="mx-3 cursor-pointer">
-        <HamburgerMenuIcon />
+        <HamburgerMenuIcon className="size-6" />
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
@@ -74,7 +88,15 @@ export function MobileNav() {
           </span>
           <span className="flex items-center rounded-2xl py-1.5 ps-5 text-foreground/70 transition-all duration-150 hover:bg-foreground/20 hover:text-foreground">
             <Component1Icon className="mr-2 h-4 w-4 text-foreground" />
-            <Link href="/companies">Companies</Link>
+            {pathname === "/companies" ? (
+              <Link className="hover:text-foreground" href="/companies/new">
+                Register company
+              </Link>
+            ) : (
+              <Link className="hover:text-foreground" href="/companies">
+                Companies
+              </Link>
+            )}
           </span>
           <span className="flex items-center rounded-2xl py-1.5 ps-5 text-foreground/70 transition-all duration-150 hover:bg-foreground/20 hover:text-foreground">
             <FileTextIcon className="mr-2 h-4 w-4 text-foreground" />
