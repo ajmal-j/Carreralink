@@ -4,7 +4,7 @@ import { ZodObject } from "zod";
 import { Input } from "@/components/ui/input";
 import PrimaryButton from "../Buttons/PrimaryButton";
 import React, { ReactNode, useState } from "react";
-import { EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons";
+import { Cross1Icon, EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons";
 import {
   Select,
   SelectContent,
@@ -15,7 +15,13 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
-import { UseFormReturn, useForm } from "react-hook-form";
+import {
+  UseFormReturn,
+  UseFormSetFocus,
+  UseFormSetValue,
+  UseFormWatch,
+  useForm,
+} from "react-hook-form";
 import { z } from "zod";
 
 import { cn } from "@/lib/utils";
@@ -34,6 +40,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
+import LocationInput from "@/components/Utils/LocationInput";
+import TextEditor from "@/components/Utils/TextEditor";
+import { draftToMarkdown } from "markdown-draft-js";
 
 type FormType = {
   formSchema: ZodObject<Record<string, any>>;
@@ -56,7 +65,7 @@ export function CustomForm({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
-
+  const { watch, setValue, setFocus } = form;
   return (
     <div className={cn(className)}>
       <Form {...form}>
@@ -72,13 +81,37 @@ export function CustomForm({
                     form={form}
                   />
                 );
+
               case "currentStatus":
-              case "place":
               case "industry":
                 return <CustomSelectField key={key} name={key} form={form} />;
+
+              case "place":
+              case "location":
+              case "headquarters":
+                return (
+                  <LocationField
+                    key={key}
+                    name={key}
+                    form={form}
+                    watch={watch}
+                    setValue={setValue}
+                  />
+                );
+
               case "logo":
               case "imageOfCEO":
                 return <ImageComponent key={key} name={key} form={form} />;
+
+              case "description":
+                return (
+                  <DescriptionField
+                    key={key}
+                    name={key}
+                    setFocus={setFocus}
+                    form={form}
+                  />
+                );
               default:
                 return <DefaultComponent key={key} name={key} form={form} />;
             }
@@ -303,6 +336,71 @@ function ImageComponent({ form, name }: IFormProps) {
               }}
             />
           </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+}
+
+interface ILocationInputProps extends IFormProps {
+  watch: UseFormWatch<z.infer<any>>;
+  setValue: UseFormSetValue<z.infer<any>>;
+}
+function LocationField({ form, name, watch, setValue }: ILocationInputProps) {
+  return (
+    <FormField
+      control={form.control}
+      name={name}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>{name}</FormLabel>
+          <FormControl>
+            <LocationInput
+              onLocationSelected={field.onChange}
+              ref={field.ref}
+            />
+          </FormControl>
+          {watch(name) && (
+            <div className="flex items-center gap-1 ps-2 pt-1">
+              <button
+                type="button"
+                onClick={() => {
+                  setValue(name, "", { shouldValidate: true });
+                }}
+              >
+                <Cross1Icon className="size-5" />
+              </button>
+              <span className="text-sm">{watch(name)}</span>
+            </div>
+          )}
+        </FormItem>
+      )}
+    />
+  );
+}
+
+interface IDescriptionFieldProps extends IFormProps {
+  setFocus: UseFormSetFocus<{
+    [x: string]: any;
+  }>;
+}
+
+function DescriptionField({ form, name, setFocus }: IDescriptionFieldProps) {
+  return (
+    <FormField
+      control={form.control}
+      name={name}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel onClick={() => setFocus(name)}>Description</FormLabel>
+          <FormControl>
+            <TextEditor
+              onChange={(draft) => field.onChange(draftToMarkdown(draft))}
+              ref={field.ref}
+            />
+          </FormControl>
+          <FormMessage />
         </FormItem>
       )}
     />

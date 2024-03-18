@@ -87,7 +87,7 @@ export default function Companies() {
             </span>
             {topIndustries.map((industry, index) => (
               <li
-                className="flex max-w-[200px] flex-grow cursor-pointer items-center justify-center rounded-full border border-foreground/40 px-4 py-1.5 capitalize transition-all duration-150 hover:bg-foreground/20"
+                className="flex max-w-[200px] flex-grow cursor-pointer items-center justify-center rounded-full border border-foreground/40 px-4 py-1.5 capitalize transition-all duration-150 hover:bg-foreground/10 "
                 key={index}
               >
                 {industry}
@@ -102,7 +102,7 @@ export default function Companies() {
           {companies.map((company) => (
             <div key={company.id} className="flex gap-3">
               <Link href={`/companies/${company.id}`} scroll>
-                <div className="my-auto flex size-[50px] justify-center gap-3 rounded-full bg-white md:size-[80px] ">
+                <div className="my-auto flex size-[50px] justify-center gap-3 rounded-full bg-white border md:size-[80px] ">
                   <Image
                     className="rounded-full object-contain object-center"
                     src={company.logo}

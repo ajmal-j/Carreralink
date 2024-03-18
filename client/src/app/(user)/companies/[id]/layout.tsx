@@ -2,7 +2,6 @@
 import CompanyProfileNav from "@/components/Layout/CompanyProfileNav";
 import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
 
 interface IPage {
@@ -13,7 +12,7 @@ interface IPage {
 }
 
 const company = {
-  _id: 1,
+  id: 1,
   name: "Apple",
   website: "https://www.apple.com",
   logo: "https://images.crowdspring.com/blog/wp-content/uploads/2022/08/18131304/apple_logo_black.svg_.png",

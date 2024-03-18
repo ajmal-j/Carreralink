@@ -16,7 +16,7 @@ export default function CompanyProfileNav({ children, id }: IPage) {
   }
   let path = pathComp[pathComp.length - 1];
   return (
-    <main>
+    <main className="mt-7">
       <nav className="my-3">
         <ul className="flex justify-evenly">
           <Link href={`/companies/${id}`} scroll={false}>

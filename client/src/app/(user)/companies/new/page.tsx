@@ -16,10 +16,10 @@ export default function New() {
     revenue: "",
     headquarters: "",
     size: "",
-    description: "",
     email: "",
     password: "",
     confirmPassword: "",
+    description: "",
   };
   const formSchema = z
     .object({
@@ -71,7 +71,7 @@ export default function New() {
           message: "Invalid revenue",
           path: ["revenue"],
         }),
-      headquarters: z.string(),
+      headquarters: z.string().min(5, "Invalid headquarters"),
       size: z
         .string()
         .min(1, "Invalid size")
@@ -79,9 +79,6 @@ export default function New() {
           message: "Invalid size",
           path: ["size"],
         }),
-      description: z
-        .string()
-        .min(10, "Company description must be at least 10 characters long"),
       email: z.string().email("Invalid email"),
       password: z
         .string()
@@ -90,6 +87,9 @@ export default function New() {
         .string()
         .min(8, "Password must be at least 8 characters long"),
       ceo: z.string().min(3, "Invalid input"),
+      description: z
+        .string()
+        .min(10, "Company description must be at least 10 characters long"),
     })
     .refine((data) => data.password === data.confirmPassword, {
       message: "Passwords do not match",
