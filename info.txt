@@ -1,3 +1,4 @@
 client-port : 3000
 auth-port : 4000
 users-port : 5000
+company-port : 6000

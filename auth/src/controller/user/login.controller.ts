@@ -1,5 +1,5 @@
-import { logInUseCase } from "../usecases/index.js";
-import { ILogInSchema } from "../utils/validator.util.js";
+import { logInUseCase } from "../../usecases/index.js";
+import { ILogInSchema } from "../../utils/validator.util.js";
 import { CustomResponse, generateToken } from "@carreralink/common";
 
 export const buildLogIn = (logInSchema: ILogInSchema) => {

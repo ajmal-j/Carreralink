@@ -15,7 +15,7 @@ const company = {
   id: 1,
   name: "Apple",
   website: "https://www.apple.com",
-  logo: "https://images.crowdspring.com/blog/wp-content/uploads/2022/08/18131304/apple_logo_black.svg_.png",
+  logo: "https://raw.githubusercontent.com/ajmal-j/Weather-app-with-ums/master/client/public/companyPlaceHolder.png",
   tagline: "Think different",
   email: "apple@gmail.com",
   industry: "Technology",
@@ -28,7 +28,8 @@ const company = {
   revenue: "$274.5 billion (2020)",
   headquarters: "Cupertino, California, United States",
   size: 147000,
-  coverPhoto: "https://placehold.co/1500x700?text=cover+photo&font=lato",
+  coverPhoto:
+    "https://raw.githubusercontent.com/ajmal-j/Weather-app-with-ums/master/client/public/companyCover.png",
 };
 
 export default function Layout({ params: { id }, children }: IPage) {

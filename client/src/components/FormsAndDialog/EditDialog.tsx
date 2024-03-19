@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { CustomForm } from "./CusotomForm";
 import { z } from "zod";
 import { updateProfile } from "@/services/user.service";
@@ -16,9 +16,9 @@ import { getMessage } from "@/lib/utils";
 import { toast } from "../ui/use-toast";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/store/reducers/user.slice";
+import { Pencil2Icon } from "@radix-ui/react-icons";
 
 interface IEditProfile {
-  children: ReactNode;
   defaultValues: {
     username: string;
     contact: string | number;
@@ -30,8 +30,9 @@ interface IEditProfile {
   };
 }
 
-export function EditProfile({ children, defaultValues }: IEditProfile) {
+export function EditProfile({ defaultValues }: IEditProfile) {
   const dispatch = useDispatch();
+  const [open, setOpen] = useState<boolean | undefined>(undefined);
   const formSchema = z.object({
     username: z.string().min(5, "Username must be at least 5 characters"),
     contact: z.string().min(10, "Invalid number").max(12, "Invalid number"),
@@ -63,6 +64,7 @@ export function EditProfile({ children, defaultValues }: IEditProfile) {
         });
         dispatch(setUser(data?.data));
       }
+      setOpen(false);
     } catch (error) {
       console.log(error);
       const message = getMessage(error);
@@ -73,8 +75,13 @@ export function EditProfile({ children, defaultValues }: IEditProfile) {
     }
   };
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Pencil2Icon
+          onClick={() => setOpen(true)}
+          className="size-5 cursor-pointer"
+        />
+      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit Profile</DialogTitle>

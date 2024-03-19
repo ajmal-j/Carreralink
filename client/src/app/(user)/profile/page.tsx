@@ -5,8 +5,6 @@ import {
   EyeOpenIcon,
   FileIcon,
   LinkBreak2Icon,
-  Pencil2Icon,
-  PlusIcon,
   Share2Icon,
   TrashIcon,
   WidthIcon,
@@ -14,7 +12,6 @@ import {
 import SecondaryButton from "@/components/Buttons/SecondaryButton";
 import PrimaryButton from "@/components/Buttons/PrimaryButton";
 import Link from "next/link";
-import AccentButton from "@/components/Buttons/AccentButton";
 import { EditProfile } from "@/components/FormsAndDialog/EditDialog";
 import { EditEducation } from "@/components/FormsAndDialog/EditEducation";
 import { EditExperience } from "@/components/FormsAndDialog/EditExperience";
@@ -50,7 +47,7 @@ export default function Profile() {
   return (
     isAuth &&
     user && (
-      <article>
+      <article className="md:px-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-3">
             <div className="mb-5 w-full">
@@ -58,7 +55,7 @@ export default function Profile() {
                 src={user.profile}
                 width={200}
                 height={200}
-                className=" max-w-[130px] rounded-full object-cover object-center md:max-w-[200px]"
+                className="max-w-[130px] rounded-full object-cover object-center md:max-w-[200px]"
                 alt="Profile Image"
               />
             </div>
@@ -86,9 +83,7 @@ export default function Profile() {
                 portfolioLink: user.portfolioLink,
                 about: user.about,
               }}
-            >
-              <Pencil2Icon className="size-5 cursor-pointer" />
-            </EditProfile>
+            />
           </div>
         </div>
         <div className="mt-16 flex flex-col gap-5">
@@ -148,13 +143,7 @@ export default function Profile() {
                 {skill}
               </PrimaryButton>
             ))}
-            <EditSkill defaultValues={user.skills}>
-              <AccentButton
-                className={`${user.skills.length ? "ms-5" : "ms-auto"} w-min px-3 dark:border-foreground/70 dark:shadow-roundedPrimaryShadow`}
-              >
-                <PlusIcon />
-              </AccentButton>
-            </EditSkill>
+            <EditSkill defaultValues={user.skills} />
           </div>
         </div>
         <div className="mt-10">
@@ -169,11 +158,7 @@ export default function Profile() {
                 startDate: "",
                 endDate: "",
               }}
-            >
-              <AccentButton className="w-min rounded-sm px-3 dark:border-foreground/70 dark:shadow-roundedPrimaryShadow">
-                <PlusIcon />
-              </AccentButton>
-            </EditExperience>
+            />
           </div>
           <div className="mt-4 flex flex-col gap-5">
             {!user.experience.length && (
@@ -207,11 +192,7 @@ export default function Profile() {
                       startDate: exp.startDate,
                       endDate: exp.endDate,
                     }}
-                  >
-                    <div className="flex items-center gap-1 pe-3 ps-3 ">
-                      <Pencil2Icon />
-                    </div>
-                  </EditExperience>
+                  />
                   <TrashIcon
                     onClick={async () => {
                       await deleteExperience(exp?._id);
@@ -237,11 +218,7 @@ export default function Profile() {
                 startDate: "",
                 endDate: "",
               }}
-            >
-              <AccentButton className="w-min rounded-sm px-3 dark:border-foreground/70 dark:shadow-roundedPrimaryShadow">
-                <PlusIcon />
-              </AccentButton>
-            </EditEducation>
+            />
           </div>
           <div className="mt-4 flex flex-col gap-5">
             {!user.education.length && (
@@ -284,11 +261,7 @@ export default function Profile() {
                       startDate: edu.startDate,
                       endDate: edu.endDate,
                     }}
-                  >
-                    <div className="flex cursor-pointer items-center gap-3 pe-3 ps-3">
-                      <Pencil2Icon className="size-4" />
-                    </div>
-                  </EditEducation>
+                  />
                   <TrashIcon
                     onClick={async () => {
                       await deleteEducation(edu?._id);

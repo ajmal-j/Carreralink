@@ -20,26 +20,22 @@ import {
   SelectValue,
 } from "../ui/select";
 import PrimaryButton from "../Buttons/PrimaryButton";
-import { CrossCircledIcon } from "@radix-ui/react-icons";
+import { CrossCircledIcon, PlusIcon } from "@radix-ui/react-icons";
 import { addSkills } from "@/services/user.service";
 import { useDispatch } from "react-redux";
 import { toast } from "../ui/use-toast";
 import { getMessage } from "@/lib/utils";
 import { addSkillsState } from "@/store/reducers/user.slice";
+import AccentButton from "../Buttons/AccentButton";
 
 const FormSchema = z.object({
   skills: z.array(z.string()),
 });
 
-export function EditSkill({
-  children,
-  defaultValues,
-}: {
-  children: ReactNode;
-  defaultValues: string[];
-}) {
+export function EditSkill({ defaultValues }: { defaultValues: string[] }) {
   const [skills, setSkills] = useState<string[]>(defaultValues || []);
   const dispatch = useDispatch();
+  const [open, setOpen] = useState<boolean | undefined>(undefined);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -50,9 +46,10 @@ export function EditSkill({
     try {
       await addSkills(data);
       toast({
-        title: "Education updated successfully",
+        title: "Skills updated successfully",
       });
       dispatch(addSkillsState(data));
+      setOpen(false);
     } catch (error) {
       console.log(error);
       const message = getMessage(error);
@@ -64,8 +61,15 @@ export function EditSkill({
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <AccentButton
+          onClick={() => setOpen(true)}
+          className={`${skills.length ? "ms-2" : "ms-auto"} w-min px-3 dark:border-foreground/70 dark:shadow-roundedPrimaryShadow`}
+        >
+          <PlusIcon />
+        </AccentButton>
+      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-xl">Add Skills</DialogTitle>

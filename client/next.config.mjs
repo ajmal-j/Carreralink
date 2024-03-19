@@ -8,6 +8,7 @@ const nextConfig = {
       "icon-library.com",
       "w7.pngwing.com",
       "placehold.co",
+      "raw.githubusercontent.com",
     ],
   },
 };

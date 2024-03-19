@@ -6,7 +6,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ReactNode, useRef } from "react";
+import { ReactNode, useRef, useState } from "react";
 import { CustomForm } from "./CusotomForm";
 import { z } from "zod";
 import { DateSchema } from "@/lib/schema";
@@ -20,10 +20,11 @@ import { setUser, updateEducationState } from "@/store/reducers/user.slice";
 import { useDispatch } from "react-redux";
 import { getMessage } from "@/lib/utils";
 import { isAfter } from "date-fns";
+import { Pencil2Icon, PlusIcon } from "@radix-ui/react-icons";
+import AccentButton from "../Buttons/AccentButton";
 
 interface IEditEducation {
   id?: string;
-  children: ReactNode;
   defaultValues: {
     institution: string;
     degree: string;
@@ -32,9 +33,9 @@ interface IEditEducation {
   };
 }
 
-export function EditEducation({ children, id, defaultValues }: IEditEducation) {
+export function EditEducation({ id, defaultValues }: IEditEducation) {
   const dispatch = useDispatch();
-  const ref = useRef();
+  const [open, setOpen] = useState<boolean | undefined>(undefined);
   const formSchema = z.object({
     institution: z
       .string()
@@ -67,6 +68,8 @@ export function EditEducation({ children, id, defaultValues }: IEditEducation) {
       let education = await data?.data?.education;
       console.log(education);
       if (education) dispatch(updateEducationState(education));
+
+      setOpen(false);
     } catch (error) {
       console.log(error);
       const message = getMessage(error);
@@ -77,8 +80,24 @@ export function EditEducation({ children, id, defaultValues }: IEditEducation) {
     }
   };
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        {id ? (
+          <div
+            onClick={() => setOpen(false)}
+            className="flex cursor-pointer items-center gap-1 pe-3 ps-3 "
+          >
+            <Pencil2Icon className="size-4" />
+          </div>
+        ) : (
+          <AccentButton
+            onClick={() => setOpen(false)}
+            className="w-min rounded-sm px-3 dark:border-foreground/70 dark:shadow-roundedPrimaryShadow"
+          >
+            <PlusIcon />
+          </AccentButton>
+        )}
+      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="pb-5 text-2xl font-thin">

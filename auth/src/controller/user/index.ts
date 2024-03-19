@@ -1,6 +1,6 @@
-import eventProducer from "../events/producer.js";
+import eventProducer from "../../events/producer.js";
 import { buildSignUp } from "./signup.controller.js";
-import { logInSchema, signUpSchema } from "../utils/validator.util.js";
+import { logInSchema, signUpSchema } from "../../utils/validator.util.js";
 import { buildLogIn } from "./login.controller.js";
 import { currentUser } from "./currentUser.js";
 

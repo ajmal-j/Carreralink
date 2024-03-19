@@ -8,7 +8,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ThemeToggler } from "../Buttons/theme-toggler";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,6 +19,7 @@ import {
   FileTextIcon,
   HamburgerMenuIcon,
   InfoCircledIcon,
+  TokensIcon,
 } from "@radix-ui/react-icons";
 import PrimaryButton from "../Buttons/PrimaryButton";
 import { usePathname } from "next/navigation";
@@ -31,6 +32,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 export default function UserHeader() {
   const { isAuth, user } = useStateSelector((state) => state.user);
   const dispatch = useDispatch();
+  const [visible, setVisible] = useState(false);
   const pathname = usePathname();
   useEffect(() => {
     (async () => {
@@ -41,6 +43,10 @@ export default function UserHeader() {
         console.log(error);
       }
     })();
+    const timeout = setTimeout(() => {
+      setVisible(true);
+    }, 2000);
+    return () => clearTimeout(timeout);
   }, []);
 
   return (
@@ -85,12 +91,20 @@ export default function UserHeader() {
         <ProfileDropDown>
           <Avatar className="ms-3">
             <AvatarImage src={user?.profile} />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarFallback>
+              <TokensIcon />
+            </AvatarFallback>
           </Avatar>
         </ProfileDropDown>
-      ) : (
+      ) : visible ? (
         <Link className="ms-3 hover:text-foreground" href="/login">
           <PrimaryButton className="w-min px-5">login</PrimaryButton>
+        </Link>
+      ) : (
+        <Link className="ms-3 hover:text-foreground" href="/login">
+          <PrimaryButton className="duration-1500 w-min animate-pulse bg-gray-400 px-5">
+            login
+          </PrimaryButton>
         </Link>
       )}
     </header>
@@ -102,7 +116,7 @@ export function MobileNav() {
   return (
     <Sheet>
       <SheetTrigger asChild className="mx-3 cursor-pointer">
-        <HamburgerMenuIcon className="size-6" />
+        <HamburgerMenuIcon className="size-5" />
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>

@@ -1,5 +1,8 @@
 "use client";
 import { CustomForm } from "@/components/FormsAndDialog/CusotomForm";
+import { toast } from "@/components/ui/use-toast";
+import { getMessage } from "@/lib/utils";
+import { registerCompany } from "@/services/company.service";
 import React from "react";
 import { z } from "zod";
 
@@ -95,12 +98,25 @@ export default function New() {
       message: "Passwords do not match",
       path: ["confirmPassword"],
     });
-  const onSubmit = (data: any) => {
-    alert(JSON.stringify(data));
+  const onSubmit = async (data: any) => {
+    try {
+      await registerCompany(data);
+      toast({
+        title: "Company created successfully",
+        description: "We've created your company for you.",
+      });
+    } catch (error) {
+      console.log(error);
+      const message = getMessage(error);
+      toast({
+        title: message,
+        variant: "destructive",
+      });
+    }
   };
   return (
     <div>
-      <h1 className="mt-5 ps-2 text-xl text-foreground/70 md:text-3xl">
+      <h1 className="mt-5 text-center text-xl text-foreground/70 md:text-3xl">
         Register your company
       </h1>
       <CustomForm

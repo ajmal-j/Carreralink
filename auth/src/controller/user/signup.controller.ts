@@ -1,7 +1,7 @@
-import { signupUseCase } from "../usecases/index.js";
-import { ISignUpSchema } from "../utils/validator.util.js";
+import { signupUseCase } from "../../usecases/index.js";
+import { ISignUpSchema } from "../../utils/validator.util.js";
 import { CustomResponse } from "@carreralink/common";
-import { IEventProducer } from "../events/producer.js";
+import { IEventProducer } from "../../events/producer.js";
 
 export const buildSignUp = (
   signUpSchema: ISignUpSchema,

@@ -14,13 +14,16 @@ services:
           ignore:
             - node_modules/
         - action: rebuild
-          path: ./auth/**/package*{.json,.*.json}
+          path: ./auth/package.json
+        - action: rebuild
+          path: ./auth/package.lock.json
     environment:
       MONGO_URL: mongodb://auth-db:27017/auth
       KAFKA_BROKER: redpanda:29092
       JWT_SECRET: blablablablablablabal
     ports:
       - 4000:4000
+
   users:
     build: ./users
     container_name: users-container
@@ -35,13 +38,38 @@ services:
           ignore:
             - node_modules/
         - action: rebuild
-          path: ./users/**/package*{.json,.*.json}
+          path: ./users/package.json
+        - action: rebuild
+          path: ./users/package.lock.json
     environment:
       MONGO_URL: mongodb://users-db:27017/users
       KAFKA_BROKER: redpanda:29092
       JWT_SECRET: blablablablablablabal
     ports:
       - 5000:5000
+
+  company:
+    build: ./company
+    container_name: company-container
+    depends_on:
+      - company-db
+      - redpanda
+    develop:
+      watch:
+        - action: sync
+          path: ./company
+          target: ./company
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: ./company/package.json
+        - action: rebuild
+          path: ./company/package.lock.json
+    environment:
+      MONGO_URL: mongodb://company-db:27017/company
+      KAFKA_BROKER: redpanda:29092
+    ports:
+      - 8080:8080
 
   client:
     build: ./client
@@ -54,7 +82,9 @@ services:
           ignore:
             - node_modules/
         - action: rebuild
-          path: ./client/package*.json
+          path: ./client/package.json
+        - action: rebuild
+          path: ./client/package.lock.json
     ports:
       - 3000:3000
 
@@ -65,11 +95,20 @@ services:
       - 27017:27017
     volumes:
       - auth_db:/data/db
-  users-db:
+
+  company-db:
     image: mongo
     restart: always
     ports:
       - 27018:27017
+    volumes:
+      - compnay_db:/data/db
+
+  users-db:
+    image: mongo
+    restart: always
+    ports:
+      - 27019:27017
     volumes:
       - users_db:/data/db
 
@@ -88,3 +127,5 @@ volumes:
     name: auth-data
   users_db:
     name: users-data
+  compnay_db:
+    name: company-data
