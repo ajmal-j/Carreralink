@@ -11,7 +11,7 @@ export class CreateUserUsecase {
     if (userExist) throw new CustomError("User already exists", 409);
 
     const user = new User(userData);
-    this.UserDataRepo.create(user);
+    await this.UserDataRepo.create(user);
     return;
   }
 }

@@ -1,14 +1,14 @@
 export interface IUser {
   username: string;
   contact: number;
-  role: "user" | "admin" | "recruiter";
+  role: "user" | "recruiter";
   email: string;
 }
 
 export class User implements IUser {
   username: string;
   contact: number;
-  role: "user" | "admin" | "recruiter";
+  role: "user" | "recruiter";
   email: string;
 
   constructor({ username, contact, role, email }: IUser) {

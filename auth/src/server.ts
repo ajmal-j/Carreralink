@@ -3,13 +3,22 @@ import express from "express";
 import { Connect } from "./database/connection/index.js";
 import AuthRouter from "./routes/index.js";
 import { errorMiddleware } from "@carreralink/common";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
 const port = 4000;
 dotenv.config();
 const app = express();
 
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 Connect(process.env.MONGO_URL!);
 
