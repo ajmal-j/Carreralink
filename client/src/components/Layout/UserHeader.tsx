@@ -8,7 +8,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import React from "react";
+import React, { useEffect } from "react";
 import { ThemeToggler } from "../Buttons/theme-toggler";
 import Image from "next/image";
 import Link from "next/link";
@@ -22,9 +22,27 @@ import {
 } from "@radix-ui/react-icons";
 import PrimaryButton from "../Buttons/PrimaryButton";
 import { usePathname } from "next/navigation";
+import { currentUser } from "@/services/user.service";
+import { useStateSelector } from "@/store";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/store/reducers/user.slice";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export default function UserHeader() {
+  const { isAuth, user } = useStateSelector((state) => state.user);
+  const dispatch = useDispatch();
   const pathname = usePathname();
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await currentUser();
+        dispatch(setUser(data?.data));
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+
   return (
     <header className="z-10 flex items-center justify-between rounded-full border-[0.2px] bg-background px-6 py-3">
       <Link href="/">
@@ -63,9 +81,18 @@ export default function UserHeader() {
         <MobileNav />
       </div>
       <ThemeToggler />
-      <Link className="ms-3 hover:text-foreground" href="/login">
-        <PrimaryButton className="w-min px-5">login</PrimaryButton>
-      </Link>
+      {isAuth ? (
+        <ProfileDropDown>
+          <Avatar className="ms-3">
+            <AvatarImage src={user?.profile} />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+        </ProfileDropDown>
+      ) : (
+        <Link className="ms-3 hover:text-foreground" href="/login">
+          <PrimaryButton className="w-min px-5">login</PrimaryButton>
+        </Link>
+      )}
     </header>
   );
 }
@@ -114,5 +141,45 @@ export function MobileNav() {
         </SheetFooter>
       </SheetContent>
     </Sheet>
+  );
+}
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
+
+export function ProfileDropDown({ children }: { children: React.ReactNode }) {
+  const { push } = useRouter();
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem onClick={() => push("/profile")}>
+            Profile
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>GitHub</DropdownMenuItem>
+        <DropdownMenuItem>Support</DropdownMenuItem>
+        <DropdownMenuItem disabled>API</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          Log out
+          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

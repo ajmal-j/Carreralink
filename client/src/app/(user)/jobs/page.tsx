@@ -1,6 +1,6 @@
 import Search from "@/components/FormsAndDialog/Search";
 import JobFilterSideBar from "@/components/Layout/JobFilterSideBar";
-import { SingleJob } from "@/components/Utils/SingleJob";
+import { SingleJob } from "@/components/Custom/SingleJob";
 import {
   Dialog,
   DialogContent,

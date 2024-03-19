@@ -18,6 +18,7 @@ services:
     environment:
       MONGO_URL: mongodb://auth-db:27017/auth
       KAFKA_BROKER: redpanda:29092
+      JWT_SECRET: blablablablablablabal
     ports:
       - 4000:4000
   users:
@@ -38,6 +39,7 @@ services:
     environment:
       MONGO_URL: mongodb://users-db:27017/users
       KAFKA_BROKER: redpanda:29092
+      JWT_SECRET: blablablablablablabal
     ports:
       - 5000:5000
 

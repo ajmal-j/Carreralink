@@ -25,6 +25,20 @@ const signUpSchema = z.object({
     .min(8, "Password must be at least 8 characters long"),
 });
 
-export { signUpSchema };
+const logInSchema = z.object({
+  email: z
+    .string({
+      required_error: "Email is required",
+    })
+    .email(),
+  password: z
+    .string({
+      required_error: "Password is required",
+    })
+    .min(8, "Password must be at least 8 characters long"),
+});
+
+export { signUpSchema, logInSchema };
 
 export type ISignUpSchema = typeof signUpSchema;
+export type ILogInSchema = typeof logInSchema;

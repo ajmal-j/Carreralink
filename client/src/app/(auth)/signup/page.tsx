@@ -1,26 +1,38 @@
 "use client";
+
 import { CustomForm } from "@/components/FormsAndDialog/CusotomForm";
-import Title from "@/components/Utils/Title";
-import Wrapper from "@/components/Utils/Wrapper";
+import Title from "@/components/Custom/Title";
+import Wrapper from "@/components/Custom/Wrapper";
 import Link from "next/link";
 import React from "react";
 import { z } from "zod";
+import { toast } from "@/components/ui/use-toast";
+import { SignUp } from "./actions";
+import { getMessage } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
+const formSchema = z
+  .object({
+    email: z.string().email("invalid email"),
+    username: z.string().min(4, "username must be at least 4 characters"),
+    contact: z
+      .string()
+      .refine((contact) => /^[6-9]\d{9}$/.test(String(contact)), {
+        message: "Invalid contact number",
+      }),
+    password: z.string().min(8, "password must be at least 8 characters"),
+    confirmPassword: z
+      .string()
+      .min(8, "password must be at least 8 characters"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+export type FormData = z.infer<typeof formSchema>;
 export default function Login() {
-  const formSchema = z
-    .object({
-      email: z.string().email("invalid email"),
-      username: z.string().min(4, "username must be at least 4 characters"),
-      contact: z.string().min(10, "invalid number").max(12, "invalid number"),
-      password: z.string().min(8, "password must be at least 8 characters"),
-      confirmPassword: z
-        .string()
-        .min(8, "password must be at least 8 characters"),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-      message: "Passwords do not match",
-      path: ["confirmPassword"],
-    });
+  const router = useRouter();
 
   const defaultValues: z.infer<typeof formSchema> = {
     username: "",
@@ -30,8 +42,29 @@ export default function Login() {
     confirmPassword: "",
   };
 
-  const onsubmit = (values: z.infer<typeof formSchema>) => {
-    alert(JSON.stringify(values));
+  const onsubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      await SignUp({
+        contact: Number(values.contact),
+        email: values.email,
+        password: values.password,
+        username: values.username,
+      });
+      toast({
+        title: "Account created",
+        description: "Please LogIn.",
+        duration: 2000,
+      });
+      router.push("/login");
+    } catch (error) {
+      const message = getMessage(error);
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: message,
+        variant: "destructive",
+        duration: 3000,
+      });
+    }
   };
 
   return (

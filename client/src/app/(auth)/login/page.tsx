@@ -1,24 +1,44 @@
 "use client";
+
 import { CustomForm } from "@/components/FormsAndDialog/CusotomForm";
-import Title from "@/components/Utils/Title";
-import Wrapper from "@/components/Utils/Wrapper";
+import Title from "@/components/Custom/Title";
+import Wrapper from "@/components/Custom/Wrapper";
 import Link from "next/link";
 import React from "react";
 import { z } from "zod";
+import { getMessage } from "@/lib/utils";
+import { toast } from "@/components/ui/use-toast";
+import { LogInAction } from "./actions";
+import { useRouter } from "next/navigation";
+
+const formSchema = z.object({
+  email: z.string().email("invalid email"),
+  password: z.string().min(8, "password must be at least 8 characters"),
+});
 
 export default function Login() {
-  const formSchema = z.object({
-    email: z.string().email("invalid email"),
-    password: z.string().min(8, "password must be at least 8 characters"),
-  });
-
+  const router = useRouter();
   const defaultValues: z.infer<typeof formSchema> = {
     email: "",
     password: "",
   };
 
-  const onsubmit = (values: z.infer<typeof formSchema>) => {
-    alert(JSON.stringify(values));
+  const onsubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      await LogInAction(values);
+      toast({
+        title: "LogIn successful",
+        duration: 2000,
+      });
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+      const message = getMessage(error);
+      toast({
+        title: message,
+        variant: "destructive",
+      });
+    }
   };
 
   return (

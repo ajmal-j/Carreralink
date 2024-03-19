@@ -40,8 +40,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import LocationInput from "@/components/Utils/LocationInput";
-import TextEditor from "@/components/Utils/TextEditor";
+import LocationInput from "@/components/Custom/LocationInput";
+import TextEditor from "@/components/Custom/TextEditor";
 import { draftToMarkdown } from "markdown-draft-js";
 
 type FormType = {
@@ -256,7 +256,7 @@ function DefaultComponent({ name, form }: IFormProps) {
                 />
                 <Button type="button" variant={"outline"}>
                   <CalendarIcon
-                    onClick={() => field.onChange(new Date())}
+                    onClick={() => field.onChange(new Date().toDateString())}
                     className="ml-auto h-5 w-5 cursor-pointer opacity-50"
                   />
                 </Button>

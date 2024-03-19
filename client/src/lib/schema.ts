@@ -1,19 +1,9 @@
 import { z } from "zod";
 
 export const DateSchema = z.union([
-  z
-    .string()
-    .refine((value) => {
-      const date = new Date(value);
-      return (
-        !isNaN(date.getTime()) && value === date.toISOString().slice(0, 10)
-      );
-    })
-    .transform((value) => new Date(value)),
-  z.instanceof(Date),
+  z.string().min(5, "Invalid date"),
+  z.date(),
   z.literal("Present"),
 ]);
 
-export const ImageSchema = z
-  .custom<File>()
-  
+export const ImageSchema = z.custom<File>();

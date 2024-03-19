@@ -21,6 +21,11 @@ import {
 } from "../ui/select";
 import PrimaryButton from "../Buttons/PrimaryButton";
 import { CrossCircledIcon } from "@radix-ui/react-icons";
+import { addSkills } from "@/services/user.service";
+import { useDispatch } from "react-redux";
+import { toast } from "../ui/use-toast";
+import { getMessage } from "@/lib/utils";
+import { addSkillsState } from "@/store/reducers/user.slice";
 
 const FormSchema = z.object({
   skills: z.array(z.string()),
@@ -34,15 +39,28 @@ export function EditSkill({
   defaultValues: string[];
 }) {
   const [skills, setSkills] = useState<string[]>(defaultValues || []);
-
+  const dispatch = useDispatch();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       skills: [],
     },
   });
-  const onSubmit = (data: string[]) => {
-    alert(JSON.stringify(data));
+  const onSubmit = async (data: string[]) => {
+    try {
+      await addSkills(data);
+      toast({
+        title: "Education updated successfully",
+      });
+      dispatch(addSkillsState(data));
+    } catch (error) {
+      console.log(error);
+      const message = getMessage(error);
+      toast({
+        title: message,
+        variant: "destructive",
+      });
+    }
   };
 
   return (

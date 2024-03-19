@@ -1,6 +1,6 @@
 import PrimaryButton from "@/components/Buttons/PrimaryButton";
 import SecondaryButton from "@/components/Buttons/SecondaryButton";
-import Markdown from "@/components/Utils/Markdown";
+import Markdown from "@/components/Custom/Markdown";
 import { formatMoney } from "@/lib/utils";
 import { BookmarkIcon, CheckIcon, ClockIcon } from "@radix-ui/react-icons";
 import Image from "next/image";

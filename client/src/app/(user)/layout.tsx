@@ -1,5 +1,5 @@
 import Main from "@/components/Layout/Main";
-import Wrapper from "@/components/Utils/Wrapper";
+import Wrapper from "@/components/Custom/Wrapper";
 import { ReactNode } from "react";
 
 export default function Layout({ children }: { children: ReactNode }) {

@@ -1,4 +1,4 @@
-import { SingleJob } from "@/components/Utils/SingleJob";
+import { SingleJob } from "@/components/Custom/SingleJob";
 
 const jobs = [
   {

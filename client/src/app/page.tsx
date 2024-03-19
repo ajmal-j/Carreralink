@@ -1,4 +1,4 @@
-import Wrapper from "@/components/Utils/Wrapper";
+import Wrapper from "@/components/Custom/Wrapper";
 import Main from "@/components/Layout/Main";
 import FeaturedJobs from "@/components/LandingPage/FeaturedJobs";
 import { ThreeDCard } from "@/components/LandingPage/ThreeDCard";

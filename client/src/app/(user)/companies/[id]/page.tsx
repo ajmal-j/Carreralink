@@ -1,4 +1,4 @@
-import Separator from "@/components/Utils/Separator";
+import Separator from "@/components/Custom/Separator";
 const company = {
   name: "Apple",
   foundedOn: 1976,
