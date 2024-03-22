@@ -25,6 +25,7 @@ import JobFilterSideBar from "@/components/Layout/JobFilterSideBar";
 import NotFound from "@/components/Custom/NotFound";
 import { JobFilterValues } from "@/app/(user)/jobs/page";
 import { Button } from "@/components/ui/button";
+import { JobPagination } from "@/components/Custom/Paginations";
 
 interface PageProps {
   searchParams: {
@@ -94,7 +95,7 @@ export default async function JobsPage({
           </PrimaryButton>
         </Link>
       </div>
-      <Search className="" />
+      <Search defaultValue={defaultValues?.q} />
       <div className="mt-7 flex flex-col gap-3 lg:flex-row">
         <div className="flex min-w-full justify-between lg:block lg:min-w-[260px]">
           <h1 className="flex text-xl font-semibold text-foreground/80">
@@ -163,6 +164,11 @@ export default async function JobsPage({
           )}
         </div>
       </div>
+      <JobPagination
+        defaultValues={defaultValues}
+        options={{ ...options, p }}
+        path="/dashboard/company/jobs"
+      />
     </article>
   );
 }

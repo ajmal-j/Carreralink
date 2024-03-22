@@ -25,7 +25,7 @@ export class JobRepository {
   ) {
     const options = {
       page: query?.page ?? 1,
-      limit: 6,
+      limit: 10,
     };
 
     const sortOptions = {

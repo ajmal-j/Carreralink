@@ -11,6 +11,10 @@ import {
 import { getAllJobs } from "@/services/jobs.service";
 import { IJob } from "@/types/jobs";
 import NotFound from "@/components/Custom/NotFound";
+import { BackpackIcon, MixerHorizontalIcon } from "@radix-ui/react-icons";
+import { Button } from "@/components/ui/button";
+import { redirect } from "next/navigation";
+import { JobPagination } from "@/components/Custom/Paginations";
 
 export interface JobFilterValues {
   q?: string;
@@ -26,14 +30,6 @@ function getTitle({ q, type, location }: JobFilterValues) {
   const titleSuffix = location ? ` in ${location}` : "";
 
   return `${titlePrefix}${titleSuffix}`;
-}
-
-function generateSearchParam({ q, type, location }: JobFilterValues) {
-  const searchParams = new URLSearchParams();
-  if (q) searchParams.append("q", q);
-  if (type) searchParams.append("type", type);
-  if (location) searchParams.append("location", location);
-  return searchParams.toString();
 }
 
 interface PageProps {
@@ -160,107 +156,8 @@ export default async function JobsList({
       <JobPagination
         defaultValues={defaultValues}
         options={{ ...options, p }}
+        path="/jobs"
       />
     </div>
-  );
-}
-
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-import { BackpackIcon, MixerHorizontalIcon } from "@radix-ui/react-icons";
-import { Button } from "@/components/ui/button";
-import { redirect } from "next/navigation";
-
-export function JobPagination({
-  options,
-  defaultValues,
-}: {
-  options: {
-    totalDocs: number;
-    page: number;
-    totalPages: number;
-    hasPrevPage: boolean;
-    hasNextPage: boolean;
-    prevPage: number;
-    nextPage: number;
-  };
-  defaultValues: JobFilterValues;
-}) {
-  const { page, totalPages, hasPrevPage, hasNextPage, prevPage, nextPage } =
-    options;
-  const searchParams = generateSearchParam(defaultValues);
-  return (
-    <Pagination className="mt-5">
-      <PaginationContent className="ms-auto">
-        <PaginationItem>
-          <PaginationPrevious
-            isActive={hasPrevPage}
-            href={
-              hasPrevPage
-                ? `/jobs?${searchParams && searchParams.concat("&")}p=${prevPage ? prevPage : 1}`
-                : "#"
-            }
-          />
-        </PaginationItem>
-
-        {hasPrevPage && (
-          <PaginationItem>
-            <PaginationLink
-              href={`/jobs?${searchParams && searchParams.concat("&")}p=${1}`}
-            >
-              1
-            </PaginationLink>
-          </PaginationItem>
-        )}
-
-        {Number(page) < 2 && hasNextPage && prevPage && (
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-        )}
-        {Number(page) > 2 && prevPage && (
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-        )}
-
-        <PaginationItem>
-          <PaginationLink isActive>{page}</PaginationLink>
-        </PaginationItem>
-
-        {hasNextPage && (
-          <PaginationItem>
-            <PaginationLink
-              href={`/jobs?${searchParams && searchParams.concat("&")}p=${nextPage ?? page}`}
-            >
-              {Number(nextPage)}
-            </PaginationLink>
-          </PaginationItem>
-        )}
-
-        {Number(page) - 1 < Number(totalPages) && hasNextPage && !prevPage && (
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-        )}
-        <PaginationItem>
-          <PaginationNext
-            isActive={hasNextPage}
-            href={
-              hasNextPage
-                ? `/jobs?${searchParams && searchParams.concat("&")}p=${nextPage ?? page}`
-                : "#"
-            }
-          />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
   );
 }
