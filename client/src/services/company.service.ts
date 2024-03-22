@@ -73,6 +73,7 @@ const getJobs = async (
     type: string | undefined;
     q: string | undefined;
     p: number;
+    sort: string | undefined;
   },
 ) => {
   const url = new Server().company("jobs");

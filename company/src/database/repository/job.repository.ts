@@ -35,6 +35,7 @@ export class JobRepository {
       "highest paying": { $sort: { "pay.maximum": -1 } },
       "lowest paying": { $sort: { "pay.minimum": 1 } },
     } as const;
+
     const sort = query?.sort
       ? sortOptions[query?.sort as keyof typeof sortOptions]
       : sortOptions["most recent"];
@@ -43,7 +44,16 @@ export class JobRepository {
       {
         $match: {
           ...(companyId ? { company: new ObjectId(companyId) } : {}),
-          ...(query?.q ? { $text: { $search: query.q } } : {}),
+          ...(query?.q
+            ? {
+                $text: {
+                  $search: query.q,
+                  $caseSensitive: false,
+                  $language: "en",
+                  $diacriticSensitive: false,
+                },
+              }
+            : {}),
           ...(query?.location ? { officeLocation: query.location } : {}),
           ...(query?.type ? { workSpace: query.type } : {}),
         },
@@ -61,7 +71,6 @@ export class JobRepository {
       },
       sort,
     ]);
-    console.log(sort);
     const response = await this.database.aggregatePaginate(
       aggregation,
       options
