@@ -8,75 +8,88 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { getAllJobs } from "@/services/jobs.service";
+import { IJob } from "@/types/jobs";
+import NotFound from "@/components/Custom/NotFound";
 
-const jobs = [
-  {
-    id: 1,
-    title: "Frontend Developer",
-    company: {
-      id: 1,
-      name: "Apple",
-      logo: "https://images.crowdspring.com/blog/wp-content/uploads/2022/08/18131304/apple_logo_black.svg_.png",
-    },
-    location: "Cupertino, California, United States",
-    type: "Full-time",
-    skills: ["JavaScript", "React", "Node.js", "MongoDB"],
-    pay: {
-      minimum: 100000,
-      maximum: 200000,
-      rate: "per month",
-    },
-  },
-  {
-    id: 2,
-    title: "Backend Developer",
-    company: {
-      id: 1,
-      name: "Apple",
-      logo: "https://images.crowdspring.com/blog/wp-content/uploads/2022/08/18131304/apple_logo_black.svg_.png",
-    },
-    location: "Cupertino, California, United States",
-    type: "Full-time",
-    skills: ["JavaScript", "React", "Node.js", "MongoDB"],
-    pay: {
-      minimum: 4000,
-      maximum: 5000,
-      rate: "per day",
-    },
-  },
-  {
-    id: 3,
-    title: "Backend Developer",
-    company: {
-      id: 1,
-      name: "Apple",
-      logo: "https://images.crowdspring.com/blog/wp-content/uploads/2022/08/18131304/apple_logo_black.svg_.png",
-    },
-    location: "Cupertino, California, United States",
-    type: "Full-time",
-    skills: ["JavaScript", "React", "Node.js", "MongoDB"],
-    pay: {
-      minimum: 55000000,
-      maximum: 60000000,
-      rate: "per year",
-    },
-  },
-];
+interface JobFilterValues {
+  q?: string;
+  type?: string;
+  location?: string;
+  p?: number;
+}
+
+function getTitle({ q, type, location }: JobFilterValues) {
+  const titlePrefix = q ? `${q} jobs` : type ? `${type} jobs` : "All jobs";
+
+  const titleSuffix = location ? ` in ${location}` : "";
+
+  return `${titlePrefix}${titleSuffix}`;
+}
+
+function generateSearchParam({ q, type, location }: JobFilterValues) {
+  const searchParams = new URLSearchParams();
+  if (q) searchParams.append("q", q);
+  if (type) searchParams.append("type", type);
+  if (location) searchParams.append("location", location);
+  return searchParams.toString();
+}
+
 interface PageProps {
   searchParams: {
     q?: string;
     type?: string;
     location?: string;
+    p?: number;
   };
 }
-export default function JobsList({
-  searchParams: { q, location, type },
+export default async function JobsList({
+  searchParams: { q, location, type, p = 1 },
 }: PageProps) {
-  const defaultValues = { q, location, type };
+  const defaultValues: JobFilterValues = { q, location, type, p };
+
+  let jobs;
+  let options: any = {};
+  try {
+    const response = await getAllJobs({
+      q,
+      location,
+      type,
+      p,
+    });
+    jobs = response?.data?.docs;
+    const {
+      totalDocs,
+      totalPages,
+      page,
+      hasPrevPage,
+      hasNextPage,
+      prevPage,
+      nextPage,
+    } = response.data;
+    options = {
+      totalDocs,
+      page,
+      totalPages,
+      hasPrevPage,
+      hasNextPage,
+      prevPage,
+      nextPage,
+    };
+  } catch (error) {
+    console.log(error);
+    return <NotFound />;
+  }
   return (
     <div>
-      <h1 className="mt-6 text-center text-4xl">All Jobs</h1>
-      <Search action="/jobs" className="mt-10 max-w-[600px]" />
+      <h1 className="mt-6 text-center text-4xl capitalize">
+        {getTitle(defaultValues)}
+      </h1>
+      <Search
+        defaultValue={defaultValues?.q}
+        action="/jobs"
+        className="mt-10 max-w-[600px]"
+      />
       <div className="mt-7 flex flex-col gap-3 lg:flex-row">
         <div className="flex min-w-full justify-between lg:block lg:min-w-[260px]">
           <h1 className="flex text-xl font-semibold text-foreground/80">
@@ -89,23 +102,7 @@ export default function JobsList({
           <div className="inline-block lg:hidden">
             <Dialog>
               <DialogTrigger asChild>
-                <span className="flex cursor-pointer items-center px-3">
-                  <svg
-                    width="30px"
-                    height="30px"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M3 4.6C3 4.03995 3 3.75992 3.10899 3.54601C3.20487 3.35785 3.35785 3.20487 3.54601 3.10899C3.75992 3 4.03995 3 4.6 3H19.4C19.9601 3 20.2401 3 20.454 3.10899C20.6422 3.20487 20.7951 3.35785 20.891 3.54601C21 3.75992 21 4.03995 21 4.6V6.33726C21 6.58185 21 6.70414 20.9724 6.81923C20.9479 6.92127 20.9075 7.01881 20.8526 7.10828C20.7908 7.2092 20.7043 7.29568 20.5314 7.46863L14.4686 13.5314C14.2957 13.7043 14.2092 13.7908 14.1474 13.8917C14.0925 13.9812 14.0521 14.0787 14.0276 14.1808C14 14.2959 14 14.4182 14 14.6627V17L10 21V14.6627C10 14.4182 10 14.2959 9.97237 14.1808C9.94787 14.0787 9.90747 13.9812 9.85264 13.8917C9.7908 13.7908 9.70432 13.7043 9.53137 13.5314L3.46863 7.46863C3.29568 7.29568 3.2092 7.2092 3.14736 7.10828C3.09253 7.01881 3.05213 6.92127 3.02763 6.81923C3 6.70414 3 6.58185 3 6.33726V4.6Z"
-                      stroke="currentColor"
-                      strokeWidth="1"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
+                <MixerHorizontalIcon className="size-5 cursor-pointer" />
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
@@ -116,12 +113,134 @@ export default function JobsList({
             </Dialog>
           </div>
         </div>
-        <div className="mt-10 w-full space-y-4">
-          {jobs.map((job) => (
+        <div className="mt-10 w-full space-y-2">
+          <span className="ps-1 text-foreground/70">
+            Showing {options?.totalDocs ?? 0} jobs
+          </span>
+          {jobs.map((job: IJob) => (
             <SingleJob key={job.id} job={job} />
           ))}
+          {!jobs.length && (
+            <span className="mt-10 flex items-center justify-center gap-2 text-2xl text-foreground/70">
+              <span className="pb-1">Uh! No jobs found.</span>
+              <BackpackIcon className="size-5" />
+            </span>
+          )}
         </div>
       </div>
+      <JobPagination
+        defaultValues={defaultValues}
+        options={{ ...options, p }}
+      />
     </div>
+  );
+}
+
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
+  BackpackIcon,
+  EraserIcon,
+  MixerHorizontalIcon,
+} from "@radix-ui/react-icons";
+
+export function JobPagination({
+  options,
+  defaultValues,
+}: {
+  options: {
+    totalDocs: number;
+    page: number;
+    totalPages: number;
+    hasPrevPage: boolean;
+    hasNextPage: boolean;
+    prevPage: number;
+    nextPage: number;
+  };
+  defaultValues: JobFilterValues;
+}) {
+  const {
+    totalDocs,
+    page,
+    totalPages,
+    hasPrevPage,
+    hasNextPage,
+    prevPage,
+    nextPage,
+  } = options;
+  const searchParams = generateSearchParam(defaultValues);
+  return (
+    <Pagination className="mt-5">
+      <PaginationContent className="ms-auto">
+        <PaginationItem>
+          <PaginationPrevious
+            isActive={hasPrevPage}
+            href={
+              hasPrevPage
+                ? `/jobs?${searchParams && searchParams.concat("&")}p=${prevPage ? prevPage : 1}`
+                : "#"
+            }
+          />
+        </PaginationItem>
+
+        {hasPrevPage && (
+          <PaginationItem>
+            <PaginationLink
+              href={`/jobs?${searchParams && searchParams.concat("&")}p=${1}`}
+            >
+              1
+            </PaginationLink>
+          </PaginationItem>
+        )}
+
+        {Number(page) < 2 && hasNextPage && prevPage && (
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+        )}
+        {Number(page) > 2 && prevPage && (
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+        )}
+
+        <PaginationItem>
+          <PaginationLink isActive>{page}</PaginationLink>
+        </PaginationItem>
+
+        {hasNextPage && (
+          <PaginationItem>
+            <PaginationLink
+              href={`/jobs?${searchParams && searchParams.concat("&")}p=${nextPage ?? page}`}
+            >
+              {Number(nextPage)}
+            </PaginationLink>
+          </PaginationItem>
+        )}
+
+        {Number(page) - 1 < Number(totalPages) && hasNextPage && !prevPage && (
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+        )}
+        <PaginationItem>
+          <PaginationNext
+            isActive={hasNextPage}
+            href={
+              hasNextPage
+                ? `/jobs?${searchParams && searchParams.concat("&")}p=${nextPage ?? page}`
+                : "#"
+            }
+          />
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
   );
 }

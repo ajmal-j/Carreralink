@@ -1,13 +1,41 @@
+"use client";
+import Markdown from "@/components/Custom/Markdown";
 import Separator from "@/components/Custom/Separator";
-const company = {
-  name: "Apple",
-  foundedOn: 1976,
-  description:
-    "Apple Inc. is an American multinational technology company that designs, develops, and sells consumer electronics, computer software, and online services. It is considered one of the Big Five American information technology companies, alongside Amazon, Google, Facebook, and Microsoft. It was founded on April 1, 1976, by Steve Jobs, Steve Wozniak, and Jeff Bezos. The company's parent company, Apple Computer, was founded in 1971. It is one of the oldest technology companies in the world. It is one of the oldest companies in the world. It is one of the oldest companies in the world. It is one of the oldest companies in the world. The company's parent company, Apple Computer, was founded in 1971. It is one of the oldest technology companies in the world. It is one of the oldest companies in the world. It is one of the oldest companies in the world. It is one of the oldest companies in the world. ",
-  size: 147000,
-};
+import { getCompany } from "@/services/company.service";
+import { useEffect, useState } from "react";
 
-export default function Page() {
+export interface ICompany {
+  id: string;
+  name: string;
+  website: string;
+  logo: string;
+  tagline: string;
+  email: string;
+  industry: string;
+  foundedOn: number;
+  imageOfCEO: string;
+  description: string;
+  ceo: string;
+  revenue: string;
+  headquarters: string;
+  size: number;
+  recruiters: string[];
+  jobs: string[];
+  coverPhoto: string;
+}
+export default function Page({ params: { id } }: { params: { id: string } }) {
+  const [company, setCompany] = useState<ICompany>({} as ICompany);
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await getCompany(id);
+        setCompany(data.data);
+      } catch (error) {
+        // alert("error");
+        console.log(error);
+      }
+    })();
+  }, []);
   return (
     <div className="mt-7 flex flex-col gap-5">
       <Separator />
@@ -38,9 +66,7 @@ export default function Page() {
         <h1 className="mb-3 text-center text-xl text-foreground/80">
           About {company.name}
         </h1>
-        <p className="text-foreground/70 before:ps-[20%]">
-          {company.description}
-        </p>
+        <Markdown>{company.description}</Markdown>
       </div>
     </div>
   );

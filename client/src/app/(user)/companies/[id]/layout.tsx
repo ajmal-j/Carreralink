@@ -1,9 +1,31 @@
 /* eslint-disable @next/next/no-img-element */
+"use client";
+import NotFound from "@/components/Custom/NotFound";
 import CompanyProfileNav from "@/components/Layout/CompanyProfileNav";
+import { getCompany } from "@/services/company.service";
 import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
+export interface ICompany {
+  id: string;
+  name: string;
+  website: string;
+  logo: string;
+  tagline: string;
+  email: string;
+  industry: string;
+  foundedOn: number;
+  imageOfCEO: string;
+  description: string;
+  ceo: string;
+  revenue: string;
+  headquarters: string;
+  size: number;
+  recruiters: string[];
+  jobs: string[];
+  coverPhoto: string;
+}
 interface IPage {
   params: {
     id: string;
@@ -11,34 +33,30 @@ interface IPage {
   children: ReactNode;
 }
 
-const company = {
-  id: 1,
-  name: "Apple",
-  website: "https://www.apple.com",
-  logo: "https://raw.githubusercontent.com/ajmal-j/Weather-app-with-ums/master/client/public/companyPlaceHolder.png",
-  tagline: "Think different",
-  email: "apple@gmail.com",
-  industry: "Technology",
-  foundedOn: 1976,
-  imageOfCEO:
-    "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
-  description:
-    "Apple Inc. is an American multinational technology company that designs, develops, and sells consumer electronics, computer software, and online services. It is considered one of the Big Five American information technology companies, alongside Amazon, Google, Facebook, and Microsoft. It was founded on April 1, 1976, by Steve Jobs, Steve Wozniak, and Jeff Bezos. The company's parent company, Apple Computer, was founded in 1971. It is one of the oldest technology companies in the world. It is one of the oldest companies in the world. It is one of the oldest companies in the world. It is one of the oldest companies in the world. The company's parent company, Apple Computer, was founded in 1971. It is one of the oldest technology companies in the world. It is one of the oldest companies in the world. It is one of the oldest companies in the world. It is one of the oldest companies in the world. ",
-  ceo: "Tim Cook",
-  revenue: "$274.5 billion (2020)",
-  headquarters: "Cupertino, California, United States",
-  size: 147000,
-  coverPhoto:
-    "https://raw.githubusercontent.com/ajmal-j/Weather-app-with-ums/master/client/public/companyCover.png",
-};
-
 export default function Layout({ params: { id }, children }: IPage) {
-  return (
+  const [company, setCompany] = useState<ICompany | null>(null);
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await getCompany(id);
+        setCompany(data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+  return company === null ? (
+    <NotFound title="Company not found" />
+  ) : (
     <article className="flex flex-col gap-3">
       <div className="relative w-full px-3">
         <img
           className="max-h-[400px] w-full  rounded-xl object-cover object-center"
           src={company.coverPhoto}
+          onError={(e) =>
+            (e.currentTarget.src =
+              "https://raw.githubusercontent.com/ajmal-j/Weather-app-with-ums/master/client/public/companyCover.png")
+          }
           alt="cover photo"
         />
         <span className="absolute bottom-1.5 left-4 rounded-2xl md:bottom-5 md:left-9">
@@ -105,7 +123,9 @@ export default function Layout({ params: { id }, children }: IPage) {
           <h1 className="w-full text-xl">{company.headquarters}</h1>
         </span>
       </div>
-      <CompanyProfileNav id={id}>{children}</CompanyProfileNav>
+      <CompanyProfileNav id={id} data={company}>
+        {children}
+      </CompanyProfileNav>
     </article>
   );
 }

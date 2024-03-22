@@ -6,9 +6,10 @@ import { ReactNode } from "react";
 interface IPage {
   children: ReactNode;
   id: string;
+  data: any;
 }
 
-export default function CompanyProfileNav({ children, id }: IPage) {
+export default function CompanyProfileNav({ children, id, data }: IPage) {
   const pathname = usePathname();
   const pathComp = pathname.substring(pathname.indexOf("companies")).split("/");
   if (pathComp.length === 2) {
@@ -39,3 +40,4 @@ export default function CompanyProfileNav({ children, id }: IPage) {
     </main>
   );
 }
+

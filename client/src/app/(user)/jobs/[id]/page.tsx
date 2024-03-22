@@ -1,7 +1,9 @@
 import PrimaryButton from "@/components/Buttons/PrimaryButton";
 import SecondaryButton from "@/components/Buttons/SecondaryButton";
 import Markdown from "@/components/Custom/Markdown";
+import NotFound from "@/components/Custom/NotFound";
 import { formatMoney } from "@/lib/utils";
+import { getJob } from "@/services/jobs.service";
 import { BookmarkIcon, CheckIcon, ClockIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,39 +12,21 @@ interface JobSinglePageProps {
   params: { id: string };
 }
 
-const job = {
-  title: "Data Analyst Intern",
-  company: {
-    id: "company_id_2",
-    name: "Apple",
-    logo: "https://images.crowdspring.com/blog/wp-content/uploads/2022/08/18131304/apple_logo_black.svg_.png",
-  },
-  type: "internship",
-  category: "IT",
-  officeLocation: "Cupertino, California, United States",
-  location: "hybrid",
-  openings: "2",
-  status: "open",
-  isPaused: false,
-  description:
-    "# Software Engineer\n\n## Company Overview\nOur company is a leading technology firm based in San Francisco, dedicated to revolutionizing the digital landscape. We specialize in developing cutting-edge software solutions that empower businesses across various industries to thrive in today's dynamic market.\n\n## Job Description\nAs a Software Engineer at our company, you will play a pivotal role in the design, development, and implementation of innovative software solutions. You will collaborate with a dynamic team of engineers and contribute to the entire software development lifecycle, from concept to deployment.\n\n## Responsibilities\n- Design, develop, and maintain high-quality software solutions that meet the needs of our clients.\n- Collaborate with cross-functional teams to define requirements and translate them into technical specifications.\n- Write clean, efficient, and maintainable code following best practices.\n- Conduct thorough testing and debugging to ensure the reliability and scalability of our software products.\n- Stay updated on emerging technologies and trends in software development to continuously improve our processes and products.\n\n## Requirements\n- Bachelor's degree in Computer Science, Engineering, or a related field.\n- Proven experience in software development, preferably in a fast-paced environment.\n- Proficiency in programming languages such as JavaScript, Node.js, and React.\n- Solid understanding of software engineering principles, design patterns, and algorithms.\n- Excellent problem-solving skills and attention to detail.\n- Strong communication and teamwork abilities.\n\n## Benefits\n- Competitive salary with performance-based bonuses.\n- Comprehensive health benefits package.\n- Flexible work hours and remote work options.\n- Opportunities for career growth and professional development.\n- Dynamic and collaborative work environment.\n\n## How to Apply\nIf you're passionate about leveraging technology to drive innovation and eager to join a dynamic team of professionals, we'd love to hear from you! Please submit your resume and a cover letter outlining your relevant experience and why you're interested in this position.\n\n---\n\n*Note: This job description is intended to convey information essential to understanding the scope of the position and is not exhaustive. Other duties may be assigned.*",
-  skills: [
-    "SQL",
-    "Python",
-    "Data Visualization",
-    "Machine Learning",
-    "Tableau",
-    "PowerBI",
-    "Tableau",
-  ],
-  pay: {
-    maximum: 30000,
-    minimum: 20000,
-    rate: "Monthly",
-  },
-};
+export default async function JobSinglePage({
+  params: { id },
+}: JobSinglePageProps) {
+  let job;
+  try {
+    const response = await getJob(id);
+    job = response.data;
 
-export default function JobSinglePage({ params: { id } }: JobSinglePageProps) {
+    if (!job) {
+      <NotFound title="oh The job you are looking for does not exist" />;
+    }
+  } catch (error) {
+    console.log(error);
+    return <NotFound title="oh The job you are looking for does not exist" />;
+  }
   return (
     <main className="flex flex-col gap-3">
       <h1 className="mt-6 ps-2 text-center text-xl md:text-3xl">{job.title}</h1>
@@ -96,7 +80,7 @@ export default function JobSinglePage({ params: { id } }: JobSinglePageProps) {
             <span className="text-lg font-semibold text-foreground/90">
               Skills :
             </span>
-            {job.skills.map((skill, index) => (
+            {job.skills.map((skill: string, index: number) => (
               <li
                 className="flex max-w-[200px] flex-grow cursor-pointer items-center justify-center rounded-full border border-foreground/40 px-4 py-1.5 text-sm capitalize transition-all duration-150 hover:bg-foreground/10 lg:text-base "
                 key={index}

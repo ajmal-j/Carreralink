@@ -1,6 +1,6 @@
 import { CustomError } from "@carreralink/common";
-import { ICompanyRepoType } from "../database/index.js";
-import { ICompany } from "../database/models/company.model.js";
+import { ICompanyRepoType } from "../../database/index.js";
+import { ICompany } from "../../database/models/company.model.js";
 
 export class CreateCompanyUsecase {
   constructor(private readonly CompanyRepository: ICompanyRepoType) {}
@@ -12,6 +12,7 @@ export class CreateCompanyUsecase {
     );
 
     if (companyExist) throw new CustomError("Company already exists", 409);
+    
     const company = await this.CompanyRepository.create(companyData);
     return;
   }

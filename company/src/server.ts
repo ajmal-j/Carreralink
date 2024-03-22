@@ -5,6 +5,7 @@ import { Connect } from "./database/connection/index.js";
 import eventConsumer from "./events/consumer.js";
 import { errorMiddleware } from "@carreralink/common";
 import cors from "cors";
+import { companyRoutes, jobsRoutes } from "./routes/index.js";
 
 const app = express();
 
@@ -19,11 +20,12 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/api/v1/company/check", (_, res) => {
+app.get("/api/v1/companies/check", (_, res) => {
   res.send(`Company server is up and running`);
 });
 
-// app.use("/api/v1/company", );
+app.use("/api/v1/companies/jobs", jobsRoutes);
+app.use("/api/v1/companies", companyRoutes);
 
 app.all("*", (req, res) => {
   res.send(`${req.originalUrl} not found in company server.`);
@@ -38,5 +40,5 @@ process.on("uncaughtException", (error) => {
 
 app.listen(8080, () => {
   console.log(`Company server is running on : http://localhost:8080`);
-    eventConsumer();
+  eventConsumer();
 });

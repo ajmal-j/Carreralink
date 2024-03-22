@@ -10,7 +10,6 @@ export default function () {
     const data = req.body;
     const email = userData.email;
     const user = await updateProfileUsecase.execute(email, data);
-    console.log(user);
     return new CustomResponse()
       .message("Updated")
       .statusCode(201)

@@ -3,10 +3,12 @@ import { CustomForm } from "@/components/FormsAndDialog/CusotomForm";
 import { toast } from "@/components/ui/use-toast";
 import { getMessage } from "@/lib/utils";
 import { registerCompany } from "@/services/company.service";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { z } from "zod";
 
 export default function New() {
+  const { push } = useRouter();
   const defaultValues = {
     name: "",
     website: "",
@@ -105,6 +107,7 @@ export default function New() {
         title: "Company created successfully",
         description: "We've created your company for you.",
       });
+      push("/companies");
     } catch (error) {
       console.log(error);
       const message = getMessage(error);

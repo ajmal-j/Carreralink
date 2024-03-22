@@ -35,6 +35,6 @@ export class UserRepository implements IUserRepo {
   }
 
   async findByEmail(email: string): Promise<IUserAuth | null> {
-    return await this.database.findOne({ email });
+    return await this.database.findOne();
   }
 }

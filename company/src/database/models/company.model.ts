@@ -51,6 +51,14 @@ const companySchema: Schema = new Schema({
   },
 });
 
+companySchema.set("toJSON", {
+  transform: function (doc, ret) {
+    ret.id = ret._id;
+    delete ret._id;
+    delete ret.__v;
+  },
+});
+
 export const CompanyModel = mongoose.model<ICompany>("Company", companySchema);
 
 export type CompanyModelType = typeof CompanyModel;

@@ -138,7 +138,7 @@ export default function Profile() {
             Skills
           </h1>
           <div className="flex flex-wrap gap-3 pt-3">
-            {user.skills.map((skill, index) => (
+            {user.skills.map((skill: string, index: number) => (
               <PrimaryButton className="w-min px-5" key={index}>
                 {skill}
               </PrimaryButton>

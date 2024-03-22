@@ -20,5 +20,10 @@ export default (
     "/register",
     expressCallback(companyControllers.registerController)
   );
+  router.post(
+    "/companyLogin",
+    expressCallback(companyControllers.logInController)
+  );
+
   return router;
 };

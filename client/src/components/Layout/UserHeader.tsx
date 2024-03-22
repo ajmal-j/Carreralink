@@ -19,6 +19,7 @@ import {
   FileTextIcon,
   HamburgerMenuIcon,
   InfoCircledIcon,
+  TextAlignRightIcon,
   TokensIcon,
 } from "@radix-ui/react-icons";
 import PrimaryButton from "../Buttons/PrimaryButton";
@@ -26,10 +27,10 @@ import { usePathname } from "next/navigation";
 import { currentUser } from "@/services/user.service";
 import { useStateSelector } from "@/store";
 import { useDispatch } from "react-redux";
-import { setUser } from "@/store/reducers/user.slice";
+import { logout, setUser } from "@/store/reducers/user.slice";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
-export default function UserHeader() {
+export default function UserHeader({ logOut }: { logOut: () => void }) {
   const { isAuth, user } = useStateSelector((state) => state.user);
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
@@ -45,7 +46,7 @@ export default function UserHeader() {
     })();
     const timeout = setTimeout(() => {
       setVisible(true);
-    }, 2000);
+    }, 1000);
     return () => clearTimeout(timeout);
   }, []);
 
@@ -83,13 +84,12 @@ export default function UserHeader() {
           About
         </Link>
       </div>
-      <div className="flex flex-1 items-center justify-end md:hidden">
-        <MobileNav />
+      <div className="flex flex-1 justify-end ">
+        <ThemeToggler />
       </div>
-      <ThemeToggler />
       {isAuth ? (
-        <ProfileDropDown>
-          <Avatar className="ms-3">
+        <ProfileDropDown logOut={logOut}>
+          <Avatar className="ms-3 cursor-pointer">
             <AvatarImage src={user?.profile} />
             <AvatarFallback>
               <TokensIcon />
@@ -97,16 +97,19 @@ export default function UserHeader() {
           </Avatar>
         </ProfileDropDown>
       ) : visible ? (
-        <Link className="ms-3 hover:text-foreground" href="/login">
+        <Link className="my-[0.20rem] ms-3 hover:text-foreground" href="/login">
           <PrimaryButton className="w-min px-5">login</PrimaryButton>
         </Link>
       ) : (
-        <Link className="ms-3 hover:text-foreground" href="/login">
-          <PrimaryButton className="duration-1500 w-min animate-pulse bg-gray-400 px-5">
+        <Link className="my-[0.20rem] ms-3 hover:text-foreground" href="/login">
+          <PrimaryButton className="w-min animate-pulse bg-violet-500 px-5 duration-1000">
             login
           </PrimaryButton>
         </Link>
       )}
+      <div className="ms-3 flex items-center justify-end rounded-full border border-foreground/5 bg-white/10 px-1.5 py-1.5 md:hidden">
+        <MobileNav />
+      </div>
     </header>
   );
 }
@@ -115,8 +118,8 @@ export function MobileNav() {
   const pathname = usePathname();
   return (
     <Sheet>
-      <SheetTrigger asChild className="mx-3 cursor-pointer">
-        <HamburgerMenuIcon className="size-5" />
+      <SheetTrigger asChild className="cursor-pointer">
+        <TextAlignRightIcon className="size-7" />
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
@@ -170,12 +173,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 
-export function ProfileDropDown({ children }: { children: React.ReactNode }) {
+export function ProfileDropDown({
+  children,
+  logOut,
+}: {
+  children: React.ReactNode;
+  logOut: () => void;
+}) {
   const { push } = useRouter();
+  const dispatch = useDispatch();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent className="mt-3 w-48" align="end">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
@@ -184,14 +194,23 @@ export function ProfileDropDown({ children }: { children: React.ReactNode }) {
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>
+        <DropdownMenuItem onClick={() => push("/dashboard/company")}>
+          Company Dashboard
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>GitHub</DropdownMenuItem>
-        <DropdownMenuItem>Support</DropdownMenuItem>
-        <DropdownMenuItem disabled>API</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Log out
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+        <DropdownMenuItem className="ms-auto mt-5 flex w-min items-center justify-end text-nowrap">
+          <form action={logOut}>
+            <button
+              className="text-sm"
+              type="submit"
+              onClick={() => {
+                localStorage.removeItem("userToken");
+                dispatch(logout());
+              }}
+            >
+              Log out
+            </button>
+          </form>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

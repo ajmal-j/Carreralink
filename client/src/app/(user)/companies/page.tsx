@@ -1,8 +1,22 @@
+"use client";
+
 import PrimaryButton from "@/components/Buttons/PrimaryButton";
 import Search from "@/components/FormsAndDialog/Search";
+import { allCompanies } from "@/services/company.service";
 import { ArrowRightIcon, ExternalLinkIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
+interface ICompany {
+  name: string;
+  logo: string;
+  id: number;
+  website: string;
+  tagline: string;
+  jobs: [];
+  industry: string;
+}
 
 const topIndustries = [
   "IT",
@@ -18,46 +32,15 @@ const topIndustries = [
   "Design",
 ];
 
-const companies = [
-  {
-    id: 1,
-    name: "Google",
-    jobsPosted: 100,
-    industry: "Software",
-    website: "https://www.google.com",
-    tagline: "Do the best work of your life",
-    logo: "https://cdn2.hubspot.net/hubfs/53/image8-2.jpg",
-  },
-  {
-    id: 2,
-    name: "Facebook",
-    jobsPosted: 34,
-    industry: "Technology",
-    website: "https://www.facebook.com",
-    tagline: "Connect with friends and the world around you",
-    logo: "https://1000logos.net/wp-content/uploads/2017/02/Facebook-Logosu.png",
-  },
-  {
-    id: 3,
-    name: "Apple",
-    jobsPosted: 200,
-    industry: "Products",
-    website: "https://www.apple.com",
-    tagline: "Think different",
-    logo: "https://images.crowdspring.com/blog/wp-content/uploads/2022/08/18131304/apple_logo_black.svg_.png",
-  },
-  {
-    id: 4,
-    name: "Microsoft",
-    jobsPosted: 55,
-    industry: "Technology",
-    website: "https://www.microsoft.com",
-    tagline: "Do the best work of your life",
-    logo: "https://w7.pngwing.com/pngs/827/526/png-transparent-microsoft-windows-microsoft-outlook-microsoft-office-microsoft-logo-s-text-rectangle-triangle-thumbnail.png",
-  },
-];
-
 export default function Companies() {
+  const [companies, setCompanies] = useState<ICompany[]>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await allCompanies();
+      setCompanies(response.data);
+    };
+    fetchData();
+  }, []);
   return (
     <>
       <h1 className="mt-6 text-center text-4xl">Top companies hiring now</h1>
@@ -99,47 +82,52 @@ export default function Companies() {
           Showing {companies.length} companies
         </h4>
         <div className="flex flex-col gap-6">
-          {companies.map((company) => (
-            <div key={company.id} className="flex gap-3">
-              <Link href={`/companies/${company.id}`} scroll>
-                <div className="my-auto flex size-[50px] justify-center gap-3 rounded-full bg-white border md:size-[80px] ">
-                  <Image
-                    className="rounded-full object-contain object-center"
-                    src={company.logo}
-                    alt="Company logo"
-                    width={100}
-                    height={100}
-                  />
-                </div>
-              </Link>
-              <div className="flex flex-1 flex-col gap-[1px]  md:ms-2">
-                <span className="flex items-center gap-2">
-                  <Link href={`/companies/${company.id}`}>
-                    <h2 className="text-xl font-semibold">{company.name}</h2>
-                  </Link>
-                  <Link target="_blank" href={company.website}>
-                    <ExternalLinkIcon className="cursor-pointer hover:text-blue-400" />
-                  </Link>
-                </span>
-                <p className="text-sm text-foreground/70">{company.tagline}</p>
-                <span className="w-min rounded-full border border-foreground/60 px-1.5 pb-[1.5px] text-xs text-foreground/80">
-                  {company.industry}
-                </span>
-              </div>
-              <div className="flex flex-col items-end justify-center gap-3">
-                <span className="text-sm text-foreground/70">
-                  Open jobs:{" "}
-                  <span className="text-foreground">{company.jobsPosted}</span>
-                </span>
-                <PrimaryButton className="w-min px-3">
-                  <span className="flex items-center justify-center  gap-1 ps-0 md:ps-2">
-                    <span className="hidden md:block">Jobs</span>{" "}
-                    <ArrowRightIcon />
+          {!!companies.length &&
+            companies.map((company) => (
+              <div key={company.id} className="flex gap-3">
+                <Link href={`/companies/${company.id}`} scroll>
+                  <div className="my-auto flex size-[50px] justify-center gap-3 rounded-full border bg-white md:size-[80px] ">
+                    <Image
+                      className="rounded-full object-contain object-center"
+                      src={company.logo}
+                      alt="Company logo"
+                      width={100}
+                      height={100}
+                    />
+                  </div>
+                </Link>
+                <div className="flex flex-1 flex-col gap-[1px]  md:ms-2">
+                  <span className="flex items-center gap-2">
+                    <Link href={`/companies/${company.id}`}>
+                      <h2 className="text-xl font-semibold">{company.name}</h2>
+                    </Link>
+                    <Link target="_blank" href={company.website}>
+                      <ExternalLinkIcon className="cursor-pointer hover:text-blue-400" />
+                    </Link>
                   </span>
-                </PrimaryButton>
+                  <p className="text-sm text-foreground/70">
+                    {company.tagline}
+                  </p>
+                  <span className="w-min rounded-full border border-foreground/60 px-1.5 pb-[1.5px] text-xs text-foreground/80">
+                    {company.industry}
+                  </span>
+                </div>
+                <div className="flex flex-col items-end justify-center gap-3">
+                  <span className="text-sm text-foreground/70">
+                    Open jobs:{" "}
+                    <span className="text-foreground">
+                      {company.jobs.length}
+                    </span>
+                  </span>
+                  <PrimaryButton className="w-min px-3">
+                    <span className="flex items-center justify-center  gap-1 ps-0 md:ps-2">
+                      <span className="hidden md:block">Jobs</span>{" "}
+                      <ArrowRightIcon />
+                    </span>
+                  </PrimaryButton>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </>

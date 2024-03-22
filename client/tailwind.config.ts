@@ -17,6 +17,7 @@ const config = {
         "2xl": "1400px",
       },
     },
+
     extend: {
       colors: {
         border: "hsl(var(--border))",
@@ -29,6 +30,10 @@ const config = {
           foreground: "hsl(var(--primary-foreground))",
         },
         primaryColor: {
+          DEFAULT: "hsl(var(--primaryColor))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        primaryColor2: {
           DEFAULT: "hsl(var(--primaryColor))",
           foreground: "hsl(var(--primary-foreground))",
         },

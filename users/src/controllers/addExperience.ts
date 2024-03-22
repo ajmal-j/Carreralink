@@ -9,7 +9,6 @@ export default function () {
     const data = req.body;
     const email = userData.email;
     const user = await addExperienceUsecase.execute(email, data);
-    console.log('first line', user);
     return new CustomResponse()
       .message("Updated")
       .statusCode(201)

@@ -11,6 +11,8 @@ import {
 } from "../ui/select";
 import PrimaryButton from "../Buttons/PrimaryButton";
 import { cn } from "@/lib/utils";
+import { redirect } from "next/navigation";
+import { z } from "zod";
 
 const jobTypes = ["Full-time", "Part-time", "Internship"];
 const locations = [
@@ -28,13 +30,32 @@ interface PageProps {
   };
   className?: string;
 }
+
+const filterSchema = z.object({
+  q: z.string().optional(),
+  type: z.string().optional(),
+  location: z.string().optional(),
+});
+
+async function filterJobs(formData: FormData) {
+  "use server";
+  const values = Object.fromEntries(formData.entries());
+  const { q, type, location } = filterSchema.parse(values);
+  const searchParams = new URLSearchParams({
+    ...(q && { q: q.trim() }),
+    ...(type && { type }),
+    ...(location && { location }),
+  });
+  redirect(`/jobs?${searchParams.toString()}`);
+}
+
 export default function JobFilterSideBar({
   className,
   defaultValues,
 }: PageProps) {
   return (
     <aside>
-      <form action="" className={cn("mt-6", className)}>
+      <form action={filterJobs} className={cn("mt-6", className)}>
         <div className="space-y-5">
           <div className="flex flex-col gap-3">
             <Label htmlFor="q" className="ps-1">
@@ -67,7 +88,7 @@ export default function JobFilterSideBar({
               </SelectContent>
             </Select>
           </div>
-          <div className="flex flex-col gap-3">
+          <div className="mb-2 flex flex-col gap-3">
             <Label htmlFor="location" className="ps-1">
               Location
             </Label>

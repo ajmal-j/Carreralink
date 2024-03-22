@@ -1,8 +1,48 @@
 import { Repositories } from "../database/index.js";
-import { CreateCompanyUsecase } from "./createCompany.usecase.js";
+import { AllCompaniesUsecase } from "./company/allCompanies.usecase.js";
+import { CreateCompanyUsecase } from "./company/createCompany.usecase.js";
+import { GetCompanyUsecase } from "./company/getCompany.usecase.js";
+import { GetCompanyDataUsecase } from "./company/getData.usecase.js";
+import { UpdateCompanyUsecase } from "./company/updateCompany.usecase.js";
+import { GetAllJobsUsecase } from "./jobs/allJobs.usecase.js";
+import { GetAllCompanyJobsUsecase } from "./jobs/companiesAllJobs.js";
+import { CreateJobUsecase } from "./jobs/create.js";
+import { GetJobByIdUsecase } from "./jobs/getJobById.usecase.js";
 
 const createCompanyUsecase = new CreateCompanyUsecase(
   Repositories.CompanyRepository
 );
+const allCompaniesUsecase = new AllCompaniesUsecase(
+  Repositories.CompanyRepository
+);
+const getCompanyUsecase = new GetCompanyUsecase(Repositories.CompanyRepository);
+const getCompanyDataUsecase = new GetCompanyDataUsecase(
+  Repositories.CompanyRepository
+);
+const updateCompanyUsecase = new UpdateCompanyUsecase(
+  Repositories.CompanyRepository
+);
 
-export { createCompanyUsecase };
+const createJobUsecase = new CreateJobUsecase(
+  Repositories.JobRepository,
+  Repositories.CompanyRepository
+);
+
+const getJobByIdUsecase = new GetJobByIdUsecase(Repositories.JobRepository);
+
+const getAllJobsUsecase = new GetAllJobsUsecase(Repositories.JobRepository);
+const getAllCompanyJobsUsecase = new GetAllCompanyJobsUsecase(
+  Repositories.JobRepository
+);
+
+export {
+  createCompanyUsecase,
+  allCompaniesUsecase,
+  getAllCompanyJobsUsecase,
+  getCompanyUsecase,
+  getJobByIdUsecase,
+  getCompanyDataUsecase,
+  createJobUsecase,
+  updateCompanyUsecase,
+  getAllJobsUsecase,
+};

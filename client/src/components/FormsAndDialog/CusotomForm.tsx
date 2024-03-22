@@ -4,11 +4,18 @@ import { ZodObject } from "zod";
 import { Input } from "@/components/ui/input";
 import PrimaryButton from "../Buttons/PrimaryButton";
 import React, { ReactNode, useState } from "react";
-import { Cross1Icon, EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons";
+import {
+  Cross1Icon,
+  CrossCircledIcon,
+  EyeClosedIcon,
+  EyeOpenIcon,
+} from "@radix-ui/react-icons";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -24,7 +31,7 @@ import {
 } from "react-hook-form";
 import { z } from "zod";
 
-import { cn } from "@/lib/utils";
+import { cn, formatMoney } from "@/lib/utils";
 import {
   Form,
   FormControl,
@@ -82,13 +89,23 @@ export function CustomForm({
                   />
                 );
 
+              case "pay":
+                return <PayComponent key={key} name={key} form={form} />;
+
+              case "skills":
+                return <SkillsField key={key} name={key} form={form} />;
+
               case "currentStatus":
               case "industry":
+              case "category":
+              case "workSpace":
+              case "type":
                 return <CustomSelectField key={key} name={key} form={form} />;
 
               case "place":
               case "location":
               case "headquarters":
+              case "officeLocation":
                 return (
                   <LocationField
                     key={key}
@@ -122,7 +139,7 @@ export function CustomForm({
             </div>
           )}
           <div>
-            <PrimaryButton type="submit" className="mt-6 py-2.5">
+            <PrimaryButton type="submit" className="mt-10 py-2.5">
               {action || "submit"}
             </PrimaryButton>
           </div>
@@ -159,11 +176,15 @@ function PasswordComponent({ name, form }: IFormProps) {
                 {...field}
               />
               <button
-                className="absolute right-2 top-3"
+                className="absolute right-3 top-4"
                 type="button"
                 onClick={() => setPassword(!password)}
               >
-                {password ? <EyeClosedIcon /> : <EyeOpenIcon />}
+                {password ? (
+                  <EyeClosedIcon className="size-4" />
+                ) : (
+                  <EyeOpenIcon className="size-4" />
+                )}
               </button>
             </div>
           </FormControl>
@@ -210,7 +231,32 @@ function CustomSelectField({ name, form }: IFormProps) {
                     ].map((place: string) =>
                       place.concat(" , ", "Kerala", " , ", "India"),
                     )
-                  : ["Software", "Technology", "Products", "Other"]
+                  : field.name === "category"
+                    ? [
+                        "Information Technology",
+                        "Healthcare",
+                        "Finance and Accounting",
+                        "Sales and Marketing",
+                        "Customer Service",
+                        "Education and Training",
+                        "Engineering",
+                        "Human Resources",
+                        "Administrative and Clerical",
+                        "Retail and Hospitality",
+                      ]
+                    : field.name === "workSpace"
+                      ? ["Remote", "Hybrid", "Onsite", "Co-working", "Flexible"]
+                      : field.name === "type"
+                        ? [
+                            "Internship",
+                            "Full-time",
+                            "Part-time",
+                            "Contract",
+                            "Freelance",
+                            "Temporary",
+                            "Volunteer",
+                          ]
+                        : ["Software", "Technology", "Products", "Other"]
               ).map((status: string, index: number) => (
                 <SelectItem id={index.toString()} key={index} value={status}>
                   {status}
@@ -270,7 +316,7 @@ function DefaultComponent({ name, form }: IFormProps) {
                         type="button"
                         variant={"outline"}
                         className={cn(
-                          "w-full pl-3 text-left font-normal",
+                          "h-12 w-full pl-3 text-left font-normal dark:bg-[#211C26]",
                           !field.value && "text-muted-foreground",
                         )}
                       >
@@ -343,6 +389,77 @@ function ImageComponent({ form, name }: IFormProps) {
   );
 }
 
+function PayComponent({ form, name }: IFormProps) {
+  return (
+    <FormField
+      control={form.control}
+      name={name}
+      render={({ field: { value, name, ...fieldValues } }) => (
+        <FormItem>
+          <FormLabel className="capitalize">{name}</FormLabel>
+          <FormControl>
+            <div className="flex gap-2">
+              <Input
+                ref={fieldValues.ref}
+                onBlur={fieldValues.onBlur}
+                disabled={fieldValues.disabled}
+                type="number"
+                placeholder="Minimum"
+                value={value.minimum}
+                onChange={(e) => {
+                  fieldValues.onChange({
+                    ...value,
+                    minimum: e.target.value,
+                  });
+                }}
+              />
+              <Input
+                ref={fieldValues.ref}
+                onBlur={fieldValues.onBlur}
+                disabled={fieldValues.disabled}
+                type="number"
+                placeholder="Maximum"
+                value={value.maximum}
+                onChange={(e) => {
+                  fieldValues.onChange({
+                    ...value,
+                    maximum: e.target.value,
+                  });
+                }}
+              />
+              <Select
+                defaultValue={value.rate}
+                onValueChange={(rate) => {
+                  fieldValues.onChange({
+                    ...value,
+                    rate,
+                  });
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Per month,Per year,..." />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel className="text-muted-foreground">
+                      Rate
+                    </SelectLabel>
+                    <SelectItem value="per year">Per year</SelectItem>
+                    <SelectItem value="per month">Per month</SelectItem>
+                    <SelectItem value="per day">Per day</SelectItem>
+                    <SelectItem value="per week">Per week</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+}
+
 interface ILocationInputProps extends IFormProps {
   watch: UseFormWatch<z.infer<any>>;
   setValue: UseFormSetValue<z.infer<any>>;
@@ -391,11 +508,13 @@ function DescriptionField({ form, name, setFocus }: IDescriptionFieldProps) {
     <FormField
       control={form.control}
       name={name}
+      defaultValue={"ajmalja"}
       render={({ field }) => (
         <FormItem>
           <FormLabel onClick={() => setFocus(name)}>Description</FormLabel>
           <FormControl>
             <TextEditor
+              defaultContentState={field.value}
               onChange={(draft) => field.onChange(draftToMarkdown(draft))}
               ref={field.ref}
             />
@@ -404,5 +523,91 @@ function DescriptionField({ form, name, setFocus }: IDescriptionFieldProps) {
         </FormItem>
       )}
     />
+  );
+}
+
+interface ISkillsFieldProps extends IFormProps {}
+
+function SkillsField({ form, name }: ISkillsFieldProps) {
+  const [skills, setSkills] = useState<string[]>(form.getValues(name) || []);
+  return (
+    <>
+      <div className="mb-3 mt-4 flex flex-col flex-wrap gap-2 gap-y-3">
+        <FormLabel>Skills</FormLabel>
+        {!skills.length && (
+          <p className="text-foreground/50">No skills selected</p>
+        )}
+        <div className="flex flex-wrap gap-2">
+          {skills.map((skill: string, index: number) => (
+            <div key={index} className="relative">
+              <PrimaryButton className="w-min px-3">{skill}</PrimaryButton>
+              <span>
+                <CrossCircledIcon
+                  onClick={() => {
+                    setSkills(skills.filter((_, i) => i !== index));
+                    form.setValue(
+                      name,
+                      skills.filter((_, i) => i !== index),
+                    );
+                  }}
+                  className="absolute right-[-5px] top-[-4px] size-5 cursor-pointer rounded-full bg-background text-red-500"
+                />
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <FormField
+        control={form.control}
+        name="skills"
+        render={({ field }) => (
+          <FormItem>
+            <Select
+              onValueChange={(skill) => {
+                if (!skills.includes(skill)) {
+                  form.setValue(name, [...skills, skill]);
+                  setSkills((prev) => [...prev, skill]);
+                }
+              }}
+            >
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue
+                    className="placeholder:text-foreground/50"
+                    placeholder="Select skills."
+                  />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {[
+                  "JavaScript",
+                  "Node.js",
+                  "React",
+                  "MongoDB",
+                  "Python",
+                  "Java",
+                  "C++",
+                ]
+                  .filter((skill) => !skills.includes(skill))
+                  .map((skill: string, index: number) => (
+                    <SelectItem
+                      className="w-full"
+                      id={index.toString()}
+                      key={index}
+                      value={skill}
+                    >
+                      {skill}
+                    </SelectItem>
+                  ))}
+                <SelectItem value="skills" disabled>
+                  select skills
+                </SelectItem>
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </>
   );
 }

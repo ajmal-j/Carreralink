@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import {
   GitHubLogoIcon,
   InstagramLogoIcon,
@@ -6,9 +7,9 @@ import {
   TwitterLogoIcon,
 } from "@radix-ui/react-icons";
 
-export function Footer() {
+export function Footer({className}: {className?: string}) {
   return (
-    <footer className="mb-5 mt-10 w-full rounded-2xl border px-3 py-3 pb-7 md:mt-16">
+    <footer className={cn("mb-5 mt-10 w-full  py-3 pb-7 md:mt-16", className)}>
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between px-4 py-2  lg:px-0">
         <div className="inline-flex items-center">
           <span className="flex items-center gap-3">

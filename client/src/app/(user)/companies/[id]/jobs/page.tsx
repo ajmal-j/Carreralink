@@ -1,65 +1,79 @@
-import { SingleJob } from "@/components/Custom/SingleJob";
+import { formatMoney } from "@/lib/utils";
+import { allCompanyJobs } from "@/services/jobs.service";
+import { IJob } from "@/types/jobs";
+import { PauseIcon, PlayIcon } from "@radix-ui/react-icons";
+import { formatDistanceToNow } from "date-fns";
+import Link from "next/link";
 
-const jobs = [
-  {
-    id: 1,
-    title: "Frontend Developer",
-    company: {
-      id: 1,
-      name: "Apple",
-      logo: "https://images.crowdspring.com/blog/wp-content/uploads/2022/08/18131304/apple_logo_black.svg_.png",
-    },
-    location: "Cupertino, California, United States",
-    type: "Full-time",
-    skills: ["JavaScript", "React", "Node.js", "MongoDB"],
-    pay: {
-      minimum: 100000,
-      maximum: 200000,
-      rate: "per month",
-    },
-  },
-  {
-    id: 2,
-    title: "Backend Developer",
-    company: {
-      id: 1,
-      name: "Apple",
-      logo: "https://images.crowdspring.com/blog/wp-content/uploads/2022/08/18131304/apple_logo_black.svg_.png",
-    },
-    location: "Cupertino, California, United States",
-    type: "Full-time",
-    skills: ["JavaScript", "React", "Node.js", "MongoDB"],
-    pay: {
-      minimum: 4000,
-      maximum: 5000,
-      rate: "per day",
-    },
-  },
-  {
-    id: 3,
-    title: "Backend Developer",
-    company: {
-      id: 1,
-      name: "Apple",
-      logo: "https://images.crowdspring.com/blog/wp-content/uploads/2022/08/18131304/apple_logo_black.svg_.png",
-    },
-    location: "Cupertino, California, United States",
-    type: "Full-time",
-    skills: ["JavaScript", "React", "Node.js", "MongoDB"],
-    pay: {
-      minimum: 55000000,
-      maximum: 60000000,
-      rate: "per year",
-    },
-  },
-];
-
-export default function Jobs() {
+export default async function Jobs({
+  params: { id },
+}: {
+  params: { id: string };
+}) {
+  let jobs = [];
+  try {
+    const response = await allCompanyJobs(id as string);
+    jobs = response.data;
+  } catch (error) {
+    console.log(error);
+  }
   return (
-    <div className="space-y-3 px-1">
-      {jobs.map((job) => (
-        <SingleJob key={job.id} job={job} />
-      ))}
+    <div className="space-y-3 px-1 pt-5">
+      {jobs?.map((job: IJob) => <SingleJob key={job.id} job={job} />)}
+    </div>
+  );
+}
+
+export function SingleJob({ job }: { job: IJob }) {
+  return (
+    <div className="flex items-center gap-3 rounded-sm border px-4 py-2">
+      <Link href={job?.href || `/jobs/${job?.id}`} className="flex-1 ">
+        <h1 className="pb-1 text-lg font-semibold">{job?.title}</h1>
+        <p className="text-sm text-foreground/70">
+          Applicant&lsquo;s : {job?.applicants?.length}
+        </p>
+        <p className="text-sm text-foreground/70">
+          Opening&lsquo;s : {job?.openings}
+        </p>
+        <p className="text-sm text-foreground/70">{job?.type}</p>
+        <p className="text-sm text-foreground/70">{job?.location}</p>
+      </Link>
+      <div className="flex flex-col gap-1">
+        <div className="flex gap-2 ">
+          <div className="flex h-full max-w-min flex-col items-start px-1">
+            <span className="mt-[-6px] block text-nowrap  text-foreground/70">
+              {job?.pay?.rate}
+            </span>
+            <span className="m-0 block text-nowrap p-0">
+              ₹ {job?.pay?.minimum && formatMoney(job?.pay?.minimum)} -{" "}
+              {formatMoney(job?.pay?.maximum)}
+            </span>
+          </div>
+          <div className="flex w-14 flex-col items-center gap-2">
+            {job.status === "open" ? (
+              <span className="w-full rounded-full bg-green-200/60 px-2 pb-[2px] text-center text-sm text-green-400 dark:bg-green-200/30">
+                {job?.status}
+              </span>
+            ) : (
+              <span className="w-full rounded-full bg-red-200/60 px-2 pb-[2px] text-center text-sm text-red-400 dark:bg-red-200/30">
+                {job?.status}
+              </span>
+            )}
+            {job.isPaused ? (
+              <span className="flex w-full items-center justify-center rounded-full bg-red-200/60  px-2 py-1  text-sm text-red-400 dark:bg-red-200/30">
+                <PlayIcon />
+              </span>
+            ) : (
+              <span className="flex w-full items-center justify-center rounded-full bg-green-200/60 px-2 py-1 text-sm text-green-400 dark:bg-green-200/30">
+                <PauseIcon />
+              </span>
+            )}
+          </div>
+        </div>
+        <p className="text-end text-sm text-foreground/70">
+          {formatDistanceToNow(job?.createdAt || Date.now()) || "1 day ago"}
+        </p>
+      </div>
     </div>
   );
 }

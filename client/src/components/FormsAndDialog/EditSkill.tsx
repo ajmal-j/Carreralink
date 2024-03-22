@@ -127,16 +127,18 @@ export function EditSkill({ defaultValues }: { defaultValues: string[] }) {
                         "Python",
                         "Java",
                         "C++",
-                      ].map((skill: string, index: number) => (
-                        <SelectItem
-                          className="w-full"
-                          id={index.toString()}
-                          key={index}
-                          value={skill}
-                        >
-                          {skill}
-                        </SelectItem>
-                      ))}
+                      ]
+                        .filter((skill) => !skills.includes(skill))
+                        .map((skill: string, index: number) => (
+                          <SelectItem
+                            className="w-full"
+                            id={index.toString()}
+                            key={index}
+                            value={skill}
+                          >
+                            {skill}
+                          </SelectItem>
+                        ))}
                     </SelectContent>
                   </Select>
                 </FormItem>

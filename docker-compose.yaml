@@ -16,7 +16,7 @@ services:
         - action: rebuild
           path: ./auth/package.json
         - action: rebuild
-          path: ./auth/package.lock.json
+          path: ./auth/package-lock.json
     environment:
       MONGO_URL: mongodb://auth-db:27017/auth
       KAFKA_BROKER: redpanda:29092
@@ -40,7 +40,7 @@ services:
         - action: rebuild
           path: ./users/package.json
         - action: rebuild
-          path: ./users/package.lock.json
+          path: ./users/package-lock.json
     environment:
       MONGO_URL: mongodb://users-db:27017/users
       KAFKA_BROKER: redpanda:29092
@@ -64,10 +64,11 @@ services:
         - action: rebuild
           path: ./company/package.json
         - action: rebuild
-          path: ./company/package.lock.json
+          path: ./company/package-lock.json
     environment:
       MONGO_URL: mongodb://company-db:27017/company
       KAFKA_BROKER: redpanda:29092
+      JWT_SECRET: blablablablablablabal
     ports:
       - 8080:8080
 
@@ -84,7 +85,7 @@ services:
         - action: rebuild
           path: ./client/package.json
         - action: rebuild
-          path: ./client/package.lock.json
+          path: ./client/package-lock.json
     ports:
       - 3000:3000
 
