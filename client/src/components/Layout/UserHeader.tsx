@@ -84,7 +84,7 @@ export default function UserHeader({ logOut }: { logOut: () => void }) {
           About
         </Link>
       </div>
-      <div className="flex flex-1 justify-end ">
+      <div className="flex flex-1 md:flex-none justify-end ">
         <ThemeToggler />
       </div>
       {isAuth ? (

@@ -45,19 +45,25 @@ export default async function JobSinglePage({
         <div className="flex-1">
           <h1 className="pb-2 text-xl">{job.company.name}</h1>
           <p className="text-sm capitalize text-foreground/70">{job.type}</p>
-          {job.location !== "remote" && job.officeLocation ? (
-            <p className="text-sm text-foreground/70">
-              {job.location} : {job.officeLocation} .
-            </p>
-          ) : (
-            <p className="text-sm text-foreground/70">{job.location}</p>
-          )}
+          <p className="text-sm text-foreground/70">{job.location}</p>
+          <p className="text-sm text-foreground/70">{job.officeLocation}</p>
           <p>
             {job.pay.rate} : ₹ {formatMoney(job.pay.minimum)} -{" "}
             {formatMoney(job.pay.maximum)}
           </p>
+          <div className="mt-1 flex gap-2">
+            <span className="rounded-full bg-green-300/30 px-2 pb-[2px] text-center text-xs text-green-500">
+              {job?.applicants?.length ?? 0} applicant&apos;s
+            </span>
+            <span className="rounded-full bg-orange-400/30 px-2 pb-[2px] text-center text-xs text-yellow-500">
+              {job?.workSpace}
+            </span>
+            <span className="rounded-full bg-red-400/30 px-2 pb-[2px] text-center text-xs text-red-500">
+              {job?.openings} openings
+            </span>
+          </div>
         </div>
-        <div className="flex flex-col gap-3">
+        <div className="mt-auto flex flex-col gap-3 pb-3">
           <PrimaryButton className="px-3">
             <span className="flex items-center gap-1">
               <span className="hidden ps-2 md:block">Apply</span> <CheckIcon />
@@ -76,13 +82,13 @@ export default async function JobSinglePage({
       </p>
       <article>
         <div>
-          <ul className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-3 ">
+          <ul className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-3 ">
             <span className="text-lg font-semibold text-foreground/90">
               Skills :
             </span>
             {job.skills.map((skill: string, index: number) => (
               <li
-                className="flex max-w-[200px] flex-grow cursor-pointer items-center justify-center rounded-full border border-foreground/40 px-4 py-1.5 text-sm capitalize transition-all duration-150 hover:bg-foreground/10 lg:text-base "
+                className="flex cursor-pointer items-center rounded-full border border-foreground/20 px-3 py-1 text-sm capitalize transition-all duration-150 hover:bg-foreground/10 lg:text-base "
                 key={index}
               >
                 {skill}
@@ -90,7 +96,9 @@ export default async function JobSinglePage({
             ))}
           </ul>
         </div>
-        <h1 className="mb-4 text-2xl font-semibold">Job Description : </h1>
+        <h1 className="mb-4 mt-10 text-2xl font-semibold">
+          Job Description :{" "}
+        </h1>
         <Markdown>{job.description}</Markdown>
       </article>
     </main>

@@ -1,6 +1,5 @@
 import { NotFoundError } from "@carreralink/common";
 import { CompanyModelType, ICompany } from "../models/company.model.js";
-import { populate } from "dotenv";
 
 interface ICompanyRepository {
   create(company: ICompany): Promise<ICompany>;

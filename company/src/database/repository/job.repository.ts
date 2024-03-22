@@ -1,3 +1,4 @@
+import { NotFoundError } from "@carreralink/common";
 import { JobsModelType } from "../models/jobs.model.js";
 
 export class JobRepository {
@@ -49,5 +50,16 @@ export class JobRepository {
   }
   async allJobsByCompany(id: string) {
     return await this.database.find({ company: id }).populate("company");
+  }
+
+  async updateJob(id: string, jobData: {}) {
+    const job = await this.database.findOneAndUpdate(
+      { _id: id },
+      {
+        $set: jobData,
+      }
+    );
+    if (!job) throw new NotFoundError("Job not found");
+    return job;
   }
 }

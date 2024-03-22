@@ -56,6 +56,16 @@ const getAllJobsByCompanySSR = async (token: string) => {
   });
   return response.data;
 };
+
+const updateJob = async (id: string, jobData: {}) => {
+  const url = new Server().company("updateJob");
+  const response = await axios.put(url, {
+    id,
+    jobData,
+  });
+  return response.data;
+};
+
 export {
   registerCompany,
   allCompanies,
@@ -64,4 +74,5 @@ export {
   getAllJobsByCompanySSR,
   updateCompany,
   allCompaniesSSR,
+  updateJob,
 };

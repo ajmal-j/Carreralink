@@ -147,7 +147,6 @@ import {
 } from "@/components/ui/pagination";
 import {
   BackpackIcon,
-  EraserIcon,
   MixerHorizontalIcon,
 } from "@radix-ui/react-icons";
 
@@ -167,7 +166,6 @@ export function JobPagination({
   defaultValues: JobFilterValues;
 }) {
   const {
-    totalDocs,
     page,
     totalPages,
     hasPrevPage,

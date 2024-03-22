@@ -1,11 +1,13 @@
 import BackButton from "@/components/Buttons/BackButton";
 import PrimaryButton from "@/components/Buttons/PrimaryButton";
-import SecondaryButton from "@/components/Buttons/SecondaryButton";
 import Markdown from "@/components/Custom/Markdown";
 import NotFound from "@/components/Custom/NotFound";
+import EditJobDialogue from "@/components/FormsAndDialog/EditJob";
 import { formatMoney } from "@/lib/utils";
 import { getJob } from "@/services/jobs.service";
-import { BookmarkIcon, CheckIcon, ClockIcon } from "@radix-ui/react-icons";
+import { IJob } from "@/types/jobs";
+import { ClockIcon } from "@radix-ui/react-icons";
+import { markdownToDraft } from "markdown-draft-js";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -16,7 +18,7 @@ interface JobSinglePageProps {
 export default async function JobSinglePage({
   params: { id },
 }: JobSinglePageProps) {
-  let job;
+  let job: IJob;
   try {
     const response = await getJob(id);
     job = response.data;
@@ -61,8 +63,35 @@ export default async function JobSinglePage({
             {job.pay.rate} : ₹ {formatMoney(job.pay.minimum)} -{" "}
             {formatMoney(job.pay.maximum)}
           </p>
+          <div className="mt-1 flex gap-2">
+            <span className="rounded-full bg-green-300/30 px-2 pb-[2px] text-center text-xs text-green-500">
+              {job?.applicants?.length ?? 0} applicant&apos;s
+            </span>
+            <span className="rounded-full bg-orange-400/30 px-2 pb-[2px] text-center text-xs text-yellow-500">
+              {job?.workSpace}
+            </span>
+            <span className="rounded-full bg-red-400/30 px-2 pb-[2px] text-center text-xs text-red-500">
+              {job?.openings} openings
+            </span>
+          </div>
         </div>
-        blslsl
+        <div>
+          <EditJobDialogue
+            defaultValues={{
+              title: job.title,
+              type: job.type,
+              category: job.category,
+              openings: job.openings,
+              workSpace: job.workSpace,
+              officeLocation: job.officeLocation,
+              location: job.location,
+              skills: job.skills,
+              pay: job.pay,
+              description: markdownToDraft(job.description),
+            }}
+            id={id}
+          />
+        </div>
       </div>
       <p className="ms-auto mt-[-10px] flex items-center gap-1 text-sm text-foreground/60">
         <ClockIcon /> 1 day ago

@@ -17,9 +17,13 @@ export interface IJob {
     rate: string;
   };
   href?: string;
+  category: string;
   applicants?: [];
   createdAt: string;
   status: string;
+  officeLocation?: string | null;
   isPaused: boolean;
+  workSpace: string;
   openings: number;
+  description: string;
 }

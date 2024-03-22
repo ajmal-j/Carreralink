@@ -32,6 +32,7 @@ export interface ICompany {
 }
 export default function DashBoard() {
   const company = useStateSelector((state) => state.company);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
@@ -50,10 +51,16 @@ export default function DashBoard() {
         Company Profile
       </h1>
       <div className="relative w-full px-3">
+        {!imageLoaded && (
+          <div className="h-[350px] animate-pulse rounded-xl bg-gray-400"></div>
+        )}
         <img
-          className="max-h-[400px] w-full  rounded-xl object-cover object-center"
+          className={`max-h-[400px] w-full rounded-xl object-cover object-center ${
+            imageLoaded ? "block" : "hidden"
+          }`}
           src={company?.coverPhoto}
           alt="cover photo"
+          onLoad={() => setImageLoaded(true)}
         />
         <span className="absolute bottom-1.5 left-4 rounded-2xl md:bottom-5 md:left-9">
           <div className="my-auto flex size-[50px] justify-center gap-3 rounded-full border border-background/10 bg-white shadow-xl md:size-[80px] ">

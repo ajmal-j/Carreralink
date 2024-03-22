@@ -139,7 +139,7 @@ export function CustomForm({
             </div>
           )}
           <div>
-            <PrimaryButton type="submit" className="mt-10 py-2.5">
+            <PrimaryButton type="submit" className="mt-7 py-2.5 font-semibold">
               {action || "submit"}
             </PrimaryButton>
           </div>
@@ -508,7 +508,6 @@ function DescriptionField({ form, name, setFocus }: IDescriptionFieldProps) {
     <FormField
       control={form.control}
       name={name}
-      defaultValue={"ajmalja"}
       render={({ field }) => (
         <FormItem>
           <FormLabel onClick={() => setFocus(name)}>Description</FormLabel>

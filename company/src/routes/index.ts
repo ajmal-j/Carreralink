@@ -7,7 +7,7 @@ import { jobController } from "../controllers/jobs/index.js";
 const company = Router();
 const jobs = Router();
 
-const companyRoutes = CompanyRoutes(company, companyController);
+const companyRoutes = CompanyRoutes(company, companyController, jobController);
 const jobsRoutes = JobRoutes(jobs, jobController);
 
 export { companyRoutes, jobsRoutes };

@@ -50,16 +50,22 @@ export function SingleJob({ job }: { job: IJob }) {
     <div className="flex items-center gap-3 rounded-sm border px-4 py-2">
       <Link href={job?.href || `/jobs/${job?.id}`} className="flex-1 ">
         <h1 className="pb-1 text-lg font-semibold">{job?.title}</h1>
-        <p className="text-sm text-foreground/70">
-          Applicant&lsquo;s : {job?.applicants?.length}
-        </p>
-        <p className="text-sm text-foreground/70">
-          Opening&lsquo;s : {job?.openings}
-        </p>
         <p className="text-sm text-foreground/70">{job?.type}</p>
         <p className="text-sm text-foreground/70">{job?.location}</p>
+        <p className="text-sm text-foreground/70">{job?.officeLocation}</p>
+        <div className="mt-1 flex gap-2">
+          <span className="rounded-full bg-green-300/30 px-2 pb-[2px] text-center text-xs text-green-500">
+            {job?.applicants?.length ?? 0} applicant&apos;s
+          </span>
+          <span className="rounded-full bg-orange-400/30 px-2 pb-[2px] text-center text-xs text-yellow-500">
+            {job?.workSpace}
+          </span>
+          <span className="rounded-full bg-red-400/30 px-2 pb-[2px] text-center text-xs text-red-500">
+            {job?.openings} openings
+          </span>
+        </div>
       </Link>
-      <div className="flex flex-col gap-1">
+      <div className="flex h-full flex-col gap-1">
         <div className="flex gap-2 ">
           <div className="flex h-full max-w-min flex-col items-start px-1">
             <span className="mt-[-6px] block text-nowrap  text-foreground/70">
@@ -91,7 +97,7 @@ export function SingleJob({ job }: { job: IJob }) {
             )}
           </div>
         </div>
-        <p className="text-end text-sm text-foreground/70">
+        <p className="mt-auto text-end text-sm text-foreground/70">
           {formatDistanceToNow(job?.createdAt || Date.now()) || "1 day ago"}
         </p>
       </div>

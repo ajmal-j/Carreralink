@@ -1,14 +1,12 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ReactNode, useState } from "react";
+import {  useState } from "react";
 import { CustomForm } from "./CusotomForm";
 import { z } from "zod";
 import { updateProfile } from "@/services/user.service";
