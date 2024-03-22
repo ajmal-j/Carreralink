@@ -9,11 +9,13 @@ export default function Search({
   state,
   onSubmit,
   defaultValue,
+  name,
 }: {
   className?: string;
   state?: boolean;
   action?: string;
   defaultValue?: string;
+  name?: string;
   onSubmit?: () => unknown;
 }) {
   return (
@@ -34,7 +36,7 @@ export default function Search({
           <MagnifyingGlassIcon className="ms-2 size-5" />
           <input
             placeholder="Search for jobs..."
-            name="q"
+            name={name ?? "q"}
             defaultValue={defaultValue}
             className="w-full bg-transparent px-2 py-2 font-montserrat text-foreground/80 outline-none ring-0 placeholder:text-sm"
           />

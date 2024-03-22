@@ -55,9 +55,12 @@ jobsSchema.set("toJSON", {
   },
 });
 
-jobsSchema.index({ title: "text", category: "text" });
-
 jobsSchema.plugin(aggregatePaginate);
+
+jobsSchema.index(
+  { title: "text", category: "text" },
+  { default_language: "english" }
+);
 
 export const JobsModel = mongoose.model<IJobs>("Jobs", jobsSchema);
 

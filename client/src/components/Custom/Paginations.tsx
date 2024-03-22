@@ -8,6 +8,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { JobFilterValues } from "@/app/(user)/jobs/page";
+import { IResponseData } from "@/types/paginateResponse";
 
 function generateSearchParam({ q, type, location }: JobFilterValues) {
   const searchParams = new URLSearchParams();
@@ -18,15 +19,7 @@ function generateSearchParam({ q, type, location }: JobFilterValues) {
 }
 
 interface PageProps {
-  options: {
-    totalDocs: number;
-    page: number;
-    totalPages: number;
-    hasPrevPage: boolean;
-    hasNextPage: boolean;
-    prevPage: number;
-    nextPage: number;
-  };
+  options: IResponseData
   defaultValues: JobFilterValues;
   path: string;
 }
@@ -36,7 +29,7 @@ export function JobPagination({ options, defaultValues, path }: PageProps) {
     options;
   const searchParams = generateSearchParam(defaultValues);
   return (
-    <Pagination className="mt-5">
+    <Pagination className="mt-10">
       <PaginationContent className="ms-auto">
         <PaginationItem>
           <PaginationPrevious

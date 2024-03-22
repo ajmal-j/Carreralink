@@ -1,3 +1,4 @@
+import NotFound from "@/components/Custom/NotFound";
 import { formatMoney } from "@/lib/utils";
 import { allCompanyJobs } from "@/services/jobs.service";
 import { IJob } from "@/types/jobs";
@@ -18,15 +19,16 @@ export default async function Jobs({
     console.log(error);
   }
   return (
-    <div className="space-y-3 px-1 pt-5">
+    <div className="mb-10 space-y-2 px-1 pt-5">
       {jobs?.map((job: IJob) => <SingleJob key={job.id} job={job} />)}
+      {!jobs?.length && <NotFound title="No jobs have been posted." />}
     </div>
   );
 }
 
 export function SingleJob({ job }: { job: IJob }) {
   return (
-    <div className="flex items-center gap-3 rounded-sm border px-4 py-2">
+    <div className="flex items-center gap-3 rounded-sm border px-4 py-2 transition-all duration-200 hover:bg-foreground/5">
       <Link href={job?.href || `/jobs/${job?.id}`} className="flex-1 ">
         <h1 className="pb-1 text-lg font-semibold">{job?.title}</h1>
         <p className="text-sm text-foreground/70">

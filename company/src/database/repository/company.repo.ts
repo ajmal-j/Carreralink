@@ -1,9 +1,13 @@
 import { NotFoundError } from "@carreralink/common";
 import { CompanyModelType, ICompany } from "../models/company.model.js";
+import { AggregatePaginateResult } from "mongoose";
 
 interface ICompanyRepository {
   create(company: ICompany): Promise<ICompany>;
-  allCompanies(): Promise<ICompany[]>;
+  allCompanies(query: {
+    p: number;
+    q?: string;
+  }): Promise<AggregatePaginateResult<ICompany>>;
 }
 
 export class CompanyRepository implements ICompanyRepository {
@@ -16,10 +20,43 @@ export class CompanyRepository implements ICompanyRepository {
   async findByEmail(email: string): Promise<ICompany | null> {
     return await this.database.findOne({ email });
   }
-  async allCompanies(): Promise<ICompany[]> {
-    return await this.database
-      .find({})
-      .select(["name", "website", "logo", "tagline", "industry", "jobs"]);
+  async allCompanies(query: {
+    p: number;
+    q?: string;
+    search?: string;
+  }): Promise<AggregatePaginateResult<ICompany>> {
+    const options = {
+      page: query.p ?? 1,
+      limit: 10,
+    };
+
+    const aggregation = this.database.aggregate([
+      {
+        $match: {
+          ...(query?.q ? { industry: query.q } : {}),
+          ...(query?.search ? { $text: { $search: query?.search } } : {}),
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          website: 1,
+          logo: 1,
+          tagline: 1,
+          industry: 1,
+          jobs: 1,
+        },
+      },
+    ]);
+
+    const response = await this.database.aggregatePaginate(
+      aggregation,
+      options
+    );
+    const topIndustries = await this.topIndustries();
+    response["topIndustries"] = topIndustries;
+
+    return response;
   }
 
   async get(id: string): Promise<ICompany> {
@@ -73,5 +110,9 @@ export class CompanyRepository implements ICompanyRepository {
         },
       });
     return jobs;
+  }
+
+  async topIndustries(): Promise<any> {
+    return await this.database.distinct("industry");
   }
 }

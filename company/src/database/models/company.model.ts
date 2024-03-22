@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document, ObjectId } from "mongoose";
+import aggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 export interface ICompany extends Document {
   _id: ObjectId;
@@ -51,6 +52,8 @@ const companySchema: Schema = new Schema({
   },
 });
 
+companySchema.plugin(aggregatePaginate);
+
 companySchema.set("toJSON", {
   transform: function (doc, ret) {
     ret.id = ret._id;
@@ -59,6 +62,15 @@ companySchema.set("toJSON", {
   },
 });
 
+companySchema.index({
+  name: "text",
+  tagline: "text",
+  ceo: "text",
+  headquarters: "text",
+});
+
 export const CompanyModel = mongoose.model<ICompany>("Company", companySchema);
 
-export type CompanyModelType = typeof CompanyModel;
+export type CompanyModelType = typeof CompanyModel & {
+  aggregatePaginate?: any;
+};

@@ -7,10 +7,17 @@ const registerCompany = async (data: any) => {
   return response.data;
 };
 
-const allCompanies = async () => {
+const allCompanies = async (query: {
+  p: number;
+  q?: string;
+  search?: string;
+}) => {
   const url = new Server().company("all");
   const response = await axios.get(url, {
     withCredentials: true,
+    params: {
+      ...query,
+    },
   });
   return response.data;
 };
@@ -23,9 +30,12 @@ const allCompaniesSSR = async () => {
 };
 
 const getCompany = async (id: string) => {
-  const url = new Server().company("get").concat(`?id=${id}`);
+  const url = new Server().company("get");
   const response = await axios.get(url, {
     withCredentials: true,
+    params: {
+      id,
+    },
   });
   return response.data;
 };

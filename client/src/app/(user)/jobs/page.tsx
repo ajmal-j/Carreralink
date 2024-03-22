@@ -15,6 +15,7 @@ import { BackpackIcon, MixerHorizontalIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { redirect } from "next/navigation";
 import { JobPagination } from "@/components/Custom/Paginations";
+import { IResponseData } from "@/types/paginateResponse";
 
 export interface JobFilterValues {
   q?: string;
@@ -54,7 +55,7 @@ export default async function JobsList({
   const defaultValues: JobFilterValues = { q, location, type, p, sort };
 
   let jobs;
-  let options: any = {};
+  let options: IResponseData = {} as IResponseData;
   try {
     const response = await getAllJobs({
       q,
@@ -64,23 +65,10 @@ export default async function JobsList({
       sort,
     });
     jobs = response?.data?.docs;
-    const {
-      totalDocs,
-      totalPages,
-      page,
-      hasPrevPage,
-      hasNextPage,
-      prevPage,
-      nextPage,
-    } = response.data;
+    const { totalDocs, ...rest } = response.data;
     options = {
       totalDocs,
-      page,
-      totalPages,
-      hasPrevPage,
-      hasNextPage,
-      prevPage,
-      nextPage,
+      ...rest,
     };
   } catch (error) {
     console.log(error);
@@ -155,7 +143,7 @@ export default async function JobsList({
       </div>
       <JobPagination
         defaultValues={defaultValues}
-        options={{ ...options, p }}
+        options={{ ...options }}
         path="/jobs"
       />
     </div>

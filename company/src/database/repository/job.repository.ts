@@ -48,9 +48,6 @@ export class JobRepository {
             ? {
                 $text: {
                   $search: query.q,
-                  $caseSensitive: false,
-                  $language: "en",
-                  $diacriticSensitive: false,
                 },
               }
             : {}),
