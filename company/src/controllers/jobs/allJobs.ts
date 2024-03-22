@@ -4,12 +4,13 @@ import { CustomResponse } from "@carreralink/common";
 
 export default function () {
   return async (req: Request) => {
-    const { q, location, type, p } = req.query;
+    const { q, location, type, p, sort } = req.query;
     const query = {
       page: Number(p) ?? 1,
       q,
       location,
       type,
+      sort,
     } as const;
     const data = await getAllJobsUsecase.execute(query as {});
     return new CustomResponse()

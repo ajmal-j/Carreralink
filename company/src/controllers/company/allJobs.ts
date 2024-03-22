@@ -7,7 +7,7 @@ export default function () {
     const companyData = req.companyData;
     const email = companyData?.email;
     if (!email) throw new NotFoundError("Company id not found");
-    const data = await Repositories.CompanyRepository.allJobs(email);
+    const data = await Repositories.CompanyRepository.allJobsByCompany(email);
     return new CustomResponse()
       .data(data)
       .message("All Jobs.")

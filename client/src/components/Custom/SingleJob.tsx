@@ -29,7 +29,7 @@ export function SingleJob({ job }: { job: IJob }) {
         <p className="text-sm text-foreground/70">{job?.type}</p>
         <p className="text-sm text-foreground/70">{job?.location}</p>
         <p className="text-sm text-foreground/70">{job?.officeLocation}</p>
-        <div className="mt-1 flex gap-2">
+        <div className="mt-1 flex flex-wrap gap-2">
           <span className="rounded-full bg-green-300/30 px-2 pb-[2px] text-center text-xs text-green-500">
             {job?.applicants?.length ?? 0} applicant&apos;s
           </span>

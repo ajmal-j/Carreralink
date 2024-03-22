@@ -212,51 +212,32 @@ function CustomSelectField({ name, form }: IFormProps) {
             <SelectContent>
               {(field.name === "currentStatus"
                 ? ["student", "working", "job seeking", "freelancing"]
-                : field.name === "place"
+                : field.name === "category"
                   ? [
-                      "Eranakulam",
-                      "Trivandrum ",
-                      "Kozhikode",
-                      "Kannur",
-                      "Palakkad",
-                      "Malappuram",
-                      "Kottayam",
-                      "Pathanamthitta",
-                      "Alappuzha",
-                      "Kollam",
-                      "Thrissur",
-                      "Idukki",
-                      "Wayanad",
-                      "Kasaragod",
-                    ].map((place: string) =>
-                      place.concat(" , ", "Kerala", " , ", "India"),
-                    )
-                  : field.name === "category"
-                    ? [
-                        "Information Technology",
-                        "Healthcare",
-                        "Finance and Accounting",
-                        "Sales and Marketing",
-                        "Customer Service",
-                        "Education and Training",
-                        "Engineering",
-                        "Human Resources",
-                        "Administrative and Clerical",
-                        "Retail and Hospitality",
-                      ]
-                    : field.name === "workSpace"
-                      ? ["Remote", "Hybrid", "Onsite", "Co-working", "Flexible"]
-                      : field.name === "type"
-                        ? [
-                            "Internship",
-                            "Full-time",
-                            "Part-time",
-                            "Contract",
-                            "Freelance",
-                            "Temporary",
-                            "Volunteer",
-                          ]
-                        : ["Software", "Technology", "Products", "Other"]
+                      "Information Technology",
+                      "Healthcare",
+                      "Finance and Accounting",
+                      "Sales and Marketing",
+                      "Customer Service",
+                      "Education and Training",
+                      "Engineering",
+                      "Human Resources",
+                      "Administrative and Clerical",
+                      "Retail and Hospitality",
+                    ]
+                  : field.name === "workSpace"
+                    ? ["Remote", "Hybrid", "Onsite", "Co-working", "Flexible"]
+                    : field.name === "type"
+                      ? [
+                          "Internship",
+                          "Full-time",
+                          "Part-time",
+                          "Contract",
+                          "Freelance",
+                          "Temporary",
+                          "Volunteer",
+                        ]
+                      : ["Software", "Technology", "Products", "Other"]
               ).map((status: string, index: number) => (
                 <SelectItem id={index.toString()} key={index} value={status}>
                   {status}

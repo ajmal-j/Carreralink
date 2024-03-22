@@ -25,5 +25,7 @@ export function CompanyRoutes(
     VerifyCompany,
     expressCallback(jobController.updateJob)
   );
+  router.get("/jobs", VerifyCompany, expressCallback(companyController.jobs));
+  
   return router;
 }

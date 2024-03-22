@@ -51,7 +51,7 @@ export default async function JobSinglePage({
             {job.pay.rate} : ₹ {formatMoney(job.pay.minimum)} -{" "}
             {formatMoney(job.pay.maximum)}
           </p>
-          <div className="mt-1 flex gap-2">
+          <div className="mt-1 flex flex-wrap gap-2">
             <span className="rounded-full bg-green-300/30 px-2 pb-[2px] text-center text-xs text-green-500">
               {job?.applicants?.length ?? 0} applicant&apos;s
             </span>

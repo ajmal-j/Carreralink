@@ -1,13 +1,10 @@
 import { Request } from "express";
-import {
-  getCompanyDataUsecase,
-  getCompanyUsecase,
-} from "../../usecases/index.js";
+import { getCompanyDataUsecase } from "../../usecases/index.js";
 import { CustomResponse, NotFoundError } from "@carreralink/common";
 
 declare module "express" {
   export interface Request {
-    companyData: { email: string } | undefined;
+    companyData: { email: string | undefined; id: string | undefined };
   }
 }
 

@@ -1,4 +1,4 @@
-import { Server, ServerSSR } from "@/lib/server";
+import { Server } from "@/lib/server";
 import axios from "./axios.interseptor";
 
 const createJob = async (data: any) => {
@@ -8,7 +8,7 @@ const createJob = async (data: any) => {
 };
 
 const getJob = async (id: string) => {
-  const url = new ServerSSR().jobs("job");
+  const url = new Server().jobs("job");
   const response = await axios.get(url, {
     params: {
       id,
@@ -22,8 +22,9 @@ const getAllJobs = async (options: {
   type: string | undefined;
   q: string | undefined;
   p: number;
+  sort: string | undefined;
 }) => {
-  const url = new ServerSSR().jobs("allJobs");
+  const url = new Server().jobs("allJobs");
   const response = await axios.get(url, {
     params: {
       ...options,
@@ -33,7 +34,7 @@ const getAllJobs = async (options: {
 };
 
 const allCompanyJobs = async (id: string) => {
-  const url = new ServerSSR().jobs("allCompanyJobs");
+  const url = new Server().jobs("allCompanyJobs");
   const response = await axios.get(url, {
     params: {
       id,
@@ -42,4 +43,10 @@ const allCompanyJobs = async (id: string) => {
   return response.data;
 };
 
-export { createJob, getJob, getAllJobs, allCompanyJobs };
+const getAllLocations = async () => {
+  const url = new Server().jobs("allLocations");
+  const response = await axios.get(url);
+  return response.data;
+};
+
+export { createJob, getJob, getAllJobs, allCompanyJobs, getAllLocations };

@@ -1,4 +1,4 @@
-import { Server, ServerSSR } from "@/lib/server";
+import { Server } from "@/lib/server";
 import axios from "./axios.interseptor";
 
 const registerCompany = async (data: any) => {
@@ -15,7 +15,7 @@ const allCompanies = async () => {
   return response.data;
 };
 const allCompaniesSSR = async () => {
-  const url = new ServerSSR().company("all");
+  const url = new Server().company("all");
   const response = await axios.get(url, {
     withCredentials: true,
   });
@@ -47,7 +47,7 @@ const updateCompany = async (data: any) => {
 };
 
 const getAllJobsByCompanySSR = async (token: string) => {
-  const url = new ServerSSR().company("allJobs");
+  const url = new Server().company("allJobs");
   const response = await axios.get(url, {
     withCredentials: true,
     headers: {
@@ -66,6 +66,29 @@ const updateJob = async (id: string, jobData: {}) => {
   return response.data;
 };
 
+const getJobs = async (
+  token: string,
+  options: {
+    location: string | undefined;
+    type: string | undefined;
+    q: string | undefined;
+    p: number;
+  },
+) => {
+  const url = new Server().company("jobs");
+  console.log(url);
+  console.log(token);
+  const response = await axios.get(url, {
+    params: {
+      ...options,
+    },
+    headers: {
+      CompanyToken: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
 export {
   registerCompany,
   allCompanies,
@@ -75,4 +98,5 @@ export {
   updateCompany,
   allCompaniesSSR,
   updateJob,
+  getJobs,
 };

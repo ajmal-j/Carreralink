@@ -7,6 +7,7 @@ export class GetAllJobsUsecase {
     q?: string;
     location?: string;
     type?: string;
+    sort?: string;
   }) {
     return await this.JobRepository.allJobs(query);
   }

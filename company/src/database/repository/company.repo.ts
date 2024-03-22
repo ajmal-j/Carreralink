@@ -28,6 +28,12 @@ export class CompanyRepository implements ICompanyRepository {
     return company;
   }
 
+  async getId(email: string): Promise<ICompany> {
+    const company = await this.database.findOne({ email }).select("_id");
+    if (!company) throw new NotFoundError("Company not found");
+    return company;
+  }
+
   async update(email: string, company: ICompany): Promise<ICompany> {
     const updatedCompany = await this.database.findOneAndUpdate(
       { email },
@@ -56,7 +62,7 @@ export class CompanyRepository implements ICompanyRepository {
     return updatedCompany;
   }
 
-  async allJobs(email: string): Promise<any> {
+  async allJobsByCompany(email: string): Promise<any> {
     const jobs = await this.database
       .find({ email })
       .select("jobs")

@@ -12,11 +12,12 @@ import { getAllJobs } from "@/services/jobs.service";
 import { IJob } from "@/types/jobs";
 import NotFound from "@/components/Custom/NotFound";
 
-interface JobFilterValues {
+export interface JobFilterValues {
   q?: string;
   type?: string;
   location?: string;
   p?: number;
+  sort?: string;
 }
 
 function getTitle({ q, type, location }: JobFilterValues) {
@@ -41,12 +42,20 @@ interface PageProps {
     type?: string;
     location?: string;
     p?: number;
+    sort?: string;
   };
 }
+
+async function clear(formData: FormData) {
+  "use server";
+  const { path } = Object.fromEntries(formData.entries());
+  redirect(path as string);
+}
+
 export default async function JobsList({
-  searchParams: { q, location, type, p = 1 },
+  searchParams: { q, location, type, p = 1, sort },
 }: PageProps) {
-  const defaultValues: JobFilterValues = { q, location, type, p };
+  const defaultValues: JobFilterValues = { q, location, type, p, sort };
 
   let jobs;
   let options: any = {};
@@ -56,6 +65,7 @@ export default async function JobsList({
       location,
       type,
       p,
+      sort,
     });
     jobs = response?.data?.docs;
     const {
@@ -95,10 +105,21 @@ export default async function JobsList({
           <h1 className="flex text-xl font-semibold text-foreground/80">
             Filter
           </h1>
-          <JobFilterSideBar
-            defaultValues={defaultValues}
-            className="me-3 hidden lg:block"
-          />
+          <div className="hidden lg:block">
+            <JobFilterSideBar
+              path="/jobs"
+              defaultValues={defaultValues}
+              className="me-3"
+            />
+            <div className="me-3 mt-2 flex justify-start">
+              <form action={clear} className="w-full">
+                <input type="hidden" name="path" value="/jobs" />
+                <Button type="submit" variant="outline" className="w-full">
+                  clear
+                </Button>
+              </form>
+            </div>
+          </div>
           <div className="inline-block lg:hidden">
             <Dialog>
               <DialogTrigger asChild>
@@ -106,9 +127,17 @@ export default async function JobsList({
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>Edit Profile</DialogTitle>
+                  <DialogTitle>Filter</DialogTitle>
                 </DialogHeader>
-                <JobFilterSideBar defaultValues={defaultValues} />
+                <JobFilterSideBar path="/jobs" defaultValues={defaultValues} />
+                <div className="mt-2 flex">
+                  <form action={clear} className="w-full">
+                    <input type="hidden" name="path" value="/jobs" />
+                    <Button type="submit" variant="outline" className="w-full">
+                      clear
+                    </Button>
+                  </form>
+                </div>
               </DialogContent>
             </Dialog>
           </div>
@@ -121,7 +150,7 @@ export default async function JobsList({
             <SingleJob key={job.id} job={job} />
           ))}
           {!jobs.length && (
-            <span className="mt-10 flex items-center justify-center gap-2 text-2xl text-foreground/70">
+            <span className="flex items-center justify-center gap-2 pb-36 pt-10 text-2xl text-foreground/70">
               <span className="pb-1">Uh! No jobs found.</span>
               <BackpackIcon className="size-5" />
             </span>
@@ -145,10 +174,9 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import {
-  BackpackIcon,
-  MixerHorizontalIcon,
-} from "@radix-ui/react-icons";
+import { BackpackIcon, MixerHorizontalIcon } from "@radix-ui/react-icons";
+import { Button } from "@/components/ui/button";
+import { redirect } from "next/navigation";
 
 export function JobPagination({
   options,
@@ -165,14 +193,8 @@ export function JobPagination({
   };
   defaultValues: JobFilterValues;
 }) {
-  const {
-    page,
-    totalPages,
-    hasPrevPage,
-    hasNextPage,
-    prevPage,
-    nextPage,
-  } = options;
+  const { page, totalPages, hasPrevPage, hasNextPage, prevPage, nextPage } =
+    options;
   const searchParams = generateSearchParam(defaultValues);
   return (
     <Pagination className="mt-5">
