@@ -88,6 +88,11 @@ const userSlice = createSlice({
         state.user.skills = payload;
       }
     },
+    updateProfilePicState: (state, { payload }: PayloadAction<any>) => {
+      if (state.user) {
+        state.user.profile = payload;
+      }
+    },
   },
 });
 
@@ -99,5 +104,6 @@ export const {
   updateExperienceState,
   deleteExperienceState,
   addSkillsState,
+  updateProfilePicState,
 } = userSlice.actions;
 export default userSlice.reducer;

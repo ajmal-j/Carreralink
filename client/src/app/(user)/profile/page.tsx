@@ -5,8 +5,10 @@ import {
   EyeOpenIcon,
   FileIcon,
   LinkBreak2Icon,
+  PersonIcon,
   Share2Icon,
   TrashIcon,
+  UploadIcon,
   WidthIcon,
 } from "@radix-ui/react-icons";
 import SecondaryButton from "@/components/Buttons/SecondaryButton";
@@ -18,20 +20,38 @@ import { EditExperience } from "@/components/FormsAndDialog/EditExperience";
 import { EditSkill } from "@/components/FormsAndDialog/EditSkill";
 import { useDispatch } from "react-redux";
 import { useStateSelector } from "@/store";
-import { useEffect } from "react";
+import { FormEvent, FormEventHandler, useEffect, useState } from "react";
 import {
   currentUser,
   deleteEducation,
   deleteExperience,
+  updateProfilePic,
 } from "@/services/user.service";
 import {
   deleteEducationState,
   deleteExperienceState,
   setUser,
+  updateProfilePicState,
 } from "@/store/reducers/user.slice";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { toast } from "@/components/ui/use-toast";
+import { getMessage } from "@/lib/utils";
 
 export default function Profile() {
   const { isAuth, user } = useStateSelector((state) => state.user);
+  const [open, setOpen] = useState(false);
+
   const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
@@ -43,23 +63,80 @@ export default function Profile() {
       }
     })();
   }, []);
-
+  const updateProfile = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    try {
+      // @ts-expect-error
+      if (!formData.get("profile")?.name)
+        throw new Error("Please select an image");
+      const response = await updateProfilePic(formData);
+      const url = await response?.data;
+      dispatch(updateProfilePicState(url as string));
+      setOpen(false);
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: error.message,
+          variant: "destructive",
+        });
+      } else {
+        const message = getMessage(error);
+        toast({
+          title: message,
+          variant: "destructive",
+        });
+      }
+    }
+  };
   return (
     isAuth &&
     user && (
       <article className="md:px-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-3">
-            <div className="mb-1 mt-5 w-full">
-              <Image
-                src={user?.profile}
-                width={100}
-                height={100}
-                className="max-w-[100px] rounded-full object-cover object-center md:max-w-[200px]"
-                alt="Profile Image"
-              />
+            <div className="relative mb-1 mt-5 w-min">
+              <Avatar className="size-24 md:size-32">
+                <AvatarImage src={user?.profile} alt="profile" className="object-cover" />
+                <AvatarFallback>
+                  <PersonIcon className="size-5" />
+                </AvatarFallback>
+              </Avatar>
+              <Dialog open={open} onOpenChange={setOpen}>
+                <DialogTrigger asChild>
+                  <div className="absolute bottom-[-3px] right-0 cursor-pointer rounded-full border border-foreground/20 bg-background p-1 opacity-60 transition-all duration-200 hover:opacity-100">
+                    <UploadIcon className="size-5" />
+                  </div>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle className="pb-3 text-xl text-foreground/70">
+                      Edit profile
+                    </DialogTitle>
+                  </DialogHeader>
+                  <form onSubmit={updateProfile}>
+                    <div className="flex flex-col gap-1">
+                      <Label htmlFor="profile" className="pb-2 ps-1">
+                        Image
+                      </Label>
+                      <Input
+                        type="file"
+                        className="pt-3"
+                        id="profile"
+                        name="profile"
+                        accept="image/*"
+                      />
+                    </div>
+                    <div className="flex justify-end pt-4">
+                      <Button type="submit" variant="outline">
+                        <UploadIcon />
+                      </Button>
+                    </div>
+                  </form>
+                </DialogContent>
+              </Dialog>
             </div>
-            <div className="mt-auto pb-2 ps-2 text-foreground/70">
+            <div className="mt-auto w-full pb-2 ps-2 text-foreground/70">
               <h1 className="font-montserrat text-2xl capitalize text-foreground">
                 {user.username}
               </h1>

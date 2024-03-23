@@ -77,7 +77,7 @@ export default function UserHeader({ logOut }: { logOut: () => void }) {
       </div>
       <ProfileDropDown logOut={logOut}>
         <Avatar className="ms-3 cursor-pointer">
-          <AvatarImage src={user?.profile} />
+          <AvatarImage src={user?.profile} className="object-cover"  />
           <AvatarFallback>
             <PersonIcon />
           </AvatarFallback>

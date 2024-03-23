@@ -53,6 +53,11 @@ const googleLogin = async (data: any) => {
   return response.data;
 };
 
+const updateProfilePic = async (data: any) => {
+  const url = new Server().user("updateProfilePic");
+  const response = await axios.post(url, data);
+  return response.data;
+};
 export {
   currentUser,
   updateProfile,
@@ -64,4 +69,5 @@ export {
   deleteEducation,
   deleteExperience,
   googleLogin,
+  updateProfilePic,
 };

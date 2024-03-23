@@ -7,6 +7,7 @@ import BuildDeleteExperience from "./deleteExperience.js";
 import BuildAddExperience from "./addExperience.js";
 import BuildUpdateExperience from "./updateExperience.js";
 import BuildAddSkill from "./addSkill.js";
+import UpdateProfilePicBuild from "./uploadProfilePic.js";
 
 const currentUser = BuildCurrentUser();
 const updatePrimaryDetails = BuildUpdatePrimaryDetails();
@@ -17,6 +18,7 @@ const updateExperience = BuildUpdateExperience();
 const deleteEducation = BuildDeleteEducation();
 const deleteExperience = BuildDeleteExperience();
 const addSkill = BuildAddSkill();
+const updateProfilePic = UpdateProfilePicBuild();
 
 export const userController = Object.freeze({
   currentUser,
@@ -27,6 +29,7 @@ export const userController = Object.freeze({
   deleteEducation,
   addExperience,
   updateExperience,
+  updateProfilePic,
   deleteExperience,
 });
 

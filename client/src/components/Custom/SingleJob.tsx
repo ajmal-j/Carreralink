@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export function SingleJob({ job }: { job: IJob }) {
   return (
-    <div className="flex items-start gap-3 rounded-xl border px-3 py-1.5 transition-all duration-150 ease-in-out hover:bg-foreground/5">
+    <div className="flex items-start gap-3 rounded-xl px-3 py-1.5 transition-all duration-150 ease-in-out hover:bg-foreground/5">
       <Link
         href={`/companies/${job?.company?.id ?? job?.company?._id}`}
         className="mb-auto"

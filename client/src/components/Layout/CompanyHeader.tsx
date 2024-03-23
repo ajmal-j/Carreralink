@@ -28,7 +28,7 @@ export default function CompanyHeader({ logOut }: { logOut: () => void }) {
         <ThemeToggler />
         <ProfileDropDown logOut={logOut}>
           <Avatar className="cursor-pointer border">
-            <AvatarImage src={logo} alt="logo" />
+            <AvatarImage src={logo} alt="logo" className="object-cover" />
             <AvatarFallback>
               <AvatarIcon className="size-6 text-foreground/50" />
             </AvatarFallback>

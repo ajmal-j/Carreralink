@@ -1,5 +1,4 @@
 import dotenv from "dotenv";
-dotenv.config();
 import express from "express";
 import { Connect } from "./database/connection/index.js";
 import eventConsumer from "./events/consumer.js";
@@ -8,9 +7,9 @@ import cors from "cors";
 import userRoutes from "./routes/index.js";
 
 const app = express();
+dotenv.config();
 
 Connect(process.env.MONGO_URL!);
-
 app.use(
   cors({
     origin: "http://localhost:3000",

@@ -10,6 +10,7 @@ const nextConfig = {
       "placehold.co",
       "raw.githubusercontent.com",
       "lh3.googleusercontent.com",
+      "carreralink.s3.ap-south-1.amazonaws.com",
     ],
   },
 };

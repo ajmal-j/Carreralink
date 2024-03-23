@@ -13,18 +13,21 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/multer": "^1.4.11",
     "@types/node": "^20.11.25",
     "concurrently": "^8.2.2",
     "nodemon": "^3.1.0",
     "typescript": "^5.4.2"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.540.0",
     "@carreralink/common": "^1.0.23",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
     "kafkajs": "^2.2.4",
     "mongoose": "^8.2.1",
+    "multer": "^1.4.5-lts.1",
     "zod": "^3.22.4"
   }
 }

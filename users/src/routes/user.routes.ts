@@ -2,7 +2,11 @@ import { Router } from "express";
 import { IUserController } from "../controllers/index.js";
 import { expressCallback, VerifyUser } from "@carreralink/common";
 
-export default (router: any, userController: IUserController): Router => {
+export default (
+  router: any,
+  userController: IUserController,
+  imageUploader: any
+): Router => {
   router.get(
     "/current",
     VerifyUser,
@@ -47,6 +51,12 @@ export default (router: any, userController: IUserController): Router => {
     "/addSkills",
     VerifyUser,
     expressCallback(userController.addSkill)
+  );
+  router.post(
+    "/updateProfilePic",
+    VerifyUser,
+    imageUploader,
+    expressCallback(userController.updateProfilePic)
   );
   return router;
 };
