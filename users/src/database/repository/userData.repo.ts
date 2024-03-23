@@ -95,4 +95,11 @@ export class UserDataRepository implements IUserRepo {
       }
     );
   }
+
+  async updateProfilePic(email: string, profile: string) {
+    return await this.database.findOneAndUpdate(
+      { email: email },
+      { profile: profile }
+    );
+  }
 }

@@ -26,6 +26,7 @@ import { useStateSelector } from "@/store";
 import { useDispatch } from "react-redux";
 import { logout, setUser } from "@/store/reducers/user.slice";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { googleLogout } from "@react-oauth/google";
 
 export default function UserHeader({ logOut }: { logOut: () => void }) {
   const { isAuth, user } = useStateSelector((state) => state.user);
@@ -148,6 +149,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import Title from "../Custom/Title";
+import SecondaryButton from "../Buttons/SecondaryButton";
 
 export function ProfileDropDown({
   children,
@@ -194,6 +196,7 @@ export function ProfileDropDown({
                 type="submit"
                 onClick={() => {
                   localStorage.removeItem("userToken");
+                  googleLogout();
                   dispatch(logout());
                 }}
               >

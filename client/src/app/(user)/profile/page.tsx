@@ -50,16 +50,16 @@ export default function Profile() {
       <article className="md:px-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-3">
-            <div className="mb-5 w-full">
+            <div className="mb-1 mt-5 w-full">
               <Image
-                src={user.profile}
-                width={200}
-                height={200}
-                className="max-w-[130px] rounded-full object-cover object-center md:max-w-[200px]"
+                src={user?.profile}
+                width={100}
+                height={100}
+                className="max-w-[100px] rounded-full object-cover object-center md:max-w-[200px]"
                 alt="Profile Image"
               />
             </div>
-            <div className="mt-auto pb-2 text-foreground/70">
+            <div className="mt-auto pb-2 ps-2 text-foreground/70">
               <h1 className="font-montserrat text-2xl capitalize text-foreground">
                 {user.username}
               </h1>
@@ -143,6 +143,11 @@ export default function Profile() {
                 {skill}
               </PrimaryButton>
             ))}
+            {!user.skills.length && (
+              <h1 className="text-center text-foreground/70">
+                Add your skills here.
+              </h1>
+            )}
             <EditSkill defaultValues={user.skills} />
           </div>
         </div>
@@ -162,9 +167,7 @@ export default function Profile() {
           </div>
           <div className="mt-4 flex flex-col gap-5">
             {!user.experience.length && (
-              <h1 className="text-center text-foreground/70">
-                Add your experience here.
-              </h1>
+              <h1 className="text-foreground/70">Add your experience here.</h1>
             )}
             {user.experience.map((exp, index) => (
               <div key={index} className="flex gap-2">
@@ -222,9 +225,7 @@ export default function Profile() {
           </div>
           <div className="mt-4 flex flex-col gap-5">
             {!user.education.length && (
-              <h1 className="text-center text-foreground/70">
-                Add your education here.
-              </h1>
+              <h1 className="text-foreground/70">Add your education here.</h1>
             )}
             {user.education.map((edu, index) => (
               <div key={index} className="flex gap-2">

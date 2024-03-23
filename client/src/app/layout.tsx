@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/Providers/theme-provider";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
 import { StoreProvider } from "@/store/provider";
+import GoogleProvider from "@/components/Providers/google-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -22,16 +23,18 @@ export default function RootLayout({
       <body
         className={cn("min-h-screen font-sans antialiased", inter.className)}
       >
-        <StoreProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
-        </StoreProvider>
+        <GoogleProvider>
+          <StoreProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+          </StoreProvider>
+        </GoogleProvider>
         <Toaster />
       </body>
     </html>

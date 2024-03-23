@@ -9,6 +9,7 @@ import { UpdateProfileUsecase } from "./updateProile.usecase.js";
 import { UpdateExperienceUsecase } from "./updateExperience.usecase.js";
 import { DeleteExperienceUsecase } from "./deleteExperience.usecase.js";
 import { AddSkillsUsecase } from "./addSkills.usecase.js";
+import { GoogleLoginUsecase } from "./googleLogin.usecase.js";
 
 const createUserUsecase = new CreateUserUsecase(Repositories.UserDataRepo);
 const currentUserUsecase = new CurrentUserUsecase(Repositories.UserDataRepo);
@@ -32,6 +33,7 @@ const deleteExperienceUsecase = new DeleteExperienceUsecase(
   Repositories.UserDataRepo
 );
 const addSkillUsecase = new AddSkillsUsecase(Repositories.UserDataRepo);
+const googleLoginUsecase = new GoogleLoginUsecase(Repositories.UserDataRepo);
 
 export {
   createUserUsecase,
@@ -44,4 +46,5 @@ export {
   updateExperienceUsecase,
   addSkillUsecase,
   deleteExperienceUsecase,
+  googleLoginUsecase
 };

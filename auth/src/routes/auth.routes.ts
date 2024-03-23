@@ -24,6 +24,10 @@ export default (
     "/companyLogin",
     expressCallback(companyControllers.logInController)
   );
+  router.post(
+    "/googleLogin",
+    expressCallback(authControllers.googleLoginController)
+  );
 
   return router;
 };

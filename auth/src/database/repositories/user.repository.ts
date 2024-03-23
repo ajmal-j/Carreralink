@@ -1,4 +1,3 @@
-import { NotFoundError } from "@carreralink/common";
 import { IUser } from "../../entities/user.entity.js";
 import { UserModelType, IUserAuth } from "../models/user.model.js";
 
@@ -35,6 +34,6 @@ export class UserRepository implements IUserRepo {
   }
 
   async findByEmail(email: string): Promise<IUserAuth | null> {
-    return await this.database.findOne();
+    return await this.database.findOne({ email });
   }
 }

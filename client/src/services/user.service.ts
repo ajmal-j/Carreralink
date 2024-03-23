@@ -47,6 +47,11 @@ const addSkills = async (data: any) => {
   const response = await axios.post(url, data);
   return response.data;
 };
+const googleLogin = async (data: any) => {
+  const url = new Server().auth("googleLogin");
+  const response = await axios.post(url, data);
+  return response.data;
+};
 
 export {
   currentUser,
@@ -58,4 +63,5 @@ export {
   addEducation,
   deleteEducation,
   deleteExperience,
+  googleLogin,
 };

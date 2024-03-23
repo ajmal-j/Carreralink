@@ -9,6 +9,7 @@ const nextConfig = {
       "w7.pngwing.com",
       "placehold.co",
       "raw.githubusercontent.com",
+      "lh3.googleusercontent.com",
     ],
   },
 };
