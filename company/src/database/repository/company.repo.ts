@@ -99,7 +99,7 @@ export class CompanyRepository implements ICompanyRepository {
     return updatedCompany;
   }
 
-  async allJobsByCompany(email: string): Promise<any> {
+  async allJobsByCompany(email: string): Promise<ICompany[]> {
     const jobs = await this.database
       .find({ email })
       .select("jobs")
@@ -112,7 +112,68 @@ export class CompanyRepository implements ICompanyRepository {
     return jobs;
   }
 
-  async topIndustries(): Promise<any> {
+  async topIndustries(): Promise<string[]> {
     return await this.database.distinct("industry");
+  }
+
+  async verifiedCompanies(query: {
+    p: number;
+  }): Promise<AggregatePaginateResult<ICompany>> {
+    const options = {
+      page: query.p ?? 1,
+      limit: 10,
+    };
+
+    const aggregation = this.database.aggregate([
+      {
+        $match: { isVerified: true },
+      },
+      {
+        $project: {
+          name: 1,
+          website: 1,
+          logo: 1,
+          tagline: 1,
+          industry: 1,
+          jobs: 1,
+        },
+      },
+    ]);
+
+    const response = await this.database.aggregatePaginate(
+      aggregation,
+      options
+    );
+    return response;
+  }
+  async unverifiedCompanies(query: {
+    p: number;
+  }): Promise<AggregatePaginateResult<ICompany>> {
+    const options = {
+      page: query.p ?? 1,
+      limit: 10,
+    };
+
+    const aggregation = this.database.aggregate([
+      {
+        $match: { isVerified: false },
+      },
+      {
+        $project: {
+          name: 1,
+          website: 1,
+          logo: 1,
+          tagline: 1,
+          industry: 1,
+          jobs: 1,
+        },
+      },
+    ]);
+
+    const response = await this.database.aggregatePaginate(
+      aggregation,
+      options
+    );
+    return response;
   }
 }

@@ -2,6 +2,7 @@ import BackButton from "@/components/Buttons/BackButton";
 import Markdown from "@/components/Custom/Markdown";
 import NotFound from "@/components/Custom/NotFound";
 import EditJobDialogue from "@/components/FormsAndDialog/EditJob";
+import DashboardWrapper from "@/components/Layout/DashboardWrapper";
 import { formatMoney } from "@/lib/utils";
 import { getJob } from "@/services/jobs.service";
 import { IJob } from "@/types/jobs";
@@ -31,7 +32,7 @@ export default async function JobSinglePage({
   }
 
   return (
-    <main className="mx-auto mb-6 flex h-full w-full max-w-[900px] flex-col gap-3 px-4">
+    <DashboardWrapper>
       <span className="mb-5 flex items-center justify-start">
         <BackButton />
         <h1 className="pb-1 ps-2 text-xl md:text-3xl">{job.title}</h1>
@@ -114,6 +115,6 @@ export default async function JobSinglePage({
         <h1 className="mb-4 text-2xl font-semibold">Job Description : </h1>
         <Markdown>{job.description}</Markdown>
       </article>
-    </main>
+    </DashboardWrapper>
   );
 }

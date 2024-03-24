@@ -1,3 +1,5 @@
+import DashboardWrapper from "@/components/Layout/DashboardWrapper";
+
 export default function Admin() {
-  return <div>Admin</div>;
+  return <DashboardWrapper title="Dashboard">Admin</DashboardWrapper>;
 }

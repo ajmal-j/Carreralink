@@ -24,7 +24,7 @@ interface PageProps {
   path: string;
 }
 
-export function JobPagination({ options, defaultValues, path }: PageProps) {
+export function PaginationComponent({ options, defaultValues, path }: PageProps) {
   const { page, totalPages, hasPrevPage, hasNextPage, prevPage, nextPage } =
     options;
   const searchParams = generateSearchParam(defaultValues);

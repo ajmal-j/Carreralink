@@ -5,7 +5,9 @@ import { CreateCompanyUsecase } from "./company/createCompany.usecase.js";
 import { GetCompanyUsecase } from "./company/getCompany.usecase.js";
 import { GetCompanyDataUsecase } from "./company/getData.usecase.js";
 import { GetJobsUsecase } from "./company/jobs.js";
+import { UnverifiedCompaniesUsecase } from "./company/unverifiedCompanies.usecase.js";
 import { UpdateCompanyUsecase } from "./company/updateCompany.usecase.js";
+import { VerifiedCompaniesUsecase } from "./company/verifiedCompanies.usecase.js";
 import { EditJobUsecase } from "./jobs/EditJob.js";
 import { GetAllJobsUsecase } from "./jobs/allJobs.usecase.js";
 import { GetAllCompanyJobsUsecase } from "./jobs/companiesAllJobs.js";
@@ -41,6 +43,12 @@ const getAllCompanyJobsUsecase = new GetAllCompanyJobsUsecase(
 const updateJobUsecase = new EditJobUsecase(Repositories.JobRepository);
 const getJobsUsecase = new GetJobsUsecase(Repositories.JobRepository);
 const getLocationsUsecase = new GetLocationsUsecase(Repositories.JobRepository);
+const verifiedCompaniesUsecase = new VerifiedCompaniesUsecase(
+  Repositories.CompanyRepository
+);
+const unverifiedCompaniesUsecase = new UnverifiedCompaniesUsecase(
+  Repositories.CompanyRepository
+);
 
 export {
   createCompanyUsecase,
@@ -55,4 +63,6 @@ export {
   updateJobUsecase,
   getJobsUsecase,
   getLocationsUsecase,
+  verifiedCompaniesUsecase,
+  unverifiedCompaniesUsecase,
 };

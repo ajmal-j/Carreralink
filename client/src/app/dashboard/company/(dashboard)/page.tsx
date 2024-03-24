@@ -3,11 +3,12 @@
 import Markdown from "@/components/Custom/Markdown";
 import Separator from "@/components/Custom/Separator";
 import { EditCompanyProfile } from "@/components/FormsAndDialog/EditCompanyProfile";
+import DashboardWrapper from "@/components/Layout/DashboardWrapper";
 import { useStateSelector } from "@/store";
 import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import { markdownToDraft } from "markdown-draft-js";
 import Image from "next/image";
-import {  useState } from "react";
+import { useState } from "react";
 
 export interface ICompany {
   id: string;
@@ -33,10 +34,7 @@ export default function DashBoard() {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
-    <article className="mx-auto flex h-full w-full max-w-[900px] flex-col gap-3 ">
-      <h1 className="sticky top-[5.08rem] z-30 mb-6 bg-background py-3 ps-3 text-xl text-foreground/70 ">
-        Company Profile
-      </h1>
+    <DashboardWrapper title="Profile" >
       <div className="relative w-full px-3">
         {!imageLoaded && (
           <div className="h-[350px] animate-pulse rounded-xl bg-gray-400"></div>
@@ -170,6 +168,6 @@ export default function DashBoard() {
           <Markdown>{company?.description as string}</Markdown>
         </div>
       </div>
-    </article>
+    </DashboardWrapper>
   );
 }

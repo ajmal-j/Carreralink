@@ -1,7 +1,8 @@
 import PrimaryButton from "@/components/Buttons/PrimaryButton";
-import { JobPagination } from "@/components/Custom/Paginations";
+import { PaginationComponent } from "@/components/Custom/Paginations";
 import Search from "@/components/FormsAndDialog/Search";
 import { allCompanies } from "@/services/company.service";
+import { ICompany } from "@/types/company";
 import { IResponseData } from "@/types/paginateResponse";
 import {
   ArrowRightIcon,
@@ -11,16 +12,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-interface ICompany {
-  name: string;
-  logo: string;
-  id: number;
-  _id?: number;
-  website: string;
-  tagline: string;
-  jobs: [];
-  industry: string;
-}
+
 
 export default async function Companies({
   searchParams: { p = 1, q, search },
@@ -132,7 +124,7 @@ export default async function Companies({
               </div>
             ))}
         </div>
-        <JobPagination
+        <PaginationComponent
           defaultValues={defaultValues}
           options={{ ...options }}
           path="/companies"

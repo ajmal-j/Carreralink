@@ -17,7 +17,7 @@ export default function layout({ children }: { children: ReactNode }) {
     <>
       {kookie ? (
         <div className="h-full min-h-screen">
-          <CompanyHeader token={kookie} logOut={logOut} />
+          <CompanyHeader logOut={logOut} />
           <div className="flex min-h-svh divide-x-2 divide-foreground/10 lg:px-10">
             <DashboardSideBar
               items={[

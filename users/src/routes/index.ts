@@ -2,13 +2,17 @@ import { Router } from "express";
 import BuildUserRoutes from "./user.routes.js";
 import { userController } from "../controllers/index.js";
 import { upload } from "../middlewares/uploadImage.js";
+import BuildAdminRoutes from "./admin.routes.js";
 
-const router = Router();
+let userRouter = Router();
+let adminRouter = Router();
 
-const routes = BuildUserRoutes(
-  router,
+userRouter = BuildUserRoutes(
+  userRouter,
   userController,
   upload.single("profile")
 );
 
-export default routes;
+adminRouter = BuildAdminRoutes(adminRouter);
+
+export { userRouter, adminRouter };

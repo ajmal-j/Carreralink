@@ -4,7 +4,7 @@ import { Connect } from "./database/connection/index.js";
 import eventConsumer from "./events/consumer.js";
 import { errorMiddleware } from "@carreralink/common";
 import cors from "cors";
-import userRoutes from "./routes/index.js";
+import { adminRouter, userRouter } from "./routes/index.js";
 
 const app = express();
 dotenv.config();
@@ -23,7 +23,8 @@ app.get("/api/v1/users/check", (_, res) => {
   res.send(`Users server is up and running`);
 });
 
-app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/users/admin", adminRouter);
+app.use("/api/v1/users", userRouter);
 
 app.all("*", (req, res) => {
   res.send(`${req.originalUrl} not found in users server.`);

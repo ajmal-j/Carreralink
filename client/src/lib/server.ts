@@ -11,6 +11,10 @@ export class Server {
     const user = `${typeof window !== "undefined" ? "localhost" : "users-container"}:5000/api/v1/users`;
     return `${this.baseUrl}${user}/${path}`;
   }
+  admin(path: string) {
+    const user = `${typeof window !== "undefined" ? "localhost" : "users-container"}:5000/api/v1/users/admin`;
+    return `${this.baseUrl}${user}/${path}`;
+  }
   company(path: string) {
     const company = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/companies`;
     return `${this.baseUrl}${company}/${path}`;

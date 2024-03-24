@@ -14,14 +14,14 @@ import NotFound from "@/components/Custom/NotFound";
 import { BackpackIcon, MixerHorizontalIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { redirect } from "next/navigation";
-import { JobPagination } from "@/components/Custom/Paginations";
+import { PaginationComponent } from "@/components/Custom/Paginations";
 import { IResponseData } from "@/types/paginateResponse";
 
 export interface JobFilterValues {
   q?: string;
   type?: string;
   location?: string;
-  p?: number;
+  p?: number | string;
   sort?: string;
 }
 
@@ -141,7 +141,7 @@ export default async function JobsList({
           )}
         </div>
       </div>
-      <JobPagination
+      <PaginationComponent
         defaultValues={defaultValues}
         options={{ ...options }}
         path="/jobs"

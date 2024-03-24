@@ -19,6 +19,7 @@ export interface ICompany extends Document {
   recruiters: string[];
   jobs: ObjectId[];
   coverPhoto: string | null;
+  isVerified: boolean;
 }
 
 const companySchema: Schema = new Schema({
@@ -29,6 +30,7 @@ const companySchema: Schema = new Schema({
     default:
       "https://raw.githubusercontent.com/ajmal-j/Weather-app-with-ums/master/client/public/companyPlaceHolder.png",
   },
+  isVerified: { type: Boolean, default: false },
   tagline: { type: String },
   email: { type: String },
   industry: { type: String },

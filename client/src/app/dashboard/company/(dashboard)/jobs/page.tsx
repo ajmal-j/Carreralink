@@ -25,7 +25,8 @@ import JobFilterSideBar from "@/components/Layout/JobFilterSideBar";
 import NotFound from "@/components/Custom/NotFound";
 import { JobFilterValues } from "@/app/(user)/jobs/page";
 import { Button } from "@/components/ui/button";
-import { JobPagination } from "@/components/Custom/Paginations";
+import { PaginationComponent } from "@/components/Custom/Paginations";
+import DashboardWrapper from "@/components/Layout/DashboardWrapper";
 
 interface PageProps {
   searchParams: {
@@ -83,7 +84,7 @@ export default async function JobsPage({
   }
 
   return (
-    <article className="mx-auto flex h-full w-full max-w-[900px] flex-col gap-3 px-4">
+    <DashboardWrapper>
       <div className="sticky top-[5.08rem] z-30 mb-6 flex justify-between bg-background py-3 ps-3 text-xl text-foreground/70">
         <span>Job&apos;s</span>
         <Link href="/dashboard/company/jobs/new">
@@ -164,12 +165,12 @@ export default async function JobsPage({
           )}
         </div>
       </div>
-      <JobPagination
+      <PaginationComponent
         defaultValues={defaultValues}
         options={{ ...options, p }}
         path="/dashboard/company/jobs"
       />
-    </article>
+    </DashboardWrapper>
   );
 }
 
