@@ -97,7 +97,7 @@ export default async function Layout({ params: { id }, children }: IPage) {
           <h1 className="w-full text-xl">{company.headquarters}</h1>
         </span>
       </div>
-      <CompanyProfileNav id={id} data={company}>
+      <CompanyProfileNav route="/companies" id={id} data={company}>
         {children}
       </CompanyProfileNav>
     </article>

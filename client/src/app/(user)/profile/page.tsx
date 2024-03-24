@@ -376,7 +376,7 @@ const UpdateProfile = ({
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="pb-3 text-xl text-foreground/70">
-            Edit profile
+            Update profile
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={updateProfile}>

@@ -10,25 +10,6 @@ import { markdownToDraft } from "markdown-draft-js";
 import Image from "next/image";
 import { useState } from "react";
 
-export interface ICompany {
-  id: string;
-  name: string;
-  website: string;
-  logo: string;
-  tagline: string;
-  email: string;
-  industry: string;
-  foundedOn: number;
-  imageOfCEO: string;
-  description: string;
-  ceo: string;
-  revenue: string;
-  headquarters: string;
-  size: string;
-  recruiters: string[];
-  jobs: string[];
-  coverPhoto: string;
-}
 export default function DashBoard() {
   const company = useStateSelector((state) => state.company);
   const [imageLoaded, setImageLoaded] = useState(false);

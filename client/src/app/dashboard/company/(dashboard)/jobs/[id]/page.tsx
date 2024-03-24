@@ -104,7 +104,7 @@ export default async function JobSinglePage({
             </span>
             {job.skills.map((skill: string, index: number) => (
               <li
-                className="flex max-w-[200px] flex-grow cursor-pointer items-center justify-center rounded-full border border-foreground/40 px-4 py-1.5 text-sm capitalize transition-all duration-150 hover:bg-foreground/10 lg:text-base "
+                className="flex max-w-[200px] flex-grow cursor-pointer items-center justify-center rounded-full border border-foreground/20 px-4 py-1 text-sm capitalize transition-all duration-150 hover:bg-foreground/10 lg:text-base "
                 key={index}
               >
                 {skill}

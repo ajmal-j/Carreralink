@@ -7,9 +7,10 @@ interface IPage {
   children: ReactNode;
   id: string;
   data: any;
+  route: string;
 }
 
-export default function CompanyProfileNav({ children, id }: IPage) {
+export default function CompanyProfileNav({ children, id, route }: IPage) {
   const pathname = usePathname();
   const pathComp = pathname.substring(pathname.indexOf("companies")).split("/");
   if (pathComp.length === 2) {
@@ -20,14 +21,14 @@ export default function CompanyProfileNav({ children, id }: IPage) {
     <main className="mt-7">
       <nav className="my-3">
         <ul className="flex justify-evenly">
-          <Link href={`/dashboard/admin/companies/${id}`} scroll={false}>
+          <Link href={`${route}/${id}`} scroll={false}>
             <li
               className={`cursor-pointer rounded-full ${path === "/" ? "bg-primaryColor text-white" : "bg-transparent text-foreground"} px-4 py-1 font-semibold `}
             >
               Snapshot
             </li>
           </Link>
-          <Link href={`/dashboard/admin/companies/${id}/jobs`} scroll={false}>
+          <Link href={`${route}/${id}/jobs`} scroll={false}>
             <li
               className={`cursor-pointer rounded-full ${path === "jobs" ? "bg-primaryColor text-white" : "bg-transparent text-foreground"} px-4 py-1 font-semibold `}
             >

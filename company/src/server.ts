@@ -29,6 +29,7 @@ app.use("/api/v1/companies/admin", adminRoutes);
 app.use("/api/v1/companies", companyRoutes);
 
 app.all("*", (req, res) => {
+  console.log(req.url);
   res.send(`${req.originalUrl} not found in company server.`);
 });
 

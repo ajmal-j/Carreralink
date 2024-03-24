@@ -16,7 +16,7 @@ import { useDispatch } from "react-redux";
 import { Pencil2Icon } from "@radix-ui/react-icons";
 import { RawDraftContentState } from "react-draft-wysiwyg";
 import { updateCompany } from "@/services/company.service";
-import { setState } from "@/store/reducers/company.slice";
+import { setCompany } from "@/store/reducers/company.slice";
 
 interface ICompanyProfile {
   defaultValues: {
@@ -88,7 +88,7 @@ export function EditCompanyProfile({ defaultValues }: ICompanyProfile) {
         toast({
           title: "Profile updated successfully",
         });
-        dispatch(setState(data?.data));
+        dispatch(setCompany(data?.data));
       }
       setOpen(false);
     } catch (error) {

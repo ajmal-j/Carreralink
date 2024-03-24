@@ -67,13 +67,13 @@ export default async function Companies({
           Showing {options?.totalDocs ?? 0} companies
         </h4>
         <div className="flex flex-col gap-2">
-          {!!companies.length &&
-            companies.map((company) => (
+          {!!companies?.length &&
+            companies?.map((company) => (
               <div
                 key={company.id}
                 className="flex gap-3 rounded-xl border px-2 py-2 transition-all duration-150 hover:bg-foreground/5"
               >
-                <Link href={`/companies/${company?._id}`} scroll>
+                <Link href={`/companies/${company?._id ?? company?.id}`} scroll>
                   <div className="my-auto flex size-[50px] justify-center gap-3 rounded-full border bg-white md:size-[80px] ">
                     <Image
                       className="rounded-full object-contain object-center"
@@ -86,7 +86,7 @@ export default async function Companies({
                 </Link>
                 <div className="flex flex-1 flex-col gap-[1px]  md:ms-2">
                   <span className="flex items-center gap-2">
-                    <Link href={`/companies/${company.id}`}>
+                    <Link href={`/companies/${company?._id ?? company?.id}`}>
                       <h2 className="text-xl font-semibold hover:underline">
                         {company.name}
                       </h2>

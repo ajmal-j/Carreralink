@@ -86,10 +86,10 @@ export default async function JobsList({
       />
       <div className="mt-7 flex flex-col gap-3 lg:flex-row">
         <div className="flex min-w-full justify-between lg:block lg:min-w-[260px]">
-          <h1 className="flex text-xl font-semibold text-foreground/80">
-            Filter
-          </h1>
-          <div className="hidden lg:block">
+          <div className="sticky top-8 hidden lg:block">
+            <h1 className="flex text-xl font-semibold text-foreground/80">
+              Filter
+            </h1>
             <JobFilterSideBar
               path="/jobs"
               defaultValues={defaultValues}

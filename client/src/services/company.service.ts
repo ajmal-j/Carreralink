@@ -105,6 +105,7 @@ const getJobs = async (
       CompanyToken: `Bearer ${token}`,
     },
   });
+  console.log(response.data, "---------------------------------------->");
   return response.data;
 };
 

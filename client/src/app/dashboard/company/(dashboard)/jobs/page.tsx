@@ -99,10 +99,10 @@ export default async function JobsPage({
       <Search defaultValue={defaultValues?.q} />
       <div className="mt-7 flex flex-col gap-3 lg:flex-row">
         <div className="flex min-w-full justify-between lg:block lg:min-w-[260px]">
-          <h1 className="flex text-xl font-semibold text-foreground/80">
-            Filter
-          </h1>
-          <div className="hidden lg:block">
+          <div className="sticky top-36 hidden lg:block">
+            <h1 className="flex text-xl font-semibold text-foreground/80">
+              Filter
+            </h1>
             <JobFilterSideBar
               path="/dashboard/company/jobs"
               defaultValues={defaultValues}
@@ -176,7 +176,7 @@ export default async function JobsPage({
 
 export function SingleJob({ job }: { job: IJob }) {
   return (
-    <div className="flex flex-col items-center gap-x-3 gap-y-5 rounded-sm border px-4 py-2 sm:flex-row">
+    <div className="flex flex-col items-center gap-x-3 gap-y-5 rounded-sm px-4 py-2 transition-all duration-200 hover:bg-foreground/5 sm:flex-row">
       <Link
         href={job?.href || `/dashboard/company/jobs/${job?.id ?? job?._id}`}
         className="flex-1 place-self-start"

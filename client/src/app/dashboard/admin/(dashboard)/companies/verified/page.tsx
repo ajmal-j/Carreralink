@@ -42,7 +42,10 @@ export default async function Companies({
               key={company.id}
               className="flex gap-3 rounded-xl border px-2 py-2 transition-all duration-150 hover:bg-foreground/5"
             >
-              <Link href={`/companies/${company?._id}`} scroll>
+              <Link
+                href={`/dashboard/admin/companies/${company?._id ?? company?.id}`}
+                scroll
+              >
                 <div className="my-auto flex size-[50px] justify-center gap-3 rounded-full border bg-white md:size-[80px] ">
                   <Image
                     className="rounded-full object-contain object-center"
@@ -55,7 +58,9 @@ export default async function Companies({
               </Link>
               <div className="flex flex-1 flex-col gap-[1px]  md:ms-2">
                 <span className="flex items-center gap-2">
-                  <Link href={`/companies/${company.id}`}>
+                  <Link
+                    href={`/dashboard/admin/companies/${company?._id ?? company?.id}`}
+                  >
                     <h2 className="text-xl font-semibold">{company.name}</h2>
                   </Link>
                   <Link target="_blank" href={company.website}>
@@ -72,7 +77,9 @@ export default async function Companies({
                   Open jobs:{" "}
                   <span className="text-foreground">{company.jobs.length}</span>
                 </span>
-                <Link href={`/companies/${company?._id}/jobs`}>
+                <Link
+                  href={`/dashboard/admin/companies/${company?._id ?? company?.id}/jobs`}
+                >
                   <PrimaryButton className="w-min px-3">
                     <span className="flex items-center justify-center  gap-1 ps-0 md:ps-2">
                       <span className="hidden md:block">Jobs</span>{" "}

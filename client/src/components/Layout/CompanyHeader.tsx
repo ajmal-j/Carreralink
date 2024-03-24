@@ -26,8 +26,8 @@ export default function CompanyHeader({ logOut }: { logOut: () => void }) {
   useEffect(() => {
     (async () => {
       try {
-        const data = await getCompanyData();
-        dispatch(setCompany(data.data));
+        const response = await getCompanyData();
+        dispatch(setCompany(response.data));
       } catch (error) {
         console.log(error);
       }
