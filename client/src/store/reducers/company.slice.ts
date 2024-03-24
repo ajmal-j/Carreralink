@@ -44,7 +44,7 @@ const companySlice = createSlice({
   name: "company",
   initialState,
   reducers: {
-    setState: (state, action: PayloadAction<ICompany>) => {
+    setCompany: (state, action: PayloadAction<ICompany>) => {
       state = action.payload;
       return state;
     },
@@ -55,6 +55,6 @@ const companySlice = createSlice({
   },
 });
 
-export const { setState, logout } = companySlice.actions;
+export const { setCompany, logout } = companySlice.actions;
 
 export default companySlice.reducer;

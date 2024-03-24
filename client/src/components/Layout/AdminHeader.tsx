@@ -11,23 +11,25 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { logout, setCompany } from "@/store/reducers/company.slice";
+import { logout } from "@/store/reducers/company.slice";
 import { AvatarIcon } from "@radix-ui/react-icons";
 import Title from "../Custom/Title";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { ThemeToggler } from "../Buttons/theme-toggler";
 import { useStateSelector } from "@/store";
 import { useEffect } from "react";
-import { getCompanyData } from "@/services/company.service";
+import { currentAdmin } from "@/services/user.service";
+import { setAdmin } from "@/store/reducers/admin.slice";
 
-export default function CompanyHeader({ logOut }: { logOut: () => void }) {
-  const { logo } = useStateSelector((state) => state.company);
+export default function AdminHeader({ logOut }: { logOut: () => void }) {
+  const { admin } = useStateSelector((state) => state.admin);
+
   const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
       try {
-        const data = await getCompanyData();
-        dispatch(setCompany(data.data));
+        const data = await currentAdmin();
+        dispatch(setAdmin(data?.data));
       } catch (error) {
         console.log(error);
       }
@@ -40,7 +42,11 @@ export default function CompanyHeader({ logOut }: { logOut: () => void }) {
         <ThemeToggler />
         <ProfileDropDown logOut={logOut}>
           <Avatar className="cursor-pointer border">
-            <AvatarImage src={logo} alt="logo" className="object-cover" />
+            <AvatarImage
+              src={admin?.profile}
+              alt="logo"
+              className="object-cover"
+            />
             <AvatarFallback>
               <AvatarIcon className="size-6 text-foreground/50" />
             </AvatarFallback>
@@ -60,11 +66,12 @@ export function ProfileDropDown({
 }) {
   const { push } = useRouter();
   const dispatch = useDispatch();
+  const { admin } = useStateSelector((state) => state.admin);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
       <DropdownMenuContent className="mt-3 w-48" align="end">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel>{admin?.username || "My Account"}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           {/* <DropdownMenuItem onClick={() => push("/profile")}>
@@ -72,8 +79,8 @@ export function ProfileDropDown({
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
           </DropdownMenuItem> */}
         </DropdownMenuGroup>
-        <DropdownMenuItem onClick={() => push("/dashboard/company")}>
-          Company Dashboard
+        <DropdownMenuItem onClick={() => push("/dashboard/admin")}>
+          Admin Dashboard
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="ms-auto mt-5 flex w-min items-center justify-end text-nowrap">
@@ -82,7 +89,7 @@ export function ProfileDropDown({
               className="text-sm"
               type="submit"
               onClick={() => {
-                localStorage.removeItem("companyToken");
+                localStorage.removeItem("adminToken");
                 setTimeout(() => {
                   dispatch(logout());
                 }, 3000);

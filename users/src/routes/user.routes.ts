@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { IUserController } from "../controllers/index.js";
-import { expressCallback, VerifyUser } from "@carreralink/common";
+import { expressCallback, VerifyAdmin, VerifyUser } from "@carreralink/common";
 
 export default (
   router: any,
@@ -8,9 +8,14 @@ export default (
   imageUploader: any
 ): Router => {
   router.get(
-    "/current",
+    "/currentUser",
     VerifyUser,
     expressCallback(userController.currentUser)
+  );
+  router.get(
+    "/currentAdmin",
+    VerifyAdmin,
+    expressCallback(userController.currentAdmin)
   );
   router.patch(
     "/updateProfile",

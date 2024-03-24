@@ -8,7 +8,7 @@ import { ReactNode } from "react";
 export const logOut = async () => {
   "use server";
   cookies().delete("companyToken");
-  redirect("/dashboard/login");
+  redirect("/dashboard/company/login");
 };
 
 export default function layout({ children }: { children: ReactNode }) {
@@ -17,7 +17,7 @@ export default function layout({ children }: { children: ReactNode }) {
     <>
       {kookie ? (
         <div className="h-full min-h-screen">
-          <CompanyHeader logOut={logOut} />
+          <CompanyHeader token={kookie} logOut={logOut} />
           <div className="flex min-h-svh divide-x-2 divide-foreground/10 lg:px-10">
             <DashboardSideBar
               items={[
@@ -30,7 +30,7 @@ export default function layout({ children }: { children: ReactNode }) {
                   title: "Job Listing",
                   icon: <BackpackIcon className="size-[17px]" />,
                   href: "/dashboard/company/jobs",
-                }
+                },
               ]}
               logOut={logOut}
             />
@@ -38,7 +38,7 @@ export default function layout({ children }: { children: ReactNode }) {
           </div>
         </div>
       ) : (
-        redirect("/dashboard/login")
+        redirect("/dashboard/company/login")
       )}
     </>
   );

@@ -32,7 +32,6 @@ export default function UserHeader({ logOut }: { logOut: () => void }) {
   const { isAuth, user } = useStateSelector((state) => state.user);
 
   const dispatch = useDispatch();
-  const [visible, setVisible] = useState(false);
   const pathname = usePathname();
   useEffect(() => {
     (async () => {
@@ -43,10 +42,6 @@ export default function UserHeader({ logOut }: { logOut: () => void }) {
         console.log(error);
       }
     })();
-    const timeout = setTimeout(() => {
-      setVisible(true);
-    }, 1000);
-    return () => clearTimeout(timeout);
   }, []);
 
   return (
@@ -77,7 +72,7 @@ export default function UserHeader({ logOut }: { logOut: () => void }) {
       </div>
       <ProfileDropDown logOut={logOut}>
         <Avatar className="ms-3 cursor-pointer">
-          <AvatarImage src={user?.profile} className="object-cover"  />
+          <AvatarImage src={user?.profile} className="object-cover" />
           <AvatarFallback>
             <PersonIcon />
           </AvatarFallback>
@@ -149,7 +144,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import Title from "../Custom/Title";
-import SecondaryButton from "../Buttons/SecondaryButton";
 
 export function ProfileDropDown({
   children,

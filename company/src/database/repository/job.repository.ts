@@ -25,7 +25,7 @@ export class JobRepository {
   ) {
     const options = {
       page: query?.page ?? 1,
-      limit: 10,
+      limit: 6,
     };
 
     const sortOptions = {
@@ -44,15 +44,16 @@ export class JobRepository {
       {
         $match: {
           ...(companyId ? { company: new ObjectId(companyId) } : {}),
+          ...(query?.location ? { officeLocation: query.location } : {}),
+          ...(query?.type ? { workSpace: query.type } : {}),
           ...(query?.q
             ? {
                 $text: {
                   $search: query.q,
+                  $caseSensitive: false,
                 },
               }
             : {}),
-          ...(query?.location ? { officeLocation: query.location } : {}),
-          ...(query?.type ? { workSpace: query.type } : {}),
         },
       },
       {

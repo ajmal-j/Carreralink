@@ -9,21 +9,20 @@ interface IRequestUser extends IUser {
 
 declare module "express" {
   export interface Request {
-    user: IRequestUser | undefined;
     adminData: IRequestUser | undefined;
   }
 }
 
-export const BuildCurrentUser = () => {
+export default function () {
   return async (req: Request) => {
-    const userData = req?.user;
-    if (!userData) throw new UnauthorizedError("User not authenticated");
-    const user = await currentUserUsecase.execute(userData.email);
+    const adminData = req?.adminData;
+    if (!adminData) throw new UnauthorizedError("Admin not authenticated");
+    const user = await currentUserUsecase.execute(adminData.email);
 
     return new CustomResponse()
-      .message("User Data.")
+      .message("Admin Data.")
       .statusCode(200)
       .data(user)
       .response();
   };
-};
+}

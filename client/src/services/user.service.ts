@@ -2,7 +2,12 @@ import { Server } from "../lib/server";
 import axios from "./axios.interseptor";
 
 const currentUser = async () => {
-  const url = new Server().user("current");
+  const url = new Server().user("currentUser");
+  const response = await axios.get(url);
+  return response.data;
+};
+const currentAdmin = async () => {
+  const url = new Server().user("currentAdmin");
   const response = await axios.get(url);
   return response.data;
 };
@@ -70,4 +75,5 @@ export {
   deleteExperience,
   googleLogin,
   updateProfilePic,
+  currentAdmin,
 };

@@ -1,5 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
-import Image from "next/image";
+
 import {
   BackpackIcon,
   EyeOpenIcon,
@@ -20,7 +21,7 @@ import { EditExperience } from "@/components/FormsAndDialog/EditExperience";
 import { EditSkill } from "@/components/FormsAndDialog/EditSkill";
 import { useDispatch } from "react-redux";
 import { useStateSelector } from "@/store";
-import { FormEvent, FormEventHandler, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import {
   currentUser,
   deleteEducation,
@@ -36,11 +37,11 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -73,6 +74,9 @@ export default function Profile() {
       const response = await updateProfilePic(formData);
       const url = await response?.data;
       dispatch(updateProfilePicState(url as string));
+      toast({
+        title: "Profile updated successfully",
+      });
       setOpen(false);
     } catch (error) {
       if (error instanceof Error) {
@@ -97,44 +101,20 @@ export default function Profile() {
           <div className="flex flex-wrap items-center gap-3">
             <div className="relative mb-1 mt-5 w-min">
               <Avatar className="size-24 md:size-32">
-                <AvatarImage src={user?.profile} alt="profile" className="object-cover" />
+                <AvatarImage
+                  src={user?.profile}
+                  alt="profile"
+                  className="object-cover"
+                />
                 <AvatarFallback>
                   <PersonIcon className="size-5" />
                 </AvatarFallback>
               </Avatar>
-              <Dialog open={open} onOpenChange={setOpen}>
-                <DialogTrigger asChild>
-                  <div className="absolute bottom-[-3px] right-0 cursor-pointer rounded-full border border-foreground/20 bg-background p-1 opacity-60 transition-all duration-200 hover:opacity-100">
-                    <UploadIcon className="size-5" />
-                  </div>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
-                  <DialogHeader>
-                    <DialogTitle className="pb-3 text-xl text-foreground/70">
-                      Edit profile
-                    </DialogTitle>
-                  </DialogHeader>
-                  <form onSubmit={updateProfile}>
-                    <div className="flex flex-col gap-1">
-                      <Label htmlFor="profile" className="pb-2 ps-1">
-                        Image
-                      </Label>
-                      <Input
-                        type="file"
-                        className="pt-3"
-                        id="profile"
-                        name="profile"
-                        accept="image/*"
-                      />
-                    </div>
-                    <div className="flex justify-end pt-4">
-                      <Button type="submit" variant="outline">
-                        <UploadIcon />
-                      </Button>
-                    </div>
-                  </form>
-                </DialogContent>
-              </Dialog>
+              <UpdateProfile
+                open={open}
+                setOpen={setOpen}
+                updateProfile={updateProfile}
+              />
             </div>
             <div className="mt-auto w-full pb-2 ps-2 text-foreground/70">
               <h1 className="font-montserrat text-2xl capitalize text-foreground">
@@ -369,3 +349,67 @@ export default function Profile() {
     )
   );
 }
+
+const UpdateProfile = ({
+  open,
+  setOpen,
+  updateProfile,
+}: {
+  open: boolean;
+  setOpen: any;
+  updateProfile: (e: FormEvent<HTMLFormElement>) => void;
+}) => {
+  const [image, setImage] = useState<Blob | undefined>();
+  return (
+    <Dialog
+      open={open}
+      onOpenChange={() => {
+        setImage(undefined);
+        setOpen(!open);
+      }}
+    >
+      <DialogTrigger asChild>
+        <div className="absolute bottom-[-3px] right-0 cursor-pointer rounded-full border border-foreground/20 bg-background p-1 opacity-60 transition-all duration-200 hover:opacity-100">
+          <UploadIcon className="size-5" />
+        </div>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle className="pb-3 text-xl text-foreground/70">
+            Edit profile
+          </DialogTitle>
+        </DialogHeader>
+        <form onSubmit={updateProfile}>
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="profile" className="pb-2 ps-1">
+              Image
+            </Label>
+            <Input
+              type="file"
+              className="pt-3"
+              id="profile"
+              name="profile"
+              accept="image/*"
+              onChange={(e) => {
+                if (e.target.files) {
+                  setImage(e.target.files[0]);
+                }
+              }}
+            />
+            {image && (
+              <img
+                src={image ? URL.createObjectURL(image) : ""}
+                className="mx-auto mb-1 mt-3 w-[200px] rounded-xl object-cover"
+              />
+            )}
+          </div>
+          <div className="flex justify-end pt-4">
+            <Button type="submit" variant="outline">
+              <UploadIcon />
+            </Button>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};

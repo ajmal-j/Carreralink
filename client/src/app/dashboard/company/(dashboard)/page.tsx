@@ -3,14 +3,12 @@
 import Markdown from "@/components/Custom/Markdown";
 import Separator from "@/components/Custom/Separator";
 import { EditCompanyProfile } from "@/components/FormsAndDialog/EditCompanyProfile";
-import { getCompanyData } from "@/services/company.service";
 import { useStateSelector } from "@/store";
-import { setState } from "@/store/reducers/company.slice";
-import { ExternalLinkIcon, Pencil2Icon } from "@radix-ui/react-icons";
+import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import { markdownToDraft } from "markdown-draft-js";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import {  useState } from "react";
+
 export interface ICompany {
   id: string;
   name: string;
@@ -33,17 +31,6 @@ export interface ICompany {
 export default function DashBoard() {
   const company = useStateSelector((state) => state.company);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    (async () => {
-      try {
-        const data = await getCompanyData();
-        dispatch(setState(data.data));
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
 
   return (
     <article className="mx-auto flex h-full w-full max-w-[900px] flex-col gap-3 ">

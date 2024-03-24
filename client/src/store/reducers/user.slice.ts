@@ -52,8 +52,10 @@ const userSlice = createSlice({
         state.user = null;
         return;
       }
+      const { profile, ...user } = payload;
       state.isAuth = true;
-      state.user = payload;
+      // @ts-ignore
+      state.user = user;
     },
     logout: (state) => {
       state.isAuth = false;
