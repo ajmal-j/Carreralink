@@ -10,9 +10,8 @@ const getVerifiedCompanies = async ({
     p?: number | string;
   };
 }) => {
-  const url = new Server().company("verifiedCompanies");
+  const url = new Server().adminCompany("verifiedCompanies");
   const response = await axios.get(url, {
-    withCredentials: true,
     headers: {
       adminToken: `Bearer ${token}`,
     },
@@ -31,9 +30,8 @@ const getUnverifiedCompanies = async ({
     p?: number | string;
   };
 }) => {
-  const url = new Server().company("unverifiedCompanies");
+  const url = new Server().adminCompany("unverifiedCompanies");
   const response = await axios.get(url, {
-    withCredentials: true,
     headers: {
       adminToken: `Bearer ${token}`,
     },
@@ -44,4 +42,38 @@ const getUnverifiedCompanies = async ({
   return response.data;
 };
 
-export { getVerifiedCompanies, getUnverifiedCompanies };
+const verifyCompany = async ({ token, id }: { token: string; id: string }) => {
+  const url = new Server().adminCompany("verifyCompany");
+  const response = await axios.post(
+    url,
+    {},
+    {
+      headers: {
+        adminToken: `Bearer ${token}`,
+      },
+      params: {
+        id,
+      },
+    },
+  );
+  return response.data;
+};
+const rejectCompany = async ({ token, id }: { token: string; id: string }) => {
+  const url = new Server().adminCompany("rejectCompany");
+  const response = await axios.delete(url, {
+    headers: {
+      adminToken: `Bearer ${token}`,
+    },
+    params: {
+      id,
+    },
+  });
+  return response.data;
+};
+
+export {
+  getVerifiedCompanies,
+  getUnverifiedCompanies,
+  verifyCompany,
+  rejectCompany,
+};

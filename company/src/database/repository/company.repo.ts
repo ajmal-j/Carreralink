@@ -33,6 +33,7 @@ export class CompanyRepository implements ICompanyRepository {
     const aggregation = this.database.aggregate([
       {
         $match: {
+          isVerified: true,
           ...(query?.q ? { industry: query.q } : {}),
           ...(query?.search ? { $text: { $search: query?.search } } : {}),
         },
@@ -135,6 +136,8 @@ export class CompanyRepository implements ICompanyRepository {
           logo: 1,
           tagline: 1,
           industry: 1,
+          isVerified: 1,
+          email: 1,
           jobs: 1,
         },
       },
@@ -165,6 +168,8 @@ export class CompanyRepository implements ICompanyRepository {
           logo: 1,
           tagline: 1,
           industry: 1,
+          email: 1,
+          isVerified: 1,
           jobs: 1,
         },
       },
@@ -175,5 +180,22 @@ export class CompanyRepository implements ICompanyRepository {
       options
     );
     return response;
+  }
+
+  async confirmVerification(id: string) {
+    return await this.database.findOneAndUpdate(
+      { _id: id },
+      { isVerified: true }
+    );
+  }
+
+  async rejectVerification(id: string) {
+    return await this.database.findOneAndDelete({ _id: id });
+  }
+
+  async isVerified(email: string) {
+    const company = await this.findByEmail(email);
+    if (!company) throw new NotFoundError("Company not found");
+    return company?.isVerified;
   }
 }

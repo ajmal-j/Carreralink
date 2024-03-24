@@ -79,7 +79,7 @@ export function ProfileDropDown({
         <DropdownMenuItem className="ms-auto mt-5 flex w-min items-center justify-end text-nowrap">
           <form action={logOut}>
             <button
-              className="text-sm"
+              className="rounded-full bg-red-500/20 px-3 py-1 text-sm text-red-500"
               type="submit"
               onClick={() => {
                 localStorage.removeItem("companyToken");

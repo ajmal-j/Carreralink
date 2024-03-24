@@ -3,6 +3,7 @@ import Separator from "@/components/Custom/Separator";
 import { getCompany } from "@/services/company.service";
 import { ICompany } from "@/store/reducers/company.slice";
 
+
 export default async function Page({
   params: { id },
 }: {

@@ -1,5 +1,4 @@
 import { Repositories } from "../database/index.js";
-import { JobRepository } from "../database/repository/job.repository.js";
 import { AllCompaniesUsecase } from "./company/allCompanies.usecase.js";
 import { CreateCompanyUsecase } from "./company/createCompany.usecase.js";
 import { GetCompanyUsecase } from "./company/getCompany.usecase.js";
@@ -14,6 +13,9 @@ import { GetAllCompanyJobsUsecase } from "./jobs/companiesAllJobs.js";
 import { CreateJobUsecase } from "./jobs/create.js";
 import { GetJobByIdUsecase } from "./jobs/getJobById.usecase.js";
 import { GetLocationsUsecase } from "./jobs/getLocations.js";
+import { RejectCompanyUsecase } from "./admin/rejectCompany.usecase.js";
+import { VerifyCompanyUsecase } from "./admin/verifyCompany.usecase.js";
+import { IsVerifiedUsecase } from "./company/isVerified.js";
 
 const createCompanyUsecase = new CreateCompanyUsecase(
   Repositories.CompanyRepository
@@ -49,6 +51,14 @@ const verifiedCompaniesUsecase = new VerifiedCompaniesUsecase(
 const unverifiedCompaniesUsecase = new UnverifiedCompaniesUsecase(
   Repositories.CompanyRepository
 );
+const verifyCompanyUsecase = new VerifyCompanyUsecase(
+  Repositories.CompanyRepository
+);
+const rejectCompanyUsecase = new RejectCompanyUsecase(
+  Repositories.CompanyRepository
+);
+
+const isVerifiedUsecase = new IsVerifiedUsecase(Repositories.CompanyRepository);
 
 export {
   createCompanyUsecase,
@@ -65,4 +75,7 @@ export {
   getLocationsUsecase,
   verifiedCompaniesUsecase,
   unverifiedCompaniesUsecase,
+  verifyCompanyUsecase,
+  rejectCompanyUsecase,
+  isVerifiedUsecase,
 };

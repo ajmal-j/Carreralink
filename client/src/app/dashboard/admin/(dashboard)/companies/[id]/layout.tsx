@@ -1,11 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
+import BackButton from "@/components/Buttons/BackButton";
 import NotFound from "@/components/Custom/NotFound";
 import CompanyProfileNav from "@/components/Layout/CompanyProfileNav";
 import { getCompany } from "@/services/company.service";
 import { ICompany } from "@/store/reducers/company.slice";
 import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 
 interface IPage {
   params: {
@@ -24,9 +25,12 @@ export default async function Layout({ params: { id }, children }: IPage) {
     console.log(error);
   }
   return company === null ? (
-    <NotFound title="Company not found" />
+    <NotFound title="Something went wrong." />
   ) : (
-    <article className="flex flex-col gap-3">
+    <article className="mb-10 flex flex-col gap-3">
+      <div className="ps-3">
+        <BackButton />
+      </div>
       <div className="relative w-full px-3">
         <img
           className="max-h-[400px] w-full  rounded-xl object-cover object-center"

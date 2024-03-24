@@ -12,8 +12,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-
-
 export default async function Companies({
   searchParams: { p = 1, q, search },
 }: {
@@ -86,13 +84,12 @@ export default async function Companies({
                     />
                   </div>
                 </Link>
-                <Link
-                  href={`/companies/${company?._id}`}
-                  className="flex flex-1 flex-col gap-[1px]  md:ms-2"
-                >
+                <div className="flex flex-1 flex-col gap-[1px]  md:ms-2">
                   <span className="flex items-center gap-2">
                     <Link href={`/companies/${company.id}`}>
-                      <h2 className="text-xl font-semibold">{company.name}</h2>
+                      <h2 className="text-xl font-semibold hover:underline">
+                        {company.name}
+                      </h2>
                     </Link>
                     <Link target="_blank" href={company.website}>
                       <ExternalLinkIcon className="cursor-pointer hover:text-blue-400" />
@@ -104,7 +101,7 @@ export default async function Companies({
                   <span className="w-min rounded-full border border-foreground/60 px-1.5 pb-[1.5px] text-xs text-foreground/80">
                     {company.industry}
                   </span>
-                </Link>
+                </div>
                 <div className="flex flex-col items-end justify-center gap-3">
                   <span className="text-sm text-foreground/70">
                     Open jobs:{" "}

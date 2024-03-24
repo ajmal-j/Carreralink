@@ -11,10 +11,15 @@ export function CompanyRoutes(
   companyController: ICompanyController,
   jobController: IJobController
 ) {
-  
   router.get("/all", expressCallback(companyController.allCompanies));
 
   router.get("/get", expressCallback(companyController.get));
+
+  router.get(
+    "/isVerified",
+    VerifyCompany,
+    expressCallback(companyController.isVerified)
+  );
 
   router.get("/data", VerifyCompany, expressCallback(companyController.data));
 
@@ -37,17 +42,6 @@ export function CompanyRoutes(
   );
 
   router.get("/jobs", VerifyCompany, expressCallback(companyController.jobs));
-
-  router.get(
-    "/verifiedCompanies",
-    VerifyAdmin,
-    expressCallback(companyController.verifiedCompanies)
-  );
-  router.get(
-    "/unverifiedCompanies",
-    VerifyAdmin,
-    expressCallback(companyController.unverifiedCompanies)
-  );
 
   return router;
 }

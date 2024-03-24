@@ -19,17 +19,21 @@ function generateSearchParam({ q, type, location }: JobFilterValues) {
 }
 
 interface PageProps {
-  options: IResponseData
+  options: IResponseData;
   defaultValues: JobFilterValues;
   path: string;
 }
 
-export function PaginationComponent({ options, defaultValues, path }: PageProps) {
+export function PaginationComponent({
+  options,
+  defaultValues,
+  path,
+}: PageProps) {
   const { page, totalPages, hasPrevPage, hasNextPage, prevPage, nextPage } =
     options;
   const searchParams = generateSearchParam(defaultValues);
   return (
-    <Pagination className="mt-10">
+    <Pagination className="mb-10 mt-10">
       <PaginationContent className="ms-auto">
         <PaginationItem>
           <PaginationPrevious

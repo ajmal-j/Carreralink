@@ -76,6 +76,16 @@ const updateJob = async (id: string, jobData: {}) => {
   return response.data;
 };
 
+const isVerified = async (token: string) => {
+  const url = new Server().company("isVerified");
+  const response = await axios.get(url, {
+    headers: {
+      CompanyToken: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
 const getJobs = async (
   token: string,
   options: {
@@ -87,8 +97,6 @@ const getJobs = async (
   },
 ) => {
   const url = new Server().company("jobs");
-  console.log(url);
-  console.log(token);
   const response = await axios.get(url, {
     params: {
       ...options,
@@ -110,4 +118,5 @@ export {
   allCompaniesSSR,
   updateJob,
   getJobs,
+  isVerified,
 };

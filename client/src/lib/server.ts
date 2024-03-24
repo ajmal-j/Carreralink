@@ -11,8 +11,12 @@ export class Server {
     const user = `${typeof window !== "undefined" ? "localhost" : "users-container"}:5000/api/v1/users`;
     return `${this.baseUrl}${user}/${path}`;
   }
-  admin(path: string) {
+  adminUser(path: string) {
     const user = `${typeof window !== "undefined" ? "localhost" : "users-container"}:5000/api/v1/users/admin`;
+    return `${this.baseUrl}${user}/${path}`;
+  }
+  adminCompany(path: string) {
+    const user = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/companies/admin`;
     return `${this.baseUrl}${user}/${path}`;
   }
   company(path: string) {
