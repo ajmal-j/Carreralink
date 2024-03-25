@@ -1,16 +1,17 @@
 import { Repositories } from "../database/index.js";
-import { AddEducationUsecase } from "./addEducation.usecase.js";
-import { AddExperienceUsecase } from "./addExperience.usecase.js";
-import { CreateUserUsecase } from "./createUser.usecase.js";
-import { CurrentUserUsecase } from "./currentUser.usecase.js";
-import { DeleteEducationUsecase } from "./deleteEducation.usecase.js";
-import { UpdateEducationUsecase } from "./updateEducation.js";
-import { UpdateProfileUsecase } from "./updateProile.usecase.js";
-import { UpdateExperienceUsecase } from "./updateExperience.usecase.js";
-import { DeleteExperienceUsecase } from "./deleteExperience.usecase.js";
-import { AddSkillsUsecase } from "./addSkills.usecase.js";
-import { GoogleLoginUsecase } from "./googleLogin.usecase.js";
-import { UpdateProfilePicUsecase } from "./updateProfilePic.usecase.js";
+import { AddEducationUsecase } from "./users/addEducation.usecase.js";
+import { AddExperienceUsecase } from "./users/addExperience.usecase.js";
+import { CreateUserUsecase } from "./users/createUser.usecase.js";
+import { CurrentUserUsecase } from "./users/currentUser.usecase.js";
+import { DeleteEducationUsecase } from "./users/deleteEducation.usecase.js";
+import { UpdateEducationUsecase } from "./users/updateEducation.js";
+import { UpdateProfileUsecase } from "./users/updateProile.usecase.js";
+import { UpdateExperienceUsecase } from "./users/updateExperience.usecase.js";
+import { DeleteExperienceUsecase } from "./users/deleteExperience.usecase.js";
+import { AddSkillsUsecase } from "./users/addSkills.usecase.js";
+import { GoogleLoginUsecase } from "./users/googleLogin.usecase.js";
+import { UpdateProfilePicUsecase } from "./users/updateProfilePic.usecase.js";
+import { GetUsersUsecase } from "./admin/getUsers.usecase.js";
 
 const createUserUsecase = new CreateUserUsecase(Repositories.UserDataRepo);
 const currentUserUsecase = new CurrentUserUsecase(Repositories.UserDataRepo);
@@ -39,6 +40,8 @@ const updateProfilePicUsecase = new UpdateProfilePicUsecase(
   Repositories.UserDataRepo
 );
 
+const getUsersUsecase = new GetUsersUsecase(Repositories.UserDataRepo);
+
 export {
   createUserUsecase,
   currentUserUsecase,
@@ -52,4 +55,5 @@ export {
   deleteExperienceUsecase,
   googleLoginUsecase,
   updateProfilePicUsecase,
+  getUsersUsecase,
 };

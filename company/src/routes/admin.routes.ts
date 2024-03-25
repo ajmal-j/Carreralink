@@ -22,10 +22,7 @@ export function AdminRoutes(router: any, adminController: IAdminController) {
 
   router.post("/addCategories", expressCallback(adminController.addCategory));
   router.post("/addSkills", expressCallback(adminController.addSkills));
-  router.get(
-    "/getSkillsAndCategories",
-    expressCallback(adminController.getSkillsAndCategories)
-  );
+
   router.delete(
     "/removeCategory",
     expressCallback(adminController.removeCategory)

@@ -1,7 +1,6 @@
 import { CustomResponse, UnauthorizedError } from "@carreralink/common";
 import { Request } from "express";
-import { IUser } from "../entities/userData.entity.js";
-import { updateProfileUsecase } from "../usecases/index.js";
+import { updateEducationUsecase } from "../../usecases/index.js";
 
 export default function () {
   return async (req: Request) => {
@@ -9,7 +8,7 @@ export default function () {
     if (!userData) throw new UnauthorizedError("User not authenticated");
     const data = req.body;
     const email = userData.email;
-    const user = await updateProfileUsecase.execute(email, data);
+    const user = await updateEducationUsecase.execute(email, data);
     return new CustomResponse()
       .message("Updated")
       .statusCode(201)

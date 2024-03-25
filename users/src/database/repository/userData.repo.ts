@@ -14,6 +14,29 @@ export class UserDataRepository implements IUserRepo {
     return await this.database.create(userData);
   }
 
+  async getUsers(query: { p: number }) {
+    const options = {
+      page: query?.p ?? 1,
+      limit: 10,
+    };
+
+    const aggregation = this.database.aggregate([
+      {
+        $project: {
+          username: 1,
+          email: 1,
+          jobs: 1,
+          isBlocked: 1,
+        },
+      },
+    ]);
+    const response = await this.database.aggregatePaginate(
+      aggregation,
+      options
+    );
+    return response;
+  }
+
   async findByEmail(email: string): Promise<IUserData | null> {
     return await this.database.findOne({ email });
   }

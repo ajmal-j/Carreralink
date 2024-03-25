@@ -1,5 +1,5 @@
 import { NotFoundError } from "@carreralink/common";
-import { UserDataRepository } from "../database/repository/userData.repo.js";
+import { UserDataRepository } from "../../database/repository/userData.repo.js";
 
 export class AddSkillsUsecase {
   constructor(private readonly userDataRepo: UserDataRepository) {}

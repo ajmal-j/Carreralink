@@ -9,20 +9,35 @@ import {
 } from "@/components/ui/breadcrumb";
 import { usePathname } from "next/navigation";
 
-export function Breadcrumbs() {
+export function Breadcrumbs({
+  className,
+  home,
+}: {
+  className?: string;
+  home?: {
+    href: string;
+    label: string;
+  };
+}) {
   const buildBreadcrumbs = (pathname: any) => {
     const segments = pathname.split("/").filter(Boolean);
     return (
       <BreadcrumbList>
-        <BreadcrumbItem className={`${pathname === "/" && "hidden"}`}>
-          <BreadcrumbLink href="/">Home</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator className={`${pathname === "/" && "hidden"}`} />
+        {home && (
+          <>
+            <BreadcrumbItem className={`${pathname === "/" && "hidden"}`}>
+              <BreadcrumbLink href="/">{home.label}</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator
+              className={`${pathname === home.href && "hidden"}`}
+            />
+          </>
+        )}
         {segments.map((segment: any, index: number) => {
           const href = `/${segments.slice(0, index + 1).join("/")}`;
           const isCurrentPage = index === segments.length - 1;
           return (
-            <BreadcrumbItem key={index}>
+            <BreadcrumbItem key={index} className="capitalize">
               {isCurrentPage ? (
                 <BreadcrumbPage>
                   {segment.length > 20 ? segment.slice(0, 20) + "..." : segment}
@@ -41,7 +56,7 @@ export function Breadcrumbs() {
   };
 
   return (
-    <Breadcrumb className="ms-3 mt-7">
+    <Breadcrumb className={className}>
       {buildBreadcrumbs(usePathname())}
     </Breadcrumb>
   );

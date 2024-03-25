@@ -34,12 +34,12 @@ export default function DashboardSideBar({ items, logOut }: IPage) {
   return (
     <>
       <div className="hidden w-[35%] min-w-[200px] max-w-[320px] pe-1 lg:block ">
-        <div className="sticky h-full overflow-y-scroll max-h-[85vh] top-28 flex w-full flex-col items-center gap-5 pb-10 pe-2">
+        <div className="sticky top-28 flex h-full max-h-[85vh] w-full flex-col items-center gap-5 overflow-y-scroll pb-10 pe-2">
           {items.map(({ href, icon, title }, indx) => (
             <Link
               key={indx}
               href={href}
-              className={`flex w-full items-center justify-between gap-3 rounded-[16px] bg-gradient-to-r text-white ${pathname === href || pathname.split("/").slice(0, 4).join("/") === href ? "from-primaryColor from-60% to-violet-400 font-semibold shadow-lg shadow-foreground/20" : "from-secondaryColor  from-70% to-violet-800/90 opacity-80"} py-2.5 pe-2 ps-3 hover:opacity-90 `}
+              className={`flex w-full items-center justify-between gap-3 rounded-[16px] bg-gradient-to-r text-white ${pathname === href || pathname.split("/").slice(0, 4).join("/") === href ? "from-primaryColor from-60% to-violet-400 font-semibold shadow-lg shadow-foreground/20" : ""} py-2.5 pe-2 ps-3 hover:opacity-90 `}
             >
               <div className="flex items-center gap-3">
                 <span>{icon}</span>
@@ -83,7 +83,7 @@ export function MobileNav({ items, pathname, logOut }: IMobileNav) {
               key={indx}
               href={href}
               onClick={() => setOpen(false)}
-              className={`flex w-full items-center justify-between gap-3 rounded-[16px] bg-gradient-to-r text-white ${pathname === href || pathname.split("/").slice(0, 4).join("/") === href ? "from-primaryColor from-60% to-violet-400 font-semibold shadow-lg shadow-foreground/20" : "from-secondaryColor  from-70% to-violet-800/90 opacity-80"} py-2 pe-2 ps-3 hover:opacity-90 `}
+              className={`flex w-full items-center justify-between gap-3 rounded-[16px] bg-gradient-to-r text-white ${pathname === href || pathname.split("/").slice(0, 4).join("/") === href ? "from-primaryColor from-60% to-violet-400 font-semibold shadow-lg shadow-foreground/20" : ""} py-2 pe-2 ps-3 hover:opacity-90 `}
             >
               <div className="flex items-center gap-3">
                 <span>{icon}</span>

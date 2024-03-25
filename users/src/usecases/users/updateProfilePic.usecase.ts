@@ -1,5 +1,5 @@
 import { NotFoundError } from "@carreralink/common";
-import { IUserDataRepo } from "../database/index.js";
+import { IUserDataRepo } from "../../database/index.js";
 
 export class UpdateProfilePicUsecase {
   constructor(private userDataRepo: IUserDataRepo) {}

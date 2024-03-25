@@ -1,11 +1,11 @@
 import { Request } from "express";
-import { uploadToS3 } from "../lib/s3Bucket.js";
+import { uploadToS3 } from "../../lib/s3Bucket.js";
 import {
   BadRequestError,
   CustomResponse,
   NotFoundError,
 } from "@carreralink/common";
-import { updateProfilePicUsecase } from "../usecases/index.js";
+import { updateProfilePicUsecase } from "../../usecases/index.js";
 
 export default function () {
   return async (req: Request) => {

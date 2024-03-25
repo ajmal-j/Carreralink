@@ -1,4 +1,4 @@
-import { IUserDataRepo } from "../database/index.js";
+import { IUserDataRepo } from "../../database/index.js";
 
 export class GoogleLoginUsecase {
   constructor(private readonly UserDataRepo: IUserDataRepo) {}

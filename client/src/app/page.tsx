@@ -5,8 +5,11 @@ import { ThreeDCard } from "@/components/LandingPage/ThreeDCard";
 import { SparklesTitle } from "@/components/LandingPage/SparklingTitle";
 import { InfiniteMovingCard } from "@/components/LandingPage/MovingCards";
 import Search from "@/components/FormsAndDialog/Search";
+import { getSkillsAndCategories } from "@/services/company.service";
 
-export default function Home() {
+export default async function Home() {
+  const response = await getSkillsAndCategories();
+  const { skills, category = [] } = response?.data[0];
   return (
     <Wrapper>
       <Main className="relative">
@@ -27,7 +30,7 @@ export default function Home() {
           <span className="block pb-3 pt-10 text-center text-2xl">
             Popular Job Categorie&apos;s
           </span>
-          <InfiniteMovingCard />
+          <InfiniteMovingCard categories={category.slice(0, 10)} />
           <SparklesTitle />
           <ThreeDCard />
         </article>

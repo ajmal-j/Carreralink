@@ -92,7 +92,7 @@ export function AddCategory({
           )}
           {newCategory.map((category: string, index: number) => (
             <div key={index} className="relative">
-              <PrimaryButton className="w-min px-3">{category}</PrimaryButton>
+              <PrimaryButton className="text-nowrap px-3">{category}</PrimaryButton>
               <span>
                 <CrossCircledIcon
                   onClick={() =>

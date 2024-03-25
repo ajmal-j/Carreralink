@@ -105,7 +105,12 @@ const getJobs = async (
       CompanyToken: `Bearer ${token}`,
     },
   });
-  console.log(response.data, "---------------------------------------->");
+  return response.data;
+};
+
+const getSkillsAndCategories = async () => {
+  const url = new Server().company("getSkillsAndCategories");
+  const response = await axios.get(url);
   return response.data;
 };
 
@@ -119,5 +124,6 @@ export {
   allCompaniesSSR,
   updateJob,
   getJobs,
+  getSkillsAndCategories,
   isVerified,
 };

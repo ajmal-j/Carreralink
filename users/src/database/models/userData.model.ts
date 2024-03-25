@@ -1,10 +1,12 @@
 import mongoose, { Schema, Document, ObjectId } from "mongoose";
+import aggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 export interface IUserData extends Document {
   _id: ObjectId;
   profile: string;
   email: string;
   currentStatus: string | null;
+  isBlocked: boolean;
   interviews: String | null;
   education: {
     institution: string;
@@ -76,6 +78,7 @@ const userSchema: Schema = new Schema(
     portfolioLink: { type: String },
     skills: [{ type: String }],
     savedJobs: [{ type: String }],
+    isBlocked: { type: Boolean, default: false },
     messages: [{ type: Schema.Types.ObjectId, ref: "messages" }],
     applied: [
       {
@@ -102,6 +105,15 @@ const userSchema: Schema = new Schema(
   }
 );
 
+userSchema.plugin(aggregatePaginate);
+
+userSchema.index(
+  { username: "text", email: "text" },
+  { default_language: "english" }
+);
+
 export const UserDataModel = mongoose.model<IUserData>("User", userSchema);
 
-export type UserDataModelType = typeof UserDataModel;
+export type UserDataModelType = typeof UserDataModel & {
+  aggregatePaginate: any;
+};

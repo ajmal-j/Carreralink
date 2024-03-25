@@ -1,6 +1,6 @@
 import { CustomError } from "@carreralink/common";
-import { IUserDataRepo } from "../database/index.js";
-import { IUser, User } from "../entities/userData.entity.js";
+import { IUserDataRepo } from "../../database/index.js";
+import { IUser, User } from "../../entities/userData.entity.js";
 
 export class CreateUserUsecase {
   constructor(private readonly UserDataRepo: IUserDataRepo) {}

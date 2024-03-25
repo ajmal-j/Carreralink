@@ -4,7 +4,7 @@ import {
   UnauthorizedError,
 } from "@carreralink/common";
 import { Request } from "express";
-import { deleteExperienceUsecase } from "../usecases/index.js";
+import { deleteExperienceUsecase } from "../../usecases/index.js";
 
 export default function () {
   return async (req: Request) => {

@@ -19,6 +19,7 @@ import { ThemeToggler } from "../Buttons/theme-toggler";
 import { useStateSelector } from "@/store";
 import { useEffect } from "react";
 import { getCompanyData } from "@/services/company.service";
+import { Breadcrumbs } from "./BreadCrums";
 
 export default function CompanyHeader({ logOut }: { logOut: () => void }) {
   const { logo } = useStateSelector((state) => state.company);
@@ -35,7 +36,10 @@ export default function CompanyHeader({ logOut }: { logOut: () => void }) {
   }, []);
   return (
     <div className="sticky top-0 z-20 flex items-center justify-between border-b bg-background px-2 py-5 md:px-10 ">
-      <Title className=" text-xl font-semibold" />
+      <div className="flex flex-col items-center gap-1 md:flex-row md:gap-3">
+        <Title className="me-auto text-xl font-semibold md:me-0" />
+        <Breadcrumbs className="ps-2 md:border-s" />
+      </div>
       <div className="flex items-center gap-3">
         <ThemeToggler />
         <ProfileDropDown logOut={logOut}>

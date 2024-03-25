@@ -6,11 +6,6 @@ const currentUser = async () => {
   const response = await axios.get(url);
   return response.data;
 };
-const currentAdmin = async () => {
-  const url = new Server().user("currentAdmin");
-  const response = await axios.get(url);
-  return response.data;
-};
 
 const updateProfile = async (data: any) => {
   const url = new Server().user("updateProfile");
@@ -75,5 +70,4 @@ export {
   deleteExperience,
   googleLogin,
   updateProfilePic,
-  currentAdmin,
 };

@@ -11,7 +11,7 @@ export class SkillsAndCategoryRepository {
   async addSkills(data: string[]) {
     return await this.database.updateOne(
       {},
-      { $push: { skills: { $each: data } } },
+      { $addToSet: { skills: { $each: data } } },
       { upsert: true }
     );
   }
@@ -19,7 +19,7 @@ export class SkillsAndCategoryRepository {
   async addCategory(data: string[]) {
     return await this.database.updateOne(
       {},
-      { $push: { category: { $each: data } } },
+      { $addToSet: { category: { $each: data } } },
       { upsert: true }
     );
   }

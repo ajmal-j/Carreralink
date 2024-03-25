@@ -40,6 +40,10 @@ export function CompanyRoutes(
     VerifyCompany,
     expressCallback(jobController.updateJob)
   );
+  router.get(
+    "/getSkillsAndCategories",
+    expressCallback(companyController.getSkillsAndCategories)
+  );
 
   router.get("/jobs", VerifyCompany, expressCallback(companyController.jobs));
 

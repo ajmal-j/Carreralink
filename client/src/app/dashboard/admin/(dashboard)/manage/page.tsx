@@ -15,11 +15,8 @@ import { useEffect, useState } from "react";
 import { AddSkill } from "./AddSkills";
 import { AddCategory } from "./AddCategory";
 import { toast } from "@/components/ui/use-toast";
-import {
-  getSkillsAndCategories,
-  removeCategory,
-  removeSkill,
-} from "@/services/admin.service";
+import { removeCategory, removeSkill } from "@/services/admin.service";
+import { getSkillsAndCategories } from "@/services/company.service";
 
 export default function Mange() {
   const [skills, setSkills] = useState<string[]>([]);
@@ -168,7 +165,9 @@ export default function Mange() {
                     <CrossCircledIcon className="absolute right-[-4px] top-[-4px] hidden size-5 cursor-pointer rounded-full  bg-background text-red-500 group-hover:block" />
                   </PopoverTrigger>
                   <PopoverContent align="start" className="flex flex-col gap-2">
-                    <Label>Are you sure you want to remove this skill?</Label>
+                    <Label>
+                      Are you sure you want to remove this category?
+                    </Label>
                     <div className="ms-auto space-x-1">
                       <Button
                         onClick={async () => {

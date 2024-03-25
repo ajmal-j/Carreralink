@@ -1,6 +1,6 @@
 import { CustomResponse, UnauthorizedError } from "@carreralink/common";
 import { Request } from "express";
-import { addEducationUsecase } from "../usecases/index.js";
+import { addEducationUsecase } from "../../usecases/index.js";
 
 export default function () {
   return async (req: Request) => {

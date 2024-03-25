@@ -91,7 +91,9 @@ export function AddSkill({
           )}
           {newSkills.map((skill: string, index: number) => (
             <div key={index} className="relative">
-              <PrimaryButton className="w-min px-3">{skill}</PrimaryButton>
+              <PrimaryButton className="text-nowrap px-3">
+                {skill}
+              </PrimaryButton>
               <span>
                 <CrossCircledIcon
                   onClick={() =>

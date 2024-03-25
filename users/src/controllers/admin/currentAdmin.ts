@@ -1,7 +1,7 @@
 import { Request } from "express";
-import { IUser } from "../entities/userData.entity.js";
+import { IUser } from "../../entities/userData.entity.js";
 import { CustomResponse, UnauthorizedError } from "@carreralink/common";
-import { currentUserUsecase } from "../usecases/index.js";
+import { currentUserUsecase } from "../../usecases/index.js";
 
 interface IRequestUser extends IUser {
   id: string;

@@ -1,6 +1,11 @@
 import { Server } from "@/lib/server";
 import axios from "./axios.interseptor";
-import { string } from "zod";
+
+const currentAdmin = async () => {
+  const url = new Server().adminUser("currentAdmin");
+  const response = await axios.get(url);
+  return response.data;
+};
 
 const getVerifiedCompanies = async ({
   token,
@@ -87,12 +92,6 @@ const addSkills = async ({ skills }: { skills: string[] }) => {
   return response.data;
 };
 
-const getSkillsAndCategories = async () => {
-  const url = new Server().adminCompany("getSkillsAndCategories");
-  const response = await axios.get(url);
-  return response.data;
-};
-
 const removeCategory = async ({ category }: { category: string }) => {
   const url = new Server().adminCompany("removeCategory");
   const response = await axios.delete(url, {
@@ -112,6 +111,25 @@ const removeSkill = async ({ skill }: { skill: string }) => {
   return response.data;
 };
 
+const getUsers = async ({
+  token,
+  query,
+}: {
+  token: string;
+  query: { p?: number | string };
+}) => {
+  const url = new Server().adminUser("users");
+  const response = await axios.get(url, {
+    params: {
+      ...query,
+    },
+    headers: {
+      adminToken: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
 export {
   getVerifiedCompanies,
   getUnverifiedCompanies,
@@ -119,7 +137,8 @@ export {
   rejectCompany,
   addCategories,
   addSkills,
-  getSkillsAndCategories,
   removeCategory,
   removeSkill,
+  currentAdmin,
+  getUsers,
 };

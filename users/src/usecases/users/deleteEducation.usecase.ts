@@ -1,5 +1,5 @@
 import { CustomError } from "@carreralink/common";
-import { UserDataRepository } from "../database/repository/userData.repo.js";
+import { UserDataRepository } from "../../database/repository/userData.repo.js";
 
 export class DeleteEducationUsecase {
   constructor(private readonly userDataRepo: UserDataRepository) {}
