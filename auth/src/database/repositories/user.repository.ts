@@ -10,6 +10,13 @@ export interface IUserRepo {
     username?: string;
   }): Promise<unknown>;
   findByEmail(email: string): Promise<IUserAuth | null>;
+  updateBlock({
+    email,
+    isBlocked,
+  }: {
+    email: string;
+    isBlocked: boolean;
+  }): Promise<void>;
 }
 
 export class UserRepository implements IUserRepo {
@@ -37,4 +44,13 @@ export class UserRepository implements IUserRepo {
     return await this.database.findOne({ email });
   }
 
+  async updateBlock({
+    email,
+    isBlocked,
+  }: {
+    email: string;
+    isBlocked: boolean;
+  }) {
+    await this.database.findOneAndUpdate({ email }, { isBlocked });
+  }
 }

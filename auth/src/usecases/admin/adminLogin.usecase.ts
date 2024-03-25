@@ -4,7 +4,7 @@ import {
   NotFoundError,
   UnauthorizedError,
 } from "@carreralink/common";
-import { IUserRepo } from "../database/repositories/user.repository.js";
+import { IUserRepo } from "../../database/repositories/user.repository.js";
 
 export class AdminLoginUsecase {
   constructor(

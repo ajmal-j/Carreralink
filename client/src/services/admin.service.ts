@@ -130,6 +130,14 @@ const getUsers = async ({
   return response.data;
 };
 
+const toggleBlock = async ({ email }: { email: string }) => {
+  const url = new Server().adminUser("toggleBlock");
+  const response = await axios.patch(url, {
+    email,
+  });
+  return response.data;
+};
+
 export {
   getVerifiedCompanies,
   getUnverifiedCompanies,
@@ -141,4 +149,5 @@ export {
   removeSkill,
   currentAdmin,
   getUsers,
+  toggleBlock,
 };

@@ -1,10 +1,19 @@
+import { AxiosError } from "axios";
 import { Server } from "../lib/server";
 import axios from "./axios.interseptor";
 
 const currentUser = async () => {
-  const url = new Server().user("currentUser");
-  const response = await axios.get(url);
-  return response.data;
+  try {
+    const url = new Server().user("currentUser");
+    const response = await axios.get(url);
+    if (response.status === 401) return 401;
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 401) return 401;
+    } else console.log(error);
+  }
 };
 
 const updateProfile = async (data: any) => {

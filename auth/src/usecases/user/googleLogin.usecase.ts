@@ -1,5 +1,5 @@
-import { UserRepoType } from "../database/index.js";
-import { NotFoundError } from "@carreralink/common";
+import { UserRepoType } from "../../database/index.js";
+import { NotFoundError, UnauthorizedError } from "@carreralink/common";
 
 export class GoogleLogInUsecase {
   constructor(private readonly userRepository: UserRepoType) {}
@@ -7,6 +7,7 @@ export class GoogleLogInUsecase {
   async execute(userData: { email: string }) {
     const user = await this.userRepository.findByEmail(userData.email);
     if (!user) throw new NotFoundError("Invalid credentials");
+    if (user?.isBlocked) throw new UnauthorizedError("You have been blocked");
     const data = {
       username: user.username,
       email: user.email,

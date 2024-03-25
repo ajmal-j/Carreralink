@@ -37,6 +37,13 @@ export class UserDataRepository implements IUserRepo {
     return response;
   }
 
+  async toggleBlock(email: string) {
+    const user = await this.database.findOne({ email });
+    if (!user) throw new Error("User not found");
+    user.isBlocked = !user.isBlocked;
+    return await user.save();
+  }
+
   async findByEmail(email: string): Promise<IUserData | null> {
     return await this.database.findOne({ email });
   }

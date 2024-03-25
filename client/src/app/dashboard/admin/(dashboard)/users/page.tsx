@@ -31,7 +31,7 @@ export default async function Users({
           total={options.totalDocs}
           options={options}
           query={query}
-          data={data}
+          users={data}
         />
       </div>
     </DashboardWrapper>

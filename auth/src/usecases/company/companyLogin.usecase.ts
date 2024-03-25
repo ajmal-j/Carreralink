@@ -1,4 +1,4 @@
-import { CompanyRepoType } from "../database/index.js";
+import { CompanyRepoType } from "../../database/index.js";
 import {
   IPasswordUtil,
   NotFoundError,

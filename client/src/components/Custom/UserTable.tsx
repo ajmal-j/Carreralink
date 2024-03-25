@@ -41,6 +41,9 @@ import {
 import { useState } from "react";
 import { IResponseData } from "@/types/paginateResponse";
 import { PaginationComponent } from "./Paginations";
+import { toggleBlock } from "@/services/admin.service";
+import { toast } from "../ui/use-toast";
+import { getMessage } from "@/lib/utils";
 
 export type User = {
   _id: string;
@@ -50,114 +53,137 @@ export type User = {
   isBlocked: boolean;
 };
 
-export const columns: ColumnDef<User>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value: any) =>
-          table.toggleAllPageRowsSelected(!!value)
-        }
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value: any) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "username",
-    header: "Username",
-    cell: ({ row }) => (
-      <div className={`capitalize`}>{row.getValue("username")}</div>
-    ),
-  },
-  {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
-  },
-  {
-    accessorKey: "jobs",
-    header: () => <div className="text-center">Jobs Applied</div>,
-    cell: ({ row }) => {
-      const totalJobs =
-        // @ts-expect-error
-        (row.getValue("jobs")?.length?.toString() as string) || "0";
-
-      return <div className="text-center font-medium">{totalJobs}</div>;
-    },
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const user = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <DotsHorizontalIcon className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => {
-                alert(user._id);
-              }}
-            >
-              User profile
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              className={`${user.isBlocked ? "bg-violet-600/30 hover:bg-violet-500 hover:text-white" : "bg-red-500/20 text-red-500 hover:bg-red-500/70 hover:text-white"} cursor-pointer`}
-              onClick={() => {
-                alert(user._id);
-              }}
-            >
-              {user.isBlocked ? "Unblock user" : "Block user"}
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
 interface ITableProps {
-  data: User[];
+  users: User[];
   query: Record<string, any>;
   options: IResponseData;
   total: number;
 }
 
-export function UserTable({ data = [], query, options, total }: ITableProps) {
+export function UserTable({ users = [], query, options, total }: ITableProps) {
+  const [data, setData] = useState(users);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
+
+  const columns: ColumnDef<User>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value: any) =>
+            table.toggleAllPageRowsSelected(!!value)
+          }
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value: any) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "username",
+      header: "Username",
+      cell: ({ row }) => (
+        <div className={`capitalize`}>{row.getValue("username")}</div>
+      ),
+    },
+    {
+      accessorKey: "email",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Email
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="lowercase">{row.getValue("email")}</div>
+      ),
+    },
+    {
+      accessorKey: "jobs",
+      header: () => <div className="text-center">Jobs Applied</div>,
+      cell: ({ row }) => {
+        const totalJobs =
+          // @ts-expect-error
+          (row.getValue("jobs")?.length?.toString() as string) || "0";
+
+        return <div className="text-center font-medium">{totalJobs}</div>;
+      },
+    },
+    {
+      id: "actions",
+      enableHiding: false,
+      cell: ({ row }) => {
+        const user = row.original;
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <DotsHorizontalIcon className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => {
+                  alert(user._id);
+                }}
+              >
+                User profile
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className={`${user.isBlocked ? "bg-violet-600/30 hover:bg-violet-500 hover:text-white" : "bg-red-500/20 text-red-500 hover:bg-red-500/70 hover:text-white"} cursor-pointer`}
+                onClick={async () => {
+                  try {
+                    await toggleBlock({ email: user.email });
+                    toast({
+                      title: `User ${user.isBlocked ? "Unblocked." : "Blocked."}`,
+                    });
+                    setData((prev) =>
+                      prev.map((u) =>
+                        u._id === user._id
+                          ? { ...u, isBlocked: !u.isBlocked }
+                          : u,
+                      ),
+                    );
+                  } catch (error) {
+                    console.log(error);
+                    const message = getMessage(error);
+                    toast({
+                      title: message,
+                      variant: "destructive",
+                    });
+                  }
+                }}
+              >
+                {user.isBlocked ? "Unblock user" : "Block user"}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
 
   const table = useReactTable({
     data,
@@ -234,7 +260,7 @@ export function UserTable({ data = [], query, options, total }: ITableProps) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <span className="pb-2 ps-1 text-sm text-foreground/70">
+      <span className="mb-2 block ps-1 text-sm text-foreground/70">
         Total {total ?? 0} user&apos;s.
       </span>
       <div className="rounded-md border">

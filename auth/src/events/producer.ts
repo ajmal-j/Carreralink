@@ -6,7 +6,7 @@ import { buildGoogleLoginProducer } from "./googleLogin.producer.js";
 let KAFKA_BROKER = process.env.KAFKA_BROKER;
 if (!KAFKA_BROKER) throw new Error("Kafka broker not found");
 
-const kafka = new Kafka({
+export const kafka = new Kafka({
   clientId: "auth",
   brokers: [KAFKA_BROKER],
 });

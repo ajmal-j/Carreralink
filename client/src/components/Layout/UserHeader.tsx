@@ -8,9 +8,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import React, { useEffect, useState } from "react";
-import { ThemeToggler } from "../Buttons/theme-toggler";
-import Link from "next/link";
+import { currentUser } from "@/services/user.service";
+import { useStateSelector } from "@/store";
+import { logout, setUser } from "@/store/reducers/user.slice";
 import {
   BackpackIcon,
   Component1Icon,
@@ -20,24 +20,47 @@ import {
   PersonIcon,
   TextAlignRightIcon,
 } from "@radix-ui/react-icons";
-import { usePathname } from "next/navigation";
-import { currentUser } from "@/services/user.service";
-import { useStateSelector } from "@/store";
-import { useDispatch } from "react-redux";
-import { logout, setUser } from "@/store/reducers/user.slice";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { googleLogout } from "@react-oauth/google";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { ThemeToggler } from "../Buttons/theme-toggler";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
+import Title from "../Custom/Title";
+import { toast } from "../ui/use-toast";
 
 export default function UserHeader({ logOut }: { logOut: () => void }) {
-  const { isAuth, user } = useStateSelector((state) => state.user);
-
+  const { user } = useStateSelector((state) => state.user);
+  const { push } = useRouter();
   const dispatch = useDispatch();
   const pathname = usePathname();
   useEffect(() => {
     (async () => {
       try {
         const data = await currentUser();
-        dispatch(setUser(data?.data));
+        if (data && data === 401) {
+          localStorage.removeItem("userToken");
+          toast({
+            title: "You have been blocked",
+            description: "Please contact support",
+            variant: "destructive",
+          });
+          googleLogout();
+          dispatch(logout());
+          push("/login");
+          return;
+        } else dispatch(setUser(data?.data));
       } catch (error) {
         console.log(error);
       }
@@ -131,19 +154,6 @@ export function MobileNav() {
     </Sheet>
   );
 }
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useRouter } from "next/navigation";
-import Title from "../Custom/Title";
 
 export function ProfileDropDown({
   children,

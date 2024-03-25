@@ -18,12 +18,14 @@ export const BuildCurrentUser = () => {
   return async (req: Request) => {
     const userData = req?.user;
     if (!userData) throw new UnauthorizedError("User not authenticated");
-    const user = await currentUserUsecase.execute(userData.email);
+    const response = await currentUserUsecase.execute(userData.email);
 
-    return new CustomResponse()
-      .message("User Data.")
-      .statusCode(200)
-      .data(user)
-      .response();
+    if (response instanceof CustomResponse) return response.response();
+    else
+      return new CustomResponse()
+        .message("User Data.")
+        .statusCode(200)
+        .data(response)
+        .response();
   };
 };

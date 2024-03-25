@@ -1,5 +1,5 @@
-import { UserRepoType } from "../database/index.js";
-import { IUser, User } from "../entities/user.entity.js";
+import { UserRepoType } from "../../database/index.js";
+import { IUser, User } from "../../entities/user.entity.js";
 import { CustomError, IPasswordUtil } from "@carreralink/common";
 
 export class SignUpUsecase {

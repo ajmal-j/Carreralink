@@ -6,6 +6,7 @@ import { SparklesTitle } from "@/components/LandingPage/SparklingTitle";
 import { InfiniteMovingCard } from "@/components/LandingPage/MovingCards";
 import Search from "@/components/FormsAndDialog/Search";
 import { getSkillsAndCategories } from "@/services/company.service";
+import MainText from "@/components/Layout/MainText";
 
 export default async function Home() {
   const response = await getSkillsAndCategories();
@@ -18,13 +19,7 @@ export default async function Home() {
         "
         ></div>
         <article className="relative z-10">
-          <div className="mx-auto flex max-w-[600px] flex-col gap-1 py-16">
-            <span className="block text-center text-4xl">
-              Job hunting made easy.
-              <br />
-              Your gateway to professional success!
-            </span>
-          </div>
+          <MainText />
           <Search action="/jobs" />
           <FeaturedJobs />
           <span className="block pb-3 pt-10 text-center text-2xl">

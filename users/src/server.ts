@@ -19,6 +19,11 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.all("*", (req, res, next) => {
+  console.log(req.originalUrl);
+  next();
+});
+
 app.get("/api/v1/users/check", (_, res) => {
   res.send(`Users server is up and running`);
 });

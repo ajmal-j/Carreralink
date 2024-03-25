@@ -1,17 +1,16 @@
-import { Router } from "express";
 import { IAdminController } from "../controllers/admin/index.js";
 import { VerifyAdmin, expressCallback } from "@carreralink/common";
 
 export default function (adminRouter: any, adminController: IAdminController) {
+  adminRouter.use(VerifyAdmin);
   adminRouter.get(
     "/currentAdmin",
-    VerifyAdmin,
     expressCallback(adminController.currentAdmin)
   );
-  adminRouter.get(
-    "/users",
-    VerifyAdmin,
-    expressCallback(adminController.getUsers)
+  adminRouter.get("/users", expressCallback(adminController.getUsers));
+  adminRouter.patch(
+    "/toggleBlock",
+    expressCallback(adminController.toggleBlock)
   );
   return adminRouter;
 }

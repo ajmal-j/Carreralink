@@ -1,6 +1,6 @@
 import { IPasswordUtil } from "@carreralink/common";
-import { CompanyRepoType } from "../database/index.js";
-import { Company, ICompany } from "../entities/company.entity.js";
+import { CompanyRepoType } from "../../database/index.js";
+import { Company, ICompany } from "../../entities/company.entity.js";
 
 export class CreateCompanyUsecase {
   constructor(
