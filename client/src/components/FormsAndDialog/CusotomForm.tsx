@@ -9,6 +9,7 @@ import {
   CrossCircledIcon,
   EyeClosedIcon,
   EyeOpenIcon,
+  UpdateIcon,
 } from "@radix-ui/react-icons";
 import {
   Select,
@@ -50,6 +51,7 @@ import { Button } from "@/components/ui/button";
 import LocationInput from "@/components/Custom/LocationInput";
 import TextEditor from "@/components/Custom/TextEditor";
 import { draftToMarkdown } from "markdown-draft-js";
+import { useFormStatus } from "react-dom";
 
 type FormType = {
   formSchema: ZodObject<Record<string, any>>;
@@ -72,6 +74,7 @@ export function CustomForm({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
+  const { pending } = useFormStatus();
   const { watch, setValue, setFocus } = form;
   return (
     <div className={cn(className)}>
@@ -139,7 +142,14 @@ export function CustomForm({
             </div>
           )}
           <div>
-            <PrimaryButton type="submit" className="mt-7 py-2.5 font-semibold">
+            <PrimaryButton
+              disabled={pending}
+              icon={
+                pending ? <UpdateIcon className="animate-spin" /> : undefined
+              }
+              type="submit"
+              className={`mt-7 gap-3 py-2.5 font-semibold ${pending ? "text-foreground/70" : ""}`}
+            >
               {action || "submit"}
             </PrimaryButton>
           </div>

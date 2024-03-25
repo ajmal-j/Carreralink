@@ -19,5 +19,17 @@ export function AdminRoutes(router: any, adminController: IAdminController) {
     "/rejectCompany",
     expressCallback(adminController.rejectCompany)
   );
+
+  router.post("/addCategories", expressCallback(adminController.addCategory));
+  router.post("/addSkills", expressCallback(adminController.addSkills));
+  router.get(
+    "/getSkillsAndCategories",
+    expressCallback(adminController.getSkillsAndCategories)
+  );
+  router.delete(
+    "/removeCategory",
+    expressCallback(adminController.removeCategory)
+  );
+  router.delete("/removeSkill", expressCallback(adminController.removeSkill));
   return router;
 }

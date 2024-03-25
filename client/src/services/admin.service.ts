@@ -1,5 +1,6 @@
 import { Server } from "@/lib/server";
 import axios from "./axios.interseptor";
+import { string } from "zod";
 
 const getVerifiedCompanies = async ({
   token,
@@ -71,9 +72,54 @@ const rejectCompany = async ({ token, id }: { token: string; id: string }) => {
   return response.data;
 };
 
+const addCategories = async ({ categories }: { categories: string[] }) => {
+  const url = new Server().adminCompany("addCategories");
+  const response = await axios.post(url, {
+    categories,
+  });
+  return response.data;
+};
+const addSkills = async ({ skills }: { skills: string[] }) => {
+  const url = new Server().adminCompany("addSkills");
+  const response = await axios.post(url, {
+    skills,
+  });
+  return response.data;
+};
+
+const getSkillsAndCategories = async () => {
+  const url = new Server().adminCompany("getSkillsAndCategories");
+  const response = await axios.get(url);
+  return response.data;
+};
+
+const removeCategory = async ({ category }: { category: string }) => {
+  const url = new Server().adminCompany("removeCategory");
+  const response = await axios.delete(url, {
+    data: {
+      category,
+    },
+  });
+  return response.data;
+};
+const removeSkill = async ({ skill }: { skill: string }) => {
+  const url = new Server().adminCompany("removeSkill");
+  const response = await axios.delete(url, {
+    data: {
+      skill,
+    },
+  });
+  return response.data;
+};
+
 export {
   getVerifiedCompanies,
   getUnverifiedCompanies,
   verifyCompany,
   rejectCompany,
+  addCategories,
+  addSkills,
+  getSkillsAndCategories,
+  removeCategory,
+  removeSkill,
 };

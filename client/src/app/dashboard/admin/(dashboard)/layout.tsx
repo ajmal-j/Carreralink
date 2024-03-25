@@ -5,6 +5,7 @@ import {
   BackpackIcon,
   Component1Icon,
   ComponentInstanceIcon,
+  LayersIcon,
   PersonIcon,
 } from "@radix-ui/react-icons";
 import { cookies } from "next/headers";
@@ -46,6 +47,11 @@ export default function layout({ children }: { children: ReactNode }) {
                   title: "Companies's",
                   icon: <Component1Icon className="size-[17px]" />,
                   href: "/dashboard/admin/companies",
+                },
+                {
+                  title: "Skills & Categories",
+                  icon: <LayersIcon className="size-[17px]" />,
+                  href: "/dashboard/admin/manage",
                 },
               ]}
               logOut={logOut}

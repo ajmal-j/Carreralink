@@ -16,6 +16,11 @@ import { GetLocationsUsecase } from "./jobs/getLocations.js";
 import { RejectCompanyUsecase } from "./admin/rejectCompany.usecase.js";
 import { VerifyCompanyUsecase } from "./admin/verifyCompany.usecase.js";
 import { IsVerifiedUsecase } from "./company/isVerified.js";
+import { AddCategoryUsecase } from "./admin/addCategory.usecase.js";
+import { AddSkillsUsecase } from "./admin/addSkills.usecase.js";
+import { SkillsAndCategoryRepository } from "./admin/getSkillsAndCategory.usecase.js";
+import { RemoveSkillUsecase } from "./admin/removeSkill.usecase.js";
+import { RemoveCategoryUsecase } from "./admin/removeCategory.usecase.js";
 
 const createCompanyUsecase = new CreateCompanyUsecase(
   Repositories.CompanyRepository
@@ -60,6 +65,25 @@ const rejectCompanyUsecase = new RejectCompanyUsecase(
 
 const isVerifiedUsecase = new IsVerifiedUsecase(Repositories.CompanyRepository);
 
+const addCategoryUsecase = new AddCategoryUsecase(
+  Repositories.SkillsAndCategoryRepository
+);
+const addSkillsUsecase = new AddSkillsUsecase(
+  Repositories.SkillsAndCategoryRepository
+);
+
+const getSkillsAndCategory = new SkillsAndCategoryRepository(
+  Repositories.SkillsAndCategoryRepository
+);
+
+const removeSkillUsecase = new RemoveSkillUsecase(
+  Repositories.SkillsAndCategoryRepository
+);
+
+const removeCategoryUsecase = new RemoveCategoryUsecase(
+  Repositories.SkillsAndCategoryRepository
+);
+
 export {
   createCompanyUsecase,
   allCompaniesUsecase,
@@ -78,4 +102,9 @@ export {
   verifyCompanyUsecase,
   rejectCompanyUsecase,
   isVerifiedUsecase,
+  addCategoryUsecase,
+  addSkillsUsecase,
+  getSkillsAndCategory,
+  removeSkillUsecase,
+  removeCategoryUsecase,
 };
