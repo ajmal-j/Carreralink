@@ -48,6 +48,7 @@ import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "@/components/ui/use-toast";
 import { getMessage } from "@/lib/utils";
+import NotFound from "@/components/Custom/NotFound";
 
 export default function Profile() {
   const { isAuth, user } = useStateSelector((state) => state.user);
@@ -93,6 +94,7 @@ export default function Profile() {
       }
     }
   };
+  if (!isAuth || !user) return <NotFound title="User not found" />;
   return (
     isAuth &&
     user && (

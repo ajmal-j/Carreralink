@@ -53,10 +53,10 @@ export default function Login() {
       });
       toast({
         title: "Account created",
-        description: "Please LogIn.",
+        description: "Please verify your account",
         duration: 2000,
       });
-      router.push("/login");
+      router.push(`/verify?email=${values.email}`);
     } catch (error) {
       const message = getMessage(error);
       toast({

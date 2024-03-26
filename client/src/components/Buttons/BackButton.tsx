@@ -4,10 +4,10 @@ import { Button } from "../ui/button";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 
-export default function BackButton() {
+export default function BackButton({ className }: { className?: string }) {
   const { back } = useRouter();
   return (
-    <Button variant={"outline"} onClick={back}>
+    <Button variant={"outline"} type="button" className={className} onClick={back}>
       <ArrowLeftIcon />
     </Button>
   );

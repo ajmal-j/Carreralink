@@ -8,8 +8,9 @@
   --primaryColor: 268, 100%, 50%;
   --primaryColor2: 268, 100%, 1%;
   --accentColot: 267, 100%, 64%;
-  --shadow: 0px 0px 15px hsl(268, 100%, 40%);
+  --shadow: 0px 0px 150px hsl(268, 100%, 40%);
   --font-montserrat: "Montserrat", sans-serif;
+  --arial: Arial, Helvetica, sans-serif;
 }
 
 @layer base {

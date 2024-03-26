@@ -101,7 +101,7 @@ export default function UserHeader({ logOut }: { logOut: () => void }) {
           </AvatarFallback>
         </Avatar>
       </ProfileDropDown>
-      <div className="ms-3 flex items-center justify-end rounded-full border border-foreground/5 bg-white/10 px-1.5 py-1.5 md:hidden">
+      <div className="ms-3 flex items-center justify-end rounded-full border  px-1.5 py-1.5 md:hidden">
         <MobileNav />
       </div>
     </header>
@@ -113,19 +113,19 @@ export function MobileNav() {
   return (
     <Sheet>
       <SheetTrigger asChild className="cursor-pointer">
-        <TextAlignRightIcon className="size-7" />
+        <TextAlignRightIcon className="size-6" />
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Menu</SheetTitle>
+          <SheetTitle>Hi there</SheetTitle>
         </SheetHeader>
         <div className="flex flex-col gap-2 pb-5 pt-10">
           <span className="flex items-center rounded-2xl py-1.5 ps-5 text-foreground/70 transition-all duration-150 hover:bg-foreground/20 hover:text-foreground">
-            <BackpackIcon className="mr-2 h-4 w-4 text-foreground" />
+            <BackpackIcon className="mr-4 h-4 w-4 text-foreground" />
             <Link href="/jobs">Jobs</Link>
           </span>
           <span className="flex items-center rounded-2xl py-1.5 ps-5 text-foreground/70 transition-all duration-150 hover:bg-foreground/20 hover:text-foreground">
-            <Component1Icon className="mr-2 h-4 w-4 text-foreground" />
+            <Component1Icon className="mr-4 h-4 w-4 text-foreground" />
             {pathname === "/companies" ? (
               <Link className="hover:text-foreground" href="/companies/new">
                 Register company
@@ -137,19 +137,14 @@ export function MobileNav() {
             )}
           </span>
           <span className="flex items-center rounded-2xl py-1.5 ps-5 text-foreground/70 transition-all duration-150 hover:bg-foreground/20 hover:text-foreground">
-            <FileTextIcon className="mr-2 h-4 w-4 text-foreground" />
+            <FileTextIcon className="mr-4 h-4 w-4 text-foreground" />
             <Link href="/hire">Hire</Link>
           </span>
           <span className="flex items-center rounded-2xl py-1.5 ps-5 text-foreground/70 transition-all duration-150 hover:bg-foreground/20 hover:text-foreground">
-            <InfoCircledIcon className="mr-2 h-4 w-4 text-foreground" />
+            <InfoCircledIcon className="mr-4 h-4 w-4 text-foreground" />
             <Link href="/about">About</Link>
           </span>
         </div>
-        <SheetFooter>
-          <SheetClose asChild>
-            <ExitIcon className="mr-2 ms-auto h-4 w-4 text-foreground" />
-          </SheetClose>
-        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

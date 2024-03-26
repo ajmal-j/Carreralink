@@ -14,7 +14,9 @@ export default function (eventProducer: IEventProducer) {
 
     const user = await googleLoginUsecase.execute(userData);
 
-    eventProducer.googleLogin(userData);
+    if (user instanceof CustomResponse) return user.response();
+
+    // eventProducer.googleLogin(userData);
     const token = generateToken(user);
 
     return new CustomResponse()

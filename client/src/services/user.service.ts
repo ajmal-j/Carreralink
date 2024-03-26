@@ -12,8 +12,17 @@ const currentUser = async () => {
     console.log(error);
     if (error instanceof AxiosError) {
       if (error.response?.status === 401) return 401;
-    } else console.log(error);
+    } else {
+      console.log(error);
+      return error;
+    }
   }
+};
+
+const verifyUser = async ({ email, otp }: { email: string; otp: string }) => {
+  const url = new Server().auth("verifyUser");
+  const response = await axios.post(url, { email, otp });
+  return response.data;
 };
 
 const updateProfile = async (data: any) => {
@@ -56,10 +65,18 @@ const addSkills = async (data: any) => {
   const response = await axios.post(url, data);
   return response.data;
 };
-const googleLogin = async (data: any) => {
-  const url = new Server().auth("googleLogin");
-  const response = await axios.post(url, data);
-  return response.data;
+const googleLogin = async (data: any): Promise<any | number> => {
+  try {
+    const url = new Server().auth("googleLogin");
+    const response = await axios.post(url, data);
+    return response;
+  } catch (error) {
+    if (error instanceof AxiosError && error.response?.status === 403) {
+      return error.response?.status;
+    }
+    console.log(error);
+    return error;
+  }
 };
 
 const updateProfilePic = async (data: any) => {
@@ -67,6 +84,13 @@ const updateProfilePic = async (data: any) => {
   const response = await axios.post(url, data);
   return response.data;
 };
+
+const resentOtp = async ({ email }: { email: string }) => {
+  const url = new Server().auth("resentOtp");
+  const response = await axios.post(url, { email });
+  return response.data;
+};
+
 export {
   currentUser,
   updateProfile,
@@ -79,4 +103,6 @@ export {
   deleteExperience,
   googleLogin,
   updateProfilePic,
+  verifyUser,
+  resentOtp,
 };

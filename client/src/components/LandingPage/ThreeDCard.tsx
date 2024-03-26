@@ -8,7 +8,7 @@ export function ThreeDCard() {
   return (
     <CardContainer className="inter-var w-full">
       <CardBody className="group/card relative h-auto w-full rounded-xl dark:border-white/[0.2] dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] sm:w-[50rem]">
-        <CardItem translateZ="100" className="w-full">
+        <CardItem translateZ="20" className="w-full">
           <Image
             src="/aiImage.png"
             height="1000"

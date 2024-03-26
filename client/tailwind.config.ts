@@ -98,6 +98,7 @@ const config = {
       },
       fontFamily: {
         montserrat: ["var(--font-montserrat)"],
+        arial: ["var(--arial)"],
       },
       boxShadow: {
         roundedPrimaryShadow: "var(--shadow)",

@@ -29,12 +29,26 @@ export default function Login() {
 
   const onsubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await LogInAction(values);
-      toast({
-        title: "LogIn successful",
-        duration: 2000,
-      });
-      router.push("/");
+      const response = (await LogInAction(values)) as any;
+      if (response === 403) {
+        toast({
+          title: "Please verify your account",
+          variant: "destructive",
+        });
+        router.push(`/verify?email=${values.email}`);
+      } else if (response?.status === 200) {
+        toast({
+          title: "LogIn successful",
+          duration: 2000,
+        });
+        router.push("/");
+      } else {
+        const message = getMessage(response);
+        toast({
+          title: message,
+          variant: "destructive",
+        });
+      }
     } catch (error) {
       console.log(error);
       const message = getMessage(error);
@@ -59,15 +73,33 @@ export default function Login() {
         title: "LogIn successful",
         duration: 2000,
       });
-      localStorage.setItem("userToken", response.data?.token);
-      router.push("/");
+      if (response === 403) {
+        toast({
+          title: "Please verify your account",
+          variant: "destructive",
+        });
+        router.push(`/verify?email=${credential?.email}`);
+      } else if (response?.status === 200) {
+        localStorage.setItem("userToken", response?.data?.data?.token);
+        toast({
+          title: "LogIn successful",
+          duration: 2000,
+        });
+        router.push("/");
+      } else {
+        const message = getMessage(response);
+        toast({
+          title: message,
+          variant: "destructive",
+        });
+      }
     } catch (error) {
       const message = getMessage(error);
+      console.log(error);
       toast({
         title: message,
         variant: "destructive",
       });
-      console.log(error);
     }
   };
   return (

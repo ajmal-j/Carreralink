@@ -8,6 +8,8 @@ export const buildLogIn = (logInSchema: ILogInSchema) => {
 
     const user = await logInUseCase.execute({ ...userData });
 
+    if (user instanceof CustomResponse) return user.response();
+
     const token = generateToken(user);
 
     return new CustomResponse()

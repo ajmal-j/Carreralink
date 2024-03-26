@@ -26,6 +26,16 @@ export class UserRepository implements IUserRepo {
     return await this.database.create(user);
   }
 
+  async markAsVerified(email: string) {
+    return await this.database.findOneAndUpdate(
+      { email },
+      { isVerified: true },
+      {
+        new: true,
+      }
+    );
+  }
+
   async isAlreadyTaken({
     email,
     contact,

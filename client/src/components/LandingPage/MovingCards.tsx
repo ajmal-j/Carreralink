@@ -4,7 +4,7 @@ import { InfiniteMovingCards } from "../ui/infinite-moving-cards";
 
 export function InfiniteMovingCard({ categories }: { categories: string[] }) {
   return (
-    <div className="dark:bg-grid-white/[0.05] relative flex flex-col items-center justify-center overflow-hidden rounded-md antialiased ">
+    <div className="dark:bg-grid-white/[0.05] relative flex flex-col items-center justify-center overflow-hidden rounded-md antialiased">
       <InfiniteMovingCards
         items={
           categories.length

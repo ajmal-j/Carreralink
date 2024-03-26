@@ -9,9 +9,10 @@ export interface IUserAuth extends Document {
   isBlocked: Boolean;
   role: String | null;
   isAdmin: Boolean;
+  isVerified: Boolean;
 }
 
-const UserSchema: Schema = new Schema(
+const UserSchema: Schema = new Schema<IUserAuth>(
   {
     email: { type: String, required: true, unique: true },
     isBlocked: { type: Boolean, default: false },
@@ -20,6 +21,7 @@ const UserSchema: Schema = new Schema(
     password: { type: String, required: true },
     role: { type: String, enum: ["user", "recruiter"], default: "user" },
     isAdmin: { type: Boolean, default: false },
+    isVerified: { type: Boolean, default: false },
   },
   {
     timestamps: true,

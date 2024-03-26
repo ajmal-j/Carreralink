@@ -6,7 +6,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {  useState } from "react";
+import { useState } from "react";
 import { CustomForm } from "./CusotomForm";
 import { z } from "zod";
 import { updateProfile } from "@/services/user.service";
@@ -50,7 +50,7 @@ export function EditProfile({ defaultValues }: IEditProfile) {
             path: ["workingAt"],
           };
       }),
-    about: z.string(),
+    about: z.string().optional(),
     portfolioLink: z.string().url("Invalid url").optional(),
   });
   const onSubmit = async (values: any) => {

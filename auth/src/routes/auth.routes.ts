@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { IAuthControllers } from "../controller/user/index.js";
 import { expressCallback } from "@carreralink/common";
-import { VerifyUser } from "../utils/utils.js";
 import { ICompanyControllers } from "../controller/company/index.js";
 import { IAdminController } from "../controller/admin/index.js";
 
@@ -13,11 +12,7 @@ export default (
 ) => {
   router.post("/signup", expressCallback(authControllers.signupController));
   router.post("/login", expressCallback(authControllers.logInController));
-  router.get(
-    "/current",
-    VerifyUser,
-    expressCallback(authControllers.currentUserController)
-  );
+
   router.post(
     "/register",
     expressCallback(companyControllers.registerController)
@@ -34,6 +29,7 @@ export default (
     "/adminLogin",
     expressCallback(adminController.adminLoginController)
   );
-
+  router.post("/resentOtp", expressCallback(authControllers.resentOtp));
+  router.post("/verifyUser", expressCallback(authControllers.verifyUser));
   return router;
 };

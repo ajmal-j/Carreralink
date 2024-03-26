@@ -7,9 +7,22 @@ import { LogInUsecase } from "./user/logIn.usecase.js";
 import { GoogleLogInUsecase } from "./user/googleLogin.usecase.js";
 import { AdminLoginUsecase } from "./admin/adminLogin.usecase.js";
 import { UpdateUserBlockUsecase } from "./admin/updateUserBlock.usecase.js";
+import { VerifyOtpUsecase } from "./user/verifyOtp.usecase.js";
+import { sendOtp } from "../utils/sendOtp.js";
+import { ResentOtpUsecase } from "./user/resentOtp.usecase.js";
 
-const signupUseCase = new SignUpUsecase(passwordUtil, Repositories.UserRepo);
-const logInUseCase = new LogInUsecase(passwordUtil, Repositories.UserRepo);
+const signupUseCase = new SignUpUsecase(
+  passwordUtil,
+  Repositories.UserRepo,
+  Repositories.OtpRepo,
+  sendOtp
+);
+const logInUseCase = new LogInUsecase(
+  passwordUtil,
+  Repositories.UserRepo,
+  Repositories.OtpRepo,
+  sendOtp
+);
 const CompanyLogInUseCase = new CompanyLogInUsecase(
   passwordUtil,
   Repositories.CompanyRepo
@@ -18,13 +31,27 @@ const createCompanyUsecase = new CreateCompanyUsecase(
   passwordUtil,
   Repositories.CompanyRepo
 );
-const googleLoginUsecase = new GoogleLogInUsecase(Repositories.UserRepo);
+const googleLoginUsecase = new GoogleLogInUsecase(
+  Repositories.UserRepo,
+  Repositories.OtpRepo,
+  sendOtp
+);
 const adminLoginUsecase = new AdminLoginUsecase(
   Repositories.UserRepo,
   passwordUtil
 );
 
 const updateBlockUsecase = new UpdateUserBlockUsecase(Repositories.UserRepo);
+const verifyOtpUsecase = new VerifyOtpUsecase(
+  Repositories.UserRepo,
+  Repositories.OtpRepo
+);
+
+const resentOtpUsecase = new ResentOtpUsecase(
+  Repositories.UserRepo,
+  Repositories.OtpRepo,
+  sendOtp
+);
 
 export {
   signupUseCase,
@@ -34,4 +61,6 @@ export {
   googleLoginUsecase,
   adminLoginUsecase,
   updateBlockUsecase,
+  verifyOtpUsecase,
+  resentOtpUsecase,
 };

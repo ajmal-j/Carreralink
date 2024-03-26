@@ -9,5 +9,5 @@ interface IFormData extends Omit<Omit<FormData, "confirmPassword">, "contact"> {
 export const SignUp = async (FormData: IFormData) => {
   const server = new Server().auth("signup");
   const response = await axios.post(server, { ...FormData });
-  console.log(response, "response of signup");
+  return response.data;
 };
