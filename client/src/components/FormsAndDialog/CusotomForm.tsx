@@ -52,6 +52,7 @@ import LocationInput from "@/components/Custom/LocationInput";
 import TextEditor from "@/components/Custom/TextEditor";
 import { draftToMarkdown } from "markdown-draft-js";
 import { useFormStatus } from "react-dom";
+import { getSkillsAndCategories } from "@/services/company.service";
 
 type FormType = {
   formSchema: ZodObject<Record<string, any>>;
@@ -206,6 +207,17 @@ function PasswordComponent({ name, form }: IFormProps) {
 }
 
 function CustomSelectField({ name, form }: IFormProps) {
+  const [newCategories, setNewCategories] = useState<string[]>([]);
+  useState(() => {
+    (async () => {
+      try {
+        const response = await getSkillsAndCategories();
+        const { category = [] } = response?.data[0];
+        setNewCategories(category);
+      } catch (error) {}
+    })();
+    // @ts-expect-error
+  }, []);
   return (
     <FormField
       control={form.control}
@@ -223,18 +235,7 @@ function CustomSelectField({ name, form }: IFormProps) {
               {(field.name === "currentStatus"
                 ? ["student", "working", "job seeking", "freelancing"]
                 : field.name === "category"
-                  ? [
-                      "Information Technology",
-                      "Healthcare",
-                      "Finance and Accounting",
-                      "Sales and Marketing",
-                      "Customer Service",
-                      "Education and Training",
-                      "Engineering",
-                      "Human Resources",
-                      "Administrative and Clerical",
-                      "Retail and Hospitality",
-                    ]
+                  ? newCategories
                   : field.name === "workSpace"
                     ? ["Remote", "Hybrid", "Onsite", "Co-working", "Flexible"]
                     : field.name === "type"
@@ -247,7 +248,24 @@ function CustomSelectField({ name, form }: IFormProps) {
                           "Temporary",
                           "Volunteer",
                         ]
-                      : ["Software", "Technology", "Products", "Other"]
+                      : [
+                          "Software",
+                          "Technology",
+                          "Products",
+                          "Design",
+                          "Marketing",
+                          "Business",
+                          "Engineering",
+                          "Finance and Accounting",
+                          "Education",
+                          "Healthcare",
+                          "Sales and Marketing",
+                          "Customer Service",
+                          "Human Resources",
+                          "Administrative and Clerical",
+                          "Retail and Hospitality",
+                          "Legal",
+                        ]
               ).map((status: string, index: number) => (
                 <SelectItem id={index.toString()} key={index} value={status}>
                   {status}
@@ -273,9 +291,7 @@ function DefaultComponent({ name, form }: IFormProps) {
             {field.name !== "startDate" && field.name !== "endDate" ? (
               <Input
                 type={
-                  field.name === "contact" ||
-                  field.name === "foundedOn" ||
-                  field.name === "revenue"
+                  field.name === "contact" || field.name === "foundedOn"
                     ? "number"
                     : "text"
                 }
@@ -519,25 +535,39 @@ function DescriptionField({ form, name, setFocus }: IDescriptionFieldProps) {
 interface ISkillsFieldProps extends IFormProps {}
 
 function SkillsField({ form, name }: ISkillsFieldProps) {
-  const [skills, setSkills] = useState<string[]>(form.getValues(name) || []);
+  const [currentSkills, setSkills] = useState<string[]>(
+    form.getValues(name) || [],
+  );
+  const [newSkills, setNewSkills] = useState<string[]>([]);
+  useState(() => {
+    (async () => {
+      try {
+        const response = await getSkillsAndCategories();
+        const { skills, category = [] } = response?.data[0];
+        setNewSkills(skills);
+      } catch (error) {}
+    })();
+    // @ts-expect-error
+  }, []);
+
   return (
     <>
       <div className="mb-3 mt-4 flex flex-col flex-wrap gap-2 gap-y-3">
         <FormLabel>Skills</FormLabel>
-        {!skills.length && (
+        {!currentSkills.length && (
           <p className="text-foreground/50">No skills selected</p>
         )}
         <div className="flex flex-wrap gap-2">
-          {skills.map((skill: string, index: number) => (
+          {currentSkills.map((skill: string, index: number) => (
             <div key={index} className="relative">
               <PrimaryButton className="w-min px-3">{skill}</PrimaryButton>
               <span>
                 <CrossCircledIcon
                   onClick={() => {
-                    setSkills(skills.filter((_, i) => i !== index));
+                    setSkills(currentSkills.filter((_, i) => i !== index));
                     form.setValue(
                       name,
-                      skills.filter((_, i) => i !== index),
+                      currentSkills.filter((_, i) => i !== index),
                     );
                   }}
                   className="absolute right-[-5px] top-[-4px] size-5 cursor-pointer rounded-full bg-background text-red-500"
@@ -554,8 +584,8 @@ function SkillsField({ form, name }: ISkillsFieldProps) {
           <FormItem>
             <Select
               onValueChange={(skill) => {
-                if (!skills.includes(skill)) {
-                  form.setValue(name, [...skills, skill]);
+                if (!currentSkills.includes(skill)) {
+                  form.setValue(name, [...currentSkills, skill]);
                   setSkills((prev) => [...prev, skill]);
                 }
               }}
@@ -569,16 +599,8 @@ function SkillsField({ form, name }: ISkillsFieldProps) {
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                {[
-                  "JavaScript",
-                  "Node.js",
-                  "React",
-                  "MongoDB",
-                  "Python",
-                  "Java",
-                  "C++",
-                ]
-                  .filter((skill) => !skills.includes(skill))
+                {newSkills
+                  .filter((skill) => !currentSkills.includes(skill))
                   .map((skill: string, index: number) => (
                     <SelectItem
                       className="w-full"

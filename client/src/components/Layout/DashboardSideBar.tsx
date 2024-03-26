@@ -74,9 +74,9 @@ export function MobileNav({ items, pathname, logOut }: IMobileNav) {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
-    <Sheet key={"left"} open={open} onOpenChange={setOpen}>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild className=" sticky top-24">
-        <Button variant="outline" className="mt-3">
+        <Button variant="ghost" className="mt-3">
           <HamburgerMenuIcon className="size-[22px]" />
         </Button>
       </SheetTrigger>

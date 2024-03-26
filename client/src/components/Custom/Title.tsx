@@ -2,7 +2,15 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Title({ className }: { className?: string }) {
+export default function Title({
+  className,
+  width,
+  height,
+}: {
+  className?: string;
+  width?: number;
+  height?: number;
+}) {
   return (
     <div
       className={cn("flex items-center font-montserrat font-bold", className)}
@@ -12,8 +20,8 @@ export default function Title({ className }: { className?: string }) {
           alt="CarreraLink"
           className="dark:invert"
           src="/newLogo.svg"
-          width={140}
-          height={50}
+          width={width ?? 140}
+          height={height ?? 50}
         />
         {/* <div>CarreraLink</div> */}
       </Link>

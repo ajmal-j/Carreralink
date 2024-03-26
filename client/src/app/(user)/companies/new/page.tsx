@@ -69,13 +69,7 @@ export default function New() {
           path: ["logo"],
         },
       ),
-      revenue: z
-        .string()
-        .min(1, "Invalid revenue")
-        .refine((data) => Number(data) > 0, {
-          message: "Invalid revenue",
-          path: ["revenue"],
-        }),
+      revenue: z.string().min(3, "Invalid revenue"),
       headquarters: z.string().min(5, "Invalid headquarters"),
       size: z
         .string()

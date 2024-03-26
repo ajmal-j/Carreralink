@@ -42,6 +42,7 @@ export class CompanyRepository implements ICompanyRepository {
         $project: {
           name: 1,
           website: 1,
+          email: 1,
           logo: 1,
           tagline: 1,
           industry: 1,

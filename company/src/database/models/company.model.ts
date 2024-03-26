@@ -15,7 +15,7 @@ export interface ICompany extends Document {
   ceo: string;
   revenue: string;
   headquarters: string;
-  size: number;
+  size: string;
   recruiters: string[];
   jobs: ObjectId[];
   coverPhoto: string | null;

@@ -26,14 +26,12 @@ export default async function Users({
   }
   return (
     <DashboardWrapper title="User's">
-      <div>
-        <UserTable
-          total={options.totalDocs}
-          options={options}
-          query={query}
-          users={data}
-        />
-      </div>
+      <UserTable
+        total={options.totalDocs}
+        options={options}
+        query={query}
+        users={data}
+      />
     </DashboardWrapper>
   );
 }

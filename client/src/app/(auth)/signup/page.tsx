@@ -10,6 +10,7 @@ import { toast } from "@/components/ui/use-toast";
 import { SignUp } from "./actions";
 import { getMessage } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import MainText from "@/components/Layout/MainText";
 
 const formSchema = z
   .object({
@@ -68,31 +69,38 @@ export default function Login() {
   };
 
   return (
-    <div className="bg-[url('/bg.svg')] bg-cover bg-center bg-no-repeat">
-      <Wrapper className="flex items-center justify-center backdrop-blur-[160px]">
-        <div className="flex w-full max-w-[800px] flex-col items-center justify-center rounded-3xl bg-background py-32">
-          <div className="w-full max-w-[370px] px-3">
-            <Title className="pb-10" />
-            <CustomForm
-              //@ts-ignore
-              formSchema={formSchema}
-              defaultValues={defaultValues}
-              onSubmit={onsubmit}
-              action="Login"
-              comment={
-                <>
-                  <span className="text-foreground/70">
-                    Do you have an account?{" "}
-                  </span>
-                  <Link className="underline" href={"/login"}>
-                    LogIn
-                  </Link>
-                </>
-              }
-            />
-          </div>
+    <div className="flex min-h-screen justify-stretch bg-cover bg-center bg-no-repeat">
+      <div className="hidden w-full max-w-[600px] items-center justify-center rounded-r-3xl bg-primaryColor2 p-10 md:flex">
+        <div className="flex h-full max-h-[500px] w-full flex-col items-center justify-center">
+          <Title className="ms-[-10px]" height={80} width={200} />
+          <MainText text="Navigate Your Path to Professional Growth!" />
         </div>
-      </Wrapper>
+      </div>
+      <div className="me-auto flex w-full min-w-[350px] flex-col items-center justify-center rounded-3xl bg-background  px-3 py-32">
+        <div className="w-full max-w-[370px] px-3">
+          <span className="hidden w-full pb-6 text-center text-2xl font-semibold text-foreground/90 md:inline-block">
+            Sign Up
+          </span>
+          <Title className="block pb-10 md:hidden" />
+          <CustomForm
+            //@ts-ignore
+            formSchema={formSchema}
+            defaultValues={defaultValues}
+            onSubmit={onsubmit}
+            action="Sign Up"
+            comment={
+              <>
+                <span className="text-foreground/70">
+                  Do you have an account?{" "}
+                </span>
+                <Link className="underline" href={"/login"}>
+                  LogIn
+                </Link>
+              </>
+            }
+          />
+        </div>
+      </div>
     </div>
   );
 }

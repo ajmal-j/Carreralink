@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { googleLogin } from "@/services/user.service";
+import MainText from "@/components/Layout/MainText";
 
 const formSchema = z.object({
   email: z.string().email("invalid email"),
@@ -70,48 +71,55 @@ export default function Login() {
     }
   };
   return (
-    <div className="bg-[url('/bg.svg')] bg-cover bg-center bg-no-repeat">
-      <Wrapper className="flex items-center justify-center backdrop-blur-[160px]">
-        <div className="flex w-full max-w-[800px] flex-col items-center justify-center rounded-3xl bg-background px-3 py-32">
-          <div className="w-full max-w-[370px]">
-            <Title className="pb-10" />
-            <CustomForm
-              formSchema={formSchema}
-              defaultValues={defaultValues}
-              onSubmit={onsubmit}
-              action="Login"
-              comment={
-                <>
-                  <span className="text-foreground/70">
-                    Don&apos;t you have an account?{" "}
-                  </span>
-                  <Link className="underline" href={"/signup"}>
-                    Signup
-                  </Link>
-                </>
-              }
-            />
-          </div>
-          <div className="z-20 mt-5 flex h-14 w-full max-w-[370px] items-center justify-center rounded-full bg-white">
-            <GoogleLogin
-              onSuccess={(credentialResponse) => {
-                if (!credentialResponse?.credential) return alert("error");
-                const decoded = jwtDecode(credentialResponse?.credential);
-                const { email, name, picture }: any = decoded;
-                signInWithGoogle({ credential: { email, name, picture } });
-              }}
-              onError={() => {
-                alert("error");
-              }}
-              text="continue_with"
-              shape="pill"
-              logo_alignment="center"
-              locale="en"
-              useOneTap={true}
-            />
-          </div>
+    <div className="flex min-h-screen justify-stretch bg-cover bg-center bg-no-repeat">
+      <div className="hidden w-full max-w-[600px] items-center justify-center rounded-r-3xl bg-primaryColor2 p-10 md:flex">
+        <div className="flex h-full max-h-[500px] w-full flex-col items-center justify-center">
+          <Title className="ms-[-10px]" height={80} width={200} />
+          <MainText text="Transforming Job Hunting into Job Finding!" />
         </div>
-      </Wrapper>
+      </div>
+      <div className="me-auto flex w-full min-w-[350px] flex-col items-center justify-center rounded-3xl bg-background  px-3 py-32">
+        <span className="hidden pb-6 text-2xl font-semibold text-foreground/90 md:inline-block">
+          Login
+        </span>
+        <Title className="block pb-10 md:hidden" />
+        <div className="w-full max-w-[370px]">
+          <CustomForm
+            formSchema={formSchema}
+            defaultValues={defaultValues}
+            onSubmit={onsubmit}
+            action="Login"
+            comment={
+              <>
+                <span className="text-foreground/70">
+                  Don&apos;t you have an account?{" "}
+                </span>
+                <Link className="underline" href={"/signup"}>
+                  Signup
+                </Link>
+              </>
+            }
+          />
+        </div>
+        <div className="z-20 mt-5 flex h-14 w-full max-w-[370px] items-center justify-center rounded-full bg-white">
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              if (!credentialResponse?.credential) return alert("error");
+              const decoded = jwtDecode(credentialResponse?.credential);
+              const { email, name, picture }: any = decoded;
+              signInWithGoogle({ credential: { email, name, picture } });
+            }}
+            onError={() => {
+              alert("error");
+            }}
+            text="continue_with"
+            shape="pill"
+            logo_alignment="center"
+            locale="en"
+            useOneTap={true}
+          />
+        </div>
+      </div>
     </div>
   );
 }

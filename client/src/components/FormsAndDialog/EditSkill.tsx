@@ -27,6 +27,7 @@ import { toast } from "../ui/use-toast";
 import { getMessage } from "@/lib/utils";
 import { addSkillsState } from "@/store/reducers/user.slice";
 import AccentButton from "../Buttons/AccentButton";
+import { getSkillsAndCategories } from "@/services/company.service";
 
 const FormSchema = z.object({
   skills: z.array(z.string()),
@@ -34,6 +35,18 @@ const FormSchema = z.object({
 
 export function EditSkill({ defaultValues }: { defaultValues: string[] }) {
   const [skills, setSkills] = useState<string[]>(defaultValues || []);
+  const [newSkills, setNewSkills] = useState<string[]>([]);
+  useState(() => {
+    (async () => {
+      try {
+        const response = await getSkillsAndCategories();
+        const { skills, category = [] } = response?.data[0];
+        setNewSkills(skills);
+      } catch (error) {}
+    })();
+    // @ts-expect-error
+  }, []);
+
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean | undefined>(undefined);
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -119,15 +132,7 @@ export function EditSkill({ defaultValues }: { defaultValues: string[] }) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {[
-                        "JavaScript",
-                        "Node.js",
-                        "React",
-                        "MongoDB",
-                        "Python",
-                        "Java",
-                        "C++",
-                      ]
+                      {newSkills
                         .filter((skill) => !skills.includes(skill))
                         .map((skill: string, index: number) => (
                           <SelectItem

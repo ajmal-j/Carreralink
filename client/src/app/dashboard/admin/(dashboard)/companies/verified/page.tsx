@@ -32,7 +32,7 @@ export default async function Companies({
   } catch (error) {}
   return (
     <div className="">
-      <h4 className="mt-5 text-foreground/70">
+      <h4 className="mb-1 mt-5 ps-1 text-foreground/70">
         Showing {options?.totalDocs ?? 0} companies
       </h4>
       <div className="flex flex-col gap-2">
@@ -40,7 +40,7 @@ export default async function Companies({
           companies.map((company) => (
             <div
               key={company.id}
-              className="flex gap-3 rounded-xl border px-2 py-2 transition-all duration-150 hover:bg-foreground/5"
+              className="flex gap-3 rounded-xl px-2 py-2 transition-all duration-150 hover:bg-foreground/5"
             >
               <Link
                 href={`/dashboard/admin/companies/${company?._id ?? company?.id}`}
@@ -68,6 +68,9 @@ export default async function Companies({
                   </Link>
                 </span>
                 <p className="text-sm text-foreground/70">{company.tagline}</p>
+                <p className="pb-1 text-sm text-foreground/70">
+                    {company.email}
+                  </p>
                 <span className="w-min rounded-full border border-foreground/60 px-1.5 pb-[1.5px] text-xs text-foreground/80">
                   {company.industry}
                 </span>

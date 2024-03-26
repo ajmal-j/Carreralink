@@ -67,6 +67,27 @@ export function UserTable({ users = [], query, options, total }: ITableProps) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
+  const toggleBlockAction = async ({ user }: { user: User }) => {
+    try {
+      await toggleBlock({ email: user.email });
+      toast({
+        title: `User ${user.isBlocked ? "Unblocked." : "Blocked."}`,
+      });
+      setData((prev) =>
+        prev.map((u) =>
+          u._id === user._id ? { ...u, isBlocked: !u.isBlocked } : u,
+        ),
+      );
+    } catch (error) {
+      console.log(error);
+      const message = getMessage(error);
+      toast({
+        title: message,
+        variant: "destructive",
+      });
+    }
+  };
+
   const columns: ColumnDef<User>[] = [
     {
       id: "select",
@@ -153,28 +174,7 @@ export function UserTable({ users = [], query, options, total }: ITableProps) {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 className={`${user.isBlocked ? "bg-violet-600/30 hover:bg-violet-500 hover:text-white" : "bg-red-500/20 text-red-500 hover:bg-red-500/70 hover:text-white"} cursor-pointer`}
-                onClick={async () => {
-                  try {
-                    await toggleBlock({ email: user.email });
-                    toast({
-                      title: `User ${user.isBlocked ? "Unblocked." : "Blocked."}`,
-                    });
-                    setData((prev) =>
-                      prev.map((u) =>
-                        u._id === user._id
-                          ? { ...u, isBlocked: !u.isBlocked }
-                          : u,
-                      ),
-                    );
-                  } catch (error) {
-                    console.log(error);
-                    const message = getMessage(error);
-                    toast({
-                      title: message,
-                      variant: "destructive",
-                    });
-                  }
-                }}
+                onClick={() => toggleBlockAction({ user })}
               >
                 {user.isBlocked ? "Unblock user" : "Block user"}
               </DropdownMenuItem>
@@ -206,7 +206,7 @@ export function UserTable({ users = [], query, options, total }: ITableProps) {
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex flex-wrap items-center gap-3 py-4">
         <Input
           placeholder="Filter emails..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
@@ -228,14 +228,14 @@ export function UserTable({ users = [], query, options, total }: ITableProps) {
               alert(JSON.stringify(users.map((u) => u?._id)));
             } catch (error) {}
           }}
-          className="ms-3 h-12"
+          className="h-12"
           variant={"destructive"}
         >
           Delete
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="outline" className="ml-auto h-12">
               Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
