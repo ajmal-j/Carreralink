@@ -15,7 +15,7 @@ export interface IUserData extends Document {
     endDate: Date | string;
   }[];
   experience: {
-    company: string;
+    companyName: string;
     position: string;
     startDate: Date | string;
     endDate: Date | string;
@@ -64,7 +64,7 @@ const userSchema: Schema = new Schema(
     ],
     experience: [
       {
-        company: { type: String },
+        companyName: { type: String },
         position: { type: String },
         startDate: { type: String },
         endDate: { type: String },

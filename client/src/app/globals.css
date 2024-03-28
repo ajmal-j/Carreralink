@@ -7,7 +7,7 @@
   --secondaryColor: 268, 69%, 37%;
   --primaryColor: 268, 100%, 50%;
   --primaryColor2: 268, 100%, 1%;
-  --accentColot: 267, 100%, 64%;
+  --accentColor: 267, 100%, 64%;
   --shadow: 0px 0px 150px hsl(268, 100%, 40%);
   --font-montserrat: "Montserrat", sans-serif;
   --arial: Arial, Helvetica, sans-serif;
@@ -82,4 +82,46 @@ input::-webkit-inner-spin-button {
 ::-webkit-scrollbar-thumb {
   background-color: rgb(51, 51, 51);
   border-radius: 50px;
+}
+
+html.dark {
+  .rdw-link-modal {
+    color: hsl(var(--foreground));
+    background-color: hsl(var(--background));
+    height: auto !important;
+  }
+}
+html {
+  .rdw-link-modal {
+    box-shadow: none !important;
+    border: 0.5px hsl(var(--muted-foreground));
+    border-radius: 20px !important;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    height: auto !important;
+  }
+  .rdw-option-wrapper {
+    border-radius: 6px !important;
+  }
+  .rdw-editor-toolbar {
+    border: none !important;
+  }
+}
+.rdw-link-modal button {
+  border-radius: 20px !important;
+  border: 0.5px !important;
+  transition: all 0.4s;
+  background-color: hsl(var(--primaryColor)) !important;
+  color: white !important;
+}
+.rdw-link-modal input {
+  background-color: hsl(0deg 0% 81.56%);
+  border: 0.5px !important;
+  border-radius: 10px !important;
+}
+.rdw-option-active {
+  background-color: hsl(var(--accentColor)) !important;
+}
+nextjs-portal {
+  display: none;
 }

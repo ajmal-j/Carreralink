@@ -9,7 +9,7 @@ export default function MainText({ text }: { text?: string }) {
       transition={{ duration: 0.5, ease: "easeInOut" }}
       className="mx-auto flex max-w-[800px] flex-col gap-1 py-16"
     >
-      <span className="block text-center">
+      <span className="block text-center text-4xl">
         {text ? (
           text
         ) : (

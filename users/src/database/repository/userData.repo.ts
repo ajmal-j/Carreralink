@@ -22,6 +22,15 @@ export class UserDataRepository implements IUserRepo {
 
     const aggregation = this.database.aggregate([
       {
+        $match: {
+          email: {
+            $not: {
+              $eq: "admin@gmail.com",
+            },
+          },
+        },
+      },
+      {
         $project: {
           username: 1,
           email: 1,
@@ -52,6 +61,29 @@ export class UserDataRepository implements IUserRepo {
     return await this.database.findOneAndUpdate({ email }, data, {
       new: true,
     });
+  }
+
+  async isAlreadyTaken({
+    contact,
+    email,
+    username,
+  }: {
+    email?: string;
+    contact?: number;
+    username?: string;
+  }): Promise<string | null> {
+    if (!email || !contact || !username) return null;
+    const user1 = await this.database.findOne({
+      $and: [
+        { username: { $regex: "^" + username + "$", $options: "i" } },
+        { email: { $ne: email } },
+      ],
+    });
+
+    const user2 = await this.database.findOne({
+      $and: [{ contact }, { email: { $ne: email } }],
+    });
+    return user1 ? "Username" : user2 ? "Contact" : null;
   }
 
   async updateEducation(email: string, dataToUpdate: Record<string, any>) {
@@ -104,6 +136,12 @@ export class UserDataRepository implements IUserRepo {
         new: true,
       }
     );
+  }
+
+  async findByUsername(username: string) {
+    return await this.database.findOne({
+      username,
+    });
   }
 
   async deleteExperience(email: string, id: string) {

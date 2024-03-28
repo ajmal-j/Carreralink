@@ -21,6 +21,7 @@ import { AddSkillsUsecase } from "./admin/addSkills.usecase.js";
 import { SkillsAndCategoryRepository } from "./admin/getSkillsAndCategory.usecase.js";
 import { RemoveSkillUsecase } from "./admin/removeSkill.usecase.js";
 import { RemoveCategoryUsecase } from "./admin/removeCategory.usecase.js";
+import { CompanyListUsecase } from "./company/companyList.js";
 
 const createCompanyUsecase = new CreateCompanyUsecase(
   Repositories.CompanyRepository
@@ -84,6 +85,10 @@ const removeCategoryUsecase = new RemoveCategoryUsecase(
   Repositories.SkillsAndCategoryRepository
 );
 
+const companyListUsecase = new CompanyListUsecase(
+  Repositories.CompanyRepository
+);
+
 export {
   createCompanyUsecase,
   allCompaniesUsecase,
@@ -107,4 +112,5 @@ export {
   getSkillsAndCategory,
   removeSkillUsecase,
   removeCategoryUsecase,
+  companyListUsecase,
 };

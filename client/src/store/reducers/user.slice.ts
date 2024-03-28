@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-interface IUser {
+export interface IUser {
   _id: string;
   name: string;
   email: string;
@@ -19,7 +19,7 @@ interface IUser {
   }[];
   experience: {
     _id: string;
-    company: string;
+    companyName: string;
     position: string;
     startDate: string;
     endDate: string;

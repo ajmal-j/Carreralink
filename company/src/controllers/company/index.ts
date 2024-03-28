@@ -6,6 +6,7 @@ import BuildAllJobs from "./allJobs.js";
 import BuildJobs from "./jobs.js";
 import BuildSkillsAndCategories from "./getSkillsAndCategory.js";
 import BuildIsVerified from "./isVerified.js";
+import BuildCompanyList from "./companyList.js";
 
 const allCompanies = BuildAllCompanies();
 const get = BuildGet();
@@ -15,6 +16,7 @@ const allJobs = BuildAllJobs();
 const jobs = BuildJobs();
 const isVerified = BuildIsVerified();
 const getSkillsAndCategories = BuildSkillsAndCategories();
+const companyList = BuildCompanyList();
 
 export const companyController = {
   allCompanies,
@@ -25,6 +27,7 @@ export const companyController = {
   jobs,
   isVerified,
   getSkillsAndCategories,
+  companyList,
 };
 
 export type ICompanyController = typeof companyController;

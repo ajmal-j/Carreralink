@@ -1,9 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
-
+import { debounce } from "lodash";
 import { ZodObject } from "zod";
 import { Input } from "@/components/ui/input";
 import PrimaryButton from "../Buttons/PrimaryButton";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import {
   Cross1Icon,
   CrossCircledIcon,
@@ -36,6 +37,7 @@ import { cn } from "@/lib/utils";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -52,7 +54,11 @@ import LocationInput from "@/components/Custom/LocationInput";
 import TextEditor from "@/components/Custom/TextEditor";
 import { draftToMarkdown } from "markdown-draft-js";
 import { useFormStatus } from "react-dom";
-import { getSkillsAndCategories } from "@/services/company.service";
+import {
+  companyList,
+  getSkillsAndCategories,
+} from "@/services/company.service";
+import { Textarea } from "../ui/textarea";
 
 type FormType = {
   formSchema: ZodObject<Record<string, any>>;
@@ -75,8 +81,16 @@ export function CustomForm({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
-  const { pending } = useFormStatus();
-  const { watch, setValue, setFocus } = form;
+
+  const {
+    watch,
+    setValue,
+    setFocus,
+    formState: { isDirty, isLoading },
+  } = form;
+  useEffect(() => {
+    setFocus(Object.keys(defaultValues)[0]);
+  }, []);
   return (
     <div className={cn(className)}>
       <Form {...form}>
@@ -133,6 +147,18 @@ export function CustomForm({
                     form={form}
                   />
                 );
+
+              case "company":
+                return (
+                  <CompanyField
+                    key={key}
+                    name={key}
+                    form={form}
+                    watch={watch}
+                    setValue={setValue}
+                  />
+                );
+
               default:
                 return <DefaultComponent key={key} name={key} form={form} />;
             }
@@ -144,12 +170,12 @@ export function CustomForm({
           )}
           <div>
             <PrimaryButton
-              disabled={pending}
+              disabled={isLoading || !isDirty}
               icon={
-                pending ? <UpdateIcon className="animate-spin" /> : undefined
+                isLoading ? <UpdateIcon className="animate-spin" /> : undefined
               }
               type="submit"
-              className={`mt-7 gap-3 py-2.5 font-semibold ${pending ? "text-foreground/70" : ""}`}
+              className={`mt-7 gap-3 py-2.5 font-semibold ${isLoading ? "bg-violet-900 text-foreground/70 hover:bg-violet-800" : ""}`}
             >
               {action || "submit"}
             </PrimaryButton>
@@ -288,7 +314,9 @@ function DefaultComponent({ name, form }: IFormProps) {
         <FormItem>
           <FormLabel className="block capitalize">{field.name}</FormLabel>
           <FormControl>
-            {field.name !== "startDate" && field.name !== "endDate" ? (
+            {field.name === "message" ? (
+              <Textarea placeholder="Enter message here." {...field} />
+            ) : field.name !== "startDate" && field.name !== "endDate" ? (
               <Input
                 type={
                   field.name === "contact" || field.name === "foundedOn"
@@ -379,6 +407,7 @@ function ImageComponent({ form, name }: IFormProps) {
           <FormControl>
             <Input
               ref={fieldValues.ref}
+              className="pt-3"
               onBlur={fieldValues.onBlur}
               disabled={fieldValues.disabled}
               type="file"
@@ -498,6 +527,150 @@ function LocationField({ form, name, watch, setValue }: ILocationInputProps) {
               <span className="text-sm">{watch(name)}</span>
             </div>
           )}
+        </FormItem>
+      )}
+    />
+  );
+}
+function CompanyField({ form, name, watch, setValue }: ILocationInputProps) {
+  const [inFocus, setInFocus] = useState<boolean>(false);
+  const [input, setInput] = useState<string>("");
+  const [selected, setSelected] = useState<{
+    id: string;
+    name: string;
+    headquarters: string;
+    logo: string;
+  } | null>(null);
+  const [companies, setCompanies] = useState<
+    {
+      id: string;
+      name: string;
+      headquarters: string;
+      logo: string;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (!input) return;
+        const response = await companyList(input);
+        setCompanies(response?.data || []);
+      } catch (error) {
+        console.error(error);
+        setCompanies([]);
+      }
+    };
+
+    const debouncedFetch = debounce(fetchData, 500);
+    debouncedFetch();
+
+    return () => {
+      debouncedFetch.cancel();
+    };
+  }, [input]);
+
+  return (
+    <FormField
+      control={form.control}
+      name={name}
+      render={({ field }) => (
+        <FormItem
+          className="relative"
+          onBlur={(e) => {
+            e.eventPhase === 0 && setInFocus(false);
+            if (e.relatedTarget === null) {
+              setInFocus(false);
+            }
+          }}
+        >
+          <FormLabel>{name}</FormLabel>
+          <FormControl>
+            <Input
+              placeholder="Enter company name"
+              value={input}
+              onChange={(e) => {
+                setInput(e.target.value);
+              }}
+              onKeyUp={(e: any) => {
+                if (e.target?.value === "") setCompanies([]);
+              }}
+              onFocus={() => setInFocus(true)}
+              ref={field.ref}
+            />
+          </FormControl>
+          {inFocus && (
+            <div className="absolute left-0 right-0 top-[4.6rem] flex max-h-[300px] w-full flex-col items-start gap-3  overflow-y-scroll  rounded-sm border-2 border-foreground/20 bg-background py-3 ps-2  dark:bg-[#211C26]">
+              {companies?.map((company) => {
+                return (
+                  <Button
+                    type="button"
+                    key={company.id}
+                    onClick={() => {
+                      setInput("");
+                      setSelected(company);
+                      field.onChange(company.id);
+                      setInFocus(false);
+                    }}
+                    variant={"ghost"}
+                    className="flex h-12 w-full items-center justify-start gap-3"
+                  >
+                    <img
+                      className="h-8 w-8 rounded-full object-cover"
+                      src={company.logo}
+                      alt="company logo"
+                    />
+                    <div className="flex w-full items-center justify-between gap-2">
+                      <span className="text-lg text-foreground/90">
+                        {company.name}
+                      </span>
+                      <span className="text-sm text-foreground/60">
+                        {company.headquarters}
+                      </span>
+                    </div>
+                  </Button>
+                );
+              })}
+              {companies.length === 0 && (
+                <h1 className="w-full text-center text-sm text-foreground/70">
+                  no result&apos;s
+                </h1>
+              )}
+            </div>
+          )}
+          <FormMessage />
+          <FormDescription>
+            {selected ? (
+              <div className="flex items-center gap-3 px-2 pt-3">
+                <img
+                  className="h-8 w-8 rounded-full object-cover"
+                  src={selected.logo}
+                  alt="company logo"
+                />
+                <div className="flex w-full items-center justify-between gap-2">
+                  <span className="space-x-3">
+                    <span className="text-lg text-foreground/90">
+                      {selected.name}
+                    </span>
+                    <span className="text-sm text-foreground/60">
+                      {selected.headquarters}
+                    </span>
+                  </span>
+                  <span>
+                    <Cross1Icon
+                      onClick={() => {
+                        setSelected(null);
+                        setValue(name, "", { shouldValidate: true });
+                      }}
+                      className="size-4 cursor-pointer text-red-900"
+                    />
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <h1 className="ps-2 text-center text-sm">no company selected</h1>
+            )}
+          </FormDescription>
         </FormItem>
       )}
     />

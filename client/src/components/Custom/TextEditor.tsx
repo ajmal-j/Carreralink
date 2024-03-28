@@ -15,7 +15,7 @@ export default forwardRef<Object, EditorProps>(function TextEditor(props, ref) {
   return (
     <Editor
       editorClassName={cn(
-        "border rounded-md px-3 min-h-[150px] cursor-text ring-offset-background focus-within:outline-none focus-within:ring-1 focus-within:ring-ring focus-within:ring-offset-2",
+        "border rounded-md px-3 min-h-[150px] cursor-text ring-offset-background focus-within:outline-none focus-within:ring-1 focus-within:ring-ring focus-within:ring-offset-2 dark:bg-[#211C26]",
         props.editorClassName,
       )}
       toolbarClassName={cn(

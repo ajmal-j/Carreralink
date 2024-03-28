@@ -40,9 +40,9 @@ export default function DashboardSideBar({ items, logOut }: IPage) {
             <motion.div
               key={indx}
               className="w-full"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
+              // initial={{ opacity: 0 }}
+              // animate={{ opacity: 1 }}
+              // transition={{ duration: 0.5 }}
               whileTap={{ scale: 0.8 }}
             >
               <Link

@@ -30,7 +30,7 @@ export default function New() {
     .object({
       name: z
         .string()
-        .min(5, "Company name must be at least 5 characters long"),
+        .min(4, "Company name must be at least 4 characters long"),
       website: z.string().url("Invalid URL"),
       tagline: z
         .string()

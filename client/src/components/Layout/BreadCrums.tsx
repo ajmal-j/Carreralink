@@ -17,7 +17,7 @@ const buildBreadcrumbs = (
     label: string;
   },
 ) => {
-  const segments = pathname.split("/").filter(Boolean);
+  const segments = pathname.split("/").filter(Boolean).map(decodeURIComponent);
   return (
     <BreadcrumbList>
       {home && (

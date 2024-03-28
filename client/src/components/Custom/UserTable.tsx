@@ -44,6 +44,8 @@ import { PaginationComponent } from "./Paginations";
 import { toggleBlock } from "@/services/admin.service";
 import { toast } from "../ui/use-toast";
 import { getMessage } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export type User = {
   _id: string;
@@ -66,7 +68,7 @@ export function UserTable({ users = [], query, options, total }: ITableProps) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
-
+  const { push } = useRouter();
   const toggleBlockAction = async ({ user }: { user: User }) => {
     try {
       await toggleBlock({ email: user.email });
@@ -117,7 +119,12 @@ export function UserTable({ users = [], query, options, total }: ITableProps) {
       accessorKey: "username",
       header: "Username",
       cell: ({ row }) => (
-        <div className={`capitalize`}>{row.getValue("username")}</div>
+        <Link
+          href={`/dashboard/admin/users/${row.getValue("username")}`}
+          className="capitalize underline"
+        >
+          {row.getValue("username")}
+        </Link>
       ),
     },
     {
@@ -165,9 +172,7 @@ export function UserTable({ users = [], query, options, total }: ITableProps) {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
-                onClick={() => {
-                  alert(user._id);
-                }}
+                onClick={() => push(`/dashboard/admin/users/${user.username}`)}
               >
                 User profile
               </DropdownMenuItem>

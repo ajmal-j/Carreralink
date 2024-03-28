@@ -34,10 +34,11 @@ export function EditProfile({ defaultValues }: IEditProfile) {
   const formSchema = z.object({
     username: z.string().min(5, "Username must be at least 5 characters"),
     contact: z.string().min(10, "Invalid number").max(12, "Invalid number"),
-    currentStatus: z.enum(
-      ["student", "working", "job seeking", "freelancing"],
-      { required_error: "Please select your current status" },
-    ),
+    currentStatus: z
+      .enum(["student", "working", "job seeking", "freelancing"], {
+        required_error: "Please select your current status",
+      })
+      .optional(),
     place: z.string().optional(),
     workingAt: z
       .string()

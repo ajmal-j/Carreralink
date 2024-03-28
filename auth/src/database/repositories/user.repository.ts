@@ -44,7 +44,7 @@ export class UserRepository implements IUserRepo {
     email?: string;
     contact?: number;
     username?: string;
-  }): Promise<unknown> {
+  }): Promise<IUser | null> {
     return await this.database.findOne({
       $or: [{ email }, { contact }, { username }],
     });

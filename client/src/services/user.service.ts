@@ -91,6 +91,16 @@ const resentOtp = async ({ email }: { email: string }) => {
   return response.data;
 };
 
+const getUser = async (username: string) => {
+  const url = new Server().user("getUser");
+  const response = await axios.get(url, {
+    params: {
+      username,
+    },
+  });
+  return response.data;
+};
+
 export {
   currentUser,
   updateProfile,
@@ -105,4 +115,5 @@ export {
   updateProfilePic,
   verifyUser,
   resentOtp,
+  getUser,
 };

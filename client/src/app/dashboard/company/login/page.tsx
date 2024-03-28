@@ -29,7 +29,7 @@ export default function Login() {
         title: "LogIn successful",
         duration: 2000,
       });
-      router.push("/dashboard/company");
+      router.push("/dashboard/company/");
     } catch (error) {
       console.log(error);
       const message = getMessage(error);

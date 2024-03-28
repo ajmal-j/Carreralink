@@ -19,7 +19,17 @@ export class SignUpUsecase {
 
   async execute(userData: IUser) {
     const isAlreadyTaken = await this.userRepository.isAlreadyTaken(userData);
-    if (isAlreadyTaken) throw new CustomError("User already exists", 409);
+    if (isAlreadyTaken)
+      throw new CustomError(
+        `${
+          isAlreadyTaken.email === userData.email
+            ? "Email"
+            : isAlreadyTaken.username === userData.username
+            ? "Username"
+            : "Contact"
+        } is already taken.`,
+        409
+      );
     const otp = generateOtp();
     await this.sendOtp({ otp, email: userData.email });
     await this.OtpRepository.createOtp({

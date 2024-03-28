@@ -198,7 +198,7 @@ export default function Profile() {
           </h1>
           <div className="flex flex-wrap gap-3 pt-3">
             {user.skills.map((skill: string, index: number) => (
-              <PrimaryButton className="w-min px-5" key={index}>
+              <PrimaryButton className="w-min text-nowrap px-5" key={index}>
                 {skill}
               </PrimaryButton>
             ))}
@@ -217,7 +217,7 @@ export default function Profile() {
             </h1>
             <EditExperience
               defaultValues={{
-                company: "",
+                companyName: "",
                 position: "",
                 startDate: "",
                 endDate: "",
@@ -234,8 +234,8 @@ export default function Profile() {
                   <BackpackIcon className="size-6 text-white" />
                 </span>
                 <div className="flex-1">
-                  <h1 className="">
-                    {exp.position} at {exp.company}
+                  <h1 className="capitalize">
+                    {exp.position} at {exp.companyName}
                   </h1>
                   <span className="flex items-center gap-2 text-foreground/70">
                     {new Date(exp.startDate).toLocaleDateString()}
@@ -249,7 +249,7 @@ export default function Profile() {
                   <EditExperience
                     id={exp._id}
                     defaultValues={{
-                      company: exp.company,
+                      companyName: exp.companyName,
                       position: exp.position,
                       startDate: exp.startDate,
                       endDate: exp.endDate,

@@ -70,7 +70,7 @@ export default function Login() {
 
   return (
     <div className="flex min-h-screen justify-stretch bg-cover bg-center bg-no-repeat">
-      <div className="hidden w-full max-w-[600px] items-center justify-center rounded-r-3xl bg-primaryColor2 p-10 md:flex">
+      <div className="hidden w-full max-w-[600px] items-center justify-center rounded-r-3xl bg-primaryColor p-10 md:flex">
         <div className="flex h-full max-h-[500px] w-full flex-col items-center justify-center">
           <Title className="ms-[-10px]" height={80} width={200} />
           <MainText text="Navigate Your Path to Professional Growth!" />

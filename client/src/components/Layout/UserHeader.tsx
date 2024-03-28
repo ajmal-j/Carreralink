@@ -1,9 +1,7 @@
 "use client";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -14,7 +12,6 @@ import { logout, setUser } from "@/store/reducers/user.slice";
 import {
   BackpackIcon,
   Component1Icon,
-  ExitIcon,
   FileTextIcon,
   InfoCircledIcon,
   PersonIcon,
@@ -68,7 +65,7 @@ export default function UserHeader({ logOut }: { logOut: () => void }) {
   }, []);
 
   return (
-    <header className="z-10 flex items-center justify-between rounded-full border-[0.2px] bg-background px-6 py-3">
+    <header className="z-10 flex items-center justify-between rounded-full sm:border-[0.2px] px-6 py-3">
       <Title />
       <div className="hidden flex-1 items-center justify-end gap-4 px-3  text-foreground/60 md:flex">
         <Link className="hover:text-foreground" href="/jobs">
@@ -83,7 +80,7 @@ export default function UserHeader({ logOut }: { logOut: () => void }) {
             Companies
           </Link>
         )}
-        <Link className="hover:text-foreground" href="/hire">
+        <Link className="hover:text-foreground" href="/dashboard/recruiter">
           Hire
         </Link>
         <Link className="hover:text-foreground" href="/about">
@@ -138,7 +135,7 @@ export function MobileNav() {
           </span>
           <span className="flex items-center rounded-2xl py-1.5 ps-5 text-foreground/70 transition-all duration-150 hover:bg-foreground/20 hover:text-foreground">
             <FileTextIcon className="mr-4 h-4 w-4 text-foreground" />
-            <Link href="/hire">Hire</Link>
+            <Link href="/dashboard/recruiter">Hire</Link>
           </span>
           <span className="flex items-center rounded-2xl py-1.5 ps-5 text-foreground/70 transition-all duration-150 hover:bg-foreground/20 hover:text-foreground">
             <InfoCircledIcon className="mr-4 h-4 w-4 text-foreground" />

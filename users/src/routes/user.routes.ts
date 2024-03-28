@@ -58,5 +58,6 @@ export default (
     imageUploader,
     expressCallback(userController.updateProfilePic)
   );
+  router.get("/getUser", expressCallback(userController.getUser));
   return router;
 };

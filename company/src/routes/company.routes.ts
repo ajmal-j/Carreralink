@@ -47,5 +47,7 @@ export function CompanyRoutes(
 
   router.get("/jobs", VerifyCompany, expressCallback(companyController.jobs));
 
+  router.get("/companyList", expressCallback(companyController.companyList));
+
   return router;
 }

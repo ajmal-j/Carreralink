@@ -13,6 +13,7 @@ import { GoogleLoginUsecase } from "./users/googleLogin.usecase.js";
 import { UpdateProfilePicUsecase } from "./users/updateProfilePic.usecase.js";
 import { GetUsersUsecase } from "./admin/getUsers.usecase.js";
 import { ToggleBlockUsecase } from "./admin/toggleBlock.usecase.js";
+import { GetUserUsecase } from "./users/getuser.usecase.js";
 
 const createUserUsecase = new CreateUserUsecase(Repositories.UserDataRepo);
 const currentUserUsecase = new CurrentUserUsecase(Repositories.UserDataRepo);
@@ -43,6 +44,7 @@ const updateProfilePicUsecase = new UpdateProfilePicUsecase(
 
 const getUsersUsecase = new GetUsersUsecase(Repositories.UserDataRepo);
 const toggleBlockUsecase = new ToggleBlockUsecase(Repositories.UserDataRepo);
+const getUserUsecase = new GetUserUsecase(Repositories.UserDataRepo);
 
 export {
   createUserUsecase,
@@ -59,4 +61,5 @@ export {
   updateProfilePicUsecase,
   getUsersUsecase,
   toggleBlockUsecase,
+  getUserUsecase,
 };

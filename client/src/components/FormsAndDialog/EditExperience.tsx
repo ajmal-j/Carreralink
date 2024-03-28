@@ -21,7 +21,7 @@ import AccentButton from "../Buttons/AccentButton";
 interface IEditExperience {
   id?: string;
   defaultValues: {
-    company: string;
+    companyName: string;
     position: string;
     startDate: Date | string;
     endDate: Date | string;
@@ -32,7 +32,7 @@ export function EditExperience({ defaultValues, id }: IEditExperience) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean | undefined>(undefined);
   const formSchema = z.object({
-    company: z.string().min(5, "Company name must be at least 5 characters"),
+    companyName: z.string().min(5, "Company name must be at least 5 characters"),
     position: z.string().min(5, "Position must be at least 5 characters"),
     startDate: DateSchema,
     endDate: DateSchema,

@@ -189,7 +189,12 @@ export class CompanyRepository implements ICompanyRepository {
       { isVerified: true }
     );
   }
-
+  async companyList(q: string) {
+    const regex = new RegExp(q, "i");
+    return await this.database
+      .find({ name: regex })
+      .select(["name", "logo", "headquarters"]);
+  }
   async rejectVerification(id: string) {
     return await this.database.findOneAndDelete({ _id: id });
   }

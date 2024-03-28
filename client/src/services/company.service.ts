@@ -114,6 +114,16 @@ const getSkillsAndCategories = async () => {
   return response.data;
 };
 
+const companyList = async (q: string) => {
+  const url = new Server().company("companyList");
+  const response = await axios.get(url, {
+    params: {
+      q,
+    },
+  });
+  return response.data;
+};
+
 export {
   registerCompany,
   allCompanies,
@@ -126,4 +136,5 @@ export {
   getJobs,
   getSkillsAndCategories,
   isVerified,
+  companyList,
 };
