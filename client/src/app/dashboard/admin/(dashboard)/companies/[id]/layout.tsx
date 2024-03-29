@@ -49,7 +49,7 @@ export default async function Layout({ params: { id }, children }: IPage) {
           </div>
         </span>
       </div>
-      <div className="mt-5 flex items-center gap-3">
+      <div className="mt-5 flex h-full  gap-3">
         <div className="flex h-full w-min rounded-full bg-white ">
           <Image
             alt="company ceo"

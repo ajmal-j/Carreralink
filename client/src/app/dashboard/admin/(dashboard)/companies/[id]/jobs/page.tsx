@@ -29,7 +29,7 @@ export default async function Jobs({
 export function SingleJob({ job }: { job: IJob }) {
   return (
     <div className="flex items-center gap-3 rounded-sm border px-4 py-2 transition-all duration-200 hover:bg-foreground/5">
-      <Link href={job?.href || `/jobs/${job?.id}`} className="flex-1 ">
+      <Link href={job?.href || `/dashboard/admin/jobs/${job?.id}`} className="flex-1 ">
         <h1 className="pb-1 text-lg font-semibold">{job?.title}</h1>
         <p className="text-sm text-foreground/70">
           Applicant&lsquo;s : {job?.applicants?.length}

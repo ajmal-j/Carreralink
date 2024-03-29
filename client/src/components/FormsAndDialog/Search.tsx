@@ -8,6 +8,7 @@ export default function Search({
   action,
   state,
   onSubmit,
+  placeholder,
   defaultValue,
   name,
 }: {
@@ -15,6 +16,7 @@ export default function Search({
   state?: boolean;
   action?: string;
   defaultValue?: string;
+  placeholder?: string;
   name?: string;
   onSubmit?: () => unknown;
 }) {
@@ -35,10 +37,10 @@ export default function Search({
         <div className="flex flex-1 items-center">
           <MagnifyingGlassIcon className="ms-2 size-5" />
           <input
-            placeholder="Search for jobs..."
+            placeholder={placeholder ? placeholder : "Search for jobs..."}
             name={name ?? "q"}
             defaultValue={defaultValue}
-            className="w-full bg-transparent px-2 py-2 font-montserrat text-foreground/80 outline-none ring-0 placeholder:text-sm"
+            className="w-full bg-transparent px-2 py-2  text-foreground/70 outline-none ring-0 placeholder:text-sm"
           />
         </div>
         <PrimaryButton className="w-min px-6" type="submit">

@@ -1,5 +1,6 @@
 import { Server } from "@/lib/server";
 import axios from "./axios.interseptor";
+import { string } from "zod";
 
 const currentAdmin = async () => {
   const url = new Server().adminUser("currentAdmin");
@@ -87,6 +88,28 @@ const rejectCompany = async ({ token, id }: { token: string; id: string }) => {
   return response.data;
 };
 
+const getJobs = async ({
+  token,
+  query,
+}: {
+  token: string;
+  query: {
+    p?: number | string;
+    q?: string;
+  };
+}) => {
+  const url = new Server().adminCompany("jobs");
+  const response = await axios.get(url, {
+    headers: {
+      adminToken: `Bearer ${token}`,
+    },
+    params: {
+      ...query,
+    },
+  });
+  return response.data;
+};
+
 const addCategories = async ({ categories }: { categories: string[] }) => {
   const url = new Server().adminCompany("addCategories");
   const response = await axios.post(url, {
@@ -126,7 +149,7 @@ const getUsers = async ({
   query,
 }: {
   token: string;
-  query: { p?: number | string };
+  query: { p?: number | string; q?: string };
 }) => {
   const url = new Server().adminUser("users");
   const response = await axios.get(url, {
@@ -148,6 +171,16 @@ const toggleBlock = async ({ email }: { email: string }) => {
   return response.data;
 };
 
+const deleteJobs = async ({ jobs }: { jobs: string[] }) => {
+  const url = new Server().adminCompany("deleteJobs");
+  const response = await axios.delete(url, {
+    data: {
+      jobs,
+    },
+  });
+  return response.data;
+};
+
 export {
   getVerifiedCompanies,
   getUnverifiedCompanies,
@@ -161,4 +194,6 @@ export {
   getUsers,
   toggleBlock,
   deleteUsers,
+  getJobs,
+  deleteJobs,
 };

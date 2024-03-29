@@ -1,21 +1,27 @@
-import { User, UserTable } from "@/components/Custom/UserTable";
-import Search from "@/components/FormsAndDialog/Search";
-import { getUsers } from "@/services/admin.service";
+import { getJobs } from "@/services/admin.service";
 import { IResponseData } from "@/types/paginateResponse";
 import { cookies } from "next/headers";
+import { Jobs, JobsTable } from "./JobsTable";
+import Search from "@/components/FormsAndDialog/Search";
 
-export default async function Users({
+export default async function Jobs({
   searchParams: { p, q },
 }: {
-  searchParams: { p: string; q?: string };
+  searchParams: { p: string; q: string };
 }) {
   let options = {} as IResponseData;
-  let data: User[] = [];
-  const query = { p: p ?? 1, q: q ?? "" };
+  let data: Jobs[] = [];
+  const query = { p: p ?? 1, q };
   try {
     const token = cookies().get("adminToken")?.value ?? "";
-    const response = await getUsers({ query, token });
-    data = response?.data?.docs;
+    const response = await getJobs({ query, token });
+    const d = response?.data?.docs;
+    for (const job of d) {
+      data.push({
+        ...job,
+        company: job.company.name,
+      });
+    }
     const { totalDocs, ...rest } = response.data;
     options = {
       totalDocs,
@@ -24,19 +30,19 @@ export default async function Users({
   } catch (error) {
     console.log(error);
   }
+
   return (
-    <div>
+    <div className="flex flex-col">
       <Search
         defaultValue={q}
-        placeholder="Search for users..."
         className="mb-6 w-full max-w-[600px] flex-1 shadow-md shadow-foreground/5"
-        action="/dashboard/admin/users"
+        action="/dashboard/admin/jobs"
       />
-      <UserTable
+      <JobsTable
         total={options.totalDocs}
         options={options}
         query={query}
-        users={data}
+        jobs={data}
       />
     </div>
   );

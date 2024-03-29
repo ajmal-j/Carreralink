@@ -14,12 +14,11 @@ export class UserDataRepository implements IUserRepo {
     return await this.database.create(userData);
   }
 
-  async getUsers(query: { p: number }) {
+  async getUsers(query: { p: number; q?: string }) {
     const options = {
       page: query?.p ?? 1,
       limit: 10,
     };
-
     const aggregation = this.database.aggregate([
       {
         $match: {
@@ -28,6 +27,14 @@ export class UserDataRepository implements IUserRepo {
               $eq: "admin@gmail.com",
             },
           },
+          ...(query?.q
+            ? {
+                $text: {
+                  $search: query.q,
+                  $caseSensitive: false,
+                },
+              }
+            : {}),
         },
       },
       {

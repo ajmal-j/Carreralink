@@ -22,6 +22,6 @@ const companyRoutes = CompanyRoutes({
   ]),
 });
 const jobsRoutes = JobRoutes(jobs, jobController);
-const adminRoutes = AdminRoutes(admin, adminControllers);
+const adminRoutes = AdminRoutes(admin, adminControllers, jobController);
 
 export { companyRoutes, jobsRoutes, adminRoutes };

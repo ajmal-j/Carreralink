@@ -45,14 +45,14 @@ export default async function Layout({ params: { id }, children }: IPage) {
           </div>
         </span>
       </div>
-      <div className="mt-5 flex items-center gap-3">
-        <div className="w-min">
+      <div className="mt-5 flex gap-3">
+        <div className="flex min-h-full w-min rounded-full bg-white ">
           <Image
             alt="company ceo"
-            src={company.imageOfCEO}
+            src={company?.imageOfCEO || ""}
             width={200}
             height={200}
-            className="max-w-[80px] rounded-full object-cover object-center md:max-w-[130px]"
+            className="min-h-full max-w-[80px] rounded-full object-cover object-center md:max-w-[130px]"
           />
         </div>
         <div className="flex-1 place-self-end pb-2">

@@ -38,6 +38,7 @@ export default async function Companies({
       <h1 className="mt-6 text-center text-4xl">Top companies hiring now</h1>
       <Search
         defaultValue={defaultValues?.search}
+        placeholder="Search for companies..."
         name="search"
         action="/companies"
         className="mt-10 max-w-[600px]"

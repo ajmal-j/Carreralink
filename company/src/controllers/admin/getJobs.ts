@@ -1,23 +1,19 @@
 import { Request } from "express";
-import { getAllJobsUsecase } from "../../usecases/index.js";
+import { getJobsByAdminUsecase } from "../../usecases/index.js";
 import { CustomResponse } from "@carreralink/common";
 
 export default function () {
   return async (req: Request) => {
-    const { q, location, type, p, sort } = req.query;
-
+    const { p, q } = req.query;
     const query = {
       page: Number(p) ?? 1,
-      q,
-      location,
-      type,
-      sort,
-    } as const;
-    const data = await getAllJobsUsecase.execute(query as {});
+      q: q as string,
+    };
+    const data = await getJobsByAdminUsecase.execute(query);
     return new CustomResponse()
       .data(data)
-      .statusCode(200)
       .message("All Jobs.")
+      .statusCode(200)
       .response();
   };
 }

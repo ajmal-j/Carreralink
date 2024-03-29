@@ -122,6 +122,7 @@ html {
 .rdw-option-active {
   background-color: hsl(var(--accentColor)) !important;
 }
+
 nextjs-portal {
   display: none;
 }

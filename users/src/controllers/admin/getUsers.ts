@@ -6,17 +6,16 @@ export default function () {
     const adminData = req.adminData;
     if (!adminData.email || !adminData.isAdmin)
       throw new Error("Admin data not found");
-    const q = req.query;
+    const { q, p } = req.query;
     const query = {
-      p: Number(q?.p) ?? 1,
+      p: Number(p) ?? 1,
+      q: q as string,
     };
     const data = await getUsersUsecase.execute(query);
-    return (
-      new CustomResponse()
-        .data(data)
-        .statusCode(200)
-        .message("All verified companies.")
-        .response()
-    );
+    return new CustomResponse()
+      .data(data)
+      .statusCode(200)
+      .message("All verified companies.")
+      .response();
   };
 }

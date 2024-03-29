@@ -1,7 +1,12 @@
 import { VerifyAdmin, expressCallback } from "@carreralink/common";
 import { IAdminController } from "../controllers/admin/index.js";
+import { IJobController } from "../controllers/jobs/index.js";
 
-export function AdminRoutes(router: any, adminController: IAdminController) {
+export function AdminRoutes(
+  router: any,
+  adminController: IAdminController,
+  jobController: IJobController
+) {
   router.use(VerifyAdmin);
   router.get(
     "/unverifiedCompanies",
@@ -28,5 +33,7 @@ export function AdminRoutes(router: any, adminController: IAdminController) {
     expressCallback(adminController.removeCategory)
   );
   router.delete("/removeSkill", expressCallback(adminController.removeSkill));
+  router.get("/jobs", expressCallback(adminController.getJobs));
+  router.delete("/deleteJobs", expressCallback(adminController.deleteJobs));
   return router;
 }

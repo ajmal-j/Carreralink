@@ -23,6 +23,8 @@ import { RemoveSkillUsecase } from "./admin/removeSkill.usecase.js";
 import { RemoveCategoryUsecase } from "./admin/removeCategory.usecase.js";
 import { CompanyListUsecase } from "./company/companyList.js";
 import { UpdateCoverPhotoUsecase } from "./company/updateCoverPhoto.usecase.js";
+import { GetJobsByAdminUsecase } from "./admin/getJobs.usecase.js";
+import { DeleteJobsByAdminUsecase } from "./admin/deleteJobsByAdmin.usecase.js";
 
 const createCompanyUsecase = new CreateCompanyUsecase(
   Repositories.CompanyRepository
@@ -94,6 +96,14 @@ const updateCoverPhotoUsecase = new UpdateCoverPhotoUsecase(
   Repositories.CompanyRepository
 );
 
+const getJobsByAdminUsecase = new GetJobsByAdminUsecase(
+  Repositories.JobRepository
+);
+
+const deleteJobsByAdminUsecase = new DeleteJobsByAdminUsecase(
+  Repositories.JobRepository
+);
+
 export {
   createCompanyUsecase,
   allCompaniesUsecase,
@@ -119,4 +129,6 @@ export {
   removeCategoryUsecase,
   companyListUsecase,
   updateCoverPhotoUsecase,
+  getJobsByAdminUsecase,
+  deleteJobsByAdminUsecase,
 };
