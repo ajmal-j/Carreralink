@@ -6,11 +6,19 @@ import {
 } from "@carreralink/common";
 import { IJobController } from "../controllers/jobs/index.js";
 
-export function CompanyRoutes(
-  router: any,
-  companyController: ICompanyController,
-  jobController: IJobController
-) {
+export function CompanyRoutes({
+  router,
+  companyController,
+  updateLogoOrImageOfCEO,
+  jobController,
+  updateCoverPhoto,
+}: {
+  router: any;
+  companyController: ICompanyController;
+  updateLogoOrImageOfCEO: any;
+  jobController: IJobController;
+  updateCoverPhoto: any;
+}) {
   router.get("/all", expressCallback(companyController.allCompanies));
 
   router.get("/get", expressCallback(companyController.get));
@@ -26,6 +34,7 @@ export function CompanyRoutes(
   router.put(
     "/update",
     VerifyCompany,
+    updateLogoOrImageOfCEO,
     expressCallback(companyController.update)
   );
 
@@ -48,6 +57,13 @@ export function CompanyRoutes(
   router.get("/jobs", VerifyCompany, expressCallback(companyController.jobs));
 
   router.get("/companyList", expressCallback(companyController.companyList));
+
+  router.put(
+    "/updateCoverPhoto",
+    VerifyCompany,
+    updateCoverPhoto,
+    expressCallback(companyController.updateCoverPhoto)
+  );
 
   return router;
 }

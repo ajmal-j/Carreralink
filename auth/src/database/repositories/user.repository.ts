@@ -19,7 +19,7 @@ export interface IUserRepo {
   }): Promise<void>;
 }
 
-export class UserRepository implements IUserRepo {
+export class UserRepository {
   constructor(public readonly database: UserModelType) {}
 
   async createUser(user: IUser): Promise<IUserAuth> {
@@ -35,7 +35,9 @@ export class UserRepository implements IUserRepo {
       }
     );
   }
-
+  async deleteUsers(users: string[]) {
+    return await this.database.deleteMany({ email: { $in: users } });
+  }
   async isAlreadyTaken({
     email,
     contact,

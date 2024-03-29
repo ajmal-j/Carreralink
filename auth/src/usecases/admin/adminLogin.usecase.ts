@@ -4,11 +4,11 @@ import {
   NotFoundError,
   UnauthorizedError,
 } from "@carreralink/common";
-import { IUserRepo } from "../../database/repositories/user.repository.js";
+import { UserRepoType } from "../../database/index.js";
 
 export class AdminLoginUsecase {
   constructor(
-    private readonly UserRepository: IUserRepo,
+    private readonly UserRepository: UserRepoType,
     private readonly passwordUtil: IPasswordUtil
   ) {}
 

@@ -10,6 +10,8 @@ import { UpdateUserBlockUsecase } from "./admin/updateUserBlock.usecase.js";
 import { VerifyOtpUsecase } from "./user/verifyOtp.usecase.js";
 import { sendOtp } from "../utils/sendOtp.js";
 import { ResentOtpUsecase } from "./user/resentOtp.usecase.js";
+import { RejectCompanyUsecase } from "./company/rejectCompany.usecase.js";
+import { DeleteUsersUsecase } from "./user/deleteUsers.usecase.js";
 
 const signupUseCase = new SignUpUsecase(
   passwordUtil,
@@ -53,6 +55,10 @@ const resentOtpUsecase = new ResentOtpUsecase(
   sendOtp
 );
 
+const rejectCompanyUsecase = new RejectCompanyUsecase(Repositories.CompanyRepo);
+
+const deleteUsersUsecase = new DeleteUsersUsecase(Repositories.UserRepo);
+
 export {
   signupUseCase,
   CompanyLogInUseCase,
@@ -63,4 +69,6 @@ export {
   updateBlockUsecase,
   verifyOtpUsecase,
   resentOtpUsecase,
+  rejectCompanyUsecase,
+  deleteUsersUsecase,
 };

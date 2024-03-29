@@ -22,6 +22,7 @@ import { SkillsAndCategoryRepository } from "./admin/getSkillsAndCategory.usecas
 import { RemoveSkillUsecase } from "./admin/removeSkill.usecase.js";
 import { RemoveCategoryUsecase } from "./admin/removeCategory.usecase.js";
 import { CompanyListUsecase } from "./company/companyList.js";
+import { UpdateCoverPhotoUsecase } from "./company/updateCoverPhoto.usecase.js";
 
 const createCompanyUsecase = new CreateCompanyUsecase(
   Repositories.CompanyRepository
@@ -89,6 +90,10 @@ const companyListUsecase = new CompanyListUsecase(
   Repositories.CompanyRepository
 );
 
+const updateCoverPhotoUsecase = new UpdateCoverPhotoUsecase(
+  Repositories.CompanyRepository
+);
+
 export {
   createCompanyUsecase,
   allCompaniesUsecase,
@@ -113,4 +118,5 @@ export {
   removeSkillUsecase,
   removeCategoryUsecase,
   companyListUsecase,
+  updateCoverPhotoUsecase,
 };

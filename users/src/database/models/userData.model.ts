@@ -115,5 +115,5 @@ userSchema.index(
 export const UserDataModel = mongoose.model<IUserData>("User", userSchema);
 
 export type UserDataModelType = typeof UserDataModel & {
-  aggregatePaginate: any;
+  aggregatePaginate?: any;
 };

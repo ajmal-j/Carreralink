@@ -88,7 +88,7 @@ export default async function Companies({
             >
               <Link
                 href={`/dashboard/admin/companies/${company?._id}`}
-                scroll={false}
+                scroll={true}
               >
                 <div className="my-auto flex size-[50px] justify-center gap-3 rounded-full border bg-white md:size-[80px] ">
                   <Image
@@ -105,7 +105,7 @@ export default async function Companies({
                   <span className="flex items-center gap-2">
                     <Link
                       href={`/dashboard/admin/companies/${company?._id}`}
-                      scroll={false}
+                      scroll={true}
                     >
                       <h2 className="text-xl font-semibold hover:underline">
                         {company.name}

@@ -14,6 +14,7 @@ import { UpdateProfilePicUsecase } from "./users/updateProfilePic.usecase.js";
 import { GetUsersUsecase } from "./admin/getUsers.usecase.js";
 import { ToggleBlockUsecase } from "./admin/toggleBlock.usecase.js";
 import { GetUserUsecase } from "./users/getuser.usecase.js";
+import { DeleteUsersUsecase } from "./admin/deleteUser.js";
 
 const createUserUsecase = new CreateUserUsecase(Repositories.UserDataRepo);
 const currentUserUsecase = new CurrentUserUsecase(Repositories.UserDataRepo);
@@ -45,6 +46,7 @@ const updateProfilePicUsecase = new UpdateProfilePicUsecase(
 const getUsersUsecase = new GetUsersUsecase(Repositories.UserDataRepo);
 const toggleBlockUsecase = new ToggleBlockUsecase(Repositories.UserDataRepo);
 const getUserUsecase = new GetUserUsecase(Repositories.UserDataRepo);
+const deleteUsersUsecase = new DeleteUsersUsecase(Repositories.UserDataRepo);
 
 export {
   createUserUsecase,
@@ -62,4 +64,5 @@ export {
   getUsersUsecase,
   toggleBlockUsecase,
   getUserUsecase,
+  deleteUsersUsecase,
 };

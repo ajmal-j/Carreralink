@@ -6,11 +6,12 @@ import BuildAddCategory from "./addCategory.js";
 import BuildAddSkills from "./addSkills.js";
 import BuildRemoveCategory from "./removeCategory.js";
 import BuildRemoveSkill from "./removeSkills.js";
+import { eventProducer } from "../../events/producer.js";
 
 const verifiedCompanies = BuildVerifiedCompanies();
 const unverifiedCompanies = BuildUnverifiedCompanies();
 const verifyCompany = BuildVerifyCompany();
-const rejectCompany = BuildRejectCompany();
+const rejectCompany = BuildRejectCompany(eventProducer);
 const addSkills = BuildAddSkills();
 const addCategory = BuildAddCategory();
 const removeCategory = BuildRemoveCategory();

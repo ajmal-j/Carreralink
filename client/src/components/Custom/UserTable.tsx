@@ -41,11 +41,14 @@ import {
 import { useState } from "react";
 import { IResponseData } from "@/types/paginateResponse";
 import { PaginationComponent } from "./Paginations";
-import { toggleBlock } from "@/services/admin.service";
+import { deleteUsers, toggleBlock } from "@/services/admin.service";
 import { toast } from "../ui/use-toast";
 import { getMessage } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Label } from "../ui/label";
+import { PopoverClose } from "@radix-ui/react-popover";
 
 export type User = {
   _id: string;
@@ -80,6 +83,25 @@ export function UserTable({ users = [], query, options, total }: ITableProps) {
           u._id === user._id ? { ...u, isBlocked: !u.isBlocked } : u,
         ),
       );
+    } catch (error) {
+      console.log(error);
+      const message = getMessage(error);
+      toast({
+        title: message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeleteUser = async (users: string[]) => {
+    try {
+      if (!users) return toast({ title: "User not found." });
+      await deleteUsers({ users });
+      setData((data) => data.filter((u) => !users.includes(u._id)));
+      setRowSelection({});
+      toast({
+        title: `${users.length > 1 ? "Users" : "User"} deleted successfully.`,
+      });
     } catch (error) {
       console.log(error);
       const message = getMessage(error);
@@ -220,24 +242,39 @@ export function UserTable({ users = [], query, options, total }: ITableProps) {
           }
           className="max-w-sm"
         />
-        <Button
-          disabled={
-            !table?.getIsSomeRowsSelected() && !table?.getIsAllRowsSelected()
-          }
-          onClick={() => {
-            try {
-              const users = table
-                .getSelectedRowModel()
-                .flatRows.map((row) => row.original);
-
-              alert(JSON.stringify(users.map((u) => u?._id)));
-            } catch (error) {}
-          }}
-          className="h-12"
-          variant={"destructive"}
-        >
-          Delete
-        </Button>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              disabled={
+                !table?.getIsSomeRowsSelected() &&
+                !table?.getIsAllRowsSelected()
+              }
+              className="h-12"
+              variant={"destructive"}
+            >
+              Delete
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent align="start" className="flex flex-col gap-2">
+            <Label>Are you sure you want to delete these users?</Label>
+            <PopoverClose className="ms-auto space-x-1">
+              <Button
+                onClick={async () => {
+                  try {
+                    const users = table
+                      .getSelectedRowModel()
+                      .flatRows.map((row) => row.original?._id);
+                    await handleDeleteUser(users as any);
+                  } catch (error) {}
+                }}
+                size={"sm"}
+                className="bg-red-500/20 text-red-500 hover:bg-red-500/50 hover:text-white"
+              >
+                confirm
+              </Button>
+            </PopoverClose>
+          </PopoverContent>
+        </Popover>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto h-12">

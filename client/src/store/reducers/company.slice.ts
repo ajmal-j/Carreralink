@@ -48,6 +48,10 @@ const companySlice = createSlice({
       state = action.payload;
       return state;
     },
+    updateCoverPhotoState: (state, action: PayloadAction<string>) => {
+      state.coverPhoto = action.payload;
+      return state;
+    },
     logout: (state) => {
       state = initialState;
       return state;
@@ -55,6 +59,7 @@ const companySlice = createSlice({
   },
 });
 
-export const { setCompany, logout } = companySlice.actions;
+export const { setCompany, logout, updateCoverPhotoState } =
+  companySlice.actions;
 
 export default companySlice.reducer;

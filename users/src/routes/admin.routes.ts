@@ -12,5 +12,9 @@ export default function (adminRouter: any, adminController: IAdminController) {
     "/toggleBlock",
     expressCallback(adminController.toggleBlock)
   );
+  adminRouter.delete(
+    "/deleteUsers",
+    expressCallback(adminController.deleteUsers)
+  );
   return adminRouter;
 }

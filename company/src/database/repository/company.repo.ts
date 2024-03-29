@@ -87,6 +87,20 @@ export class CompanyRepository implements ICompanyRepository {
     return updatedCompany;
   }
 
+  async updateCoverPhoto(email: string, url: string): Promise<ICompany> {
+    const updatedCompany = await this.database.findOneAndUpdate(
+      { email },
+      {
+        $set: {
+          coverPhoto: url,
+        },
+      },
+      { new: true }
+    );
+    if (!updatedCompany) throw new NotFoundError("Company not found");
+    return updatedCompany;
+  }
+
   async updateJobs(email: string, jobId: any): Promise<ICompany> {
     const updatedCompany = await this.database.findOneAndUpdate(
       { email },
@@ -196,7 +210,10 @@ export class CompanyRepository implements ICompanyRepository {
       .select(["name", "logo", "headquarters"]);
   }
   async rejectVerification(id: string) {
-    return await this.database.findOneAndDelete({ _id: id });
+    const company = await this.database.findOne({ _id: id });
+    if (!company) throw new NotFoundError("Company not found");
+    await this.database.findOneAndDelete({ _id: id });
+    return company;
   }
 
   async isVerified(email: string) {

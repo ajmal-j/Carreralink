@@ -144,6 +144,12 @@ export class UserDataRepository implements IUserRepo {
     });
   }
 
+  async deleteUsers(users: string[]) {
+    const user = await this.database.find({ _id: { $in: users } });
+    await this.database.deleteMany({ _id: { $in: users } });
+    return user;
+  }
+
   async deleteExperience(email: string, id: string) {
     return await this.database.findOneAndUpdate(
       { email: email },

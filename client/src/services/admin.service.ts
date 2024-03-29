@@ -48,6 +48,16 @@ const getUnverifiedCompanies = async ({
   return response.data;
 };
 
+const deleteUsers = async ({ users }: { users: string[] }) => {
+  const url = new Server().adminUser("deleteUsers");
+  const response = await axios.delete(url, {
+    data: {
+      users,
+    },
+  });
+  return response.data;
+};
+
 const verifyCompany = async ({ token, id }: { token: string; id: string }) => {
   const url = new Server().adminCompany("verifyCompany");
   const response = await axios.post(
@@ -150,4 +160,5 @@ export {
   currentAdmin,
   getUsers,
   toggleBlock,
+  deleteUsers,
 };

@@ -56,6 +56,12 @@ const updateCompany = async (data: any) => {
   return response.data;
 };
 
+const updateCoverPhoto = async (data: any) => {
+  const url = new Server().company("updateCoverPhoto");
+  const response = await axios.put(url, data);
+  return response.data;
+};
+
 const getAllJobsByCompanySSR = async (token: string) => {
   const url = new Server().company("allJobs");
   const response = await axios.get(url, {
@@ -137,4 +143,5 @@ export {
   getSkillsAndCategories,
   isVerified,
   companyList,
+  updateCoverPhoto,
 };

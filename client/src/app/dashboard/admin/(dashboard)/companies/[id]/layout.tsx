@@ -38,7 +38,7 @@ export default async function Layout({ params: { id }, children }: IPage) {
           alt="cover photo"
         />
         <span className="absolute bottom-1.5 left-4 rounded-2xl md:bottom-5 md:left-9">
-          <div className="my-auto flex size-[50px] justify-center gap-3 rounded-full border border-background/10 bg-white shadow-xl md:size-[80px] ">
+          <div className="my-auto flex size-[50px] h-full w-full justify-center gap-3 rounded-full border border-background/10 bg-white shadow-xl md:size-[80px] ">
             <Image
               className="rounded-full object-contain object-center"
               src={company.logo}
@@ -50,10 +50,10 @@ export default async function Layout({ params: { id }, children }: IPage) {
         </span>
       </div>
       <div className="mt-5 flex items-center gap-3">
-        <div className="w-min">
+        <div className="flex h-full w-min rounded-full bg-white ">
           <Image
             alt="company ceo"
-            src={company.imageOfCEO}
+            src={company?.imageOfCEO || ""}
             width={200}
             height={200}
             className="max-w-[80px] rounded-full object-cover object-center md:max-w-[130px]"
@@ -101,7 +101,11 @@ export default async function Layout({ params: { id }, children }: IPage) {
           <h1 className="w-full text-xl">{company.headquarters}</h1>
         </span>
       </div>
-      <CompanyProfileNav route="/dashboard/admin/companies" id={id} data={company}>
+      <CompanyProfileNav
+        route="/dashboard/admin/companies"
+        id={id}
+        data={company}
+      >
         {children}
       </CompanyProfileNav>
     </article>

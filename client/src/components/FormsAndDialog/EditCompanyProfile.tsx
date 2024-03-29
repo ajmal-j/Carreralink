@@ -7,7 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {  useState } from "react";
+import { useState } from "react";
 import { CustomForm } from "./CusotomForm";
 import { z } from "zod";
 import { getMessage } from "@/lib/utils";
@@ -17,6 +17,7 @@ import { Pencil2Icon } from "@radix-ui/react-icons";
 import { RawDraftContentState } from "react-draft-wysiwyg";
 import { updateCompany } from "@/services/company.service";
 import { setCompany } from "@/store/reducers/company.slice";
+import { ImageSchema } from "@/lib/schema";
 
 interface ICompanyProfile {
   defaultValues: {
@@ -41,7 +42,7 @@ export function EditCompanyProfile({ defaultValues }: ICompanyProfile) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean | undefined>(undefined);
   const formSchema = z.object({
-    name: z.string().min(5, "Company name must be at least 5 characters long"),
+    name: z.string().min(3, "Company name must be at least 3 characters long"),
     website: z.string().url("Invalid URL"),
     tagline: z
       .string()
@@ -57,16 +58,9 @@ export function EditCompanyProfile({ defaultValues }: ICompanyProfile) {
           Number(data) > 1000 && Number(data) < new Date().getFullYear() + 1,
         {
           message: "Invalid year",
-          path: ["foundedOn"],
         },
       ),
-    revenue: z
-      .string()
-      .min(1, "Invalid revenue")
-      .refine((data) => Number(data) > 0, {
-        message: "Invalid revenue",
-        path: ["revenue"],
-      }),
+    revenue: z.string().min(4, "Invalid revenue"),
     headquarters: z.string().min(5, "Invalid headquarters"),
     size: z
       .string()
@@ -80,10 +74,20 @@ export function EditCompanyProfile({ defaultValues }: ICompanyProfile) {
     description: z
       .string()
       .min(10, "Company description must be at least 10 characters long"),
+    logo: ImageSchema,
+    imageOfCEO: ImageSchema,
   });
   const onSubmit = async (values: any) => {
     try {
-      const data = await updateCompany(values);
+      const formData = new FormData();
+
+      for (const key in values) {
+        if (values.hasOwnProperty(key)) {
+          formData.append(key, values[key]);
+        }
+      }
+
+      const data = await updateCompany(formData);
       if (data) {
         toast({
           title: "Profile updated successfully",

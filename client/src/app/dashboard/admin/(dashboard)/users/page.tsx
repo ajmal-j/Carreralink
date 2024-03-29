@@ -1,5 +1,4 @@
 import { User, UserTable } from "@/components/Custom/UserTable";
-import DashboardWrapper from "@/components/Layout/DashboardWrapper";
 import { getUsers } from "@/services/admin.service";
 import { IResponseData } from "@/types/paginateResponse";
 import { cookies } from "next/headers";
@@ -25,11 +24,11 @@ export default async function Users({
     console.log(error);
   }
   return (
-      <UserTable
-        total={options.totalDocs}
-        options={options}
-        query={query}
-        users={data}
-      />
+    <UserTable
+      total={options.totalDocs}
+      options={options}
+      query={query}
+      users={data}
+    />
   );
 }

@@ -1,21 +1,60 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
+
 import Markdown from "@/components/Custom/Markdown";
 import Separator from "@/components/Custom/Separator";
 import { EditCompanyProfile } from "@/components/FormsAndDialog/EditCompanyProfile";
+import { UpdateCoverPhoto } from "@/components/FormsAndDialog/UpdateCoverPhoto";
 import DashboardWrapper from "@/components/Layout/DashboardWrapper";
+import { toast } from "@/components/ui/use-toast";
+import { getMessage } from "@/lib/utils";
+import { updateCoverPhoto } from "@/services/company.service";
 import { useStateSelector } from "@/store";
+import { updateCoverPhotoState } from "@/store/reducers/company.slice";
 import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import { markdownToDraft } from "markdown-draft-js";
 import Image from "next/image";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
+import { useDispatch } from "react-redux";
 
 export default function DashBoard() {
   const company = useStateSelector((state) => state.company);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const updateProfile = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    try {
+      // @ts-expect-error
+      if (!formData.get("coverPhoto")?.name)
+        throw new Error("Please select an image");
+      const response = await updateCoverPhoto(formData);
+      const url = await response?.data;
+      dispatch(updateCoverPhotoState(url as string));
+      toast({
+        title: "Cover Photo updated successfully",
+      });
+      setOpen(false);
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: error.message,
+          variant: "destructive",
+        });
+      } else {
+        const message = getMessage(error);
+        toast({
+          title: message,
+          variant: "destructive",
+        });
+      }
+    }
+  };
 
   return (
-    <DashboardWrapper title="Profile" >
+    <DashboardWrapper title="Profile">
       <div className="relative w-full px-3">
         {!imageLoaded && (
           <div className="h-[350px] animate-pulse rounded-xl bg-gray-400"></div>
@@ -28,10 +67,17 @@ export default function DashBoard() {
           alt="cover photo"
           onLoad={() => setImageLoaded(true)}
         />
+        <span className="absolute bottom-3 right-5">
+          <UpdateCoverPhoto
+            open={open}
+            setOpen={setOpen}
+            updateCoverPhoto={updateProfile}
+          />
+        </span>
         <span className="absolute bottom-1.5 left-4 rounded-2xl md:bottom-5 md:left-9">
-          <div className="my-auto flex size-[50px] justify-center gap-3 rounded-full border border-background/10 bg-white shadow-xl md:size-[80px] ">
+          <div className="my-auto flex size-[50px] h-full w-full justify-center gap-3 rounded-full border border-background/10 bg-white shadow-xl md:size-[80px] ">
             <Image
-              className="rounded-full object-contain object-center"
+              className="rounded-full object-cover object-center "
               src={company?.logo || ""}
               alt="Company logo"
               width={100}
@@ -41,7 +87,7 @@ export default function DashBoard() {
         </span>
       </div>
       <div className="mt-5 flex items-center gap-3">
-        <div className="w-min">
+        <div className="flex h-full w-min rounded-full bg-white ">
           <Image
             alt="company ceo"
             src={company?.imageOfCEO || ""}
