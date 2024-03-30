@@ -40,7 +40,7 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import { IResponseData } from "@/types/paginateResponse";
-import { PaginationComponent } from "./Paginations";
+import { PaginationComponent } from "./Pagination";
 import { deleteUsers, toggleBlock } from "@/services/admin.service";
 import { toast } from "../ui/use-toast";
 import { getMessage } from "@/lib/utils";

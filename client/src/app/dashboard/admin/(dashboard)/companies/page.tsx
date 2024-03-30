@@ -1,5 +1,5 @@
 import PrimaryButton from "@/components/Buttons/PrimaryButton";
-import { PaginationComponent } from "@/components/Custom/Paginations";
+import { PaginationComponent } from "@/components/Custom/Pagination";
 import { getVerifiedCompanies } from "@/services/admin.service";
 import { ICompany } from "@/types/company";
 import { IResponseData } from "@/types/paginateResponse";
@@ -71,8 +71,8 @@ export default async function Companies({
                 </span>
                 <p className="text-sm text-foreground/70">{company.tagline}</p>
                 <p className="pb-1 text-sm text-foreground/70">
-                    {company.email}
-                  </p>
+                  {company.email}
+                </p>
                 <span className="w-min rounded-full border border-foreground/60 px-1.5 pb-[1.5px] text-xs text-foreground/80">
                   {company.industry}
                 </span>

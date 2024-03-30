@@ -1,5 +1,5 @@
 import NotFound from "@/components/Custom/NotFound";
-import { PaginationComponent } from "@/components/Custom/Paginations";
+import { PaginationComponent } from "@/components/Custom/Pagination";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {

@@ -52,7 +52,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Label } from "@/components/ui/label";
-import { PaginationComponent } from "@/components/Custom/Paginations";
+import { PaginationComponent } from "@/components/Custom/Pagination";
 
 export type Jobs = {
   _id: string;

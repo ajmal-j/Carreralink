@@ -1,5 +1,5 @@
 import PrimaryButton from "@/components/Buttons/PrimaryButton";
-import { PaginationComponent } from "@/components/Custom/Paginations";
+import { PaginationComponent } from "@/components/Custom/Pagination";
 import Search from "@/components/FormsAndDialog/Search";
 import { allCompanies } from "@/services/company.service";
 import { ICompany } from "@/types/company";

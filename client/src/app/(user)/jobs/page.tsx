@@ -14,7 +14,7 @@ import NotFound from "@/components/Custom/NotFound";
 import { BackpackIcon, MixerHorizontalIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { redirect } from "next/navigation";
-import { PaginationComponent } from "@/components/Custom/Paginations";
+import { PaginationComponent } from "@/components/Custom/Pagination";
 import { IResponseData } from "@/types/paginateResponse";
 
 export interface JobFilterValues {

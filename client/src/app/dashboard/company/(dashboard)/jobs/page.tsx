@@ -25,7 +25,7 @@ import JobFilterSideBar from "@/components/Layout/JobFilterSideBar";
 import NotFound from "@/components/Custom/NotFound";
 import { JobFilterValues } from "@/app/(user)/jobs/page";
 import { Button } from "@/components/ui/button";
-import { PaginationComponent } from "@/components/Custom/Paginations";
+import { PaginationComponent } from "@/components/Custom/Pagination";
 import DashboardWrapper from "@/components/Layout/DashboardWrapper";
 
 interface PageProps {
