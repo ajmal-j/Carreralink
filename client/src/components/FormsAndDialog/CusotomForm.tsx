@@ -53,7 +53,6 @@ import { Button } from "@/components/ui/button";
 import LocationInput from "@/components/Custom/LocationInput";
 import TextEditor from "@/components/Custom/TextEditor";
 import { draftToMarkdown } from "markdown-draft-js";
-import { useFormStatus } from "react-dom";
 import {
   companyList,
   getSkillsAndCategories,
@@ -65,8 +64,11 @@ type FormType = {
   defaultValues: Record<string, any>;
   onSubmit: (values: any) => void;
   comment?: ReactNode;
+  id?: string;
   action?: string;
+  formAction?: (values: any, id: string) => void;
   className?: string;
+  setOpen?: (open: boolean) => void;
 };
 
 export function CustomForm({
@@ -75,7 +77,10 @@ export function CustomForm({
   onSubmit,
   comment,
   action,
+  id,
+  setOpen,
   className,
+  formAction,
 }: FormType) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -88,13 +93,23 @@ export function CustomForm({
     setFocus,
     formState: { isDirty, isLoading },
   } = form;
+
   useEffect(() => {
     setFocus(Object.keys(defaultValues)[0]);
   }, []);
   return (
     <div className={cn(className)}>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <form
+          //@ts-expect-error
+          action={
+            formAction
+              ? form.handleSubmit(() => formAction(form.getValues(), id || ""))
+              : undefined
+          }
+          onSubmit={formAction ? undefined : form.handleSubmit(onSubmit)}
+          className="space-y-5"
+        >
           {Object.keys(defaultValues).map((key) => {
             switch (key) {
               case "password":
@@ -174,6 +189,9 @@ export function CustomForm({
               icon={
                 isLoading ? <UpdateIcon className="animate-spin" /> : undefined
               }
+              onClick={() => {
+                if (setOpen) setOpen(false);
+              }}
               type="submit"
               className={`mt-7 gap-3 py-2.5 font-semibold ${isLoading ? "bg-violet-900 text-foreground/70 hover:bg-violet-800" : ""}`}
             >
@@ -188,6 +206,7 @@ export function CustomForm({
 
 interface IFormProps {
   name: string;
+  value?: string;
   form: UseFormReturn<
     {
       [x: string]: any;

@@ -35,5 +35,6 @@ export function AdminRoutes(
   router.delete("/removeSkill", expressCallback(adminController.removeSkill));
   router.get("/jobs", expressCallback(adminController.getJobs));
   router.delete("/deleteJobs", expressCallback(adminController.deleteJobs));
+  router.post("/editJob", expressCallback(adminController.editJob));
   return router;
 }

@@ -145,7 +145,8 @@ export class JobRepository {
     return await this.database.find({ company: id }).populate("company");
   }
 
-  async updateJob(id: string, jobData: {}) {
+  async updateJob(id: string, jobData: Record<string, any>) {
+    if (jobData.WorkSpace === "Remote") jobData.officeLocation = "";
     const job = await this.database.findOneAndUpdate(
       { _id: id },
       {

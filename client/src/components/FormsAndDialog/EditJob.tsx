@@ -35,9 +35,14 @@ interface IPage {
     description: RawDraftContentState;
   };
   id: string;
+  editFunction?: (values: Record<string, any>, id: string) => void;
 }
 
-export default function EditJobDialogue({ defaultValues, id }: IPage) {
+export default function EditJobDialogue({
+  defaultValues,
+  id,
+  editFunction,
+}: IPage) {
   const [open, setOpen] = useState(false);
   const { refresh } = useRouter();
   const formSchema = z
@@ -136,10 +141,13 @@ export default function EditJobDialogue({ defaultValues, id }: IPage) {
             </DialogTitle>
           </DialogHeader>
           <CustomForm
+            setOpen={editFunction ? setOpen : undefined}
             className="mx-auto mb-10 mt-2 max-w-[700px]"
+            id={id}
             defaultValues={defaultValues}
             // @ts-expect-error
             formSchema={formSchema}
+            formAction={editFunction}
             onSubmit={onSubmit}
             action="Post"
           />

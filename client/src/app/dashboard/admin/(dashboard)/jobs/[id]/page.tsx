@@ -1,15 +1,29 @@
-import PrimaryButton from "@/components/Buttons/PrimaryButton";
-import SecondaryButton from "@/components/Buttons/SecondaryButton";
 import Markdown from "@/components/Custom/Markdown";
 import NotFound from "@/components/Custom/NotFound";
+import EditJobDialogue from "@/components/FormsAndDialog/EditJob";
 import { formatMoney } from "@/lib/utils";
+import { editJob } from "@/services/admin.service";
 import { getJob } from "@/services/jobs.service";
-import { BookmarkIcon, CheckIcon, ClockIcon } from "@radix-ui/react-icons";
+import { ClockIcon } from "@radix-ui/react-icons";
+import { markdownToDraft } from "markdown-draft-js";
+import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 
 interface JobSinglePageProps {
   params: { id: string };
+}
+
+async function editFunction(values: Record<string, any>, id: string) {
+  "use server";
+  const token = cookies().get("adminToken")?.value || "";
+  await editJob({
+    token,
+    id,
+    values,
+  });
+  revalidatePath(`/dashboard/admin/jobs/${id}`);
 }
 
 export default async function JobSinglePage({
@@ -47,6 +61,9 @@ export default async function JobSinglePage({
         </Link>
         <div className="flex-1">
           <h1 className="pb-2 text-xl">{job.company.name}</h1>
+          <p className="text-sm capitalize text-foreground/70">
+            {job.category}
+          </p>
           <p className="text-sm capitalize text-foreground/70">{job.type}</p>
           <p className="text-sm text-foreground/70">{job.location}</p>
           <p className="text-sm text-foreground/70">{job.officeLocation}</p>
@@ -66,19 +83,24 @@ export default async function JobSinglePage({
             </span>
           </div>
         </div>
-        {/* <div className="mt-auto flex flex-col gap-3 pb-3">
-          <PrimaryButton className="px-3">
-            <span className="flex items-center gap-1">
-              <span className="hidden ps-2 md:block">Apply</span> <CheckIcon />
-            </span>
-          </PrimaryButton>
-          <SecondaryButton className="px-3">
-            <span className="flex items-center gap-1">
-              <span className="hidden ps-2 md:block">Save</span>{" "}
-              <BookmarkIcon />
-            </span>
-          </SecondaryButton>
-        </div> */}
+        <div className="mt-auto flex flex-col gap-3 pb-3">
+          <EditJobDialogue
+            editFunction={editFunction}
+            defaultValues={{
+              title: job.title,
+              type: job.type,
+              category: job.category,
+              openings: job.openings,
+              workSpace: job.workSpace,
+              officeLocation: job.officeLocation,
+              location: job.location,
+              skills: job.skills,
+              pay: job.pay,
+              description: markdownToDraft(job.description),
+            }}
+            id={id}
+          />
+        </div>
       </div>
       <p className="ms-auto mt-[-10px] flex items-center gap-1 text-sm text-foreground/60">
         <ClockIcon /> 1 day ago

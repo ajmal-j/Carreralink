@@ -181,6 +181,31 @@ const deleteJobs = async ({ jobs }: { jobs: string[] }) => {
   return response.data;
 };
 
+const editJob = async ({
+  id,
+  values,
+  token,
+}: {
+  id: string;
+  values: Record<string, any>;
+  token: string;
+}) => {
+  const url = new Server().adminCompany("editJob");
+  const response = await axios.post(
+    url,
+    {
+      id,
+      values,
+    },
+    {
+      headers: {
+        adminToken: `Bearer ${token}`,
+      },
+    },
+  );
+  return response.data;
+};
+
 export {
   getVerifiedCompanies,
   getUnverifiedCompanies,
@@ -195,5 +220,6 @@ export {
   toggleBlock,
   deleteUsers,
   getJobs,
+  editJob,
   deleteJobs,
 };

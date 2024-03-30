@@ -9,6 +9,7 @@ import BuildRemoveSkill from "./removeSkills.js";
 import { eventProducer } from "../../events/producer.js";
 import BuildGetJobs from "./getJobs.js";
 import BuildDeleteJobs from "./deleteJobs.js";
+import BuildEditJob from "./editJob.js";
 
 const verifiedCompanies = BuildVerifiedCompanies();
 const unverifiedCompanies = BuildUnverifiedCompanies();
@@ -20,6 +21,7 @@ const removeCategory = BuildRemoveCategory();
 const removeSkill = BuildRemoveSkill();
 const getJobs = BuildGetJobs();
 const deleteJobs = BuildDeleteJobs();
+const editJob = BuildEditJob();
 
 export const adminControllers = {
   verifiedCompanies,
@@ -32,6 +34,7 @@ export const adminControllers = {
   removeSkill,
   getJobs,
   deleteJobs,
+  editJob,
 };
 
 export type IAdminController = typeof adminControllers;
