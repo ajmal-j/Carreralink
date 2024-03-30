@@ -25,6 +25,8 @@ import { CompanyListUsecase } from "./company/companyList.js";
 import { UpdateCoverPhotoUsecase } from "./company/updateCoverPhoto.usecase.js";
 import { GetJobsByAdminUsecase } from "./admin/getJobs.usecase.js";
 import { DeleteJobsByAdminUsecase } from "./admin/deleteJobsByAdmin.usecase.js";
+import { CreateRequestUsecase } from "./recruiter/createRequest.usecase.js";
+import { IsRecruiterUsecase } from "./recruiter/isRecuiter.usecase.js";
 
 const createCompanyUsecase = new CreateCompanyUsecase(
   Repositories.CompanyRepository
@@ -104,6 +106,15 @@ const deleteJobsByAdminUsecase = new DeleteJobsByAdminUsecase(
   Repositories.JobRepository
 );
 
+const createRequestUsecase = new CreateRequestUsecase(
+  Repositories.RecruiterRequestRepository
+);
+
+const isRecruiterUsecase = new IsRecruiterUsecase(
+  Repositories.RecruiterRequestRepository,
+  Repositories.CompanyRepository
+);
+
 export {
   createCompanyUsecase,
   allCompaniesUsecase,
@@ -131,4 +142,6 @@ export {
   updateCoverPhotoUsecase,
   getJobsByAdminUsecase,
   deleteJobsByAdminUsecase,
+  createRequestUsecase,
+  isRecruiterUsecase,
 };

@@ -1,14 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "./reducers/user.slice";
-import companyReducer from "./reducers/company.slice";
-import adminReducer from "./reducers/admin.slice";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
+import adminReducer from "./reducers/admin.slice";
+import companyReducer from "./reducers/company.slice";
+import recruiterReducer from "./reducers/recruiter.slice";
+import userReducer from "./reducers/user.slice";
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     company: companyReducer,
     admin: adminReducer,
+    recruiter: recruiterReducer,
   },
 });
 

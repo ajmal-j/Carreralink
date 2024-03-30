@@ -16,8 +16,8 @@ export class Server {
     return `${this.baseUrl}${user}/${path}`;
   }
   adminCompany(path: string) {
-    const user = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/companies/admin`;
-    return `${this.baseUrl}${user}/${path}`;
+    const company = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/companies/admin`;
+    return `${this.baseUrl}${company}/${path}`;
   }
   company(path: string) {
     const company = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/companies`;
@@ -25,6 +25,10 @@ export class Server {
   }
   jobs(path: string) {
     const company = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/companies/jobs`;
+    return `${this.baseUrl}${company}/${path}`;
+  }
+  recruiter(path: string) {
+    const company = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/companies/recruiter`;
     return `${this.baseUrl}${company}/${path}`;
   }
 }

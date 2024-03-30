@@ -5,7 +5,12 @@ import { Connect } from "./database/connection/index.js";
 import eventConsumer from "./events/consumer.js";
 import { errorMiddleware } from "@carreralink/common";
 import cors from "cors";
-import { adminRoutes, companyRoutes, jobsRoutes } from "./routes/index.js";
+import {
+  adminRoutes,
+  companyRoutes,
+  jobsRoutes,
+  recruiterRoutes,
+} from "./routes/index.js";
 
 const app = express();
 
@@ -30,6 +35,7 @@ app.get("/api/v1/companies/check", (_, res) => {
 });
 
 app.use("/api/v1/companies/jobs", jobsRoutes);
+app.use("/api/v1/companies/recruiter", recruiterRoutes);
 app.use("/api/v1/companies/admin", adminRoutes);
 app.use("/api/v1/companies", companyRoutes);
 

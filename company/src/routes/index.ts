@@ -6,10 +6,13 @@ import { jobController } from "../controllers/jobs/index.js";
 import { AdminRoutes } from "./admin.routes.js";
 import { adminControllers } from "../controllers/admin/index.js";
 import { upload } from "../middleware/uploadImage.js";
+import { RecruiterRoutes } from "./recruiter.routes.js";
+import { recruiterController } from "../controllers/recruiter/index.js";
 
 const company = Router();
 const jobs = Router();
 const admin = Router();
+const recruiter = Router();
 
 const companyRoutes = CompanyRoutes({
   router: company,
@@ -21,7 +24,14 @@ const companyRoutes = CompanyRoutes({
     { name: "imageOfCEO", maxCount: 1 },
   ]),
 });
+
 const jobsRoutes = JobRoutes(jobs, jobController);
+
+const recruiterRoutes = RecruiterRoutes({
+  router: recruiter,
+  recruiterController,
+});
+
 const adminRoutes = AdminRoutes({
   router: admin,
   adminControllers,
@@ -32,4 +42,4 @@ const adminRoutes = AdminRoutes({
   ]),
 });
 
-export { companyRoutes, jobsRoutes, adminRoutes };
+export { companyRoutes, jobsRoutes, adminRoutes, recruiterRoutes };

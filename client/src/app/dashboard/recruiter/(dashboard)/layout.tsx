@@ -1,5 +1,7 @@
-import CompanyHeader from "@/components/Layout/CompanyHeader";
 import DashboardSideBar from "@/components/Layout/DashboardSideBar";
+import RecruiterHeader from "@/components/Layout/RecruiterHeader";
+import { isRecruiter } from "@/services/recruiter.service";
+import { IRecruiter } from "@/store/reducers/recruiter.slice";
 import { BackpackIcon, ComponentInstanceIcon } from "@radix-ui/react-icons";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -14,12 +16,19 @@ export const logOut = async () => {
 export default async function layout({ children }: { children: ReactNode }) {
   const kookie = cookies().get("userToken")?.value;
   if (!kookie) return redirect("/login");
-  let isRecruiter = null;
+  let isRec: boolean | IRecruiter;
+  try {
+    const response = await isRecruiter(kookie);
+    isRec = response?.data;
+  } catch (error) {
+    console.log(error);
+    isRec = false;
+  }
   return (
     <>
-      {isRecruiter ? (
+      {isRec ? (
         <div className="h-full min-h-screen">
-          <CompanyHeader logOut={logOut} />
+          <RecruiterHeader logOut={logOut} data={isRec as IRecruiter} />
           <div className="flex min-h-svh divide-x-2 divide-foreground/10 lg:px-10">
             <DashboardSideBar
               items={[

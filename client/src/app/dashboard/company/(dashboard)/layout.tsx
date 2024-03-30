@@ -1,6 +1,10 @@
 import CompanyHeader from "@/components/Layout/CompanyHeader";
 import DashboardSideBar from "@/components/Layout/DashboardSideBar";
-import { BackpackIcon, ComponentInstanceIcon } from "@radix-ui/react-icons";
+import {
+  BackpackIcon,
+  ComponentInstanceIcon,
+  PersonIcon,
+} from "@radix-ui/react-icons";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
@@ -30,6 +34,11 @@ export default function layout({ children }: { children: ReactNode }) {
                   title: "Job Listing",
                   icon: <BackpackIcon className="size-[17px]" />,
                   href: "/dashboard/company/jobs",
+                },
+                {
+                  title: "Recruiter's",
+                  icon: <PersonIcon className="size-[17px]" />,
+                  href: "/dashboard/company/recruiter",
                 },
               ]}
               logOut={logOut}

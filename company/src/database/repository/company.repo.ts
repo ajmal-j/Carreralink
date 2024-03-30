@@ -217,7 +217,7 @@ export class CompanyRepository implements ICompanyRepository {
     const regex = new RegExp(q, "i");
     return await this.database
       .find({ name: regex })
-      .select(["name", "logo", "headquarters"]);
+      .select(["name", "logo", "headquarters", "email"]);
   }
   async rejectVerification(id: string) {
     const company = await this.database.findOne({ _id: id });
