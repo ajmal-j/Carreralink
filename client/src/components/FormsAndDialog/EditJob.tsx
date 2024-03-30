@@ -142,12 +142,12 @@ export default function EditJobDialogue({
           </DialogHeader>
           <CustomForm
             setOpen={editFunction ? setOpen : undefined}
-            className="mx-auto mb-10 mt-2 max-w-[700px]"
+            formAction={editFunction}
             id={id}
+            className="mx-auto mb-10 mt-2 max-w-[700px]"
             defaultValues={defaultValues}
             // @ts-expect-error
             formSchema={formSchema}
-            formAction={editFunction}
             onSubmit={onSubmit}
             action="Post"
           />

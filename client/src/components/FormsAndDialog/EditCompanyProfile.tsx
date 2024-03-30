@@ -36,9 +36,15 @@ interface ICompanyProfile {
     size: string;
     coverPhoto: string;
   };
+  editFunction?: (values: Record<string, any>, id: string) => void;
+  id: string;
 }
 
-export function EditCompanyProfile({ defaultValues }: ICompanyProfile) {
+export function EditCompanyProfile({
+  defaultValues,
+  editFunction,
+  id,
+}: ICompanyProfile) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean | undefined>(undefined);
   const formSchema = z.object({
@@ -119,6 +125,9 @@ export function EditCompanyProfile({ defaultValues }: ICompanyProfile) {
           </DialogTitle>
         </DialogHeader>
         <CustomForm
+          setOpen={editFunction ? setOpen : undefined}
+          formAction={editFunction}
+          id={id}
           defaultValues={defaultValues}
           formSchema={formSchema}
           onSubmit={onSubmit}
