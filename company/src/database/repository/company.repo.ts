@@ -73,12 +73,22 @@ export class CompanyRepository implements ICompanyRepository {
     return company;
   }
 
-  async update(email: string, company: ICompany): Promise<ICompany> {
+  async update({
+    email,
+    companyData,
+    id,
+  }: {
+    email?: string;
+    companyData: ICompany;
+    id?: string;
+  }): Promise<ICompany> {
     const updatedCompany = await this.database.findOneAndUpdate(
-      { email },
+      {
+        ...(id ? { _id: id } : { email }),
+      },
       {
         $set: {
-          ...company,
+          ...companyData,
         },
       },
       { new: true }

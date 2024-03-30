@@ -205,6 +205,22 @@ const editJob = async ({
   );
   return response.data;
 };
+const editCompany = async ({
+  data,
+  token,
+}: {
+  data: FormData;
+  token: string;
+}) => {
+  const url = new Server().adminCompany("editCompany");
+  const response = await axios.post(url, data, {
+    headers: {
+      adminToken: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data;
+};
 
 export {
   getVerifiedCompanies,
@@ -222,4 +238,5 @@ export {
   getJobs,
   editJob,
   deleteJobs,
+  editCompany,
 };

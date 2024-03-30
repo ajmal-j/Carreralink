@@ -1,10 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import BackButton from "@/components/Buttons/BackButton";
 import NotFound from "@/components/Custom/NotFound";
+import { EditCompanyProfile } from "@/components/FormsAndDialog/EditCompanyProfile";
 import CompanyProfileNav from "@/components/Layout/CompanyProfileNav";
+import { editCompany } from "@/services/admin.service";
 import { getCompany } from "@/services/company.service";
 import { ICompany } from "@/store/reducers/company.slice";
 import { ExternalLinkIcon } from "@radix-ui/react-icons";
+import { markdownToDraft } from "markdown-draft-js";
+import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 import Image from "next/image";
 import { ReactNode } from "react";
 
@@ -14,6 +19,20 @@ interface IPage {
   };
   children: ReactNode;
 }
+
+const editFunction = async (values: Record<string, any>, id: string) => {
+  "use server";
+  const token = cookies().get("adminToken")?.value || "";
+  const data = new FormData();
+  for (const key in values) {
+    if (values.hasOwnProperty(key)) {
+      data.append(key, values[key]);
+    }
+  }
+  data.append("id", id);
+  await editCompany({ token, data });
+  revalidatePath(`/dashboard/admin/companies/${id}`);
+};
 
 export default async function Layout({ params: { id }, children }: IPage) {
   let company: ICompany | null = {} as ICompany;
@@ -73,6 +92,28 @@ export default async function Layout({ params: { id }, children }: IPage) {
           >
             {company.website} <ExternalLinkIcon />
           </a>
+        </div>
+        <div className="mt-auto pb-3">
+          <EditCompanyProfile
+            editFunction={editFunction}
+            id={id}
+            // @ts-expect-error
+            defaultValues={{
+              name: company?.name,
+              website: company?.website,
+              logo: "",
+              tagline: company?.tagline,
+              email: company?.email,
+              industry: company?.industry,
+              foundedOn: String(company?.foundedOn),
+              ceo: company?.ceo,
+              imageOfCEO: "",
+              revenue: company?.revenue,
+              headquarters: company?.headquarters,
+              size: String(company?.size),
+              description: markdownToDraft(company?.description),
+            }}
+          />
         </div>
       </div>
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3">

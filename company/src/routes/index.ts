@@ -22,6 +22,14 @@ const companyRoutes = CompanyRoutes({
   ]),
 });
 const jobsRoutes = JobRoutes(jobs, jobController);
-const adminRoutes = AdminRoutes(admin, adminControllers, jobController);
+const adminRoutes = AdminRoutes({
+  router: admin,
+  adminControllers,
+  jobController,
+  updateLogoOrImageOfCEO: upload.fields([
+    { name: "logo", maxCount: 1 },
+    { name: "imageOfCEO", maxCount: 1 },
+  ]),
+});
 
 export { companyRoutes, jobsRoutes, adminRoutes };

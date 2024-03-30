@@ -2,39 +2,53 @@ import { VerifyAdmin, expressCallback } from "@carreralink/common";
 import { IAdminController } from "../controllers/admin/index.js";
 import { IJobController } from "../controllers/jobs/index.js";
 
-export function AdminRoutes(
-  router: any,
-  adminController: IAdminController,
-  jobController: IJobController
-) {
+export function AdminRoutes({
+  router,
+  adminControllers,
+  jobController,
+  updateLogoOrImageOfCEO,
+}: {
+  router: any;
+  adminControllers: IAdminController;
+  updateLogoOrImageOfCEO: any;
+  jobController: IJobController;
+}) {
   router.use(VerifyAdmin);
   router.get(
     "/unverifiedCompanies",
-    expressCallback(adminController.unverifiedCompanies)
+    expressCallback(adminControllers.unverifiedCompanies)
   );
 
   router.get(
     "/verifiedCompanies",
-    expressCallback(adminController.verifiedCompanies)
+    expressCallback(adminControllers.verifiedCompanies)
   );
 
-  router.post("/verifyCompany", expressCallback(adminController.verifyCompany));
+  router.post(
+    "/verifyCompany",
+    expressCallback(adminControllers.verifyCompany)
+  );
 
   router.delete(
     "/rejectCompany",
-    expressCallback(adminController.rejectCompany)
+    expressCallback(adminControllers.rejectCompany)
   );
 
-  router.post("/addCategories", expressCallback(adminController.addCategory));
-  router.post("/addSkills", expressCallback(adminController.addSkills));
+  router.post("/addCategories", expressCallback(adminControllers.addCategory));
+  router.post("/addSkills", expressCallback(adminControllers.addSkills));
 
   router.delete(
     "/removeCategory",
-    expressCallback(adminController.removeCategory)
+    expressCallback(adminControllers.removeCategory)
   );
-  router.delete("/removeSkill", expressCallback(adminController.removeSkill));
-  router.get("/jobs", expressCallback(adminController.getJobs));
-  router.delete("/deleteJobs", expressCallback(adminController.deleteJobs));
-  router.post("/editJob", expressCallback(adminController.editJob));
+  router.delete("/removeSkill", expressCallback(adminControllers.removeSkill));
+  router.get("/jobs", expressCallback(adminControllers.getJobs));
+  router.delete("/deleteJobs", expressCallback(adminControllers.deleteJobs));
+  router.post("/editJob", expressCallback(adminControllers.editJob));
+  router.post(
+    "/editCompany",
+    updateLogoOrImageOfCEO,
+    expressCallback(adminControllers.editCompany)
+  );
   return router;
 }
