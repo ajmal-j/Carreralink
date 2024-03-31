@@ -27,6 +27,13 @@ import { GetJobsByAdminUsecase } from "./admin/getJobs.usecase.js";
 import { DeleteJobsByAdminUsecase } from "./admin/deleteJobsByAdmin.usecase.js";
 import { CreateRequestUsecase } from "./recruiter/createRequest.usecase.js";
 import { IsRecruiterUsecase } from "./recruiter/isRecuiter.usecase.js";
+import { CreateUserUsecase } from "./user/createUser.usecase.js";
+import { UpdateUserUsecase } from "./user/updateUser.usecase.js";
+import { GetRecruitersUsecase } from "./recruiter/getRecruiters.usecase.js";
+import { GetPendingRequestsUsecase } from "./recruiter/getPendingRequests.usecase.js";
+import { AssignRecruiterUsecase } from "./recruiter/assignRecruiter.usecase.js";
+import { RejectRequestUsecase } from "./recruiter/rejectRequest.usecase.js";
+import { RemoveRecruiterUsecase } from "./recruiter/removeRecruiter.usecase.js";
 
 const createCompanyUsecase = new CreateCompanyUsecase(
   Repositories.CompanyRepository
@@ -107,12 +114,39 @@ const deleteJobsByAdminUsecase = new DeleteJobsByAdminUsecase(
 );
 
 const createRequestUsecase = new CreateRequestUsecase(
-  Repositories.RecruiterRequestRepository
+  Repositories.RecruiterRequestRepository,
+  Repositories.UserRepository
 );
 
 const isRecruiterUsecase = new IsRecruiterUsecase(
   Repositories.RecruiterRequestRepository,
+  Repositories.CompanyRepository,
+  Repositories.UserRepository
+);
+
+const createUserUsecase = new CreateUserUsecase(Repositories.UserRepository);
+const updateUserUsecase = new UpdateUserUsecase(Repositories.UserRepository);
+
+const getRecruitersUsecase = new GetRecruitersUsecase(
+  Repositories.RecruiterRequestRepository,
   Repositories.CompanyRepository
+);
+
+const getPendingRequestsUsecase = new GetPendingRequestsUsecase(
+  Repositories.RecruiterRequestRepository,
+  Repositories.CompanyRepository
+);
+
+const assignRecruiterUsecase = new AssignRecruiterUsecase(
+  Repositories.RecruiterRequestRepository
+);
+
+const rejectRequestUsecase = new RejectRequestUsecase(
+  Repositories.RecruiterRequestRepository
+);
+
+const removeRecruiterUsecase = new RemoveRecruiterUsecase(
+  Repositories.RecruiterRequestRepository
 );
 
 export {
@@ -144,4 +178,11 @@ export {
   deleteJobsByAdminUsecase,
   createRequestUsecase,
   isRecruiterUsecase,
+  createUserUsecase,
+  updateUserUsecase,
+  getRecruitersUsecase,
+  getPendingRequestsUsecase,
+  assignRecruiterUsecase,
+  rejectRequestUsecase,
+  removeRecruiterUsecase,
 };

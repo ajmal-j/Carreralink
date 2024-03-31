@@ -57,7 +57,7 @@ export default function RecruiterHeader({
         <ProfileDropDown logOut={logOut} recruiter={recruiter as IRecruiter}>
           <Avatar className="cursor-pointer border">
             <AvatarImage
-              src={recruiter?.logo}
+              src={recruiter?.user?.profile}
               alt="logo"
               className="object-cover"
             />
@@ -87,7 +87,7 @@ export function ProfileDropDown({
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
       <DropdownMenuContent className="mt-3 w-48" align="end">
         <DropdownMenuLabel className="capitalize">
-          {recruiter?.company}
+          {recruiter?.company?.name}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>

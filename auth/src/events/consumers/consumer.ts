@@ -1,4 +1,4 @@
-import { kafka } from "./producer.js";
+import { kafka } from "../producers/producer.js";
 import BuildUpdateBlockConsumer from "./updateBlock.consumer.js";
 import BuildDeleteUsersConsumer from "./deleteUsers.consumer.js";
 import BuildRejectCompanyConsumer from "./rejectCompany.consumer.js";

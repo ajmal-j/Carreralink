@@ -6,7 +6,7 @@ import BuildAddCategory from "./addCategory.js";
 import BuildAddSkills from "./addSkills.js";
 import BuildRemoveCategory from "./removeCategory.js";
 import BuildRemoveSkill from "./removeSkills.js";
-import { eventProducer } from "../../events/producer.js";
+import { eventProducer } from "../../events/producer/producer.js";
 import BuildGetJobs from "./getJobs.js";
 import BuildDeleteJobs from "./deleteJobs.js";
 import BuildEditJob from "./editJob.js";

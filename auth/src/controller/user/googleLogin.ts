@@ -4,7 +4,7 @@ import {
   NotFoundError,
   generateToken,
 } from "@carreralink/common";
-import { IEventProducer } from "../../events/producer.js";
+import { IEventProducer } from "../../events/producers/producer.js";
 import { googleLoginUsecase } from "../../usecases/index.js";
 import { Request } from "express";
 

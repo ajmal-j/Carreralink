@@ -1,5 +1,5 @@
 import { Kafka } from "kafkajs";
-import { updateBlockUsecase } from "../usecases/index.js";
+import { updateBlockUsecase } from "../../usecases/index.js";
 
 export default async (kafka: Kafka) => {
   const updateBlockConsumer = kafka.consumer({ groupId: "user-block" });

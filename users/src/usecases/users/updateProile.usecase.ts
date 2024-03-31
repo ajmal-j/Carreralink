@@ -1,10 +1,11 @@
 import { CustomError } from "@carreralink/common";
 import { IUserDataRepo } from "../../database/index.js";
+import { IUserData } from "../../database/models/userData.model.js";
 
 export class UpdateProfileUsecase {
   constructor(private readonly UserDataRepo: IUserDataRepo) {}
 
-  async execute(email: string, data: Record<string, any>) {
+  async execute(email: string, data: Record<string, any>): Promise<IUserData> {
     const isAlreadyTaken = await this.UserDataRepo.isAlreadyTaken({
       email,
       ...data,

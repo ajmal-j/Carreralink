@@ -5,7 +5,7 @@ import AuthRouter from "./routes/index.js";
 import { errorMiddleware } from "@carreralink/common";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import KafkaConsumer from "./events/consumer.js";
+import KafkaConsumer from "./events/consumers/consumer.js";
 
 const port = 4000;
 dotenv.config();

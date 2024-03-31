@@ -1,5 +1,5 @@
 import { CustomResponse, NotFoundError } from "@carreralink/common";
-import { IEventProducer } from "../../events/producer.js";
+import { IEventProducer } from "../../events/producers/producer.js";
 import { createCompanyUsecase } from "../../usecases/index.js";
 import { ICreateCompanySchema } from "../../utils/validator.util.js";
 

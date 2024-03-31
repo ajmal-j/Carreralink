@@ -1,7 +1,7 @@
 import { Request } from "express";
 import { rejectCompanyUsecase } from "../../usecases/index.js";
 import { CustomResponse } from "@carreralink/common";
-import { IEventProducer } from "../../events/producer.js";
+import { IEventProducer } from "../../events/producer/producer.js";
 
 export default function (eventProducer: IEventProducer) {
   return async (req: Request) => {

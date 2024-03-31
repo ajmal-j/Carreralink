@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { IEventProducer } from "../../events/producer.js";
+import { IEventProducer } from "../../events/producers/producer.js";
 import { CustomResponse, NotFoundError } from "@carreralink/common";
 import { verifyOtpUsecase } from "../../usecases/index.js";
 

@@ -3,23 +3,20 @@ import {
   ICompanyRepoType,
   IRecruiterRequestRepoType,
 } from "../../database/index.js";
+import { UserRepository } from "../../database/repository/user.repo.js";
 
 export class IsRecruiterUsecase {
   constructor(
     private readonly RecruiterRepository: IRecruiterRequestRepoType,
-    private readonly CompanyRepository: ICompanyRepoType
+    private readonly CompanyRepository: ICompanyRepoType,
+    private readonly UserRepository: UserRepository
   ) {}
 
   async execute(email: string) {
-    const exist = await this.RecruiterRepository.isRecruiter(email);
+    const user = await this.UserRepository.findByEmail(email);
+    if (!user) throw new BadRequestError("User not found");
+    const exist = await this.RecruiterRepository.isRecruiter(user.id);
     if (!exist) throw new BadRequestError("Not a recruiter");
-    const company = await this.CompanyRepository.findByEmail(exist.company);
-    if (!company) throw new BadRequestError("Company not found");
-    return {
-      email: exist.user,
-      company: company.name,
-      id: company._id,
-      logo: company.logo,
-    };
+    return exist;
   }
 }

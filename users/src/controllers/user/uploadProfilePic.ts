@@ -6,8 +6,9 @@ import {
   NotFoundError,
 } from "@carreralink/common";
 import { updateProfilePicUsecase } from "../../usecases/index.js";
+import { IEventProducer } from "../../events/producer/producer.js";
 
-export default function () {
+export default function (eventProducer: IEventProducer) {
   return async (req: Request) => {
     const user = req?.user;
     if (!user?.email) throw new BadRequestError("User not found");
@@ -20,8 +21,15 @@ export default function () {
       file?.buffer as Buffer
     )) as string;
 
-    await updateProfilePicUsecase.execute(user.email, url);
-
+    const updatedUser = await updateProfilePicUsecase.execute(user.email, url);
+    if (!updatedUser) throw new NotFoundError("User not found");
+    await eventProducer.updatedUser({
+      user: {
+        email: updatedUser.email,
+        username: updatedUser.username,
+        profile: updatedUser.profile,
+      },
+    });
     return new CustomResponse()
       .message("Image uploaded")
       .data(url as string)

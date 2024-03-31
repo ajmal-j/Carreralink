@@ -27,13 +27,15 @@ export class UserRepository {
   }
 
   async markAsVerified(email: string) {
-    return await this.database.findOneAndUpdate(
-      { email },
-      { isVerified: true },
-      {
-        new: true,
-      }
-    );
+    return await this.database
+      .findOneAndUpdate(
+        { email },
+        { isVerified: true },
+        {
+          new: true,
+        }
+      )
+      .select(["-password", "-__v", "-_id"]);
   }
   async deleteUsers(users: string[]) {
     return await this.database.deleteMany({ email: { $in: users } });

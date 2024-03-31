@@ -1,6 +1,5 @@
 import { NotFoundError } from "@carreralink/common";
 import { OtpRepoType, UserRepoType } from "../../database/index.js";
-import { IUserAuth } from "../../database/models/user.model.js";
 import { IUser } from "../../entities/user.entity.js";
 
 export class VerifyOtpUsecase {

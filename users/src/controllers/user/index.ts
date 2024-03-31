@@ -9,9 +9,10 @@ import BuildUpdateExperience from "./updateExperience.js";
 import BuildAddSkill from "./addSkill.js";
 import BuildUpdateProfilePic from "./uploadProfilePic.js";
 import BuildGetUser from "./getUser.js";
+import { eventProducer } from "../../events/producer/producer.js";
 
 const currentUser = BuildCurrentUser();
-const updatePrimaryDetails = BuildUpdatePrimaryDetails();
+const updatePrimaryDetails = BuildUpdatePrimaryDetails(eventProducer);
 const addEducation = BuildAddEducation();
 const addExperience = BuildAddExperience();
 const updateEducation = BuildUpdateEducation();
@@ -19,7 +20,7 @@ const updateExperience = BuildUpdateExperience();
 const deleteEducation = BuildDeleteEducation();
 const deleteExperience = BuildDeleteExperience();
 const addSkill = BuildAddSkill();
-const updateProfilePic = BuildUpdateProfilePic();
+const updateProfilePic = BuildUpdateProfilePic(eventProducer);
 const getUser = BuildGetUser();
 
 export const userController = Object.freeze({

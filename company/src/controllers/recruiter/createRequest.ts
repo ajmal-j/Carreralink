@@ -21,7 +21,7 @@ export default function () {
     if (!data) throw new BadRequestError("Request data not found");
     await createRequestUsecase.execute({
       ...data,
-      user: user.email,
+      email : user.email
     });
     return new CustomResponse()
       .message("Request created")

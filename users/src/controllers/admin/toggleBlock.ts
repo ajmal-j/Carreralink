@@ -1,6 +1,6 @@
 import { CustomResponse, NotFoundError } from "@carreralink/common";
 import { toggleBlockUsecase } from "../../usecases/index.js";
-import { IEventProducer } from "../../events/producer.js";
+import { IEventProducer } from "../../events/producer/producer.js";
 
 export default function (eventProducer: IEventProducer) {
   return async (req: any) => {

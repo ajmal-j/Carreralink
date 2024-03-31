@@ -130,6 +130,43 @@ const companyList = async (q: string) => {
   return response.data;
 };
 
+const getRecruiters = async () => {
+  const url = new Server().company("getRecruiter");
+  const response = await axios.get(url);
+  return response.data;
+};
+
+const getPendingRequests = async () => {
+  const url = new Server().company("getPendingRequests");
+  const response = await axios.get(url);
+  return response.data;
+};
+
+const assignRecruiter = async ({ id }: { id: string }) => {
+  const url = new Server().company("assignRecruiter");
+  const response = await axios.put(url, {
+    id,
+  });
+  return response.data;
+};
+const rejectRequest = async ({ id }: { id: string }) => {
+  const url = new Server().company("rejectRequest");
+  const response = await axios.put(url, {
+    id,
+  });
+  return response.data;
+};
+
+const removeRecruiter = async ({ id }: { id: string }) => {
+  const url = new Server().company("removeRecruiter");
+  const response = await axios.delete(url, {
+    data: {
+      id,
+    },
+  });
+  return response.data;
+};
+
 export {
   registerCompany,
   allCompanies,
@@ -144,4 +181,9 @@ export {
   isVerified,
   companyList,
   updateCoverPhoto,
+  getRecruiters,
+  getPendingRequests,
+  assignRecruiter,
+  rejectRequest,
+  removeRecruiter,
 };

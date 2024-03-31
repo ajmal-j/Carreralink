@@ -3,14 +3,9 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 
 export default function RecruiterTab() {
-  const path = usePathname();
-  const [pathname, setPath] = useState<string>("");
-  useEffect(() => {
-    setPath(path);
-  }, [path]);
+  const pathname = usePathname();
 
   return (
     <Tabs

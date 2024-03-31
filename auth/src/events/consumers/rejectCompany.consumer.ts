@@ -1,5 +1,5 @@
 import { Kafka } from "kafkajs";
-import { rejectCompanyUsecase } from "../usecases/index.js";
+import { rejectCompanyUsecase } from "../../usecases/index.js";
 
 export default async (kafka: Kafka) => {
   const rejectCompanyConsumer = kafka.consumer({ groupId: "company-reject" });

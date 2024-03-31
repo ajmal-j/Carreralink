@@ -40,12 +40,10 @@ export default function Request() {
         onSubmit={onsubmit}
         defaultValues={{
           company: "",
-          name: "",
           message: "",
         }}
         formSchema={z.object({
           company: z.string().min(1, "Please select company"),
-          name: z.string().min(3, "Name is required"),
           message: z.string().min(15, "A proper message is required"),
         })}
       />

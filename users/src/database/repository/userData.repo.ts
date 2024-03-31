@@ -64,7 +64,10 @@ export class UserDataRepository implements IUserRepo {
     return await this.database.findOne({ email });
   }
 
-  async updateProfile(email: string, data: Record<string, any>) {
+  async updateProfile(
+    email: string,
+    data: Record<string, any>
+  ): Promise<IUserData | null> {
     return await this.database.findOneAndUpdate({ email }, data, {
       new: true,
     });
@@ -177,10 +180,16 @@ export class UserDataRepository implements IUserRepo {
     );
   }
 
-  async updateProfilePic(email: string, profile: string) {
+  async updateProfilePic(
+    email: string,
+    profile: string
+  ): Promise<IUserData | null> {
     return await this.database.findOneAndUpdate(
       { email: email },
-      { profile: profile }
+      { profile: profile },
+      {
+        new: true,
+      }
     );
   }
 }

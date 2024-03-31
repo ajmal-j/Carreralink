@@ -1,4 +1,4 @@
-import eventProducer from "../../events/producer.js";
+import eventProducer from "../../events/producers/producer.js";
 import { createCompanySchema } from "../../utils/validator.util.js";
 import { buildCompanyLogin } from "./login.js";
 import { buildRegister } from "./registerCompany.js";

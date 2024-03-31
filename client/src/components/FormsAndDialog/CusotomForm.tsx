@@ -333,7 +333,7 @@ function DefaultComponent({ name, form }: IFormProps) {
           <FormLabel className="block capitalize">{field.name}</FormLabel>
           <FormControl>
             {field.name === "message" ? (
-              <Textarea placeholder="Enter message here." {...field} />
+              <Textarea  placeholder="Enter message here." {...field} />
             ) : field.name !== "startDate" && field.name !== "endDate" ? (
               <Input
                 type={

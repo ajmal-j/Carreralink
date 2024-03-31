@@ -1,10 +1,15 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { ICompany } from "./company.slice";
 
 export interface IRecruiter {
   id: string;
-  logo: string;
-  company: string;
-  email: string;
+  user: {
+    id: string;
+    email: string;
+    username: string;
+    profile: string;
+  };
+  company: ICompany;
 }
 
 interface InitialState {

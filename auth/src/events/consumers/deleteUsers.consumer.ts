@@ -1,5 +1,5 @@
 import { Kafka } from "kafkajs";
-import { deleteUsersUsecase } from "../usecases/index.js";
+import { deleteUsersUsecase } from "../../usecases/index.js";
 
 export default async (kafka: Kafka) => {
   const deleteUsersConsumer = kafka.consumer({ groupId: "user-delete" });

@@ -1,4 +1,4 @@
-import { eventProducer } from "../../events/producer.js";
+import { eventProducer } from "../../events/producer/producer.js";
 import BuildCurrentAdmin from "./currentAdmin.js";
 import BuildGetUsers from "./getUsers.js";
 import BuildToggleBlock from "./toggleBlock.js";

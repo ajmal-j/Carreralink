@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import { Connect } from "./database/connection/index.js";
-import eventConsumer from "./events/consumer.js";
+import eventConsumer from "./events/consumer/consumer.js";
 import { errorMiddleware } from "@carreralink/common";
 import cors from "cors";
 import { adminRouter, userRouter } from "./routes/index.js";

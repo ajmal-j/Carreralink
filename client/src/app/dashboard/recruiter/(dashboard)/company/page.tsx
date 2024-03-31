@@ -2,17 +2,22 @@
 "use client";
 
 import Markdown from "@/components/Custom/Markdown";
+import NotFound from "@/components/Custom/NotFound";
 import Separator from "@/components/Custom/Separator";
 import DashboardWrapper from "@/components/Layout/DashboardWrapper";
 import { useStateSelector } from "@/store";
 import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function CompanyLayout() {
-  const company = useStateSelector((state) => state.company);
+  const { recruiter } = useStateSelector((state) => state.recruiter);
   const [imageLoaded, setImageLoaded] = useState(false);
-
+  const [company, setCompany] = useState(recruiter?.company);
+  useEffect(() => {
+    setCompany(recruiter?.company);
+  }, [recruiter?.company]);
+  if (!company) return <NotFound title="Company not found" />;
   return (
     <DashboardWrapper title="Company">
       <div className="relative w-full px-3">

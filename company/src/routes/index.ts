@@ -23,6 +23,7 @@ const companyRoutes = CompanyRoutes({
     { name: "logo", maxCount: 1 },
     { name: "imageOfCEO", maxCount: 1 },
   ]),
+  recruiterController,
 });
 
 const jobsRoutes = JobRoutes(jobs, jobController);

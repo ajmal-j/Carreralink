@@ -1,10 +1,7 @@
+import { VerifyCompany, expressCallback } from "@carreralink/common";
 import { ICompanyController } from "../controllers/company/index.js";
-import {
-  VerifyAdmin,
-  VerifyCompany,
-  expressCallback,
-} from "@carreralink/common";
 import { IJobController } from "../controllers/jobs/index.js";
+import { IRecruiterController } from "../controllers/recruiter/index.js";
 
 export function CompanyRoutes({
   router,
@@ -12,12 +9,14 @@ export function CompanyRoutes({
   updateLogoOrImageOfCEO,
   jobController,
   updateCoverPhoto,
+  recruiterController,
 }: {
   router: any;
   companyController: ICompanyController;
   updateLogoOrImageOfCEO: any;
   jobController: IJobController;
   updateCoverPhoto: any;
+  recruiterController: IRecruiterController;
 }) {
   router.get("/all", expressCallback(companyController.allCompanies));
 
@@ -64,6 +63,30 @@ export function CompanyRoutes({
     updateCoverPhoto,
     expressCallback(companyController.updateCoverPhoto)
   );
-
+  router.get(
+    "/getRecruiter",
+    VerifyCompany,
+    expressCallback(recruiterController.recruiters)
+  );
+  router.get(
+    "/getPendingRequests",
+    VerifyCompany,
+    expressCallback(recruiterController.pendingRequests)
+  );
+  router.put(
+    "/assignRecruiter",
+    VerifyCompany,
+    expressCallback(recruiterController.assignRecruiter)
+  );
+  router.put(
+    "/rejectRequest",
+    VerifyCompany,
+    expressCallback(recruiterController.rejectRequest)
+  );
+  router.delete(
+    "/removeRecruiter",
+    VerifyCompany,
+    expressCallback(recruiterController.removeRecruiter)
+  );
   return router;
 }
