@@ -3,19 +3,18 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 export default function Tab() {
-  const path = usePathname();
-  const [pathname, setPath] = useState<string>("");
-  useEffect(() => {
-    setPath(path);
-  }, [path]);
+  const pathname = usePathname();
+  const [defaultValue, setDefaultValue] = useState<string>("");
+  useLayoutEffect(() => {
+    setDefaultValue(() => {
+      return `${pathname.startsWith("/dashboard/admin/companies/unverified") ? "unverified" : "verified"}`;
+    });
+  }, [pathname]);
 
   return (
-    <Tabs
-      defaultValue={`${pathname.startsWith("/dashboard/admin/companies/unverified") ? "unverified" : "verified"}`}
-      className="w-full"
-    >
+    <Tabs value={defaultValue} className="w-full">
       <TabsList className="flex w-full justify-between">
         <Link href={"/dashboard/admin/companies"} className="flex-grow">
           <TabsTrigger value="verified" className="w-full">
