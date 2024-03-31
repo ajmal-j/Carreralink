@@ -1,4 +1,5 @@
 "use client";
+
 import { ReactNode, useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -37,14 +38,7 @@ export default function DashboardSideBar({ items, logOut }: IPage) {
       <div className="hidden w-[35%] min-w-[200px] max-w-[320px] pe-1 lg:block ">
         <div className="sticky top-28 flex h-full max-h-[85vh] w-full flex-col items-center gap-5 overflow-y-scroll pb-10 pe-2">
           {items.map(({ href, icon, title }, indx) => (
-            <motion.div
-              key={indx}
-              className="w-full"
-              // initial={{ opacity: 0 }}
-              // animate={{ opacity: 1 }}
-              // transition={{ duration: 0.5 }}
-              whileTap={{ scale: 0.8 }}
-            >
+            <motion.div key={indx} className="w-full" whileTap={{ scale: 0.8 }}>
               <Link
                 href={href}
                 className={`flex w-full items-center justify-between gap-3 rounded-[16px] bg-gradient-to-r  ${pathname === href || pathname.split("/").slice(0, 4).join("/") === href ? "from-primaryColor from-60% to-violet-400 font-semibold text-white shadow-lg shadow-foreground/10" : "hover:bg-foreground/10"} py-2.5 pe-2 ps-3 transition-colors duration-200 hover:opacity-90 `}

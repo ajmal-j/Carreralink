@@ -43,7 +43,7 @@ export default function layout({ children }: { children: ReactNode }) {
               ]}
               logOut={logOut}
             />
-            <div className="w-full  px-4 pt-5">{children}</div>
+            <div className="w-full px-4 pt-5">{children}</div>
           </div>
         </div>
       ) : (

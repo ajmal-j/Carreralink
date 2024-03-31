@@ -12,6 +12,8 @@ export default async function layout({
     const response = await isVerified(token);
     if (!response.data)
       return <NotFound title="You are not yet verified by the admin." />;
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
   return <>{children}</>;
 }

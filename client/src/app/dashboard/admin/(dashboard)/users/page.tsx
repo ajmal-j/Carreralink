@@ -29,7 +29,7 @@ export default async function Users({
       <Search
         defaultValue={q}
         placeholder="Search for users..."
-        className="mb-6 w-full max-w-[600px] flex-1 shadow-md shadow-foreground/5"
+        className="mb-6 w-full max-w-[600px] flex-1"
         action="/dashboard/admin/users"
       />
       <UserTable

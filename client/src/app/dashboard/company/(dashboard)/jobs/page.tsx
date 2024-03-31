@@ -84,9 +84,9 @@ export default async function JobsPage({
   }
 
   return (
-    <DashboardWrapper>
-      <div className="sticky top-[5.08rem] z-30 mb-6 flex justify-between bg-background py-3 ps-3 text-xl text-foreground/70">
-        <span>Job&apos;s</span>
+    <DashboardWrapper
+      title="Job's"
+      components={
         <Link href="/dashboard/company/jobs/new">
           <PrimaryButton
             className="w-min gap-1 text-nowrap px-4"
@@ -95,7 +95,8 @@ export default async function JobsPage({
             New Job
           </PrimaryButton>
         </Link>
-      </div>
+      }
+    >
       <Search defaultValue={defaultValues?.q} />
       <div className="mt-7 flex flex-col gap-3 lg:flex-row">
         <div className="flex min-w-full justify-between lg:block lg:min-w-[260px]">

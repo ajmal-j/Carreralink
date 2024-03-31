@@ -35,7 +35,7 @@ export default async function Jobs({
     <div className="flex flex-col">
       <Search
         defaultValue={q}
-        className="mb-6 w-full max-w-[600px] flex-1 shadow-md shadow-foreground/5"
+        className="mb-6 w-full max-w-[600px] flex-1"
         action="/dashboard/admin/jobs"
       />
       <JobsTable
