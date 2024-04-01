@@ -2,14 +2,17 @@ import { formatMoney } from "@/lib/utils";
 import { IJob } from "@/types/jobs";
 import Image from "next/image";
 import Link from "next/link";
-
-export function SingleJob({ job }: { job: IJob }) {
+import { formatDistanceToNow } from "date-fns";
+export function SingleJob({
+  job,
+  jobAction,
+}: {
+  job: IJob;
+  jobAction?: JSX.Element;
+}) {
   return (
     <div className="flex items-start gap-3 rounded-xl px-3 py-1.5 transition-all duration-150 ease-in-out hover:bg-foreground/5">
-      <Link
-        href={`/companies/${job?.company?.id ?? job?.company?._id}`}
-        className="mb-auto"
-      >
+      <Link href={`/companies/${job?.company?._id}`} className="mb-auto">
         <div className="mt-1 flex size-[50px] justify-center gap-3 rounded-full border bg-white md:size-[60px] ">
           <Image
             className="rounded-full object-contain object-center"
@@ -20,10 +23,7 @@ export function SingleJob({ job }: { job: IJob }) {
           />
         </div>
       </Link>
-      <Link
-        href={job?.href || `/jobs/${job?.id ?? job?._id}`}
-        className="flex-1 "
-      >
+      <Link href={job?.href || `/jobs/${job?._id}`} className="flex-1 ">
         <h1 className="text-lg font-semibold">{job?.title}</h1>
         <p className="text-sm text-foreground/70">{job?.company?.name}</p>
         <p className="text-sm text-foreground/70">{job?.type}</p>
@@ -41,13 +41,16 @@ export function SingleJob({ job }: { job: IJob }) {
           </span>
         </div>
       </Link>
-      <div className="flex max-w-[20%] flex-col items-end">
+      <div className="flex h-full max-w-[20%] flex-col items-end">
         <p className="text-end">
           <span className="block text-foreground/70">{job?.pay?.rate}</span>₹{" "}
           {job?.pay?.minimum && formatMoney(job?.pay?.minimum)} -{" "}
           {formatMoney(job?.pay?.maximum)}
         </p>
-        <p className="text-end text-sm text-foreground/70">1 day ago</p>
+        {jobAction}
+        <p className="mt-auto block text-end text-sm text-foreground/70">
+          {formatDistanceToNow(job.createdAt)}
+        </p>
       </div>
     </div>
   );

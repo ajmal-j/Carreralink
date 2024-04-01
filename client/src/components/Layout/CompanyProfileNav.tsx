@@ -23,14 +23,14 @@ export default function CompanyProfileNav({ children, id, route }: IPage) {
         <ul className="flex justify-evenly">
           <Link href={`${route}/${id}`} scroll={false}>
             <li
-              className={`cursor-pointer rounded-full ${path === "/" ? "bg-primaryColor text-white" : "bg-transparent text-foreground"} px-4 py-1 font-semibold `}
+              className={`cursor-pointer rounded-full transition-colors duration-200 ${path === "/" ? "bg-primaryColor text-white" : "bg-transparent text-foreground"} px-4 py-1 font-semibold `}
             >
               Snapshot
             </li>
           </Link>
           <Link href={`${route}/${id}/jobs`} scroll={false}>
             <li
-              className={`cursor-pointer rounded-full ${path === "jobs" ? "bg-primaryColor text-white" : "bg-transparent text-foreground"} px-4 py-1 font-semibold `}
+              className={`cursor-pointer rounded-full transition-colors duration-200 ${path === "jobs" ? "bg-primaryColor text-white" : "bg-transparent text-foreground"} px-4 py-1 font-semibold `}
             >
               Job&apos;s
             </li>

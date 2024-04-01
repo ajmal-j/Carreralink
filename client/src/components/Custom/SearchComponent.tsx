@@ -45,6 +45,8 @@ export default function SearchComponent() {
   const [input, setInput] = useState("");
   const [users, setUsers] = useState<IUser[]>([]);
   const [companies, setCompanies] = useState<ICompany[]>([]);
+  const [open, setOpen] = useState(false);
+
   const fetchUsers = async () => {
     const response = await getUsers({
       q: input,
@@ -71,7 +73,7 @@ export default function SearchComponent() {
   }, [input]);
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <div className="flex cursor-pointer items-center gap-1 rounded-lg bg-primaryColor px-3 py-1.5">
           <MagnifyingGlassIcon className="size-4" />
@@ -99,7 +101,11 @@ export default function SearchComponent() {
             {!!users.length && (
               <CommandGroup heading="User's">
                 {users?.map((user, index) => (
-                  <Link key={index} href={`/${user?.username}`}>
+                  <Link
+                    key={index}
+                    href={`/${user?.username}`}
+                    onClick={() => setOpen(false)}
+                  >
                     <CommandItem className="cursor-pointer gap-2 hover:bg-foreground/10">
                       <Avatar className="size-7">
                         <AvatarImage
@@ -124,7 +130,11 @@ export default function SearchComponent() {
                 <CommandSeparator />
                 <CommandGroup heading="Companie's">
                   {companies?.map((company, index) => (
-                    <Link key={index} href={`/companies/${company?.id}`}>
+                    <Link
+                      key={index}
+                      href={`/companies/${company?.id}`}
+                      onClick={() => setOpen(false)}
+                    >
                       <CommandItem className="cursor-pointer gap-2 hover:bg-foreground/10">
                         <Avatar className="size-7">
                           <AvatarImage

@@ -64,11 +64,49 @@ const createJobByRecruiter = async ({
   return response.data;
 };
 
+const saveJob = async (job: string) => {
+  const url = new Server().jobs("saveJob");
+  const response = await axios.post(url, {
+    job,
+  });
+  return response.data;
+};
+
+const getSavedJobs = async () => {
+  const url = new Server().jobs("getSavedJobs");
+  const response = await axios.get(url);
+  return response.data;
+};
+
+const removeSavedJob = async (job: string) => {
+  const url = new Server().jobs("removeSavedJob");
+  const response = await axios.delete(url, {
+    params: {
+      job,
+    },
+  });
+  return response.data;
+};
+
+const isSaved = async (job: string) => {
+  const url = new Server().jobs("isSaved");
+  const response = await axios.get(url, {
+    params: {
+      job,
+    },
+  });
+  return response.data;
+};
+
 export {
-  createJob,
-  getJob,
-  getAllJobs,
   allCompanyJobs,
-  getAllLocations,
+  createJob,
   createJobByRecruiter,
+  getAllJobs,
+  getAllLocations,
+  getJob,
+  getSavedJobs,
+  removeSavedJob,
+  saveJob,
+  isSaved,
 };

@@ -36,6 +36,10 @@ import { RejectRequestUsecase } from "./recruiter/rejectRequest.usecase.js";
 import { RemoveRecruiterUsecase } from "./recruiter/removeRecruiter.usecase.js";
 import { GetRecruiterJobsUsecase } from "./recruiter/getRecruiterJobs.usecase.js";
 import { CreateJobByRecruiterUsecase } from "./jobs/createJobByRecruiter.js";
+import { SaveJobUsecase } from "./jobs/saveJob.usecase.js";
+import { GetAllSavedJobsUsecase } from "./jobs/getAllSavedJobs.usecase.js";
+import { RemoveSavedJobUsecase } from "./jobs/removeSavedJob.usecase.js";
+import { IsJobSavedUsecase } from "./jobs/isJobSaved.usecase.js";
 
 const createCompanyUsecase = new CreateCompanyUsecase(
   Repositories.CompanyRepository
@@ -161,6 +165,15 @@ const createJobByRecruiterUsecase = new CreateJobByRecruiterUsecase(
   Repositories.UserRepository
 );
 
+const saveJobUsecase = new SaveJobUsecase(Repositories.SavedJobsRepo);
+const getAllSavedJobsUsecase = new GetAllSavedJobsUsecase(
+  Repositories.SavedJobsRepo
+);
+const removeSavedJobUsecase = new RemoveSavedJobUsecase(
+  Repositories.SavedJobsRepo
+);
+
+const isJobSavedUsecase = new IsJobSavedUsecase(Repositories.SavedJobsRepo);
 export {
   createCompanyUsecase,
   allCompaniesUsecase,
@@ -199,4 +212,8 @@ export {
   removeRecruiterUsecase,
   getRecruiterJobsUsecase,
   createJobByRecruiterUsecase,
+  saveJobUsecase,
+  getAllSavedJobsUsecase,
+  removeSavedJobUsecase,
+  isJobSavedUsecase,
 };
