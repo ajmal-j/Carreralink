@@ -1,15 +1,19 @@
-import { BuildCurrentUser } from "./currentUser.js";
-import BuildUpdatePrimaryDetails from "./updatePrimaryDetails.js";
+import { eventProducer } from "../../events/producer/producer.js";
 import BuildAddEducation from "./addEducation.js";
-import BuildUpdateEducation from "./updateEducation.js";
+import BuildAddExperience from "./addExperience.js";
+import BuildAddResume from "./addResume.js";
+import BuildAddSkill from "./addSkill.js";
+import { BuildCurrentUser } from "./currentUser.js";
 import BuildDeleteEducation from "./deleteEducation.js";
 import BuildDeleteExperience from "./deleteExperience.js";
-import BuildAddExperience from "./addExperience.js";
-import BuildUpdateExperience from "./updateExperience.js";
-import BuildAddSkill from "./addSkill.js";
-import BuildUpdateProfilePic from "./uploadProfilePic.js";
 import BuildGetUser from "./getUser.js";
-import { eventProducer } from "../../events/producer/producer.js";
+import BuildRemoveResume from "./removeResume.js";
+import BuildUpdateEducation from "./updateEducation.js";
+import BuildUpdateExperience from "./updateExperience.js";
+import BuildUpdatePrimaryDetails from "./updatePrimaryDetails.js";
+import BuildUpdatePrimaryResume from "./updatePrimaryResume.js";
+import BuildUpdateResumeVisibility from "./updateResumeVisibility.js";
+import BuildUpdateProfilePic from "./uploadProfilePic.js";
 
 const currentUser = BuildCurrentUser();
 const updatePrimaryDetails = BuildUpdatePrimaryDetails(eventProducer);
@@ -22,6 +26,10 @@ const deleteExperience = BuildDeleteExperience();
 const addSkill = BuildAddSkill();
 const updateProfilePic = BuildUpdateProfilePic(eventProducer);
 const getUser = BuildGetUser();
+const addResume = BuildAddResume();
+const removeResume = BuildRemoveResume();
+const updatePrimaryResume = BuildUpdatePrimaryResume();
+const updateResumeVisibility = BuildUpdateResumeVisibility();
 
 export const userController = Object.freeze({
   currentUser,
@@ -35,6 +43,10 @@ export const userController = Object.freeze({
   updateProfilePic,
   deleteExperience,
   getUser,
+  addResume,
+  removeResume,
+  updatePrimaryResume,
+  updateResumeVisibility,
 });
 
 export type IUserController = typeof userController;

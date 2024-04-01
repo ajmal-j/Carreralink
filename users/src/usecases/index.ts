@@ -15,6 +15,10 @@ import { GetUsersUsecase } from "./admin/getUsers.usecase.js";
 import { ToggleBlockUsecase } from "./admin/toggleBlock.usecase.js";
 import { GetUserUsecase } from "./users/getuser.usecase.js";
 import { DeleteUsersUsecase } from "./admin/deleteUser.js";
+import { AddResumeUsecase } from "./users/addResume.usecase.js";
+import { RemoveResumeUsecase } from "./users/removeResume.usecase.js";
+import { UpdatePrimaryResumeUsecase } from "./users/updatePrimaryResume.usecase.js";
+import { UpdateResumeVisibilityUsecase } from "./users/updateResumeVisibility.usecase.js";
 
 const createUserUsecase = new CreateUserUsecase(Repositories.UserDataRepo);
 const currentUserUsecase = new CurrentUserUsecase(Repositories.UserDataRepo);
@@ -47,6 +51,14 @@ const getUsersUsecase = new GetUsersUsecase(Repositories.UserDataRepo);
 const toggleBlockUsecase = new ToggleBlockUsecase(Repositories.UserDataRepo);
 const getUserUsecase = new GetUserUsecase(Repositories.UserDataRepo);
 const deleteUsersUsecase = new DeleteUsersUsecase(Repositories.UserDataRepo);
+const addResumeUsecase = new AddResumeUsecase(Repositories.UserDataRepo);
+const removeResumeUsecase = new RemoveResumeUsecase(Repositories.UserDataRepo);
+const updatePrimaryResumeUsecase = new UpdatePrimaryResumeUsecase(
+  Repositories.UserDataRepo
+);
+const updateResumeVisibilityUsecase = new UpdateResumeVisibilityUsecase(
+  Repositories.UserDataRepo
+);
 
 export {
   createUserUsecase,
@@ -65,4 +77,8 @@ export {
   toggleBlockUsecase,
   getUserUsecase,
   deleteUsersUsecase,
+  addResumeUsecase,
+  removeResumeUsecase,
+  updatePrimaryResumeUsecase,
+  updateResumeVisibilityUsecase,
 };

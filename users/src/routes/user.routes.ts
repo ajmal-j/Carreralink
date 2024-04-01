@@ -1,11 +1,12 @@
-import { Router } from "express";
+import { VerifyUser, expressCallback } from "@carreralink/common";
+import { RequestHandler, Router } from "express";
 import { IUserController } from "../controllers/user/index.js";
-import { expressCallback, VerifyAdmin, VerifyUser } from "@carreralink/common";
 
 export default (
   router: any,
   userController: IUserController,
-  imageUploader: any
+  imageUploader: RequestHandler,
+  resumeUploader: RequestHandler
 ): Router => {
   router.get(
     "/currentUser",
@@ -59,5 +60,26 @@ export default (
     expressCallback(userController.updateProfilePic)
   );
   router.get("/getUser", expressCallback(userController.getUser));
+  router.post(
+    "/addResume",
+    VerifyUser,
+    resumeUploader,
+    expressCallback(userController.addResume)
+  );
+  router.delete(
+    "/removeResume",
+    VerifyUser,
+    expressCallback(userController.removeResume)
+  );
+  router.patch(
+    "/updatePrimaryResume",
+    VerifyUser,
+    expressCallback(userController.updatePrimaryResume)
+  );
+  router.patch(
+    "/updateResumeVisibility",
+    VerifyUser,
+    expressCallback(userController.updateResumeVisibility)
+  );
   return router;
 };

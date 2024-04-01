@@ -17,6 +17,14 @@ export interface IUser {
     startDate: string;
     endDate: string;
   }[];
+  resume: {
+    visible: boolean;
+    primary: number;
+    resumes: {
+      name: string;
+      url: string;
+    }[];
+  };
   experience: {
     _id: string;
     companyName: string;
@@ -95,6 +103,11 @@ const userSlice = createSlice({
         state.user.profile = payload;
       }
     },
+    updateResumeState: (state, { payload }: PayloadAction<any>) => {
+      if (state.user) {
+        state.user.resume = payload;
+      }
+    },
   },
 });
 
@@ -107,5 +120,6 @@ export const {
   deleteExperienceState,
   addSkillsState,
   updateProfilePicState,
+  updateResumeState,
 } = userSlice.actions;
 export default userSlice.reducer;

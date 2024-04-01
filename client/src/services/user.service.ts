@@ -101,6 +101,38 @@ const getUser = async (username: string) => {
   return response.data;
 };
 
+const addResume = async (data: FormData) => {
+  const url = new Server().user("addResume");
+  const response = await axios.post(url, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data;
+};
+
+const removeResume = async (resume: string) => {
+  const url = new Server().user("removeResume");
+  const response = await axios.delete(url, {
+    params: {
+      url: resume,
+    },
+  });
+  return response.data;
+};
+
+const updatePrimaryResume = async (primary: number) => {
+  const url = new Server().user("updatePrimaryResume");
+  const response = await axios.patch(url, { primary });
+  return response.data;
+};
+
+const updateResumeVisibility = async (visibility: boolean) => {
+  const url = new Server().user("updateResumeVisibility");
+  const response = await axios.patch(url, { visibility });
+  return response.data;
+};
+
 export {
   currentUser,
   updateProfile,
@@ -116,4 +148,8 @@ export {
   verifyUser,
   resentOtp,
   getUser,
+  addResume,
+  removeResume,
+  updatePrimaryResume,
+  updateResumeVisibility,
 };

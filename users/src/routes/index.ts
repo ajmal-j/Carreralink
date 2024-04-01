@@ -11,7 +11,8 @@ let adminRouter = Router();
 userRouter = BuildUserRoutes(
   userRouter,
   userController,
-  upload.single("profile")
+  upload.single("profile"),
+  upload.single("resume")
 );
 
 adminRouter = BuildAdminRoutes(adminRouter, adminController);

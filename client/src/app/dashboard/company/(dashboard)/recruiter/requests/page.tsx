@@ -1,37 +1,36 @@
 "use client";
 
+import Markdown from "@/components/Custom/Markdown";
+import NotFound from "@/components/Custom/NotFound";
+import { PaginationComponent } from "@/components/Custom/Pagination";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { AvatarIcon, EnvelopeClosedIcon } from "@radix-ui/react-icons";
-import { formatDistanceToNow } from "date-fns";
-import { PopoverClose } from "@radix-ui/react-popover";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { useEffect, useState } from "react";
-import NotFound from "@/components/Custom/NotFound";
+import { toast } from "@/components/ui/use-toast";
+import { getMessage } from "@/lib/utils";
 import {
   assignRecruiter,
   getPendingRequests,
   rejectRequest,
 } from "@/services/company.service";
 import { IResponseData } from "@/types/paginateResponse";
-import { toast } from "@/components/ui/use-toast";
-import { PaginationComponent } from "@/components/Custom/Pagination";
+import { AvatarIcon, EnvelopeClosedIcon } from "@radix-ui/react-icons";
+import { PopoverClose } from "@radix-ui/react-popover";
+import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
-import { getMessage } from "@/lib/utils";
-import Markdown from "@/components/Custom/Markdown";
+import { useEffect, useState } from "react";
 
 interface PageProps {
   searchParams: {

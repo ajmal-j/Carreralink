@@ -192,4 +192,66 @@ export class UserDataRepository implements IUserRepo {
       }
     );
   }
+
+  async addResume({
+    email,
+    url,
+    name,
+  }: {
+    email: string;
+    url: string;
+    name: string;
+  }): Promise<Pick<IUserData, "resume"> | null> {
+    return await this.database.findOneAndUpdate(
+      { email: email },
+      { $push: { "resume.resumes": { url, name } } },
+      {
+        new: true,
+      }
+    );
+  }
+  async removeResume(
+    email: string,
+    url: string
+  ): Promise<Pick<IUserData, "resume"> | null> {
+    return await this.database.findOneAndUpdate(
+      { email: email },
+      { $pull: { "resume.resumes": { url: url } } },
+      { new: true }
+    );
+  }
+
+  async updateVisibility(
+    email: string,
+    visibility: boolean
+  ): Promise<Pick<IUserData, "resume"> | null> {
+    return await this.database.findOneAndUpdate(
+      { email: email },
+      {
+        $set: {
+          "resume.visible": visibility,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+  }
+
+  async updatePrimaryResume(
+    email: string,
+    primary: number
+  ): Promise<Pick<IUserData, "resume"> | null> {
+    return await this.database.findOneAndUpdate(
+      { email: email },
+      {
+        $set: {
+          "resume.primary": primary,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+  }
 }

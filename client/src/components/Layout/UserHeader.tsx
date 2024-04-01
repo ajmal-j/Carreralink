@@ -65,7 +65,7 @@ export default function UserHeader({ logOut }: { logOut: () => void }) {
   }, []);
 
   return (
-    <header className="z-10 flex items-center justify-between rounded-full sm:border-[0.2px] px-6 py-3">
+    <header className="z-10 flex items-center justify-between rounded-full px-6 py-3 sm:border-[0.2px]">
       <Title />
       <div className="hidden flex-1 items-center justify-end gap-4 px-3  text-foreground/60 md:flex">
         <Link className="hover:text-foreground" href="/jobs">

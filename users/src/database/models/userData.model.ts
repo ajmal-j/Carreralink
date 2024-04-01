@@ -21,7 +21,14 @@ export interface IUserData extends Document {
     endDate: Date | string;
   }[];
   place: string | null;
-  resumeLink: string | null;
+  resume: {
+    visible: boolean;
+    primary: number;
+    resumes: {
+      name: string;
+      url: string;
+    }[];
+  };
   role: "user" | "recruiter";
   isAdmin: boolean;
   about: string | null;
@@ -71,7 +78,11 @@ const userSchema: Schema = new Schema(
       },
     ],
     place: { type: String },
-    resumeLink: { type: String },
+    resume: {
+      visible: { type: Boolean, default: false },
+      primary: { type: Number, default: 0 },
+      resumes: [{ name: { type: String }, url: { type: String } }],
+    },
     isAdmin: { type: Boolean, default: false },
     role: { type: String, enum: ["user", "recruiter"], default: "user" },
     about: { type: String },

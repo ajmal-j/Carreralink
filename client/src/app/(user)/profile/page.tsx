@@ -3,6 +3,7 @@
 
 import {
   BackpackIcon,
+  ExternalLinkIcon,
   EyeOpenIcon,
   FileIcon,
   LinkBreak2Icon,
@@ -21,18 +22,22 @@ import { EditExperience } from "@/components/FormsAndDialog/EditExperience";
 import { EditSkill } from "@/components/FormsAndDialog/EditSkill";
 import { useDispatch } from "react-redux";
 import { useStateSelector } from "@/store";
-import { FormEvent, useEffect, useState } from "react";
+import { Dispatch, FormEvent, ReactNode, useEffect, useState } from "react";
 import {
+  addResume,
   currentUser,
   deleteEducation,
   deleteExperience,
+  removeResume,
   updateProfilePic,
 } from "@/services/user.service";
 import {
+  IUser,
   deleteEducationState,
   deleteExperienceState,
   setUser,
   updateProfilePicState,
+  updateResumeState,
 } from "@/store/reducers/user.slice";
 import {
   Dialog,
@@ -49,10 +54,18 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "@/components/ui/use-toast";
 import { getMessage } from "@/lib/utils";
 import NotFound from "@/components/Custom/NotFound";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { PopoverClose } from "@radix-ui/react-popover";
+import { PDFviewer } from "@/components/Custom/PDFviewer";
 
 export default function Profile() {
   const { isAuth, user } = useStateSelector((state) => state.user);
   const [open, setOpen] = useState(false);
+  const [openResume, setOpenResume] = useState(false);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -79,6 +92,37 @@ export default function Profile() {
         title: "Profile updated successfully",
       });
       setOpen(false);
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: error.message,
+          variant: "destructive",
+        });
+      } else {
+        const message = getMessage(error);
+        toast({
+          title: message,
+          variant: "destructive",
+        });
+      }
+    }
+  };
+
+  const addResumeHandler = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    try {
+      // @ts-expect-error
+      if (!formData.get("resume")?.name)
+        throw new Error("Please select a resume.");
+      if (!formData.get("name")) throw new Error(`Please enter resume title.`);
+      const response = await addResume(formData);
+      const resume = await response?.data;
+      dispatch(updateResumeState(resume as Pick<IUser, "resume">));
+      toast({
+        title: "Resume updated successfully",
+      });
+      setOpenResume(false);
     } catch (error) {
       if (error instanceof Error) {
         toast({
@@ -152,20 +196,45 @@ export default function Profile() {
             </span>
             <div className="flex-1">
               <h1>Resume</h1>
-              <span className="text-foreground/70">View resume as PDF</span>
+              <span className="text-foreground/70">
+                {user?.resume?.resumes?.length ? (
+                  <Link
+                    href={
+                      user?.resume?.resumes[user?.resume?.primary ?? 0]?.url
+                    }
+                  >
+                    <span className="underline">view resume</span>
+                  </Link>
+                ) : (
+                  "No resume"
+                )}
+                {/* <PDFviewer
+                  resume={user?.resume?.resumes[user?.resume?.primary ?? 0].url}
+                >
+                  <EyeOpenIcon />
+                </PDFviewer> */}
+              </span>
             </div>
             <div className="flex h-min gap-2 place-self-center">
-              <PrimaryButton className="rounded-sm">
-                <div className="flex items-center gap-1 pe-3 ps-3 ">
-                  <EyeOpenIcon />
-                  <span className="hidden md:block">view</span>
-                </div>
-              </PrimaryButton>
-              <SecondaryButton className="rounded-sm">
-                <div className="flex items-center gap-1 pe-3 ps-3 ">
-                  <Share2Icon />
-                </div>
-              </SecondaryButton>
+              <ViewResumes resume={user?.resume}>
+                <PrimaryButton className="rounded-sm">
+                  <div className="flex items-center gap-1 pe-3 ps-3 ">
+                    <EyeOpenIcon />
+                    <span className="hidden md:block">view</span>
+                  </div>
+                </PrimaryButton>
+              </ViewResumes>
+              <AddResume
+                open={openResume}
+                setOpen={setOpenResume}
+                updateResume={addResumeHandler}
+              >
+                <SecondaryButton className="rounded-sm">
+                  <div className="flex items-center gap-1 pe-3 ps-3 ">
+                    <Share2Icon />
+                  </div>
+                </SecondaryButton>
+              </AddResume>
             </div>
           </div>
 
@@ -411,6 +480,129 @@ const UpdateProfile = ({
             </Button>
           </div>
         </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+const AddResume = ({
+  open,
+  setOpen,
+  updateResume,
+  children,
+}: {
+  open: boolean;
+  setOpen: Dispatch<React.SetStateAction<boolean>>;
+  children: ReactNode;
+  updateResume: (e: FormEvent<HTMLFormElement>) => void;
+}) => {
+  return (
+    <Dialog
+      open={open}
+      onOpenChange={() => {
+        setOpen(!open);
+      }}
+    >
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle className="pb-3 text-xl text-foreground/70">
+            Update Resume
+          </DialogTitle>
+        </DialogHeader>
+        <form onSubmit={updateResume}>
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="name" className="pb-2 ps-1">
+              Title
+            </Label>
+            <Input
+              type="text"
+              className="pt-3"
+              id="name"
+              name="name"
+              placeholder="Name"
+            />
+            <Label htmlFor="resume" className="pb-2 ps-1 pt-3">
+              Resume (pdf)
+            </Label>
+            <Input
+              type="file"
+              className="pt-3"
+              id="resume"
+              name="resume"
+              accept=".pdf"
+            />
+          </div>
+          <div className="flex justify-end pt-4">
+            <Button type="submit" variant="outline">
+              <UploadIcon />
+            </Button>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+const ViewResumes = ({
+  children,
+  resume,
+}: {
+  children: ReactNode;
+  resume: IUser["resume"];
+}) => {
+  const dispatch = useDispatch();
+  return (
+    <Dialog>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle className="pb-3 text-xl text-foreground/70">
+            Resume&apos;s ({resume?.resumes?.length})
+          </DialogTitle>
+        </DialogHeader>
+        <div className="flex flex-col gap-2">
+          {!resume?.resumes.length && (
+            <h4 className="text-center text-foreground/60">No resume found.</h4>
+          )}
+          {resume?.resumes.map((res, index) => (
+            <div
+              key={index}
+              className="flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 transition-all duration-200 hover:bg-foreground/10"
+            >
+              <span>
+                <span className="capitalize">{res.name}</span>
+                {resume.primary === index && (
+                  <span className="ps-3 text-foreground/70">(primary)</span>
+                )}
+              </span>
+              <div className="flex gap-2">
+                <Link href={res.url} target="_blank">
+                  <ExternalLinkIcon className="size-4 cursor-pointer hover:text-blue-600" />
+                </Link>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <TrashIcon className="size-4 cursor-pointer text-red-600" />
+                  </PopoverTrigger>
+                  <PopoverContent align="start" className="flex flex-col gap-2">
+                    <Label>Are you sure you want to remove this resume?</Label>
+                    <PopoverClose className="ms-auto space-x-1">
+                      <Button
+                        onClick={async () => {
+                          const response = await removeResume(res.url);
+                          dispatch(updateResumeState(response.data));
+                        }}
+                        size={"sm"}
+                        className="bg-red-500/20 text-red-500 hover:bg-red-500/50 hover:text-white"
+                      >
+                        remove
+                      </Button>
+                    </PopoverClose>
+                  </PopoverContent>
+                </Popover>
+              </div>
+            </div>
+          ))}
+        </div>
       </DialogContent>
     </Dialog>
   );
