@@ -333,7 +333,7 @@ function DefaultComponent({ name, form }: IFormProps) {
           <FormLabel className="block capitalize">{field.name}</FormLabel>
           <FormControl>
             {field.name === "message" ? (
-              <Textarea  placeholder="Enter message here." {...field} />
+              <Textarea placeholder="Enter message here." {...field} />
             ) : field.name !== "startDate" && field.name !== "endDate" ? (
               <Input
                 type={
@@ -751,7 +751,9 @@ function SkillsField({ form, name }: ISkillsFieldProps) {
         <div className="flex flex-wrap gap-2">
           {currentSkills.map((skill: string, index: number) => (
             <div key={index} className="relative">
-              <PrimaryButton className="w-min px-3">{skill}</PrimaryButton>
+              <PrimaryButton className="w-min text-nowrap px-3">
+                {skill}
+              </PrimaryButton>
               <span>
                 <CrossCircledIcon
                   onClick={() => {

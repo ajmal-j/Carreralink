@@ -20,6 +20,9 @@ export class CompanyRepository implements ICompanyRepository {
   async findByEmail(email: string): Promise<ICompany | null> {
     return await this.database.findOne({ email });
   }
+  async findById(id: string): Promise<ICompany | null> {
+    return await this.database.findById(id);
+  }
   async allCompanies(query: {
     p: number;
     q?: string;
@@ -62,7 +65,7 @@ export class CompanyRepository implements ICompanyRepository {
   }
 
   async get(id: string): Promise<ICompany> {
-    const company = await this.database.findById(id);
+    const company = await this.database.findById({ _id: id });
     if (!company) throw new NotFoundError("Company not found");
     return company;
   }

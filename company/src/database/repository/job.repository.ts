@@ -141,6 +141,71 @@ export class JobRepository {
     );
     return response;
   }
+  async allJobsByRecruiter({
+    query,
+    id,
+  }: {
+    query: {
+      page?: number;
+      q?: string;
+      location?: string;
+      type?: string;
+      sort?: string;
+    };
+    id: string;
+  }) {
+    const options = {
+      page: query?.page ?? 1,
+      limit: 6,
+    };
+
+    const sortOptions = {
+      "most recent": { $sort: { createdAt: -1 } },
+      "least applied": { $sort: { "applicants.length": 1 } },
+      "most applied": { $sort: { "applicants.length": -1 } },
+      "highest paying": { $sort: { "pay.maximum": -1 } },
+      "lowest paying": { $sort: { "pay.minimum": 1 } },
+    } as const;
+
+    const sort = query?.sort
+      ? sortOptions[query?.sort as keyof typeof sortOptions]
+      : sortOptions["most recent"];
+
+    const aggregation = this.database.aggregate([
+      {
+        $match: {
+          "postedBy.id": new ObjectId(id),
+          ...(query?.location ? { officeLocation: query.location } : {}),
+          ...(query?.type ? { workSpace: query.type } : {}),
+          ...(query?.q
+            ? {
+                $text: {
+                  $search: query.q,
+                  $caseSensitive: false,
+                },
+              }
+            : {}),
+        },
+      },
+      {
+        $lookup: {
+          from: "companies",
+          localField: "company",
+          foreignField: "_id",
+          as: "company",
+        },
+      },
+      {
+        $unwind: "$company",
+      },
+      sort,
+    ]);
+    const response = await this.database.aggregatePaginate(
+      aggregation,
+      options
+    );
+    return response;
+  }
   async allJobsByCompany(id: string) {
     return await this.database.find({ company: id }).populate("company");
   }

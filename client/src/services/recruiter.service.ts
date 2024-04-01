@@ -16,4 +16,26 @@ const isRecruiter = async (token: string) => {
   return response.data;
 };
 
-export { createRequest, isRecruiter };
+const getJobs = async ({
+  token,
+  query,
+}: {
+  token: string;
+  query: {
+    p?: number | string;
+    q?: string;
+  };
+}) => {
+  const url = new Server().recruiter("getJobs");
+  const response = await axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    params: {
+      ...query,
+    },
+  });
+  return response.data;
+};
+
+export { createRequest, isRecruiter, getJobs };

@@ -34,6 +34,8 @@ import { GetPendingRequestsUsecase } from "./recruiter/getPendingRequests.usecas
 import { AssignRecruiterUsecase } from "./recruiter/assignRecruiter.usecase.js";
 import { RejectRequestUsecase } from "./recruiter/rejectRequest.usecase.js";
 import { RemoveRecruiterUsecase } from "./recruiter/removeRecruiter.usecase.js";
+import { GetRecruiterJobsUsecase } from "./recruiter/getRecruiterJobs.usecase.js";
+import { CreateJobByRecruiterUsecase } from "./jobs/createJobByRecruiter.js";
 
 const createCompanyUsecase = new CreateCompanyUsecase(
   Repositories.CompanyRepository
@@ -148,6 +150,16 @@ const rejectRequestUsecase = new RejectRequestUsecase(
 const removeRecruiterUsecase = new RemoveRecruiterUsecase(
   Repositories.RecruiterRequestRepository
 );
+const getRecruiterJobsUsecase = new GetRecruiterJobsUsecase(
+  Repositories.JobRepository,
+  Repositories.UserRepository
+);
+
+const createJobByRecruiterUsecase = new CreateJobByRecruiterUsecase(
+  Repositories.JobRepository,
+  Repositories.CompanyRepository,
+  Repositories.UserRepository
+);
 
 export {
   createCompanyUsecase,
@@ -185,4 +197,6 @@ export {
   assignRecruiterUsecase,
   rejectRequestUsecase,
   removeRecruiterUsecase,
+  getRecruiterJobsUsecase,
+  createJobByRecruiterUsecase,
 };

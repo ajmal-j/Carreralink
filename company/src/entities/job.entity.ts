@@ -13,6 +13,11 @@ interface IJob {
     minimum: string;
     rate: string;
   };
+  postedBy: {
+    by: "recruiter" | "company";
+    ref: "User" | "Company";
+    id: string;
+  };
 }
 
 export class Job implements IJob {
@@ -34,6 +39,16 @@ export class Job implements IJob {
     minimum: "",
     rate: "",
   };
+  postedBy: {
+    by: "recruiter" | "company";
+    ref: "User" | "Company";
+    id: string;
+  } = {
+    by: "company",
+    ref: "Company",
+    id: "",
+  };
+
   constructor(job: IJob) {
     Object.assign(this, job);
   }

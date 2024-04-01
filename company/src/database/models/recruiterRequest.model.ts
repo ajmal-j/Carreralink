@@ -35,5 +35,5 @@ export const RecruiterRequestModel = mongoose.model<IRecruiterRequest>(
 );
 
 export type IRecruiterRequestModel = typeof RecruiterRequestModel & {
-  aggregatePaginate: any;
+  aggregatePaginate?: any;
 };

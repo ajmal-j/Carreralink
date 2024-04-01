@@ -19,6 +19,10 @@ export function RecruiterRoutes({
     VerifyUser,
     expressCallback(recruiterController.isRecruiter)
   );
-  
+  router.get(
+    "/getJobs",
+    VerifyUser,
+    expressCallback(recruiterController.getJobs)
+  );
   return router;
 }

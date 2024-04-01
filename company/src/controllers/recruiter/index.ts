@@ -5,6 +5,7 @@ import BuildGetPendingRequests from "./pendingRequests.js";
 import BuildAssignRecruiter from "./assignRecruiter.js";
 import BuildRejectRequest from "./rejectRequest.js";
 import BuildRemoveRecruiter from "./removeRecruiter.js";
+import BuildGetJobs from "./getJobs.js";
 
 const create = BuildCreateRequest();
 const isRecruiter = BuildIsRecruiter();
@@ -13,6 +14,7 @@ const pendingRequests = BuildGetPendingRequests();
 const assignRecruiter = BuildAssignRecruiter();
 const rejectRequest = BuildRejectRequest();
 const removeRecruiter = BuildRemoveRecruiter();
+const getJobs = BuildGetJobs();
 
 export const recruiterController = {
   create,
@@ -22,5 +24,6 @@ export const recruiterController = {
   assignRecruiter,
   rejectRequest,
   removeRecruiter,
+  getJobs,
 };
 export type IRecruiterController = typeof recruiterController;

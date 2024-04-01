@@ -39,7 +39,8 @@ export default function RecruiterHeader({
     dispatch(setRecruiter(data));
     (async () => {
       try {
-        const response = await getCompany(data?.id);
+        const response = await getCompany(data?.company?.id);
+        console.log(response.data);
         dispatch(setCompany(response.data));
       } catch (error) {
         console.log(error);

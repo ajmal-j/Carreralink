@@ -17,7 +17,7 @@ const getJob = async (id: string) => {
   return response.data;
 };
 
-const getAllJobs = async (options: {
+const getAllJobs = async (query: {
   location: string | undefined;
   type: string | undefined;
   q: string | undefined;
@@ -27,7 +27,7 @@ const getAllJobs = async (options: {
   const url = new Server().jobs("allJobs");
   const response = await axios.get(url, {
     params: {
-      ...options,
+      ...query,
     },
   });
   return response.data;
@@ -49,4 +49,26 @@ const getAllLocations = async () => {
   return response.data;
 };
 
-export { createJob, getJob, getAllJobs, allCompanyJobs, getAllLocations };
+const createJobByRecruiter = async ({
+  id,
+  data,
+}: {
+  id: string;
+  data: Record<string, any>;
+}) => {
+  const url = new Server().jobs("createJobByRecruiter");
+  const response = await axios.post(url, {
+    id,
+    data,
+  });
+  return response.data;
+};
+
+export {
+  createJob,
+  getJob,
+  getAllJobs,
+  allCompanyJobs,
+  getAllLocations,
+  createJobByRecruiter,
+};

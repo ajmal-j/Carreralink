@@ -15,6 +15,11 @@ export class CreateJobUsecase {
     if (!company) throw new UnauthorizedError("Company not found");
     const data = {
       ...jobData,
+      postedBy: {
+        by: "company",
+        ref: "Company",
+        id: company._id,
+      },
       company: company._id,
     };
     const job = new Job(data);

@@ -20,9 +20,14 @@ export interface IJobs extends Document {
     minimum: string;
     rate: string;
   };
+  postedBy: {
+    by: "recruiter" | "company";
+    ref: "User" | "Company";
+    id: ObjectId;
+  };
 }
 
-const jobsSchema: Schema = new Schema(
+const jobsSchema: Schema = new Schema<IJobs>(
   {
     title: { type: String },
     applicants: [{ type: Schema.Types.ObjectId, ref: "Applicant" }],
@@ -40,6 +45,11 @@ const jobsSchema: Schema = new Schema(
       maximum: { type: String },
       minimum: { type: String },
       rate: { type: String },
+    },
+    postedBy: {
+      by: { type: String, enum: ["recruiter", "company"] },
+      ref: { type: String, enum: ["User", "Company"] },
+      id: { type: Schema.Types.ObjectId, refPath: "postedBy.ref" },
     },
   },
   {
