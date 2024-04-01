@@ -11,7 +11,8 @@ export default function () {
     const user = req.user;
     if (!user?.email) throw new BadRequestError("User not authenticated");
     const { visibility } = req.body;
-    if (!visibility) throw new NotFoundError("Visibility not found");
+    if (!visibility && typeof visibility !== "boolean")
+      throw new NotFoundError("Visibility not found");
     const { resume } = await updateResumeVisibilityUsecase.execute(
       user.email,
       visibility

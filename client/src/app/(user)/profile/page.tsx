@@ -3,6 +3,8 @@
 
 import {
   BackpackIcon,
+  Cross1Icon,
+  DrawingPinIcon,
   ExternalLinkIcon,
   EyeOpenIcon,
   FileIcon,
@@ -29,7 +31,9 @@ import {
   deleteEducation,
   deleteExperience,
   removeResume,
+  updatePrimaryResume,
   updateProfilePic,
+  updateResumeVisibility,
 } from "@/services/user.service";
 import {
   IUser,
@@ -61,6 +65,8 @@ import {
 } from "@/components/ui/popover";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { PDFviewer } from "@/components/Custom/PDFviewer";
+import { Switch } from "@/components/ui/switch";
+import { debounce, throttle } from "lodash";
 
 export default function Profile() {
   const { isAuth, user } = useStateSelector((state) => state.user);
@@ -560,7 +566,7 @@ const ViewResumes = ({
             Resume&apos;s ({resume?.resumes?.length})
           </DialogTitle>
         </DialogHeader>
-        <div className="flex flex-col gap-2">
+        <div className="flex max-h-[400px] flex-col gap-2 overflow-auto">
           {!resume?.resumes.length && (
             <h4 className="text-center text-foreground/60">No resume found.</h4>
           )}
@@ -576,12 +582,21 @@ const ViewResumes = ({
                 )}
               </span>
               <div className="flex gap-2">
+                {resume.primary !== index && (
+                  <DrawingPinIcon
+                    className="size-4"
+                    onClick={async () => {
+                      const response = await updatePrimaryResume(index);
+                      dispatch(updateResumeState(response.data));
+                    }}
+                  />
+                )}
                 <Link href={res.url} target="_blank">
                   <ExternalLinkIcon className="size-4 cursor-pointer hover:text-blue-600" />
                 </Link>
                 <Popover>
                   <PopoverTrigger asChild>
-                    <TrashIcon className="size-4 cursor-pointer text-red-600" />
+                    <Cross1Icon className="size-4 cursor-pointer text-red-600" />
                   </PopoverTrigger>
                   <PopoverContent align="start" className="flex flex-col gap-2">
                     <Label>Are you sure you want to remove this resume?</Label>
@@ -602,6 +617,16 @@ const ViewResumes = ({
               </div>
             </div>
           ))}
+          <div className="mt-4 flex items-center justify-end gap-2">
+            <span className="text-sm text-foreground/70">visible to all</span>
+            <Switch
+              checked={resume?.visible}
+              onClick={async () => {
+                const response = await updateResumeVisibility(!resume?.visible);
+                dispatch(updateResumeState(response.data));
+              }}
+            />
+          </div>
         </div>
       </DialogContent>
     </Dialog>

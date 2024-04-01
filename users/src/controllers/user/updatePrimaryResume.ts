@@ -11,7 +11,7 @@ export default function () {
     const user = req?.user;
     if (!user?.email) throw new BadRequestError("User not authenticated");
     const { primary } = req.body;
-    if (!primary) throw new NotFoundError("Primary not found");
+    if (!primary && primary !== 0) throw new NotFoundError("Primary not found");
     const { resume } = await updatePrimaryResumeUsecase.execute(
       user.email,
       primary
