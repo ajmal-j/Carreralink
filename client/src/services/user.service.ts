@@ -133,6 +133,17 @@ const updateResumeVisibility = async (visibility: boolean) => {
   return response.data;
 };
 
+const getUsers = async (query: { q?: string; p?: number }) => {
+  const url = new Server().user("getUsers");
+  const response = await axios.get(url, {
+    params: {
+      ...query,
+      p: (query.p && Number(query.p)) || 1,
+    },
+  });
+  return response.data;
+};
+
 export {
   currentUser,
   updateProfile,
@@ -152,4 +163,5 @@ export {
   removeResume,
   updatePrimaryResume,
   updateResumeVisibility,
+  getUsers,
 };

@@ -1,19 +1,17 @@
+import PrimaryButton from "@/components/Buttons/PrimaryButton";
+import NotFound from "@/components/Custom/NotFound";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getUser } from "@/services/user.service";
+import { IUser } from "@/store/reducers/user.slice";
 import {
   BackpackIcon,
   EyeOpenIcon,
   FileIcon,
   LinkBreak2Icon,
   PersonIcon,
-  Share2Icon,
   WidthIcon,
 } from "@radix-ui/react-icons";
-import SecondaryButton from "@/components/Buttons/SecondaryButton";
-import PrimaryButton from "@/components/Buttons/PrimaryButton";
 import Link from "next/link";
-import { IUser } from "@/store/reducers/user.slice";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import NotFound from "@/components/Custom/NotFound";
-import { getUser } from "@/services/user.service";
 import BackButton from "../Buttons/BackButton";
 
 export default async function User({ username }: { username: string }) {
@@ -27,7 +25,7 @@ export default async function User({ username }: { username: string }) {
   if (!user) return <NotFound title="User not found." />;
   return (
     user && (
-      <article className="mb-10 md:px-4">
+      <article className="mb-10 md:px-5">
         <BackButton />
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-3">
@@ -57,29 +55,32 @@ export default async function User({ username }: { username: string }) {
             </div>
           </div>
         </div>
-        <div className="mt-16 flex flex-col gap-5">
-          <div className="flex gap-2">
-            <span className="me-2 h-min place-self-center rounded-sm bg-primaryColor p-3">
-              <FileIcon className="size-6 text-white" />
-            </span>
-            <div className="flex-1">
-              <h1>Resume</h1>
-              <span className="text-foreground/70">View resume as PDF</span>
+        <div className="mt-5 flex flex-col gap-5">
+          {user?.resume?.visible && user?.resume?.resumes.length && (
+            <div className="flex gap-2">
+              <span className="me-2 h-min place-self-center rounded-sm bg-primaryColor p-3">
+                <FileIcon className="size-6 text-white" />
+              </span>
+              <div className="flex-1">
+                <h1>Resume</h1>
+                <span className="text-foreground/70">View resume as PDF</span>
+              </div>
+              <div className="flex h-min gap-2 place-self-center">
+                <Link
+                  href={user?.resume?.resumes[user.resume.primary].url}
+                  target="_blank"
+                >
+                  <PrimaryButton className="rounded-sm">
+                    <div className="flex items-center gap-1 pe-3 ps-3 ">
+                      <EyeOpenIcon />
+                      <span className="hidden md:block">view</span>
+                    </div>
+                  </PrimaryButton>
+                </Link>
+              </div>
             </div>
-            <div className="flex h-min gap-2 place-self-center">
-              <PrimaryButton className="rounded-sm">
-                <div className="flex items-center gap-1 pe-3 ps-3 ">
-                  <EyeOpenIcon />
-                  <span className="hidden md:block">view</span>
-                </div>
-              </PrimaryButton>
-              <SecondaryButton className="rounded-sm">
-                <div className="flex items-center gap-1 pe-3 ps-3 ">
-                  <Share2Icon />
-                </div>
-              </SecondaryButton>
-            </div>
-          </div>
+          )}
+
           {user?.portfolioLink && (
             <div className="flex gap-2">
               <span className="me-2 h-min place-self-center rounded-sm bg-primaryColor p-3">

@@ -1,17 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { debounce } from "lodash";
-import { ZodObject } from "zod";
 import { Input } from "@/components/ui/input";
-import PrimaryButton from "../Buttons/PrimaryButton";
-import React, { ReactNode, useEffect, useRef, useState } from "react";
-import {
-  Cross1Icon,
-  CrossCircledIcon,
-  EyeClosedIcon,
-  EyeOpenIcon,
-  UpdateIcon,
-} from "@radix-ui/react-icons";
 import {
   Select,
   SelectContent,
@@ -22,8 +11,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarIcon } from "@radix-ui/react-icons";
+import {
+  CalendarIcon,
+  Cross1Icon,
+  CrossCircledIcon,
+  EyeClosedIcon,
+  EyeOpenIcon,
+  UpdateIcon,
+} from "@radix-ui/react-icons";
 import { format } from "date-fns";
+import { debounce } from "lodash";
+import { ReactNode, useEffect, useState } from "react";
 import {
   UseFormReturn,
   UseFormSetFocus,
@@ -31,9 +29,12 @@ import {
   UseFormWatch,
   useForm,
 } from "react-hook-form";
-import { z } from "zod";
+import { ZodObject, z } from "zod";
+import PrimaryButton from "../Buttons/PrimaryButton";
 
-import { cn } from "@/lib/utils";
+import LocationInput from "@/components/Custom/LocationInput";
+import TextEditor from "@/components/Custom/TextEditor";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -43,20 +44,18 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Calendar } from "../ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import LocationInput from "@/components/Custom/LocationInput";
-import TextEditor from "@/components/Custom/TextEditor";
-import { draftToMarkdown } from "markdown-draft-js";
+import { cn } from "@/lib/utils";
 import {
   companyList,
   getSkillsAndCategories,
 } from "@/services/company.service";
+import { draftToMarkdown } from "markdown-draft-js";
+import { Calendar } from "../ui/calendar";
 import { Textarea } from "../ui/textarea";
 
 type FormType = {

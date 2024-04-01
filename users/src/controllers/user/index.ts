@@ -14,6 +14,7 @@ import BuildUpdatePrimaryDetails from "./updatePrimaryDetails.js";
 import BuildUpdatePrimaryResume from "./updatePrimaryResume.js";
 import BuildUpdateResumeVisibility from "./updateResumeVisibility.js";
 import BuildUpdateProfilePic from "./uploadProfilePic.js";
+import BuildGetUsers from "./getUsers.js";
 
 const currentUser = BuildCurrentUser();
 const updatePrimaryDetails = BuildUpdatePrimaryDetails(eventProducer);
@@ -30,6 +31,7 @@ const addResume = BuildAddResume();
 const removeResume = BuildRemoveResume();
 const updatePrimaryResume = BuildUpdatePrimaryResume();
 const updateResumeVisibility = BuildUpdateResumeVisibility();
+const getUsers = BuildGetUsers();
 
 export const userController = Object.freeze({
   currentUser,
@@ -47,6 +49,7 @@ export const userController = Object.freeze({
   removeResume,
   updatePrimaryResume,
   updateResumeVisibility,
+  getUsers,
 });
 
 export type IUserController = typeof userController;

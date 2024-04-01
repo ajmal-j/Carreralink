@@ -40,9 +40,11 @@ export class UserDataRepository implements IUserRepo {
       {
         $project: {
           username: 1,
+          profile: 1,
           email: 1,
           jobs: 1,
           isBlocked: 1,
+          currentStatus: 1,
         },
       },
     ]);

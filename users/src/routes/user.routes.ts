@@ -81,5 +81,6 @@ export default (
     VerifyUser,
     expressCallback(userController.updateResumeVisibility)
   );
+  router.get("/getUsers", expressCallback(userController.getUsers));
   return router;
 };

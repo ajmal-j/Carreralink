@@ -1,11 +1,9 @@
 import { CustomResponse } from "@carreralink/common";
 import { getUsersUsecase } from "../../usecases/index.js";
+import { Request } from "express";
 
 export default function () {
-  return async (req: any) => {
-    const adminData = req.adminData;
-    if (!adminData.email || !adminData.isAdmin)
-      throw new Error("Admin data not found");
+  return async (req: Request) => {
     const { q, p } = req.query;
     const query = {
       p: Number(p) ?? 1,
