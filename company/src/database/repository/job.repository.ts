@@ -13,6 +13,21 @@ export class JobRepository {
   async job(id: string) {
     return await this.database.findById(id).populate("company");
   }
+
+  async applied(id: string) {
+    return await this.database.updateOne(
+      { _id: id },
+      { $inc: { applicants: 1 } }
+    );
+  }
+
+  async withdraw(id: string) {
+    return await this.database.updateOne(
+      { _id: id },
+      { $inc: { applicants: -1 } }
+    );
+  }
+
   async allJobs(
     query: {
       page?: number;

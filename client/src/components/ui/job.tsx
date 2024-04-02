@@ -72,7 +72,7 @@ export function JobDetails({
         <h1 className="mb-4 mt-10 text-2xl font-semibold">
           Job Description :{" "}
         </h1>
-        <Markdown>{job.description}</Markdown>
+        <Markdown className="md:px-4">{job.description}</Markdown>
       </article>
     </main>
   );

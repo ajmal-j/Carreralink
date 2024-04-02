@@ -44,5 +44,10 @@ export function JobRoutes(router: any, jobController: IJobController) {
     VerifyUser,
     expressCallback(jobController.isApplied)
   );
+  router.get(
+    "/applicants",
+    VerifyUser,
+    expressCallback(jobController.applicants)
+  );
   return router;
 }

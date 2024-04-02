@@ -44,6 +44,7 @@ import { ApplyJobUsecase } from "./jobs/applyJob.usecase.js";
 import { GetAppliedJobsUsecase } from "./jobs/getAppliedJobs.usecase.js";
 import { WithdrawAppliedUsecase } from "./jobs/withdrawApplied.usecase.js";
 import { IsAppliedUsecase } from "./jobs/isApplied.usecase.js";
+import { GetApplicantsUsecase } from "./jobs/getApplicants.usecase.js";
 
 const createCompanyUsecase = new CreateCompanyUsecase(
   Repositories.CompanyRepository
@@ -179,14 +180,21 @@ const removeSavedJobUsecase = new RemoveSavedJobUsecase(
 
 const isJobSavedUsecase = new IsJobSavedUsecase(Repositories.SavedJobsRepo);
 
-const applyJobUsecase = new ApplyJobUsecase(Repositories.AppliedJobsRepo);
+const applyJobUsecase = new ApplyJobUsecase(
+  Repositories.AppliedJobsRepo,
+  Repositories.JobRepository
+);
 const getAppliedJobsUsecase = new GetAppliedJobsUsecase(
   Repositories.AppliedJobsRepo
 );
 const withdrawAppliedUsecase = new WithdrawAppliedUsecase(
-  Repositories.AppliedJobsRepo
+  Repositories.AppliedJobsRepo,
+  Repositories.JobRepository
 );
 const isAppliedUsecase = new IsAppliedUsecase(Repositories.AppliedJobsRepo);
+const getApplicantsUsecase = new GetApplicantsUsecase(
+  Repositories.AppliedJobsRepo
+);
 
 export {
   createCompanyUsecase,
@@ -234,4 +242,5 @@ export {
   getAppliedJobsUsecase,
   withdrawAppliedUsecase,
   isAppliedUsecase,
+  getApplicantsUsecase,
 };

@@ -4,7 +4,8 @@ import {
   IAppliedJob,
 } from "../models/appliedJobs.model.js";
 import { AggregatePaginateResult } from "mongoose";
-
+import mongoose from "mongoose";
+const ObjectId = mongoose.Types.ObjectId;
 export class AppliedJobsRepo {
   constructor(private readonly database: AppliedJobsModelType) {}
 
@@ -74,6 +75,36 @@ export class AppliedJobsRepo {
       },
       {
         $unwind: "$job.company",
+      },
+    ]);
+    return await this.database.aggregatePaginate(aggregation, options);
+  }
+
+  async getApplicants({
+    job,
+    query,
+  }: {
+    job: string;
+    query: { p: number };
+  }): Promise<AggregatePaginateResult<IAppliedJob[]>> {
+    const options = {
+      page: query?.p ?? 1,
+      limit: 10,
+    };
+    const aggregation = this.database.aggregate([
+      {
+        $match: { job: new ObjectId(job) },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "user",
+          foreignField: "email",
+          as: "user",
+        },
+      },
+      {
+        $unwind: "$user",
       },
     ]);
     return await this.database.aggregatePaginate(aggregation, options);

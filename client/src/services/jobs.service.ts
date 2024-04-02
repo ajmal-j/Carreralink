@@ -132,6 +132,28 @@ const getAppliedJobs = async () => {
   return response.data;
 };
 
+const getApplicants = async ({
+  job,
+  query,
+  token,
+}: {
+  job: string;
+  query: { p: number | string };
+  token: string;
+}) => {
+  const url = new Server().jobs("applicants");
+  const response = await axios.get(url, {
+    params: {
+      job,
+      ...query,
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
 export {
   allCompanyJobs,
   createJob,
@@ -147,4 +169,5 @@ export {
   withdraw,
   getAppliedJobs,
   isApplied,
+  getApplicants,
 };

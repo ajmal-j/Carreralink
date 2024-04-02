@@ -13,6 +13,7 @@ import BuildApplyJobController from "./applyJob.js";
 import BuildWithdrawJobController from "./withdrawApplied.js";
 import BuildGetAppliedJobsController from "./getAppliedJobs.js";
 import BuildIsAppliedController from "./isApplied.js";
+import BuildGetApplicantsController from "./getApplicants.js";
 
 const create = BuildCreateJobController();
 const getJobById = BuildGetJobByIdController();
@@ -29,6 +30,7 @@ const apply = BuildApplyJobController();
 const withdraw = BuildWithdrawJobController();
 const getAppliedJobs = BuildGetAppliedJobsController();
 const isApplied = BuildIsAppliedController();
+const applicants = BuildGetApplicantsController();
 
 export const jobController = {
   create,
@@ -46,6 +48,7 @@ export const jobController = {
   withdraw,
   getAppliedJobs,
   isApplied,
+  applicants,
 };
 
 export type IJobController = typeof jobController;
