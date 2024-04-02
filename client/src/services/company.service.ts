@@ -73,12 +73,24 @@ const getAllJobsByCompanySSR = async (token: string) => {
   return response.data;
 };
 
-const updateJob = async (id: string, jobData: {}) => {
+const updateJob = async (
+  id: string,
+  jobData: Record<string, any>,
+  token?: string,
+) => {
   const url = new Server().company("updateJob");
-  const response = await axios.put(url, {
-    id,
-    jobData,
-  });
+  const response = await axios.put(
+    url,
+    {
+      id,
+      jobData,
+    },
+    {
+      headers: {
+        CompanyToken: `Bearer ${token}`,
+      },
+    },
+  );
   return response.data;
 };
 

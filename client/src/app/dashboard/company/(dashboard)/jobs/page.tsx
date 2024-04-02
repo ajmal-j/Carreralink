@@ -1,19 +1,11 @@
+import { JobFilterValues } from "@/app/(user)/jobs/page";
 import PrimaryButton from "@/components/Buttons/PrimaryButton";
+import NotFound from "@/components/Custom/NotFound";
+import { PaginationComponent } from "@/components/Custom/Pagination";
 import Search from "@/components/FormsAndDialog/Search";
-import { getJobs } from "@/services/company.service";
-import {
-  BackpackIcon,
-  MixerHorizontalIcon,
-  PauseIcon,
-  PlayIcon,
-  PlusIcon,
-} from "@radix-ui/react-icons";
-import { cookies } from "next/headers";
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import { formatMoney } from "@/lib/utils";
-import { formatDistanceToNow } from "date-fns";
-import { IJob } from "@/types/jobs";
+import DashboardWrapper from "@/components/Layout/DashboardWrapper";
+import JobFilterSideBar from "@/components/Layout/JobFilterSideBar";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -21,12 +13,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import JobFilterSideBar from "@/components/Layout/JobFilterSideBar";
-import NotFound from "@/components/Custom/NotFound";
-import { JobFilterValues } from "@/app/(user)/jobs/page";
-import { Button } from "@/components/ui/button";
-import { PaginationComponent } from "@/components/Custom/Pagination";
-import DashboardWrapper from "@/components/Layout/DashboardWrapper";
+import { formatMoney } from "@/lib/utils";
+import { getJobs } from "@/services/company.service";
+import { IJob } from "@/types/jobs";
+import {
+  BackpackIcon,
+  MixerHorizontalIcon,
+  PlusIcon
+} from "@radix-ui/react-icons";
+import { formatDistanceToNow } from "date-fns";
+import { cookies } from "next/headers";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
 interface PageProps {
   searchParams: {
@@ -188,7 +186,7 @@ export function SingleJob({ job }: { job: IJob }) {
         <p className="text-sm text-foreground/70">{job?.officeLocation}</p>
         <div className="mt-1 flex flex-wrap gap-2">
           <span className="rounded-full bg-green-300/30 px-2 pb-[2px] text-center text-xs text-green-500">
-            {job?.applicants?.length ?? 0} applicant&apos;s
+            {job?.applicants ?? 0} applicant&apos;s
           </span>
           <span className="rounded-full bg-orange-400/30 px-2 pb-[2px] text-center text-xs text-yellow-500">
             {job?.workSpace}
@@ -217,15 +215,6 @@ export function SingleJob({ job }: { job: IJob }) {
             ) : (
               <span className="w-full rounded-full bg-red-200/60 px-2 pb-[2px] text-center text-sm text-red-400 dark:bg-red-200/30">
                 {job?.status}
-              </span>
-            )}
-            {job.isPaused ? (
-              <span className="flex w-full items-center justify-center rounded-full bg-red-200/60  px-2 py-1  text-sm text-red-400 dark:bg-red-200/30">
-                <PlayIcon />
-              </span>
-            ) : (
-              <span className="flex w-full items-center justify-center rounded-full bg-green-200/60 px-2 py-1 text-sm text-green-400 dark:bg-green-200/30">
-                <PauseIcon />
               </span>
             )}
           </div>

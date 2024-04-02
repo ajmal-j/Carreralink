@@ -38,7 +38,7 @@ export function JobDetails({
           </p>
           <div className="mt-1 flex flex-wrap gap-2">
             <span className="rounded-full bg-green-300/30 px-2 pb-[2px] text-center text-xs text-green-500">
-              {job?.applicants?.length ?? 0} applicant&apos;s
+              {job?.applicants ?? 0} applicant&apos;s
             </span>
             <span className="rounded-full bg-orange-400/30 px-2 pb-[2px] text-center text-xs text-yellow-500">
               {job?.workSpace}

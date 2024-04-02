@@ -31,6 +31,7 @@ const jobsRoutes = JobRoutes(jobs, jobController);
 const recruiterRoutes = RecruiterRoutes({
   router: recruiter,
   recruiterController,
+  jobController,
 });
 
 const adminRoutes = AdminRoutes({

@@ -185,7 +185,7 @@ export function SingleJob({ job }: { job: IJob }) {
         <p className="text-sm text-foreground/70">{job?.officeLocation}</p>
         <div className="mt-1 flex flex-wrap gap-2">
           <span className="rounded-full bg-green-300/30 px-2 pb-[2px] text-center text-xs text-green-500">
-            {job?.applicants?.length ?? 0} applicant&apos;s
+            {job?.applicants ?? 0} applicant&apos;s
           </span>
           <span className="rounded-full bg-orange-400/30 px-2 pb-[2px] text-center text-xs text-yellow-500">
             {job?.workSpace}
@@ -214,15 +214,6 @@ export function SingleJob({ job }: { job: IJob }) {
             ) : (
               <span className="w-full rounded-full bg-red-200/60 px-2 pb-[2px] text-center text-sm text-red-400 dark:bg-red-200/30">
                 {job?.status}
-              </span>
-            )}
-            {job.isPaused ? (
-              <span className="flex w-full items-center justify-center rounded-full bg-red-200/60  px-2 py-1  text-sm text-red-400 dark:bg-red-200/30">
-                <PlayIcon />
-              </span>
-            ) : (
-              <span className="flex w-full items-center justify-center rounded-full bg-green-200/60 px-2 py-1 text-sm text-green-400 dark:bg-green-200/30">
-                <PauseIcon />
               </span>
             )}
           </div>

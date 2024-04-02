@@ -30,8 +30,8 @@ export class JobRepository {
 
     const sortOptions = {
       "most recent": { $sort: { createdAt: -1 } },
-      "least applied": { $sort: { "applicants.length": 1 } },
-      "most applied": { $sort: { "applicants.length": -1 } },
+      "least applied": { $sort: { applicants: 1 } },
+      "most applied": { $sort: { applicants: -1 } },
       "highest paying": { $sort: { "pay.maximum": -1 } },
       "lowest paying": { $sort: { "pay.minimum": 1 } },
     } as const;
@@ -43,6 +43,7 @@ export class JobRepository {
     const aggregation = this.database.aggregate([
       {
         $match: {
+          status: "open",
           ...(companyId ? { company: new ObjectId(companyId) } : {}),
           ...(query?.location ? { officeLocation: query.location } : {}),
           ...(query?.type ? { workSpace: query.type } : {}),
@@ -89,8 +90,8 @@ export class JobRepository {
 
     const sortOptions = {
       "most recent": { $sort: { createdAt: -1 } },
-      "least applied": { $sort: { "applicants.length": 1 } },
-      "most applied": { $sort: { "applicants.length": -1 } },
+      "least applied": { $sort: { applicants: 1 } },
+      "most applied": { $sort: { applicants: -1 } },
       "highest paying": { $sort: { "pay.maximum": -1 } },
       "lowest paying": { $sort: { "pay.minimum": 1 } },
     } as const;
@@ -161,8 +162,8 @@ export class JobRepository {
 
     const sortOptions = {
       "most recent": { $sort: { createdAt: -1 } },
-      "least applied": { $sort: { "applicants.length": 1 } },
-      "most applied": { $sort: { "applicants.length": -1 } },
+      "least applied": { $sort: { applicants: 1 } },
+      "most applied": { $sort: { applicants: -1 } },
       "highest paying": { $sort: { "pay.maximum": -1 } },
       "lowest paying": { $sort: { "pay.minimum": 1 } },
     } as const;
@@ -211,7 +212,7 @@ export class JobRepository {
   }
 
   async updateJob(id: string, jobData: Record<string, any>) {
-    if (jobData.WorkSpace === "Remote") jobData.officeLocation = "";
+    if (jobData.WorkSpace === "Remote") jobData["officeLocation"] = "";
     const job = await this.database.findOneAndUpdate(
       { _id: id },
       {

@@ -18,11 +18,10 @@ export interface IJob {
   };
   href?: string;
   category: string;
-  applicants?: [];
+  applicants: number;
   createdAt: string;
-  status: string;
+  status: "open" | "closed";
   officeLocation?: string | null;
-  isPaused: boolean;
   workSpace: string;
   openings: number;
   description: string;

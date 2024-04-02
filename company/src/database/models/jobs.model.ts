@@ -5,14 +5,13 @@ export interface IJobs extends Document {
   id: string;
   title: string;
   company: ObjectId;
-  applicants: ObjectId[];
+  applicants: number;
   type: string;
   category: string;
   officeLocation: string | null;
   workSpace: string;
   openings: string;
   status: string;
-  isPaused: boolean;
   description: string;
   skills: string[];
   pay: {
@@ -30,7 +29,7 @@ export interface IJobs extends Document {
 const jobsSchema: Schema = new Schema<IJobs>(
   {
     title: { type: String },
-    applicants: [{ type: Schema.Types.ObjectId, ref: "Applicant" }],
+    applicants: { type: Number, default: 0 },
     company: { type: Schema.Types.ObjectId, ref: "Company" },
     type: { type: String },
     category: { type: String },
@@ -38,7 +37,6 @@ const jobsSchema: Schema = new Schema<IJobs>(
     workSpace: { type: String },
     openings: { type: String },
     status: { type: String, enum: ["closed", "open"], default: "open" },
-    isPaused: { type: Boolean },
     description: { type: String },
     skills: [{ type: String }],
     pay: {
