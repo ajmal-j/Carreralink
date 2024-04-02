@@ -3,7 +3,6 @@
 import NotFound from "@/components/Custom/NotFound";
 import { PaginationComponent } from "@/components/Custom/Pagination";
 import { SingleJob } from "@/components/Custom/SingleJob";
-import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { getSavedJobs, removeSavedJob } from "@/services/jobs.service";
 import { IJob } from "@/types/jobs";
@@ -34,6 +33,9 @@ export default function MyJobs({
     <div className="flex flex-col gap-2">
       {!!jobs.length && (
         <>
+          <span className="ms-2 text-foreground/70">
+            Total {options?.totalDocs || 0}
+          </span>
           {jobs.map((job) => (
             <SingleJob
               jobAction={<JobActions job={job.job} setJobs={setJobs} />}

@@ -1,6 +1,38 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import PrimaryButton from "@/components/Buttons/PrimaryButton";
+import SecondaryButton from "@/components/Buttons/SecondaryButton";
+import { EditProfile } from "@/components/FormsAndDialog/EditDialog";
+import { EditEducation } from "@/components/FormsAndDialog/EditEducation";
+import { EditExperience } from "@/components/FormsAndDialog/EditExperience";
+import { EditSkill } from "@/components/FormsAndDialog/EditSkill";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  addResume,
+  currentUser,
+  deleteEducation,
+  deleteExperience,
+  removeResume,
+  updatePrimaryResume,
+  updateProfilePic,
+  updateResumeVisibility,
+} from "@/services/user.service";
+import { useStateSelector } from "@/store";
+import {
+  IUser,
+  deleteEducationState,
+  deleteExperienceState,
+  setUser,
+  updateProfilePicState,
+  updateResumeState,
+} from "@/store/reducers/user.slice";
 import {
   BackpackIcon,
   Cross1Icon,
@@ -15,58 +47,24 @@ import {
   UploadIcon,
   WidthIcon,
 } from "@radix-ui/react-icons";
-import SecondaryButton from "@/components/Buttons/SecondaryButton";
-import PrimaryButton from "@/components/Buttons/PrimaryButton";
 import Link from "next/link";
-import { EditProfile } from "@/components/FormsAndDialog/EditDialog";
-import { EditEducation } from "@/components/FormsAndDialog/EditEducation";
-import { EditExperience } from "@/components/FormsAndDialog/EditExperience";
-import { EditSkill } from "@/components/FormsAndDialog/EditSkill";
-import { useDispatch } from "react-redux";
-import { useStateSelector } from "@/store";
 import { Dispatch, FormEvent, ReactNode, useEffect, useState } from "react";
-import {
-  addResume,
-  currentUser,
-  deleteEducation,
-  deleteExperience,
-  removeResume,
-  updatePrimaryResume,
-  updateProfilePic,
-  updateResumeVisibility,
-} from "@/services/user.service";
-import {
-  IUser,
-  deleteEducationState,
-  deleteExperienceState,
-  setUser,
-  updateProfilePicState,
-  updateResumeState,
-} from "@/store/reducers/user.slice";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { useDispatch } from "react-redux";
 
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { toast } from "@/components/ui/use-toast";
-import { getMessage } from "@/lib/utils";
 import NotFound from "@/components/Custom/NotFound";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { PopoverClose } from "@radix-ui/react-popover";
-import { PDFviewer } from "@/components/Custom/PDFviewer";
 import { Switch } from "@/components/ui/switch";
-import { debounce, throttle } from "lodash";
+import { toast } from "@/components/ui/use-toast";
+import { getMessage } from "@/lib/utils";
+import { PopoverClose } from "@radix-ui/react-popover";
 
 export default function Profile() {
   const { isAuth, user } = useStateSelector((state) => state.user);

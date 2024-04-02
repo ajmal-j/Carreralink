@@ -97,6 +97,40 @@ const isSaved = async (job: string) => {
   });
   return response.data;
 };
+const isApplied = async (job: string) => {
+  const url = new Server().jobs("isApplied");
+  const response = await axios.get(url, {
+    params: {
+      job,
+    },
+  });
+  return response.data;
+};
+
+const apply = async ({ job, resume }: { job: string; resume: string }) => {
+  const url = new Server().jobs("apply");
+  const response = await axios.post(url, {
+    job,
+    resume,
+  });
+  return response.data;
+};
+
+const withdraw = async ({ job }: { job: string }) => {
+  const url = new Server().jobs("withdraw");
+  const response = await axios.delete(url, {
+    params: {
+      job,
+    },
+  });
+  return response.data;
+};
+
+const getAppliedJobs = async () => {
+  const url = new Server().jobs("getAppliedJobs");
+  const response = await axios.get(url);
+  return response.data;
+};
 
 export {
   allCompanyJobs,
@@ -109,4 +143,8 @@ export {
   removeSavedJob,
   saveJob,
   isSaved,
+  apply,
+  withdraw,
+  getAppliedJobs,
+  isApplied,
 };

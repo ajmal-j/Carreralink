@@ -26,7 +26,7 @@ import { UpdateCoverPhotoUsecase } from "./company/updateCoverPhoto.usecase.js";
 import { GetJobsByAdminUsecase } from "./admin/getJobs.usecase.js";
 import { DeleteJobsByAdminUsecase } from "./admin/deleteJobsByAdmin.usecase.js";
 import { CreateRequestUsecase } from "./recruiter/createRequest.usecase.js";
-import { IsRecruiterUsecase } from "./recruiter/isRecuiter.usecase.js";
+import { IsRecruiterUsecase } from "./recruiter/isRecruiter.usecase.js";
 import { CreateUserUsecase } from "./user/createUser.usecase.js";
 import { UpdateUserUsecase } from "./user/updateUser.usecase.js";
 import { GetRecruitersUsecase } from "./recruiter/getRecruiters.usecase.js";
@@ -40,6 +40,10 @@ import { SaveJobUsecase } from "./jobs/saveJob.usecase.js";
 import { GetAllSavedJobsUsecase } from "./jobs/getAllSavedJobs.usecase.js";
 import { RemoveSavedJobUsecase } from "./jobs/removeSavedJob.usecase.js";
 import { IsJobSavedUsecase } from "./jobs/isJobSaved.usecase.js";
+import { ApplyJobUsecase } from "./jobs/applyJob.usecase.js";
+import { GetAppliedJobsUsecase } from "./jobs/getAppliedJobs.usecase.js";
+import { WithdrawAppliedUsecase } from "./jobs/withdrawApplied.usecase.js";
+import { IsAppliedUsecase } from "./jobs/isApplied.usecase.js";
 
 const createCompanyUsecase = new CreateCompanyUsecase(
   Repositories.CompanyRepository
@@ -174,6 +178,16 @@ const removeSavedJobUsecase = new RemoveSavedJobUsecase(
 );
 
 const isJobSavedUsecase = new IsJobSavedUsecase(Repositories.SavedJobsRepo);
+
+const applyJobUsecase = new ApplyJobUsecase(Repositories.AppliedJobsRepo);
+const getAppliedJobsUsecase = new GetAppliedJobsUsecase(
+  Repositories.AppliedJobsRepo
+);
+const withdrawAppliedUsecase = new WithdrawAppliedUsecase(
+  Repositories.AppliedJobsRepo
+);
+const isAppliedUsecase = new IsAppliedUsecase(Repositories.AppliedJobsRepo);
+
 export {
   createCompanyUsecase,
   allCompaniesUsecase,
@@ -216,4 +230,8 @@ export {
   getAllSavedJobsUsecase,
   removeSavedJobUsecase,
   isJobSavedUsecase,
+  applyJobUsecase,
+  getAppliedJobsUsecase,
+  withdrawAppliedUsecase,
+  isAppliedUsecase,
 };

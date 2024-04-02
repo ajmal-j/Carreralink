@@ -28,5 +28,21 @@ export function JobRoutes(router: any, jobController: IJobController) {
     expressCallback(jobController.removeSavedJob)
   );
   router.get("/isSaved", VerifyUser, expressCallback(jobController.isSaved));
+  router.post("/apply", VerifyUser, expressCallback(jobController.apply));
+  router.delete(
+    "/withdraw",
+    VerifyUser,
+    expressCallback(jobController.withdraw)
+  );
+  router.get(
+    "/getAppliedJobs",
+    VerifyUser,
+    expressCallback(jobController.getAppliedJobs)
+  );
+  router.get(
+    "/isApplied",
+    VerifyUser,
+    expressCallback(jobController.isApplied)
+  );
   return router;
 }

@@ -9,6 +9,10 @@ import BuildSaveJobController from "./saveJob.js";
 import BuildGetAllSavedJobsController from "./getAllSavedJobs.js";
 import BuildRemoveSavedJobController from "./removeSavedJob.js";
 import BuildIsSavedController from "./isSaved.js";
+import BuildApplyJobController from "./applyJob.js";
+import BuildWithdrawJobController from "./withdrawApplied.js";
+import BuildGetAppliedJobsController from "./getAppliedJobs.js";
+import BuildIsAppliedController from "./isApplied.js";
 
 const create = BuildCreateJobController();
 const getJobById = BuildGetJobByIdController();
@@ -21,6 +25,10 @@ const saveJob = BuildSaveJobController();
 const getAllSavedJobs = BuildGetAllSavedJobsController();
 const removeSavedJob = BuildRemoveSavedJobController();
 const isSaved = BuildIsSavedController();
+const apply = BuildApplyJobController();
+const withdraw = BuildWithdrawJobController();
+const getAppliedJobs = BuildGetAppliedJobsController();
+const isApplied = BuildIsAppliedController();
 
 export const jobController = {
   create,
@@ -34,6 +42,10 @@ export const jobController = {
   getAllSavedJobs,
   removeSavedJob,
   isSaved,
+  apply,
+  withdraw,
+  getAppliedJobs,
+  isApplied,
 };
 
 export type IJobController = typeof jobController;
