@@ -3,11 +3,15 @@ import { IJob } from "@/types/jobs";
 import Image from "next/image";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
+import { BackpackIcon } from "@radix-ui/react-icons";
+import { Building2, MapPin } from "lucide-react";
 export function SingleJob({
   job,
   jobAction,
+  path,
 }: {
   job: IJob;
+  path?: string;
   jobAction?: JSX.Element;
 }) {
   return (
@@ -23,15 +27,29 @@ export function SingleJob({
           />
         </div>
       </Link>
-      <Link href={job?.href || `/jobs/${job?._id}`} className="flex-1 ">
+      <Link
+        href={job?.href || `${path ? path : ""}/jobs/${job?._id}`}
+        className="flex-1 "
+      >
         <h1 className="text-lg font-semibold">{job?.title}</h1>
-        <p className="text-sm text-foreground/70">{job?.company?.name}</p>
-        <p className="text-sm text-foreground/70">{job?.type}</p>
-        <p className="text-sm text-foreground/70">{job?.location}</p>
-        <p className="text-sm text-foreground/70">{job?.officeLocation}</p>
+        <p className="flex items-center gap-1 text-sm text-foreground/70">
+          <Building2 className="text-foreground/70" size={17} />
+          {job?.company?.name}
+        </p>
+        <p className="flex items-center gap-1 text-sm capitalize text-foreground/70">
+          <BackpackIcon />
+          {job.type}
+        </p>
+        {job.officeLocation && (
+          <p className="flex items-center gap-1 text-sm text-foreground/70">
+            <MapPin size={17} className="text-foreground/70" />
+            {job.officeLocation}
+          </p>
+        )}
         <div className="mt-1 flex flex-wrap gap-2">
           <span className="rounded-full bg-green-300/30 px-2 pb-[2px] text-center text-xs text-green-500">
-            {job?.applicants ?? 0} applicant&apos;s
+            {job?.applicants ?? 0} applicant
+            {job.applicants === 1 ? "" : <>&apos;s</>}
           </span>
           <span className="rounded-full bg-orange-400/30 px-2 pb-[2px] text-center text-xs text-yellow-500">
             {job?.workSpace}

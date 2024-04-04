@@ -1,7 +1,8 @@
 import Markdown from "@/components/Custom/Markdown";
 import { formatMoney } from "@/lib/utils";
 import { IJob } from "@/types/jobs";
-import { ClockIcon } from "@radix-ui/react-icons";
+import { BackpackIcon, ClockIcon } from "@radix-ui/react-icons";
+import { HandCoins, ListChecks, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -29,13 +30,22 @@ export function JobDetails({
         </Link>
         <div className="flex-1">
           <h1 className="pb-2 text-xl">{job.company.name}</h1>
-          <p className="text-sm capitalize text-foreground/70">{job.type}</p>
-          <p className="text-sm text-foreground/70">{job.location}</p>
-          <p className="text-sm text-foreground/70">{job.officeLocation}</p>
-          <p>
-            {job.pay.rate} : ₹ {formatMoney(job.pay.minimum)} -{" "}
-            {formatMoney(job.pay.maximum)}
+          <p className="flex items-center gap-1 text-sm capitalize text-foreground/70">
+            <BackpackIcon />
+            {job.type}
           </p>
+          <p className="flex items-center gap-1 text-sm text-foreground/70">
+            <MapPin size={17} className="text-foreground/70" />
+            {job.officeLocation}
+          </p>
+          <p className="flex items-center gap-1">
+            <HandCoins size={17} className="text-foreground/70" />
+            <span>
+              {job.pay.rate} : ₹ {formatMoney(job.pay.minimum)} -{" "}
+              {formatMoney(job.pay.maximum)}
+            </span>
+          </p>
+
           <div className="mt-1 flex flex-wrap gap-2">
             <span className="rounded-full bg-green-300/30 px-2 pb-[2px] text-center text-xs text-green-500">
               {job?.applicants ?? 0} applicant&apos;s
@@ -54,17 +64,21 @@ export function JobDetails({
         <ClockIcon /> 1 day ago
       </p>
       <article>
-        <div>
-          <ul className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-3 ">
-            <span className="text-lg font-semibold text-foreground/90">
-              Skills :
+        <div className="flex">
+          <span className="flex items-start text-nowrap text-lg font-semibold text-foreground/70">
+            <span className="flex items-center gap-1">
+              <ListChecks size={20} />
+              <span>Skills :</span>
             </span>
+          </span>
+          <ul className="mb-3 flex flex-wrap items-center">
             {job.skills.map((skill: string, index: number) => (
               <li
-                className="flex cursor-pointer items-center rounded-full border border-foreground/20 px-3 py-1 text-sm capitalize transition-all duration-150 hover:bg-foreground/10 lg:text-base "
+                className="flex cursor-pointer items-center gap-[2px] rounded-full px-3 py-1 text-sm capitalize transition-all duration-150 hover:bg-foreground/10 lg:text-base"
                 key={index}
               >
                 {skill}
+                {index !== job.skills.length - 1 && <span>,</span>}
               </li>
             ))}
           </ul>

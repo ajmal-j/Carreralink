@@ -27,6 +27,7 @@ import { Button } from "@/components/ui/button";
 import { PaginationComponent } from "@/components/Custom/Pagination";
 import DashboardWrapper from "@/components/Layout/DashboardWrapper";
 import { getJobs } from "@/services/recruiter.service";
+import { SingleJob } from "@/components/Custom/SingleJob";
 
 interface PageProps {
   searchParams: {
@@ -153,7 +154,12 @@ export default async function JobsPage({
             Showing {options?.totalDocs ?? 0} jobs
           </span>
           {jobs.map((job: IJob) => (
-            <SingleJob key={job.id} job={job} />
+            <SingleJob
+              path="/dashboard/recruiter"
+              jobAction={<JobAction job={job} />}
+              key={job.id}
+              job={job}
+            />
           ))}
           {!jobs.length && (
             <span className="mt-10 flex items-center justify-center gap-2 text-2xl text-foreground/70">
@@ -172,56 +178,18 @@ export default async function JobsPage({
   );
 }
 
-export function SingleJob({ job }: { job: IJob }) {
+function JobAction({ job }: { job: IJob }) {
   return (
-    <div className="flex flex-col items-center gap-x-3 gap-y-5 rounded-sm px-4 py-2 transition-all duration-200 hover:bg-foreground/5 sm:flex-row">
-      <Link
-        href={job?.href || `/dashboard/recruiter/jobs/${job?.id ?? job?._id}`}
-        className="flex-1 place-self-start"
-      >
-        <h1 className="pb-1 text-lg font-semibold">{job?.title}</h1>
-        <p className="text-sm text-foreground/70">{job?.type}</p>
-        <p className="text-sm text-foreground/70">{job?.location}</p>
-        <p className="text-sm text-foreground/70">{job?.officeLocation}</p>
-        <div className="mt-1 flex flex-wrap gap-2">
-          <span className="rounded-full bg-green-300/30 px-2 pb-[2px] text-center text-xs text-green-500">
-            {job?.applicants ?? 0} applicant&apos;s
-          </span>
-          <span className="rounded-full bg-orange-400/30 px-2 pb-[2px] text-center text-xs text-yellow-500">
-            {job?.workSpace}
-          </span>
-          <span className="rounded-full bg-red-400/30 px-2 pb-[2px] text-center text-xs text-red-500">
-            {job?.openings} openings
-          </span>
-        </div>
-      </Link>
-      <div className="mb-auto flex h-full flex-col gap-1 place-self-end">
-        <div className="flex flex-wrap justify-end gap-2">
-          <div className="flex h-full max-w-min flex-col items-start px-1">
-            <span className="mt-[-6px] block text-nowrap  text-foreground/70">
-              {job?.pay?.rate}
-            </span>
-            <span className="m-0 block text-nowrap p-0">
-              ₹ {job?.pay?.minimum && formatMoney(job?.pay?.minimum)} -{" "}
-              {formatMoney(job?.pay?.maximum)}
-            </span>
-          </div>
-          <div className="flex w-14 flex-col items-center gap-2">
-            {job.status === "open" ? (
-              <span className="w-full rounded-full bg-green-200/60 px-2 pb-[2px] text-center text-sm text-green-400 dark:bg-green-200/30">
-                {job?.status}
-              </span>
-            ) : (
-              <span className="w-full rounded-full bg-red-200/60 px-2 pb-[2px] text-center text-sm text-red-400 dark:bg-red-200/30">
-                {job?.status}
-              </span>
-            )}
-          </div>
-        </div>
-        <p className="mt-auto text-wrap text-end text-sm text-foreground/70">
-          {formatDistanceToNow(job?.createdAt || Date.now()) || "1 day ago"}
-        </p>
-      </div>
+    <div className="flex flex-col items-center justify-end gap-2">
+      {job.status === "open" ? (
+        <span className="w-full rounded-full bg-green-200/60 px-2 pb-[2px] text-center text-sm text-green-400 dark:bg-green-200/30">
+          {job?.status}
+        </span>
+      ) : (
+        <span className="w-full rounded-full bg-red-200/60 px-2 pb-[2px] text-center text-sm text-red-400 dark:bg-red-200/30">
+          {job?.status}
+        </span>
+      )}
     </div>
   );
 }

@@ -33,7 +33,7 @@ const adminSlice = createSlice({
       const { profile, ...user } = payload;
       state.isAuth = true;
       // @ts-ignore
-      state.admin = user;
+      state.admin = payload;
     },
     logout: (state) => {
       state.isAuth = false;

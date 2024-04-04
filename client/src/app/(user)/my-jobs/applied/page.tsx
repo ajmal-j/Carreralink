@@ -120,13 +120,13 @@ const AppliedJob = ({
           {applied.job.company.name}
         </p>
       </div>
-      <div className="flex flex-wrap gap-2 divide-foreground/40">
+      <div className="flex flex-wrap gap-2 divide-foreground/40 text-sm">
         <p className="text-foreground/70">{applied.job.type}</p>
         <p className="text-sm text-foreground/70 before:content-['('] after:content-[')']">
           {applied.job.workSpace}
         </p>
       </div>
-      <p className="text-foreground/70">{applied.job.officeLocation}</p>
+      <p className="text-sm text-foreground/70">{applied.job.officeLocation}</p>
       <div className="flex">
         <p>
           <span className="me-2 text-foreground/70">

@@ -103,7 +103,7 @@ export default function JobActions({ job }: { job: IJob }) {
     <div className="mt-auto flex flex-col gap-3 pb-3">
       {isAuth ? (
         <>
-          <div className="flex rounded-full border border-border bg-primaryColor">
+          <div className="flex rounded-full bg-primaryColor">
             <PrimaryButton
               disabled={isJobApplied}
               onClick={() => applyJob()}
@@ -121,7 +121,7 @@ export default function JobActions({ job }: { job: IJob }) {
                 className="ring-0 focus-within:ring-0 focus:ring-0 focus-visible:ring-0"
                 disabled={isJobApplied}
               >
-                <AccentButton className="rounded-none rounded-r-full border-none px-2">
+                <AccentButton className="h-full rounded-none rounded-r-full border-none px-2">
                   <CaretSortIcon />
                 </AccentButton>
               </DropdownMenuTrigger>
