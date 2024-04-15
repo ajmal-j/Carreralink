@@ -38,6 +38,17 @@ export class AppliedJobsRepo {
   }): Promise<IAppliedJob | null> {
     return await this.database.findOne({ $and: [{ user }, { job }] });
   }
+
+  async updateStatus({
+    user,
+    job,
+    status,
+  }: {
+    user: string;
+    job: string;
+    status: string;
+  }) {}
+
   async getAppliedJobs({
     user,
     query,

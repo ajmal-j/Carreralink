@@ -24,7 +24,7 @@ export default async function Recruiter() {
   }
 
   return (
-    <DashboardWrapper className="max-w-[1300px]">
+    <DashboardWrapper title="Dashboard" className="max-w-[1300px]">
       <DashboardPills counts={counts} />
       <RecruiterChart />
       <JobsData recentJobs={recentJobs} />

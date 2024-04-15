@@ -3,6 +3,7 @@ import { PaginationComponent } from "@/components/Custom/Pagination";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { getApplicants } from "@/services/jobs.service";
+import { IApplicant } from "@/types/jobs";
 import { IResponseData } from "@/types/paginateResponse";
 import { PersonIcon } from "@radix-ui/react-icons";
 import { formatDistanceToNow } from "date-fns";
@@ -22,20 +23,8 @@ export default async function Applicants({
   params: { id },
   searchParams: { p = 1 },
 }: IApplicants) {
-  interface IApplications {
-    _id: string;
-    user: {
-      username: string;
-      profile: string;
-      email: string;
-    };
-    resume: string;
-    createdAt: string;
-    status: string;
-  }
-
   let options = {} as IResponseData;
-  let applications: IApplications[] = [];
+  let applications: IApplicant[] = [];
   const token = cookies().get("userToken")?.value || "";
   const query = { p };
   try {

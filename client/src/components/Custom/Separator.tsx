@@ -1,7 +1,12 @@
-import React from "react";
+import { cn } from "@/lib/utils";
 
-export default function Separator() {
+export default function Separator({ className }: { className?: string }) {
   return (
-    <div className="h-[1px] w-full rounded-full bg-primaryColor px-1 opacity-50"></div>
+    <div
+      className={cn(
+        "h-[1px] w-full rounded-full bg-primaryColor px-1 opacity-50",
+        className,
+      )}
+    ></div>
   );
 }

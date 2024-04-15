@@ -19,7 +19,7 @@ import { IJob } from "@/types/jobs";
 import {
   BackpackIcon,
   MixerHorizontalIcon,
-  PlusIcon
+  PlusIcon,
 } from "@radix-ui/react-icons";
 import { cookies } from "next/headers";
 import Link from "next/link";

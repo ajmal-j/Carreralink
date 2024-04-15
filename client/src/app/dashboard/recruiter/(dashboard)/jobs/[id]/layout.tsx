@@ -1,15 +1,11 @@
 import BackButton from "@/components/Buttons/BackButton";
 import NotFound from "@/components/Custom/NotFound";
-import { PaginationComponent } from "@/components/Custom/Pagination";
 import EditJobDialogue from "@/components/FormsAndDialog/EditJob";
 import DashboardWrapper from "@/components/Layout/DashboardWrapper";
 import { JobDetails } from "@/components/ui/job";
-import { getApplicants, getJob } from "@/services/jobs.service";
+import { getJob } from "@/services/jobs.service";
 import { IJob } from "@/types/jobs";
-import { IResponseData } from "@/types/paginateResponse";
 import { markdownToDraft } from "markdown-draft-js";
-import { cookies } from "next/headers";
-import Applicants from "./page";
 import { ReactNode } from "react";
 
 interface JobSinglePageProps {
@@ -54,7 +50,6 @@ const JobActions = ({ id, job }: { id: string; job: IJob }) => {
           openings: job.openings,
           workSpace: job.workSpace,
           officeLocation: job.officeLocation,
-          location: job.location,
           skills: job.skills,
           pay: job.pay,
           description: markdownToDraft(job.description),

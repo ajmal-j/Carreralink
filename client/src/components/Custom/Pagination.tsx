@@ -1,3 +1,4 @@
+import { JobFilterValues } from "@/app/(user)/jobs/page";
 import {
   Pagination,
   PaginationContent,
@@ -7,7 +8,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { JobFilterValues } from "@/app/(user)/jobs/page";
 import { IResponseData } from "@/types/paginateResponse";
 
 function generateSearchParam({ q, type, location }: JobFilterValues) {

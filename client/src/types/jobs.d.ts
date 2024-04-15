@@ -8,7 +8,6 @@ export interface IJob {
     name: string;
     logo: string;
   };
-  location: string;
   type: string;
   skills: string[];
   pay: {
@@ -26,3 +25,23 @@ export interface IJob {
   openings: number;
   description: string;
 }
+
+export interface IApplicant {
+  _id: string;
+  user: {
+    username: string;
+    profile: string;
+    email: string;
+  };
+  resume: string;
+  createdAt: string;
+  status: string;
+}
+
+export type IAvailableStatus =
+  | "applied"
+  | "interview"
+  | "shortlisted"
+  | "rejected"
+  | "underReview"
+  | "hired";

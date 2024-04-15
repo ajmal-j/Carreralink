@@ -1,3 +1,4 @@
+import { JobFilterValues } from "@/app/(user)/jobs/page";
 import { type ClassValue, clsx } from "clsx";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -36,3 +37,17 @@ export const getMessage = (error: any) => {
 //   }
 //   return token;
 // };
+
+export function generateSearchParam({
+  q,
+  type,
+  location,
+  job,
+}: JobFilterValues) {
+  const searchParams = new URLSearchParams();
+  if (q) searchParams.append("q", q);
+  if (type) searchParams.append("type", type);
+  if (location) searchParams.append("location", location);
+  if (job) searchParams.append("job", job);
+  return searchParams.toString();
+}

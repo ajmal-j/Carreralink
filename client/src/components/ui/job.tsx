@@ -12,7 +12,7 @@ export function JobDetails({
   jobActions,
 }: {
   job: IJob;
-  jobActions: JSX.Element;
+  jobActions?: JSX.Element;
 }) {
   return (
     <main className="flex flex-col gap-3">

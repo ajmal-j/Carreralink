@@ -139,7 +139,7 @@ const getApplicants = async ({
 }: {
   job: string;
   query: { p: number | string };
-  token: string;
+  token?: string;
 }) => {
   const url = new Server().jobs("applicants");
   const response = await axios.get(url, {
@@ -147,10 +147,9 @@ const getApplicants = async ({
       job,
       ...query,
     },
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    ...(token ? { headers: { Authorization: `Bearer ${token}` } } : {}),
   });
+
   return response.data;
 };
 
