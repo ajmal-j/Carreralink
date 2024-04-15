@@ -1,18 +1,12 @@
+import { JobFilterValues } from "@/app/(user)/jobs/page";
 import PrimaryButton from "@/components/Buttons/PrimaryButton";
+import NotFound from "@/components/Custom/NotFound";
+import { PaginationComponent } from "@/components/Custom/Pagination";
+import { SingleJob } from "@/components/Custom/SingleJob";
 import Search from "@/components/FormsAndDialog/Search";
-import {
-  BackpackIcon,
-  MixerHorizontalIcon,
-  PauseIcon,
-  PlayIcon,
-  PlusIcon,
-} from "@radix-ui/react-icons";
-import { cookies } from "next/headers";
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import { formatMoney } from "@/lib/utils";
-import { formatDistanceToNow } from "date-fns";
-import { IJob } from "@/types/jobs";
+import DashboardWrapper from "@/components/Layout/DashboardWrapper";
+import JobFilterSideBar from "@/components/Layout/JobFilterSideBar";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -20,14 +14,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import JobFilterSideBar from "@/components/Layout/JobFilterSideBar";
-import NotFound from "@/components/Custom/NotFound";
-import { JobFilterValues } from "@/app/(user)/jobs/page";
-import { Button } from "@/components/ui/button";
-import { PaginationComponent } from "@/components/Custom/Pagination";
-import DashboardWrapper from "@/components/Layout/DashboardWrapper";
 import { getJobs } from "@/services/recruiter.service";
-import { SingleJob } from "@/components/Custom/SingleJob";
+import { IJob } from "@/types/jobs";
+import {
+  BackpackIcon,
+  MixerHorizontalIcon,
+  PlusIcon
+} from "@radix-ui/react-icons";
+import { cookies } from "next/headers";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
 interface PageProps {
   searchParams: {

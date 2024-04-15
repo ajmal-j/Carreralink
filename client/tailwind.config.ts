@@ -99,6 +99,7 @@ const config = {
       fontFamily: {
         montserrat: ["var(--font-montserrat)"],
         arial: ["var(--arial)"],
+        poppins: ["var(--poppins)"],
       },
       boxShadow: {
         roundedPrimaryShadow: "var(--shadow)",

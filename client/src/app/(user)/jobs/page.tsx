@@ -104,7 +104,7 @@ export default async function JobsList({
               </form>
             </div>
           </div>
-          <div className="inline-block lg:hidden">
+          <div className="ms-auto inline-block lg:hidden">
             <Dialog>
               <DialogTrigger asChild>
                 <MixerHorizontalIcon className="size-5 cursor-pointer" />

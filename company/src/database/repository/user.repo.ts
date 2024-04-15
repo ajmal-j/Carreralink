@@ -8,6 +8,9 @@ export class UserRepository {
     if (userExist) return console.log("User already exists.");
     else return await this.database.create(data);
   }
+  async totalUsers(): Promise<number> {
+    return await this.database.countDocuments();
+  }
   async findByEmail(email: string): Promise<IUser | null> {
     return await this.database.findOne({ email });
   }

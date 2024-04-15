@@ -21,6 +21,129 @@ export class JobRepository {
     );
   }
 
+  async totalJobs(): Promise<number> {
+    return await this.database.countDocuments();
+  }
+
+  async totalOpenJobs(): Promise<number> {
+    const result = await this.database.aggregate([
+      {
+        $match: {
+          status: "open",
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          count: {
+            $sum: 1,
+          },
+        },
+      },
+    ]);
+    return result[0] ? result[0].count : 0;
+  }
+
+  async totalJobsByRecruiter({
+    userId,
+    companyId,
+  }: {
+    userId: string;
+    companyId: string;
+  }): Promise<number> {
+    const result = await this.database.aggregate([
+      {
+        $match: {
+          company: new ObjectId(companyId),
+          "postedBy.id": new ObjectId(userId),
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          count: {
+            $sum: 1,
+          },
+        },
+      },
+    ]);
+    return result[0] ? result[0].count : 0;
+  }
+
+  async totalJobsByCompany({
+    companyId,
+  }: {
+    companyId: string;
+  }): Promise<number> {
+    const result = await this.database.aggregate([
+      {
+        $match: {
+          company: new ObjectId(companyId),
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          count: {
+            $sum: 1,
+          },
+        },
+      },
+    ]);
+    return result[0] ? result[0].count : 0;
+  }
+
+  async totalOpenJobsByRecruiter({
+    userId,
+    companyId,
+  }: {
+    userId: string;
+    companyId: string;
+  }): Promise<number> {
+    const result = await this.database.aggregate([
+      {
+        $match: {
+          company: new ObjectId(companyId),
+          "postedBy.id": new ObjectId(userId),
+          status: "open",
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          count: {
+            $sum: 1,
+          },
+        },
+      },
+    ]);
+    return result[0] ? result[0].count : 0;
+  }
+
+  async totalOpenJobsByCompany({
+    companyId,
+  }: {
+    companyId: string;
+  }): Promise<number> {
+    const result = await this.database.aggregate([
+      {
+        $match: {
+          company: new ObjectId(companyId),
+          status: "open",
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          count: {
+            $sum: 1,
+          },
+        },
+      },
+    ]);
+    return result[0] ? result[0].count : 0;
+  }
+
   async withdraw(id: string) {
     return await this.database.updateOne(
       { _id: id },
@@ -160,6 +283,7 @@ export class JobRepository {
   async allJobsByRecruiter({
     query,
     id,
+    companyId,
   }: {
     query: {
       page?: number;
@@ -169,6 +293,7 @@ export class JobRepository {
       sort?: string;
     };
     id: string;
+    companyId: string;
   }) {
     const options = {
       page: query?.page ?? 1,
@@ -191,6 +316,7 @@ export class JobRepository {
       {
         $match: {
           "postedBy.id": new ObjectId(id),
+          company: new ObjectId(companyId),
           ...(query?.location ? { officeLocation: query.location } : {}),
           ...(query?.type ? { workSpace: query.type } : {}),
           ...(query?.q
@@ -220,6 +346,7 @@ export class JobRepository {
       aggregation,
       options
     );
+
     return response;
   }
   async allJobsByCompany(id: string) {
@@ -250,5 +377,78 @@ export class JobRepository {
 
   async deleteJobs({ jobs }: { jobs: string[] }) {
     return await this.database.deleteMany({ _id: { $in: jobs } });
+  }
+
+  async monthlyJobsGraphDataByRecruiter({
+    userId,
+    companyId,
+  }: {
+    userId: string;
+    companyId: string;
+  }) {
+    const result = await this.database.aggregate([
+      {
+        $match: {
+          company: new ObjectId(companyId),
+          "postedBy.id": new ObjectId(userId),
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $month: "$createdAt",
+          },
+          count: {
+            $sum: 1,
+          },
+        },
+      },
+      {
+        $sort: { _id: 1 },
+      },
+    ]);
+
+    const data = Array.from({ length: 12 }, () => 0);
+    for (const res of result) {
+      data[res._id - 1] = res.count;
+    }
+    return data;
+  }
+  async yearlyJobsGraphDataByRecruiter({
+    userId,
+    companyId,
+  }: {
+    userId: string;
+    companyId: string;
+  }) {
+    const result = await this.database.aggregate([
+      {
+        $match: {
+          company: new ObjectId(companyId),
+          "postedBy.id": new ObjectId(userId),
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $year: "$createdAt",
+          },
+          count: {
+            $sum: 1,
+          },
+        },
+      },
+      {
+        $sort: { _id: 1 },
+      },
+    ]);
+
+    const now = new Date().getFullYear();
+
+    const data = Array.from({ length: now - 2022 }, () => 0);
+    for (const res of result) {
+      data[res._id - 2023] = res.count;
+    }
+    return data;
   }
 }

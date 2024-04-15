@@ -3,6 +3,7 @@ import RecruiterHeader from "@/components/Layout/RecruiterHeader";
 import { isRecruiter } from "@/services/recruiter.service";
 import { IRecruiter } from "@/store/reducers/recruiter.slice";
 import { BackpackIcon, ComponentInstanceIcon } from "@radix-ui/react-icons";
+import { BarChart2, Building2 } from "lucide-react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
@@ -34,12 +35,12 @@ export default async function layout({ children }: { children: ReactNode }) {
               items={[
                 {
                   title: "Overview",
-                  icon: <ComponentInstanceIcon className="size-[17px]" />,
+                  icon: <BarChart2 className="size-[17px]" />,
                   href: "/dashboard/recruiter",
                 },
                 {
                   title: "Company",
-                  icon: <ComponentInstanceIcon className="size-[17px]" />,
+                  icon: <Building2 className="size-[17px]" />,
                   href: "/dashboard/recruiter/company",
                 },
                 {

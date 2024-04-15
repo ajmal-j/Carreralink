@@ -1,5 +1,6 @@
 export interface IResponseData {
   totalDocs: number;
+  docs: T[];
   topIndustries?: string[];
   totalPages: number;
   page: number;

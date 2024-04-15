@@ -40,7 +40,6 @@ export default function RecruiterHeader({
     (async () => {
       try {
         const response = await getCompany(data?.company?.id);
-        console.log(response.data);
         dispatch(setCompany(response.data));
       } catch (error) {
         console.log(error);
@@ -88,7 +87,7 @@ export function ProfileDropDown({
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
       <DropdownMenuContent className="mt-3 w-48" align="end">
         <DropdownMenuLabel className="capitalize">
-          {recruiter?.company?.name}
+          {recruiter?.user?.username}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>

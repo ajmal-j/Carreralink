@@ -1,6 +1,5 @@
 import { Server } from "@/lib/server";
 import axios from "./axios.interseptor";
-import { string } from "zod";
 
 const currentAdmin = async () => {
   const url = new Server().adminUser("currentAdmin");
@@ -222,6 +221,28 @@ const editCompany = async ({
   return response.data;
 };
 
+const totalCounts = async ({
+  token,
+}: {
+  token: string;
+}): Promise<{
+  data: {
+    totalJobs: number;
+    openJobs: number;
+    totalCompanies: number;
+    totalUsers: number;
+    totalApplied: number;
+  };
+}> => {
+  const url = new Server().adminCompany("totalCounts");
+  const response = await axios.get(url, {
+    headers: {
+      adminToken: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
 export {
   getVerifiedCompanies,
   getUnverifiedCompanies,
@@ -239,4 +260,5 @@ export {
   editJob,
   deleteJobs,
   editCompany,
+  totalCounts,
 };

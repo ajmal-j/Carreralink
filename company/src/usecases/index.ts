@@ -1,50 +1,55 @@
 import { Repositories } from "../database/index.js";
+import { AddCategoryUsecase } from "./admin/addCategory.usecase.js";
+import { AddSkillsUsecase } from "./admin/addSkills.usecase.js";
+import { DeleteJobsByAdminUsecase } from "./admin/deleteJobsByAdmin.usecase.js";
+import { GetJobsByAdminUsecase } from "./admin/getJobs.usecase.js";
+import { SkillsAndCategoryRepository } from "./admin/getSkillsAndCategory.usecase.js";
+import { GetTotalCountUsecaseByAdmin } from "./admin/getTotalCount.usecase.js";
+import { RejectCompanyUsecase } from "./admin/rejectCompany.usecase.js";
+import { RemoveCategoryUsecase } from "./admin/removeCategory.usecase.js";
+import { RemoveSkillUsecase } from "./admin/removeSkill.usecase.js";
+import { VerifyCompanyUsecase } from "./admin/verifyCompany.usecase.js";
 import { AllCompaniesUsecase } from "./company/allCompanies.usecase.js";
+import { CompanyListUsecase } from "./company/companyList.js";
 import { CreateCompanyUsecase } from "./company/createCompany.usecase.js";
 import { GetCompanyUsecase } from "./company/getCompany.usecase.js";
 import { GetCompanyDataUsecase } from "./company/getData.usecase.js";
+import { GetTotalCountUsecaseByCompany } from "./company/getTotalCounts.usecase.js";
+import { IsVerifiedUsecase } from "./company/isVerified.js";
 import { GetJobsUsecase } from "./company/jobs.js";
 import { UnverifiedCompaniesUsecase } from "./company/unverifiedCompanies.usecase.js";
 import { UpdateCompanyUsecase } from "./company/updateCompany.usecase.js";
+import { UpdateCoverPhotoUsecase } from "./company/updateCoverPhoto.usecase.js";
 import { VerifiedCompaniesUsecase } from "./company/verifiedCompanies.usecase.js";
 import { EditJobUsecase } from "./jobs/EditJob.js";
 import { GetAllJobsUsecase } from "./jobs/allJobs.usecase.js";
+import { ApplyJobUsecase } from "./jobs/applyJob.usecase.js";
 import { GetAllCompanyJobsUsecase } from "./jobs/companiesAllJobs.js";
 import { CreateJobUsecase } from "./jobs/create.js";
+import { CreateJobByRecruiterUsecase } from "./jobs/createJobByRecruiter.js";
+import { GetAllSavedJobsUsecase } from "./jobs/getAllSavedJobs.usecase.js";
+import { GetApplicantsUsecase } from "./jobs/getApplicants.usecase.js";
+import { GetAppliedJobsUsecase } from "./jobs/getAppliedJobs.usecase.js";
 import { GetJobByIdUsecase } from "./jobs/getJobById.usecase.js";
 import { GetLocationsUsecase } from "./jobs/getLocations.js";
-import { RejectCompanyUsecase } from "./admin/rejectCompany.usecase.js";
-import { VerifyCompanyUsecase } from "./admin/verifyCompany.usecase.js";
-import { IsVerifiedUsecase } from "./company/isVerified.js";
-import { AddCategoryUsecase } from "./admin/addCategory.usecase.js";
-import { AddSkillsUsecase } from "./admin/addSkills.usecase.js";
-import { SkillsAndCategoryRepository } from "./admin/getSkillsAndCategory.usecase.js";
-import { RemoveSkillUsecase } from "./admin/removeSkill.usecase.js";
-import { RemoveCategoryUsecase } from "./admin/removeCategory.usecase.js";
-import { CompanyListUsecase } from "./company/companyList.js";
-import { UpdateCoverPhotoUsecase } from "./company/updateCoverPhoto.usecase.js";
-import { GetJobsByAdminUsecase } from "./admin/getJobs.usecase.js";
-import { DeleteJobsByAdminUsecase } from "./admin/deleteJobsByAdmin.usecase.js";
-import { CreateRequestUsecase } from "./recruiter/createRequest.usecase.js";
-import { IsRecruiterUsecase } from "./recruiter/isRecruiter.usecase.js";
-import { CreateUserUsecase } from "./user/createUser.usecase.js";
-import { UpdateUserUsecase } from "./user/updateUser.usecase.js";
-import { GetRecruitersUsecase } from "./recruiter/getRecruiters.usecase.js";
-import { GetPendingRequestsUsecase } from "./recruiter/getPendingRequests.usecase.js";
+import { IsAppliedUsecase } from "./jobs/isApplied.usecase.js";
+import { IsJobSavedUsecase } from "./jobs/isJobSaved.usecase.js";
+import { RemoveSavedJobUsecase } from "./jobs/removeSavedJob.usecase.js";
+import { SaveJobUsecase } from "./jobs/saveJob.usecase.js";
+import { WithdrawAppliedUsecase } from "./jobs/withdrawApplied.usecase.js";
 import { AssignRecruiterUsecase } from "./recruiter/assignRecruiter.usecase.js";
+import { CreateRequestUsecase } from "./recruiter/createRequest.usecase.js";
+import { GetPendingRequestsUsecase } from "./recruiter/getPendingRequests.usecase.js";
+import { GetRecruiterJobsUsecase } from "./recruiter/getRecruiterJobs.usecase.js";
+import { GetRecruitersUsecase } from "./recruiter/getRecruiters.usecase.js";
+import { GetTotalCountUsecaseByRecruiter } from "./recruiter/getTotalCounts.usecase.js";
+import { IsRecruiterUsecase } from "./recruiter/isRecruiter.usecase.js";
+import { RecruiterMonthlyGraphDataUsecase } from "./recruiter/monthlyGraphData.usecase.js";
 import { RejectRequestUsecase } from "./recruiter/rejectRequest.usecase.js";
 import { RemoveRecruiterUsecase } from "./recruiter/removeRecruiter.usecase.js";
-import { GetRecruiterJobsUsecase } from "./recruiter/getRecruiterJobs.usecase.js";
-import { CreateJobByRecruiterUsecase } from "./jobs/createJobByRecruiter.js";
-import { SaveJobUsecase } from "./jobs/saveJob.usecase.js";
-import { GetAllSavedJobsUsecase } from "./jobs/getAllSavedJobs.usecase.js";
-import { RemoveSavedJobUsecase } from "./jobs/removeSavedJob.usecase.js";
-import { IsJobSavedUsecase } from "./jobs/isJobSaved.usecase.js";
-import { ApplyJobUsecase } from "./jobs/applyJob.usecase.js";
-import { GetAppliedJobsUsecase } from "./jobs/getAppliedJobs.usecase.js";
-import { WithdrawAppliedUsecase } from "./jobs/withdrawApplied.usecase.js";
-import { IsAppliedUsecase } from "./jobs/isApplied.usecase.js";
-import { GetApplicantsUsecase } from "./jobs/getApplicants.usecase.js";
+import { RecruiterYearlyGraphDataUsecase } from "./recruiter/yearlyGraphData.usecase.js";
+import { CreateUserUsecase } from "./user/createUser.usecase.js";
+import { UpdateUserUsecase } from "./user/updateUser.usecase.js";
 
 const createCompanyUsecase = new CreateCompanyUsecase(
   Repositories.CompanyRepository
@@ -196,51 +201,45 @@ const getApplicantsUsecase = new GetApplicantsUsecase(
   Repositories.AppliedJobsRepo
 );
 
+const getTotalCountByAdminUsecase = new GetTotalCountUsecaseByAdmin(
+  Repositories.JobRepository,
+  Repositories.CompanyRepository,
+  Repositories.UserRepository,
+  Repositories.AppliedJobsRepo
+);
+
+const getTotalCountByCompanyUsecase = new GetTotalCountUsecaseByCompany(
+  Repositories.JobRepository,
+  Repositories.CompanyRepository,
+  Repositories.AppliedJobsRepo,
+  Repositories.RecruiterRequestRepository
+);
+
+const getTotalCountByRecruiterUsecase = new GetTotalCountUsecaseByRecruiter(
+  Repositories.JobRepository,
+  Repositories.CompanyRepository,
+  Repositories.AppliedJobsRepo,
+  Repositories.RecruiterRequestRepository,
+  Repositories.UserRepository
+);
+
+const recruiterMonthlyGraphDataUsecase = new RecruiterMonthlyGraphDataUsecase(
+  Repositories.JobRepository,
+  Repositories.AppliedJobsRepo
+);
+
+const recruiterYearlyGraphDataUsecase = new RecruiterYearlyGraphDataUsecase(
+  Repositories.JobRepository,
+  Repositories.AppliedJobsRepo
+);
+
 export {
-  createCompanyUsecase,
-  allCompaniesUsecase,
-  getAllCompanyJobsUsecase,
-  getCompanyUsecase,
-  getJobByIdUsecase,
-  getCompanyDataUsecase,
-  createJobUsecase,
-  updateCompanyUsecase,
-  getAllJobsUsecase,
-  updateJobUsecase,
-  getJobsUsecase,
-  getLocationsUsecase,
-  verifiedCompaniesUsecase,
-  unverifiedCompaniesUsecase,
-  verifyCompanyUsecase,
-  rejectCompanyUsecase,
-  isVerifiedUsecase,
   addCategoryUsecase,
-  addSkillsUsecase,
-  getSkillsAndCategory,
-  removeSkillUsecase,
-  removeCategoryUsecase,
-  companyListUsecase,
-  updateCoverPhotoUsecase,
-  getJobsByAdminUsecase,
-  deleteJobsByAdminUsecase,
-  createRequestUsecase,
-  isRecruiterUsecase,
-  createUserUsecase,
-  updateUserUsecase,
-  getRecruitersUsecase,
-  getPendingRequestsUsecase,
-  assignRecruiterUsecase,
-  rejectRequestUsecase,
-  removeRecruiterUsecase,
-  getRecruiterJobsUsecase,
-  createJobByRecruiterUsecase,
-  saveJobUsecase,
-  getAllSavedJobsUsecase,
-  removeSavedJobUsecase,
-  isJobSavedUsecase,
-  applyJobUsecase,
-  getAppliedJobsUsecase,
-  withdrawAppliedUsecase,
-  isAppliedUsecase,
-  getApplicantsUsecase,
+  addSkillsUsecase, allCompaniesUsecase, applyJobUsecase, assignRecruiterUsecase, companyListUsecase, createCompanyUsecase, createJobByRecruiterUsecase, createJobUsecase, createRequestUsecase, createUserUsecase, deleteJobsByAdminUsecase, getAllCompanyJobsUsecase, getAllJobsUsecase, getAllSavedJobsUsecase, getApplicantsUsecase, getAppliedJobsUsecase, getCompanyDataUsecase, getCompanyUsecase,
+  getJobByIdUsecase, getJobsByAdminUsecase, getJobsUsecase,
+  getLocationsUsecase, getPendingRequestsUsecase, getRecruiterJobsUsecase, getRecruitersUsecase, getSkillsAndCategory, getTotalCountByAdminUsecase,
+  getTotalCountByCompanyUsecase,
+  getTotalCountByRecruiterUsecase, isAppliedUsecase, isJobSavedUsecase, isRecruiterUsecase, isVerifiedUsecase, recruiterMonthlyGraphDataUsecase,
+  recruiterYearlyGraphDataUsecase, rejectCompanyUsecase, rejectRequestUsecase, removeCategoryUsecase, removeRecruiterUsecase, removeSavedJobUsecase, removeSkillUsecase, saveJobUsecase, unverifiedCompaniesUsecase, updateCompanyUsecase, updateCoverPhotoUsecase, updateJobUsecase, updateUserUsecase, verifiedCompaniesUsecase, verifyCompanyUsecase, withdrawAppliedUsecase
 };
+

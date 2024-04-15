@@ -88,5 +88,10 @@ export function CompanyRoutes({
     VerifyCompany,
     expressCallback(recruiterController.removeRecruiter)
   );
+  router.get(
+    "/totalCounts",
+    VerifyCompany,
+    expressCallback(companyController.getTotalCount)
+  );
   return router;
 }

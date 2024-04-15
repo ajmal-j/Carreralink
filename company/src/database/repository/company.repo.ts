@@ -23,6 +23,9 @@ export class CompanyRepository implements ICompanyRepository {
   async findById(id: string): Promise<ICompany | null> {
     return await this.database.findById(id);
   }
+  async totalCompanies(): Promise<number> {
+    return await this.database.countDocuments();
+  }
   async allCompanies(query: {
     p: number;
     q?: string;

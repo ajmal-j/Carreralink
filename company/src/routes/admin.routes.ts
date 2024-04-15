@@ -50,5 +50,6 @@ export function AdminRoutes({
     updateLogoOrImageOfCEO,
     expressCallback(adminControllers.editCompany)
   );
+  router.get("/totalCounts", expressCallback(adminControllers.totalCount));
   return router;
 }

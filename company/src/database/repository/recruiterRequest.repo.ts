@@ -1,10 +1,17 @@
 import { CustomError } from "@carreralink/common";
+import mongoose, { ObjectId } from "mongoose";
+import { ICompany } from "../models/company.model.js";
 import {
   IRecruiterRequest,
   IRecruiterRequestModel,
 } from "../models/recruiterRequest.model.js";
-import mongoose from "mongoose";
+import { IUser } from "../models/user.model.js";
 const ObjectId = mongoose.Types.ObjectId;
+
+interface IIsRecruiter extends Omit<IRecruiterRequest, "company" | "user"> {
+  company: ICompany;
+  user: IUser;
+}
 
 export class RecruiterRequestRepository {
   constructor(private readonly database: IRecruiterRequestModel) {}
@@ -24,7 +31,7 @@ export class RecruiterRequestRepository {
     if (exist) throw new CustomError("Request already submitted.", 409);
     else return await this.database.create(data);
   }
-  async isRecruiter(user: string): Promise<IRecruiterRequest | null> {
+  async isRecruiter(user: string): Promise<IIsRecruiter | null> {
     return await this.database
       .findOne({
         $and: [{ user }, { status: "accepted" }],
@@ -35,9 +42,15 @@ export class RecruiterRequestRepository {
         },
         {
           path: "user",
-          select: ["name", "profile", "email"],
         },
       ]);
+  }
+
+  async totalRecruiters(id: string): Promise<number> {
+    return await this.database.countDocuments({
+      company: new ObjectId(id),
+      status: "accepted",
+    });
   }
 
   async assign({ id }: { id: string }): Promise<IRecruiterRequest | null> {

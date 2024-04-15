@@ -1,5 +1,7 @@
 import { Server } from "@/lib/server";
 import axios from "./axios.interseptor";
+import { IJob } from "@/types/jobs";
+import { IResponseData } from "@/types/paginateResponse";
 const createRequest = async (data: Record<string, any>) => {
   const url = new Server().recruiter("create");
   const response = await axios.post(url, data);
@@ -38,4 +40,39 @@ const getJobs = async ({
   return response.data;
 };
 
-export { createRequest, isRecruiter, getJobs };
+interface IDashboardData {
+  data: {
+    counts: {
+      totalJobs: number;
+      openJobs: number;
+      totalApplied: number;
+    };
+    recentJobs: IResponseData;
+  };
+}
+
+const totalCounts = async ({
+  token,
+}: {
+  token: string;
+}): Promise<IDashboardData> => {
+  const url = new Server().recruiter("totalCounts");
+  const response = await axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+const graphData = async ({ filter }: { filter: "yearly" | "monthly" }) => {
+  const url = new Server().recruiter("graphData");
+  const response = await axios.get(url, {
+    params: {
+      filter,
+    },
+  });
+  return response.data;
+};
+
+export { createRequest, isRecruiter, getJobs, totalCounts, graphData };

@@ -6,6 +6,8 @@ import BuildAssignRecruiter from "./assignRecruiter.js";
 import BuildRejectRequest from "./rejectRequest.js";
 import BuildRemoveRecruiter from "./removeRecruiter.js";
 import BuildGetJobs from "./getJobs.js";
+import BuildGetTotalCount from "./getTotalCount.js";
+import BuildGetGraphData from "./getGraphData.js";
 
 const create = BuildCreateRequest();
 const isRecruiter = BuildIsRecruiter();
@@ -15,6 +17,8 @@ const assignRecruiter = BuildAssignRecruiter();
 const rejectRequest = BuildRejectRequest();
 const removeRecruiter = BuildRemoveRecruiter();
 const getJobs = BuildGetJobs();
+const getTotalCount = BuildGetTotalCount();
+const getGraphData = BuildGetGraphData();
 
 export const recruiterController = {
   create,
@@ -25,5 +29,7 @@ export const recruiterController = {
   rejectRequest,
   removeRecruiter,
   getJobs,
+  getTotalCount,
+  getGraphData,
 };
 export type IRecruiterController = typeof recruiterController;

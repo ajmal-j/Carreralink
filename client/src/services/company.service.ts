@@ -179,6 +179,27 @@ const removeRecruiter = async ({ id }: { id: string }) => {
   return response.data;
 };
 
+const totalCounts = async ({
+  token,
+}: {
+  token: string;
+}): Promise<{
+  data: {
+    totalJobs: number;
+    openJobs: number;
+    totalRecruiters: number;
+    totalApplied: number;
+  };
+}> => {
+  const url = new Server().company("totalCounts");
+  const response = await axios.get(url, {
+    headers: {
+      companyToken: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
 export {
   registerCompany,
   allCompanies,
@@ -198,4 +219,5 @@ export {
   assignRecruiter,
   rejectRequest,
   removeRecruiter,
+  totalCounts,
 };

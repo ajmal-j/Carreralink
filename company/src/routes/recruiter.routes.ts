@@ -5,7 +5,7 @@ import { IJobController } from "../controllers/jobs/index.js";
 export function RecruiterRoutes({
   router,
   recruiterController,
-  jobController
+  jobController,
 }: {
   router: any;
   recruiterController: IRecruiterController;
@@ -31,6 +31,16 @@ export function RecruiterRoutes({
     "/updateJob",
     VerifyUser,
     expressCallback(jobController.updateJob)
+  );
+  router.get(
+    "/totalCounts",
+    VerifyUser,
+    expressCallback(recruiterController.getTotalCount)
+  );
+  router.get(
+    "/graphData",
+    VerifyUser,
+    expressCallback(recruiterController.getGraphData)
   );
   return router;
 }
