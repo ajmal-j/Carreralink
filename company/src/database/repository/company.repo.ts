@@ -74,9 +74,9 @@ export class CompanyRepository implements ICompanyRepository {
   }
 
   async getId(email: string): Promise<ICompany> {
-    const company = await this.database.findOne({ email }).select("_id");
-    if (!company) throw new NotFoundError("Company not found");
-    return company;
+    const companyId = await this.database.findOne({ email }).select("_id");
+    if (!companyId) throw new NotFoundError("Company not found");
+    return companyId;
   }
 
   async update({

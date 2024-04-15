@@ -17,10 +17,12 @@ import { GetCompanyDataUsecase } from "./company/getData.usecase.js";
 import { GetTotalCountUsecaseByCompany } from "./company/getTotalCounts.usecase.js";
 import { IsVerifiedUsecase } from "./company/isVerified.js";
 import { GetJobsUsecase } from "./company/jobs.js";
+import { CompanyMonthlyGraphDataUsecase } from "./company/monthlyGraphData.usecase.js";
 import { UnverifiedCompaniesUsecase } from "./company/unverifiedCompanies.usecase.js";
 import { UpdateCompanyUsecase } from "./company/updateCompany.usecase.js";
 import { UpdateCoverPhotoUsecase } from "./company/updateCoverPhoto.usecase.js";
 import { VerifiedCompaniesUsecase } from "./company/verifiedCompanies.usecase.js";
+import { CompanyYearlyGraphDataUsecase } from "./company/yarlyGraphData.usecase.js";
 import { EditJobUsecase } from "./jobs/EditJob.js";
 import { GetAllJobsUsecase } from "./jobs/allJobs.usecase.js";
 import { ApplyJobUsecase } from "./jobs/applyJob.usecase.js";
@@ -232,14 +234,68 @@ const recruiterYearlyGraphDataUsecase = new RecruiterYearlyGraphDataUsecase(
   Repositories.JobRepository,
   Repositories.AppliedJobsRepo
 );
+const companyMonthlyGraphDataUsecase = new CompanyMonthlyGraphDataUsecase(
+  Repositories.JobRepository,
+  Repositories.AppliedJobsRepo
+);
+
+const companyYearlyGraphDataUsecase = new CompanyYearlyGraphDataUsecase(
+  Repositories.JobRepository,
+  Repositories.AppliedJobsRepo
+);
 
 export {
   addCategoryUsecase,
-  addSkillsUsecase, allCompaniesUsecase, applyJobUsecase, assignRecruiterUsecase, companyListUsecase, createCompanyUsecase, createJobByRecruiterUsecase, createJobUsecase, createRequestUsecase, createUserUsecase, deleteJobsByAdminUsecase, getAllCompanyJobsUsecase, getAllJobsUsecase, getAllSavedJobsUsecase, getApplicantsUsecase, getAppliedJobsUsecase, getCompanyDataUsecase, getCompanyUsecase,
-  getJobByIdUsecase, getJobsByAdminUsecase, getJobsUsecase,
-  getLocationsUsecase, getPendingRequestsUsecase, getRecruiterJobsUsecase, getRecruitersUsecase, getSkillsAndCategory, getTotalCountByAdminUsecase,
+  addSkillsUsecase,
+  allCompaniesUsecase,
+  applyJobUsecase,
+  assignRecruiterUsecase,
+  companyListUsecase,
+  createCompanyUsecase,
+  createJobByRecruiterUsecase,
+  createJobUsecase,
+  createRequestUsecase,
+  createUserUsecase,
+  deleteJobsByAdminUsecase,
+  getAllCompanyJobsUsecase,
+  getAllJobsUsecase,
+  getAllSavedJobsUsecase,
+  getApplicantsUsecase,
+  getAppliedJobsUsecase,
+  getCompanyDataUsecase,
+  getCompanyUsecase,
+  getJobByIdUsecase,
+  getJobsByAdminUsecase,
+  getJobsUsecase,
+  getLocationsUsecase,
+  getPendingRequestsUsecase,
+  getRecruiterJobsUsecase,
+  getRecruitersUsecase,
+  getSkillsAndCategory,
+  getTotalCountByAdminUsecase,
   getTotalCountByCompanyUsecase,
-  getTotalCountByRecruiterUsecase, isAppliedUsecase, isJobSavedUsecase, isRecruiterUsecase, isVerifiedUsecase, recruiterMonthlyGraphDataUsecase,
-  recruiterYearlyGraphDataUsecase, rejectCompanyUsecase, rejectRequestUsecase, removeCategoryUsecase, removeRecruiterUsecase, removeSavedJobUsecase, removeSkillUsecase, saveJobUsecase, unverifiedCompaniesUsecase, updateCompanyUsecase, updateCoverPhotoUsecase, updateJobUsecase, updateUserUsecase, verifiedCompaniesUsecase, verifyCompanyUsecase, withdrawAppliedUsecase
+  getTotalCountByRecruiterUsecase,
+  isAppliedUsecase,
+  isJobSavedUsecase,
+  isRecruiterUsecase,
+  isVerifiedUsecase,
+  recruiterMonthlyGraphDataUsecase,
+  recruiterYearlyGraphDataUsecase,
+  rejectCompanyUsecase,
+  rejectRequestUsecase,
+  removeCategoryUsecase,
+  removeRecruiterUsecase,
+  removeSavedJobUsecase,
+  removeSkillUsecase,
+  saveJobUsecase,
+  unverifiedCompaniesUsecase,
+  updateCompanyUsecase,
+  updateCoverPhotoUsecase,
+  updateJobUsecase,
+  updateUserUsecase,
+  verifiedCompaniesUsecase,
+  verifyCompanyUsecase,
+  withdrawAppliedUsecase,
+  companyMonthlyGraphDataUsecase,
+  companyYearlyGraphDataUsecase,
 };
-

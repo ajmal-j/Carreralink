@@ -93,5 +93,10 @@ export function CompanyRoutes({
     VerifyCompany,
     expressCallback(companyController.getTotalCount)
   );
+  router.get(
+    "/graphData",
+    VerifyCompany,
+    expressCallback(companyController.getGraphData)
+  );
   return router;
 }

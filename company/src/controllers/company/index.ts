@@ -9,6 +9,7 @@ import BuildIsVerified from "./isVerified.js";
 import BuildJobs from "./jobs.js";
 import BuildUpdate from "./update.js";
 import BuildUpdateCoverPhoto from "./updateCoverPhoto.js";
+import BuildGetGraphData from "./getGraphData.js";
 
 const allCompanies = BuildAllCompanies();
 const get = BuildGet();
@@ -21,6 +22,7 @@ const getSkillsAndCategories = BuildSkillsAndCategories();
 const companyList = BuildCompanyList();
 const updateCoverPhoto = BuildUpdateCoverPhoto();
 const getTotalCount = BuildGetTotalCount();
+const getGraphData = BuildGetGraphData();
 
 export const companyController = {
   allCompanies,
@@ -34,6 +36,7 @@ export const companyController = {
   companyList,
   updateCoverPhoto,
   getTotalCount,
+  getGraphData,
 };
 
 export type ICompanyController = typeof companyController;

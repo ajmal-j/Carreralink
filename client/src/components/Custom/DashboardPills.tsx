@@ -11,8 +11,8 @@ const poppins = Poppins({
 const titles: Record<string, string> = {
   totalJobs: "Total Job's",
   openJobs: "Open Job's",
-  totalApplied: "Total Applied",
-  totalRecruiters: "Total Recruiters",
+  totalApplied: "Total Applicant's",
+  totalRecruiters: "Total Recruiter's",
 };
 
 const icons: Record<string, ReactNode> = {
