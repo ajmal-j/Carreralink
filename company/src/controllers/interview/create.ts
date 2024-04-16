@@ -1,8 +1,7 @@
 import {
   BadRequestError,
   CustomError,
-  CustomResponse,
-  NotFoundError,
+  CustomResponse
 } from "@carreralink/common";
 import { Request } from "express";
 import { InterviewValidationSchema } from "../../lib/schema.js";

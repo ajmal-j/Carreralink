@@ -29,9 +29,10 @@ export function EditInterviewForm({
   formAction?: (values: any, id: string) => void;
 }) {
   const [open, setOpen] = useState(false);
-
+  let dateToCheck = new Date();
+  dateToCheck.setDate(dateToCheck.getDate() - 1);
   const formSchema = z.object({
-    startDate: z.date().refine((date) => date >= new Date(), {
+    startDate: z.date().refine((date) => date >= dateToCheck, {
       message: "Start date must be in the future",
     }),
     time: z.string().min(2, "Required"),

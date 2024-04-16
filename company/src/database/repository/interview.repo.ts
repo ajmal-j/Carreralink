@@ -36,15 +36,17 @@ export class InterviewRepository {
     startDate,
     time,
     interview,
+    interviewer,
   }: {
     interview: string;
     startDate: string;
     agenda: string;
     time: string;
+    interviewer: string;
   }) {
     return this.database.updateOne(
       {
-        _id: interview,
+        $and: [{ _id: interview }, { interviewer: new ObjectId(interviewer) }],
       },
       {
         $set: {

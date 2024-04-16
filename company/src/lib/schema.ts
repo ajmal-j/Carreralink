@@ -10,4 +10,11 @@ const InterviewValidationSchema = z.object({
   status: z.enum(["scheduled", "cancelled", "completed"]),
 });
 
-export { InterviewValidationSchema };
+const InterviewUpdateValidationSchema = z.object({
+  startDate: z.string().min(1, "Invalid Data"),
+  agenda: z.string(),
+  time: z.string().min(1, "Invalid Data"),
+  interview: z.string().min(1, "Invalid Data"),
+});
+
+export { InterviewValidationSchema, InterviewUpdateValidationSchema };

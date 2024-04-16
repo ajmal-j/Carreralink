@@ -28,5 +28,10 @@ export function InterviewRoutes({
     VerifyUser,
     expressCallback(interviewController.cancel)
   );
+  router.patch(
+    "/update",
+    VerifyUser,
+    expressCallback(interviewController.update)
+  );
   return router;
 }

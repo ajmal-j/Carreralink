@@ -78,4 +78,20 @@ const cancelInterview = async ({
   return response.data;
 };
 
-export { createInterview, getByUser, cancelInterview, getByRecruiter };
+const updateInterviewData = async ({
+  data,
+  token,
+}: {
+  token: string;
+  data: Record<string, any>;
+}) => {
+  const url = new Server().interview("update");
+  const response = await axios.patch(url, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+export { createInterview, updateInterviewData, getByUser, cancelInterview, getByRecruiter };

@@ -9,10 +9,26 @@ import { IInterview } from "@/types/interview";
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { EditInterviewForm } from "./_form/EditInterviewForm";
+import { updateInterviewData } from "@/services/interview.service";
+import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
 
 const formAction = async (values: any, id: string) => {
   "use server";
-  console.log(values, id);
+  const data = {
+    ...values,
+    interview: id,
+  };
+  const token = cookies().get("userToken")?.value || "";
+  try {
+    await updateInterviewData({
+      data,
+      token,
+    });
+    revalidatePath(`/dashboard/recruiter/interviews`);
+  } catch (error) {
+    console.log(error, "------------------------------------>");
+  }
 };
 
 export default function MoreOptions({ interview }: { interview: IInterview }) {
