@@ -7,7 +7,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ReactNode, useRef, useState } from "react";
-import { CustomForm } from "./CusotomForm";
+import { CustomForm } from "./CustomForm";
 import { z } from "zod";
 import { DateSchema } from "@/lib/schema";
 import {

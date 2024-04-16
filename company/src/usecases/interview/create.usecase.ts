@@ -5,8 +5,8 @@ export interface IInterview {
   job: string;
   startDate: string;
   agenda: string;
-  interviewer: string;
   time: string;
+  interviewer: string;
   status: "scheduled" | "cancelled" | "completed";
 }
 

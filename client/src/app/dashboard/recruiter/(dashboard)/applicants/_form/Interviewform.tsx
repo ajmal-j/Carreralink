@@ -1,6 +1,6 @@
 "use client";
 
-import { CustomForm } from "@/components/FormsAndDialog/CusotomForm";
+import { CustomForm } from "@/components/FormsAndDialog/CustomForm";
 import {
   Dialog,
   DialogContent,

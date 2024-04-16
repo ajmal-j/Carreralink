@@ -31,6 +31,31 @@ export class InterviewRepository {
     );
   }
 
+  async updateInterview({
+    agenda,
+    startDate,
+    time,
+    interview,
+  }: {
+    interview: string;
+    startDate: string;
+    agenda: string;
+    time: string;
+  }) {
+    return this.database.updateOne(
+      {
+        _id: interview,
+      },
+      {
+        $set: {
+          agenda,
+          startDate,
+          time,
+        },
+      }
+    );
+  }
+
   async getInterviews({
     applicant,
     query,

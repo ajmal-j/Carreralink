@@ -10,6 +10,11 @@ import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { EditInterviewForm } from "./_form/EditInterviewForm";
 
+const formAction = async (values: any, id: string) => {
+  "use server";
+  console.log(values, id);
+};
+
 export default function MoreOptions({ interview }: { interview: IInterview }) {
   return (
     <div className="mb-1 w-full">
@@ -35,6 +40,8 @@ export default function MoreOptions({ interview }: { interview: IInterview }) {
             </Link>
           </div>
           <EditInterviewForm
+            formAction={formAction}
+            id={interview._id}
             defaultValues={{
               startDate: new Date(interview.startDate),
               time: interview.time,

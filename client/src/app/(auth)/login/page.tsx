@@ -1,6 +1,6 @@
 "use client";
 
-import { CustomForm } from "@/components/FormsAndDialog/CusotomForm";
+import { CustomForm } from "@/components/FormsAndDialog/CustomForm";
 import Title from "@/components/Custom/Title";
 import Wrapper from "@/components/Custom/Wrapper";
 import Link from "next/link";

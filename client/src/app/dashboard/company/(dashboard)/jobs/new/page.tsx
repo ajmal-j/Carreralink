@@ -1,5 +1,5 @@
 "use client";
-import { CustomForm } from "@/components/FormsAndDialog/CusotomForm";
+import { CustomForm } from "@/components/FormsAndDialog/CustomForm";
 import { toast } from "@/components/ui/use-toast";
 import { getMessage } from "@/lib/utils";
 import { createJob } from "@/services/jobs.service";

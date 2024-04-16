@@ -7,7 +7,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ReactNode, useState } from "react";
-import { CustomForm } from "./CusotomForm";
+import { CustomForm } from "./CustomForm";
 import { z } from "zod";
 import { DateSchema } from "@/lib/schema";
 import { toast } from "../ui/use-toast";
@@ -32,7 +32,9 @@ export function EditExperience({ defaultValues, id }: IEditExperience) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean | undefined>(undefined);
   const formSchema = z.object({
-    companyName: z.string().min(5, "Company name must be at least 5 characters"),
+    companyName: z
+      .string()
+      .min(5, "Company name must be at least 5 characters"),
     position: z.string().min(5, "Position must be at least 5 characters"),
     startDate: DateSchema,
     endDate: DateSchema,

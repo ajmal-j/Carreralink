@@ -1,6 +1,6 @@
 "use client";
 
-import { CustomForm } from "@/components/FormsAndDialog/CusotomForm";
+import { CustomForm } from "@/components/FormsAndDialog/CustomForm";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -8,8 +8,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { toast } from "@/components/ui/use-toast";
-import { getMessage } from "@/lib/utils";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { PencilLine } from "lucide-react";
 import { useState } from "react";
@@ -23,26 +21,14 @@ interface IInterview {
 
 export function EditInterviewForm({
   defaultValues,
+  formAction,
+  id,
 }: {
   defaultValues: IInterview;
+  id?: string;
+  formAction?: (values: any, id: string) => void;
 }) {
   const [open, setOpen] = useState(false);
-
-  const onSubmit = async (values: IInterview) => {
-    try {
-      alert(JSON.stringify(values));
-      toast({
-        title: "Interview edited successfully",
-      });
-    } catch (error) {
-      console.log(error);
-      const message = getMessage(error);
-      toast({
-        title: message,
-        variant: "destructive",
-      });
-    }
-  };
 
   const formSchema = z.object({
     startDate: z.date().refine((date) => date >= new Date(), {
@@ -64,9 +50,14 @@ export function EditInterviewForm({
           <DialogTitle>Edit Interview</DialogTitle>
         </DialogHeader>
         <CustomForm
+          onSubmit={(values) => {
+            console.log(values);
+          }}
+          id={id}
           defaultValues={defaultValues}
           formSchema={formSchema}
-          onSubmit={onSubmit}
+          setOpen={setOpen}
+          formAction={formAction}
         />
       </DialogContent>
     </Dialog>

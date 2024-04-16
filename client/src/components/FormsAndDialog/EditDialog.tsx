@@ -7,7 +7,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import { CustomForm } from "./CusotomForm";
+import { CustomForm } from "./CustomForm";
 import { z } from "zod";
 import { updateProfile } from "@/services/user.service";
 import { getMessage } from "@/lib/utils";
