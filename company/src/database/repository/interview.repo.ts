@@ -92,4 +92,54 @@ export class InterviewRepository {
     );
     return response;
   }
+  async getInterviewsByRecruiter({
+    interviewer,
+    query,
+  }: {
+    interviewer: string;
+    query: {
+      p: number;
+    };
+  }) {
+    const options = {
+      page: query?.p ?? 1,
+      limit: 6,
+    };
+
+    const aggregation = this.database.aggregate([
+      {
+        $match: {
+          interviewer: new ObjectId(interviewer),
+        },
+      },
+      {
+        $lookup: {
+          from: "jobs",
+          localField: "job",
+          foreignField: "_id",
+          as: "job",
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "applicant",
+          foreignField: "_id",
+          as: "applicant",
+        },
+      },
+      {
+        $unwind: "$job",
+      },
+      {
+        $unwind: "$applicant",
+      },
+    ]);
+
+    const response = await this.database.aggregatePaginate(
+      aggregation,
+      options
+    );
+    return response;
+  }
 }

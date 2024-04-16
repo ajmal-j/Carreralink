@@ -12,7 +12,8 @@ export class IsRecruiterUsecase {
     private readonly UserRepository: UserRepository
   ) {}
 
-  async execute(email: string) {
+  async execute(email?: string) {
+    if (!email) throw new BadRequestError("Recruiter not identified.");
     const user = await this.UserRepository.findByEmail(email);
     if (!user) throw new BadRequestError("User not found");
     const exist = await this.RecruiterRepository.isRecruiter(user.id);

@@ -1,6 +1,8 @@
+import { IUser } from "@/store/reducers/user.slice";
+
 export interface IInterview {
   _id: string;
-  applicant: string | IJob;
+  applicant: IUser;
   job: IJob;
   startDate: string;
   time: string;

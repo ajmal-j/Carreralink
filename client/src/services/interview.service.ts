@@ -41,6 +41,27 @@ const getByUser = async ({
   return response.data;
 };
 
+const getByRecruiter = async ({
+  query,
+  token,
+}: {
+  token: string;
+  query: {
+    p: number | string;
+  };
+}): Promise<InterviewResponse> => {
+  const url = new Server().interview("getByRecruiter");
+  const response = await axios.get(url, {
+    params: {
+      ...query,
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
 const cancelInterview = async ({
   data,
   token,
@@ -57,4 +78,4 @@ const cancelInterview = async ({
   return response.data;
 };
 
-export { createInterview, getByUser, cancelInterview };
+export { createInterview, getByUser, cancelInterview, getByRecruiter };

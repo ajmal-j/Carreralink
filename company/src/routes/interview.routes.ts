@@ -18,6 +18,11 @@ export function InterviewRoutes({
     VerifyUser,
     expressCallback(interviewController.getByUser)
   );
+  router.get(
+    "/getByRecruiter",
+    VerifyUser,
+    expressCallback(interviewController.getByRecruiter)
+  );
   router.patch(
     "/cancel",
     VerifyUser,

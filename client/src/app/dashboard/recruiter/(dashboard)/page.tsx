@@ -7,7 +7,7 @@ import { formatDistanceToNow } from "date-fns";
 import { BackpackIcon, ClockIcon, HandCoins, MapPin } from "lucide-react";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import RecruiterChart from "./chart";
+import RecruiterChart from "./_components/chart";
 import PrimaryButton from "@/components/Buttons/PrimaryButton";
 
 export default async function Recruiter() {

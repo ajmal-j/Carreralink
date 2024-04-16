@@ -2,8 +2,8 @@ import DashboardSideBar from "@/components/Layout/DashboardSideBar";
 import RecruiterHeader from "@/components/Layout/RecruiterHeader";
 import { isRecruiter } from "@/services/recruiter.service";
 import { IRecruiter } from "@/store/reducers/recruiter.slice";
-import { BackpackIcon, ComponentInstanceIcon } from "@radix-ui/react-icons";
-import { BarChart2, Building2, Users2Icon } from "lucide-react";
+import { BackpackIcon } from "@radix-ui/react-icons";
+import { BarChart2, Building2, CalendarDays, Users2Icon } from "lucide-react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
@@ -52,6 +52,11 @@ export default async function layout({ children }: { children: ReactNode }) {
                   title: "Applicants",
                   icon: <Users2Icon className="size-[17px]" />,
                   href: "/dashboard/recruiter/applicants",
+                },
+                {
+                  title: "Interviews",
+                  icon: <CalendarDays className="size-[17px]" />,
+                  href: "/dashboard/recruiter/interviews",
                 },
               ]}
               logOut={logOut}
