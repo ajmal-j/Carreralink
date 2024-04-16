@@ -29,10 +29,12 @@ export interface IJob {
 export interface IApplicant {
   _id: string;
   user: {
+    _id: string;
     username: string;
     profile: string;
     email: string;
   };
+  job: string;
   resume: string;
   createdAt: string;
   status: string;

@@ -61,7 +61,6 @@ const JobActions = ({ job, id }: { job: IJob; id: string }) => {
           openings: job.openings,
           workSpace: job.workSpace,
           officeLocation: job.officeLocation,
-          location: job.location,
           skills: job.skills,
           pay: job.pay,
           description: markdownToDraft(job.description),

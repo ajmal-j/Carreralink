@@ -12,7 +12,6 @@ export default function Loading() {
           width={180}
           height={180}
         />
-        {/* <TokensIcon className="duration-600 size-10 animate-pulse" /> */}
       </div>
     </div>
   );

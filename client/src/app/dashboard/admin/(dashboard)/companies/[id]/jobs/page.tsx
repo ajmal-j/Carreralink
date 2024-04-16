@@ -2,7 +2,6 @@ import NotFound from "@/components/Custom/NotFound";
 import { formatMoney } from "@/lib/utils";
 import { allCompanyJobs } from "@/services/jobs.service";
 import { IJob } from "@/types/jobs";
-import { PauseIcon, PlayIcon } from "@radix-ui/react-icons";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 
@@ -20,25 +19,28 @@ export default async function Jobs({
   }
   return (
     <div className="mb-10 space-y-2 px-1 pt-5">
-      {jobs?.map((job: IJob) => <SingleJob key={job.id} job={job} />)}
+      {jobs?.map((job: IJob) => <SingleJobCompany key={job.id} job={job} />)}
       {!jobs?.length && <NotFound title="No jobs have been posted." />}
     </div>
   );
 }
 
-export function SingleJob({ job }: { job: IJob }) {
+function SingleJobCompany({ job }: { job: IJob }) {
   return (
     <div className="flex items-center gap-3 rounded-sm border px-4 py-2 transition-all duration-200 hover:bg-foreground/5">
-      <Link href={job?.href || `/dashboard/admin/jobs/${job?.id}`} className="flex-1 ">
+      <Link
+        href={job?.href || `/dashboard/admin/jobs/${job?.id}`}
+        className="flex-1 "
+      >
         <h1 className="pb-1 text-lg font-semibold">{job?.title}</h1>
         <p className="text-sm text-foreground/70">
-          Applicant&lsquo;s : {job?.applicants?.length}
+          Applicant&lsquo;s : {job?.applicants}
         </p>
         <p className="text-sm text-foreground/70">
           Opening&lsquo;s : {job?.openings}
         </p>
         <p className="text-sm text-foreground/70">{job?.type}</p>
-        <p className="text-sm text-foreground/70">{job?.location}</p>
+        <p className="text-sm text-foreground/70">{job?.workSpace}</p>
       </Link>
       <div className="flex flex-col gap-1">
         <div className="flex gap-2 ">
@@ -59,15 +61,6 @@ export function SingleJob({ job }: { job: IJob }) {
             ) : (
               <span className="w-full rounded-full bg-red-200/60 px-2 pb-[2px] text-center text-sm text-red-400 dark:bg-red-200/30">
                 {job?.status}
-              </span>
-            )}
-            {job.isPaused ? (
-              <span className="flex w-full items-center justify-center rounded-full bg-red-200/60  px-2 py-1  text-sm text-red-400 dark:bg-red-200/30">
-                <PlayIcon />
-              </span>
-            ) : (
-              <span className="flex w-full items-center justify-center rounded-full bg-green-200/60 px-2 py-1 text-sm text-green-400 dark:bg-green-200/30">
-                <PauseIcon />
               </span>
             )}
           </div>

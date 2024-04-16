@@ -47,7 +47,19 @@ export class AppliedJobsRepo {
     user: string;
     job: string;
     status: string;
-  }) {}
+  }) {
+    return await this.database.updateOne(
+      {
+        $and: [{ user }, { job }],
+      },
+      {
+        status,
+      },
+      {
+        new: true,
+      }
+    );
+  }
 
   async getAppliedJobs({
     user,

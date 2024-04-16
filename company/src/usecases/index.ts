@@ -49,6 +49,7 @@ import { IsRecruiterUsecase } from "./recruiter/isRecruiter.usecase.js";
 import { RecruiterMonthlyGraphDataUsecase } from "./recruiter/monthlyGraphData.usecase.js";
 import { RejectRequestUsecase } from "./recruiter/rejectRequest.usecase.js";
 import { RemoveRecruiterUsecase } from "./recruiter/removeRecruiter.usecase.js";
+import { UpdateApplicantStatusUsecase } from "./recruiter/updateApplicantStatus.usecase.js";
 import { RecruiterYearlyGraphDataUsecase } from "./recruiter/yearlyGraphData.usecase.js";
 import { CreateUserUsecase } from "./user/createUser.usecase.js";
 import { UpdateUserUsecase } from "./user/updateUser.usecase.js";
@@ -244,6 +245,10 @@ const companyYearlyGraphDataUsecase = new CompanyYearlyGraphDataUsecase(
   Repositories.AppliedJobsRepo
 );
 
+const updateApplicantStatusUsecase = new UpdateApplicantStatusUsecase(
+  Repositories.AppliedJobsRepo
+);
+
 export {
   addCategoryUsecase,
   addSkillsUsecase,
@@ -298,4 +303,5 @@ export {
   withdrawAppliedUsecase,
   companyMonthlyGraphDataUsecase,
   companyYearlyGraphDataUsecase,
+  updateApplicantStatusUsecase,
 };

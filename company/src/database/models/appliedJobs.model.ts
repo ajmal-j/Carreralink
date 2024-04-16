@@ -4,7 +4,13 @@ import aggregatePaginate from "mongoose-aggregate-paginate-v2";
 export interface IAppliedJob extends Document {
   job: ObjectId;
   user: string;
-  status: "applied" | "interview" | "shortlisted" | "rejected" | "underReview";
+  status:
+    | "applied"
+    | "interview"
+    | "shortlisted"
+    | "rejected"
+    | "underReview"
+    | "hired";
   id: string;
   resume: string;
 }
@@ -15,7 +21,14 @@ const appliedJobSchema: Schema = new Schema<IAppliedJob>(
     user: { type: String, required: true },
     status: {
       type: String,
-      enum: ["applied", "interview", "shortlisted", "rejected", "underReview"],
+      enum: [
+        "applied",
+        "interview",
+        "shortlisted",
+        "rejected",
+        "underReview",
+        "hired",
+      ],
       default: "applied",
     },
     resume: { type: String, required: true },

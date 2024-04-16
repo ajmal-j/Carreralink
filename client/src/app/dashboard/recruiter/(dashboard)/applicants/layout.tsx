@@ -1,5 +1,5 @@
 import { ReactNode, Suspense } from "react";
-import ApplicantsList from "./Applicants";
+import ApplicantsList from "./_components/Applicants";
 import DashboardWrapper from "@/components/Layout/DashboardWrapper";
 
 export default function layout({ children }: { children: ReactNode }) {

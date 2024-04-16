@@ -1,6 +1,5 @@
 import { Server } from "@/lib/server";
 import axios from "./axios.interseptor";
-import { IJob } from "@/types/jobs";
 import { IResponseData } from "@/types/paginateResponse";
 const createRequest = async (data: Record<string, any>) => {
   const url = new Server().recruiter("create");
@@ -75,4 +74,29 @@ const graphData = async ({ filter }: { filter: "yearly" | "monthly" }) => {
   return response.data;
 };
 
-export { createRequest, isRecruiter, getJobs, totalCounts, graphData };
+const updateApplicantStatus = async ({
+  job,
+  user,
+  status,
+}: {
+  job: string;
+  user: string;
+  status: string;
+}) => {
+  const url = new Server().recruiter("updateApplicantStatus");
+  const response = await axios.patch(url, {
+    job,
+    user,
+    status,
+  });
+  return response.data;
+};
+
+export {
+  createRequest,
+  isRecruiter,
+  getJobs,
+  totalCounts,
+  graphData,
+  updateApplicantStatus,
+};

@@ -212,11 +212,6 @@ export default function Profile() {
                 ) : (
                   "No resume"
                 )}
-                {/* <PDFviewer
-                  resume={user?.resume?.resumes[user?.resume?.primary ?? 0].url}
-                >
-                  <EyeOpenIcon />
-                </PDFviewer> */}
               </span>
             </div>
             <div className="flex h-min gap-2 place-self-center">

@@ -24,11 +24,16 @@ export class Server {
     return `${this.baseUrl}${company}/${path}`;
   }
   jobs(path: string) {
-    const company = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/companies/jobs`;
-    return `${this.baseUrl}${company}/${path}`;
+    const jobs = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/companies/jobs`;
+    return `${this.baseUrl}${jobs}/${path}`;
   }
   recruiter(path: string) {
-    const company = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/companies/recruiter`;
-    return `${this.baseUrl}${company}/${path}`;
+    const recruiter = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/companies/recruiter`;
+    return `${this.baseUrl}${recruiter}/${path}`;
+  }
+
+  interview(path: string) {
+    const interview = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/companies/interview`;
+    return `${this.baseUrl}${interview}/${path}`;
   }
 }

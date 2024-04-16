@@ -18,8 +18,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { toast } from "@/components/ui/use-toast";
+import { statusButtonColors } from "@/constants";
 import { formatMoney } from "@/lib/utils";
 import { getAppliedJobs, withdraw } from "@/services/jobs.service";
+import { IAvailableStatus } from "@/types/jobs";
 import { IResponseData } from "@/types/paginateResponse";
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import { PopoverClose } from "@radix-ui/react-popover";
@@ -30,7 +32,7 @@ import { useEffect, useState } from "react";
 type IApplied = {
   _id: string;
   createdAt: string;
-  status: string;
+  status: IAvailableStatus;
   resume: string;
   job: {
     _id: string;
@@ -141,7 +143,12 @@ const AppliedJob = ({
     <div className="flex flex-col gap-1">
       <div className="flex items-start justify-between gap-2">
         <div className="flex h-full flex-col justify-between ">
-          <Button variant={"outline"}>{applied.status}</Button>
+          <Button
+            variant={"outline"}
+            className={`capitalize text-foreground hover:${statusButtonColors[applied.status]}/70 border border-muted ${statusButtonColors[applied.status]}`}
+          >
+            {applied.status}
+          </Button>
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger className="flex size-7 items-center justify-center rounded-full border bg-foreground/10 transition-colors duration-200 ease-in-out hover:bg-foreground/30">

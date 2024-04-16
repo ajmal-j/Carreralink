@@ -8,6 +8,7 @@ import cors from "cors";
 import {
   adminRoutes,
   companyRoutes,
+  interviewRoutes,
   jobsRoutes,
   recruiterRoutes,
 } from "./routes/index.js";
@@ -35,6 +36,7 @@ app.get("/api/v1/companies/check", (_, res) => {
 });
 
 app.use("/api/v1/companies/jobs", jobsRoutes);
+app.use("/api/v1/companies/interview", interviewRoutes);
 app.use("/api/v1/companies/recruiter", recruiterRoutes);
 app.use("/api/v1/companies/admin", adminRoutes);
 app.use("/api/v1/companies", companyRoutes);

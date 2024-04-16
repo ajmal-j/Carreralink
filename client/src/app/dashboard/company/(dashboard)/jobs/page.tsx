@@ -19,7 +19,7 @@ import { IJob } from "@/types/jobs";
 import {
   BackpackIcon,
   MixerHorizontalIcon,
-  PlusIcon
+  PlusIcon,
 } from "@radix-ui/react-icons";
 import { formatDistanceToNow } from "date-fns";
 import { cookies } from "next/headers";
@@ -173,7 +173,7 @@ export default async function JobsPage({
   );
 }
 
-export function SingleJob({ job }: { job: IJob }) {
+function SingleJob({ job }: { job: IJob }) {
   return (
     <div className="flex flex-col items-center gap-x-3 gap-y-5 rounded-sm px-4 py-2 transition-all duration-200 hover:bg-foreground/5 sm:flex-row">
       <Link
@@ -182,7 +182,7 @@ export function SingleJob({ job }: { job: IJob }) {
       >
         <h1 className="pb-1 text-lg font-semibold">{job?.title}</h1>
         <p className="text-sm text-foreground/70">{job?.type}</p>
-        <p className="text-sm text-foreground/70">{job?.location}</p>
+        <p className="text-sm text-foreground/70">{job?.workSpace}</p>
         <p className="text-sm text-foreground/70">{job?.officeLocation}</p>
         <div className="mt-1 flex flex-wrap gap-2">
           <span className="rounded-full bg-green-300/30 px-2 pb-[2px] text-center text-xs text-green-500">

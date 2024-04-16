@@ -10,7 +10,8 @@ import MainText from "@/components/Layout/MainText";
 
 export default async function Home() {
   const response = await getSkillsAndCategories();
-  const { skills, category = [] } = response?.data[0];
+  const { category = [] } = response?.data[0];
+  const data = category.slice(0, 10);
   return (
     <Wrapper>
       <Main className="relative">
@@ -25,7 +26,7 @@ export default async function Home() {
           <span className="block pb-3 pt-10 text-center text-2xl">
             Popular Job Categorie&apos;s
           </span>
-          <InfiniteMovingCard categories={category.slice(0, 10)} />
+          <InfiniteMovingCard categories={data} />
           <SparklesTitle />
           <ThreeDCard />
         </article>

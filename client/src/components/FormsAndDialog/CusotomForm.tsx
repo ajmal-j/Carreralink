@@ -154,6 +154,8 @@ export function CustomForm({
               case "imageOfCEO":
                 return <ImageComponent key={key} name={key} form={form} />;
 
+              case "time":
+                return <TimeComponent key={key} name={key} form={form} />;
               case "description":
                 return (
                   <DescriptionField
@@ -248,6 +250,29 @@ function PasswordComponent({ name, form }: IFormProps) {
     />
   );
 }
+function TimeComponent({ name, form }: IFormProps) {
+  return (
+    <FormField
+      control={form.control}
+      name={name}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel className="capitalize">{field.name}</FormLabel>
+          <FormControl>
+            <div className="relative">
+              <Input
+                type={"time"}
+                placeholder={`select ${field.name}.`}
+                {...field}
+              />
+            </div>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+}
 
 function CustomSelectField({ name, form }: IFormProps) {
   const [newCategories, setNewCategories] = useState<string[]>([]);
@@ -331,7 +356,7 @@ function DefaultComponent({ name, form }: IFormProps) {
         <FormItem>
           <FormLabel className="block capitalize">{field.name}</FormLabel>
           <FormControl>
-            {field.name === "message" ? (
+            {field.name === "message" || field.name === "agenda" ? (
               <Textarea placeholder="Enter message here." {...field} />
             ) : field.name !== "startDate" && field.name !== "endDate" ? (
               <Input
@@ -340,6 +365,7 @@ function DefaultComponent({ name, form }: IFormProps) {
                     ? "number"
                     : "text"
                 }
+                disabled={field.name === "applicant"}
                 placeholder={`enter ${field.name}.`}
                 {...field}
               />
@@ -397,9 +423,6 @@ function DefaultComponent({ name, form }: IFormProps) {
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date("1900-01-01")
-                    }
                     initialFocus
                   />
                 </PopoverContent>
