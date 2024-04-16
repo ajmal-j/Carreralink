@@ -19,7 +19,7 @@ function generateSearchParam({ q, type, location }: JobFilterValues) {
 }
 
 interface PageProps {
-  options: IResponseData;
+  options: Omit<IResponseData, "docs">;
   defaultValues: JobFilterValues;
   path: string;
 }

@@ -13,5 +13,15 @@ export function InterviewRoutes({
     VerifyUser,
     expressCallback(interviewController.create)
   );
+  router.get(
+    "/getByUser",
+    VerifyUser,
+    expressCallback(interviewController.getByUser)
+  );
+  router.patch(
+    "/cancel",
+    VerifyUser,
+    expressCallback(interviewController.cancel)
+  );
   return router;
 }

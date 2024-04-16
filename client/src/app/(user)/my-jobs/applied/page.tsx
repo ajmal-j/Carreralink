@@ -21,47 +21,13 @@ import { toast } from "@/components/ui/use-toast";
 import { statusButtonColors } from "@/constants";
 import { formatMoney } from "@/lib/utils";
 import { getAppliedJobs, withdraw } from "@/services/jobs.service";
-import { IAvailableStatus } from "@/types/jobs";
+import { IApplied, IAvailableStatus } from "@/types/jobs";
 import { IResponseData } from "@/types/paginateResponse";
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
-type IApplied = {
-  _id: string;
-  createdAt: string;
-  status: IAvailableStatus;
-  resume: string;
-  job: {
-    _id: string;
-    title: string;
-    company: {
-      _id: string;
-      name: string;
-      website: string;
-      logo: string;
-      tagline: string;
-      email: string;
-      industry: string;
-      headquarters: string;
-    };
-    createdAt: string;
-    type: string;
-    category: string;
-    officeLocation: string;
-    workSpace: string;
-    openings: string;
-    status: string;
-    skills: string[];
-    pay: {
-      maximum: string;
-      minimum: string;
-      rate: string;
-    };
-  };
-};
 
 export default function Applied({
   searchParams: { p = 1 },
@@ -82,8 +48,7 @@ export default function Applied({
   useEffect(() => {
     fetchJobs();
   }, []);
-  if (!jobs.length)
-    return <NotFound title="You have not applied for any job yet" />;
+  if (!jobs.length) return <NotFound title="No applied jobs" />;
   return (
     <div className="flex flex-col gap-3">
       <span className="ms-2 text-foreground/70">

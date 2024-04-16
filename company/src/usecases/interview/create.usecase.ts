@@ -10,7 +10,7 @@ export interface IInterview {
   status: "scheduled" | "cancelled" | "completed";
 }
 
-export class CreateInterviewUsecase {
+export class CreateUsecase {
   constructor(private readonly InterviewRepo: IInterviewRepoType) {}
 
   async execute(data: IInterview) {

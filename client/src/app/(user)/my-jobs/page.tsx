@@ -50,7 +50,7 @@ export default function MyJobs({
           />
         </>
       )}
-      {!jobs.length && <NotFound title="No jobs have been saved." />}
+      {!jobs.length && <NotFound title="No saved jobs." />}
     </div>
   );
 }

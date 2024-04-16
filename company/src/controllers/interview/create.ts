@@ -7,11 +7,11 @@ import {
 import { Request } from "express";
 import { InterviewValidationSchema } from "../../lib/schema.js";
 import {
+  getUserDataByIdUsecase,
   isRecruiterUsecase,
   updateApplicantStatusUsecase,
 } from "../../usecases/index.js";
 import { InterviewUsecase } from "../../usecases/interview/index.js";
-import { Repositories } from "../../database/index.js";
 
 export default function () {
   return async (req: Request) => {
@@ -25,10 +25,7 @@ export default function () {
     };
     try {
       const parsedData = InterviewValidationSchema.parse(data);
-      const user = await Repositories.UserRepository.findById(
-        parsedData.applicant
-      );
-      if (!user) throw new NotFoundError("User not found");
+      const user = await getUserDataByIdUsecase.execute(parsedData.applicant);
       await updateApplicantStatusUsecase.execute({
         job: parsedData.job,
         status: "interview",

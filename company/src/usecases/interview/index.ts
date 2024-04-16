@@ -1,6 +1,10 @@
 import { Repositories } from "../../database/index.js";
-import { CreateInterviewUsecase } from "./create.usecase.js";
+import { CancelUsecase } from "./cancel.usecase.js";
+import { CreateUsecase } from "./create.usecase.js";
+import { GetByUser } from "./getByUser.usecase.js";
 
-const create = new CreateInterviewUsecase(Repositories.InterviewRepository);
+const create = new CreateUsecase(Repositories.InterviewRepository);
+const getByUser = new GetByUser(Repositories.InterviewRepository);
+const cancel = new CancelUsecase(Repositories.InterviewRepository);
 
-export const InterviewUsecase = { create };
+export const InterviewUsecase = { create, getByUser, cancel };

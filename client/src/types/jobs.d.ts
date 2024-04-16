@@ -47,3 +47,38 @@ export type IAvailableStatus =
   | "rejected"
   | "underReview"
   | "hired";
+
+  export type IApplied = {
+    _id: string;
+    createdAt: string;
+    status: IAvailableStatus;
+    resume: string;
+    job: {
+      _id: string;
+      title: string;
+      company: {
+        _id: string;
+        name: string;
+        website: string;
+        logo: string;
+        tagline: string;
+        email: string;
+        industry: string;
+        headquarters: string;
+      };
+      createdAt: string;
+      type: string;
+      category: string;
+      officeLocation: string;
+      workSpace: string;
+      openings: string;
+      status: string;
+      skills: string[];
+      pay: {
+        maximum: string;
+        minimum: string;
+        rate: string;
+      };
+    };
+  };
+  

@@ -8,6 +8,10 @@ export interface IInterview extends Document {
   interviewer: ObjectId;
   time: string;
   status: "scheduled" | "cancelled" | "completed";
+  cancelled: {
+    reason: string;
+    cancelledBy: "interviewer" | "applicant";
+  };
 }
 
 const interviewSchema: Schema<IInterview> = new Schema<IInterview>(
@@ -23,6 +27,10 @@ const interviewSchema: Schema<IInterview> = new Schema<IInterview>(
     },
     agenda: { type: String },
     interviewer: { type: Schema.Types.ObjectId, ref: "User" },
+    cancelled: {
+      reason: { type: String },
+      cancelledBy: { type: String, enum: ["interviewer", "applicant"] },
+    },
   },
   {
     timestamps: true,

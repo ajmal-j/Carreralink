@@ -1,5 +1,6 @@
 import { JobFilterValues } from "@/app/(user)/jobs/page";
 import { type ClassValue, clsx } from "clsx";
+import { differenceInDays, format, parse } from "date-fns";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { twMerge } from "tailwind-merge";
@@ -50,4 +51,14 @@ export function generateSearchParam({
   if (location) searchParams.append("location", location);
   if (job) searchParams.append("job", job);
   return searchParams.toString();
+}
+
+export function formatTime(time: string) {
+  return format(parse(time, "HH:mm", new Date()), "hh:mm a");
+}
+
+export function isTwoDaysLater(date: string) {
+  const today = new Date();
+  const difference = differenceInDays(today, new Date(date));
+  return difference > 2;
 }

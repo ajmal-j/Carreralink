@@ -7,4 +7,16 @@ const statusButtonColors = {
   hired: "bg-cyan-500",
 };
 
-export { statusButtonColors };
+const cancelReasons = [
+  "Scheduling Conflicts",
+  "Job Offer Acceptance",
+  "Changed Requirements",
+  "Company Changes",
+  "Preparation Issues",
+  "Location Constraints",
+  "Weather Conditions",
+  "Unforeseen Circumstances",
+  "Communication Problems",
+  "Technical Issues",
+];
+export { statusButtonColors, cancelReasons };

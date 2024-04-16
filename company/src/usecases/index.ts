@@ -52,6 +52,8 @@ import { RemoveRecruiterUsecase } from "./recruiter/removeRecruiter.usecase.js";
 import { UpdateApplicantStatusUsecase } from "./recruiter/updateApplicantStatus.usecase.js";
 import { RecruiterYearlyGraphDataUsecase } from "./recruiter/yearlyGraphData.usecase.js";
 import { CreateUserUsecase } from "./user/createUser.usecase.js";
+import { GetUserDataByEmailUsecase } from "./user/getUserDataByEmail.usecase.js";
+import { GetUserDataByIdUsecase } from "./user/getUserDataById.usecase.js";
 import { UpdateUserUsecase } from "./user/updateUser.usecase.js";
 
 const createCompanyUsecase = new CreateCompanyUsecase(
@@ -249,9 +251,18 @@ const updateApplicantStatusUsecase = new UpdateApplicantStatusUsecase(
   Repositories.AppliedJobsRepo
 );
 
+const getUserDataByEmailUsecase = new GetUserDataByEmailUsecase(
+  Repositories.UserRepository
+);
+const getUserDataByIdUsecase = new GetUserDataByIdUsecase(
+  Repositories.UserRepository
+);
+
 export {
   addCategoryUsecase,
   addSkillsUsecase,
+  getUserDataByEmailUsecase,
+  getUserDataByIdUsecase,
   allCompaniesUsecase,
   applyJobUsecase,
   assignRecruiterUsecase,
