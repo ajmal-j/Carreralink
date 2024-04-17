@@ -103,6 +103,7 @@ const config = {
       },
       boxShadow: {
         roundedPrimaryShadow: "var(--shadow)",
+        roundedPrimaryColor: "var(--roundedPrimaryColor)",
       },
     },
   },

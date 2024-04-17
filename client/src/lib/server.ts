@@ -36,4 +36,8 @@ export class Server {
     const interview = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/companies/interview`;
     return `${this.baseUrl}${interview}/${path}`;
   }
+  ai(path: string) {
+    const ai = `${typeof window !== "undefined" ? "localhost" : "ai-container"}:7000/api/v1/ai`;
+    return `${this.baseUrl}${ai}/${path}`;
+  }
 }

@@ -8,10 +8,6 @@ export function aiRoutes({
   router: any;
   aiController: IAiController;
 }) {
-  router.post(
-    "/validateResume",
-
-    expressCallback(aiController.validateResume)
-  );
+  router.post("/validateResume", expressCallback(aiController.validateResume));
   return router;
 }

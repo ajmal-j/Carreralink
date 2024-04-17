@@ -1,10 +1,16 @@
-import { CustomResponse } from "@carreralink/common";
+import { CustomResponse, NotFoundError } from "@carreralink/common";
 import { Request } from "express";
+import { AiUsecases } from "../usecases/index.js";
 
 export default function () {
   return async (req: Request) => {
     const { resume, description } = req.body;
-    console.log(resume, description);
-    return new CustomResponse().data("").statusCode(200).response();
+    if (!resume) throw new NotFoundError("Resume not found");
+    if (!description) throw new NotFoundError("Description not found");
+    const data = await AiUsecases.validateResumeUsecase.execute({
+      description,
+      resume,
+    });
+    return new CustomResponse().data(data).statusCode(200).response();
   };
 }
