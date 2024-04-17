@@ -227,7 +227,8 @@ const getTotalCountByRecruiterUsecase = new GetTotalCountUsecaseByRecruiter(
   Repositories.CompanyRepository,
   Repositories.AppliedJobsRepo,
   Repositories.RecruiterRequestRepository,
-  Repositories.UserRepository
+  Repositories.UserRepository,
+  Repositories.InterviewRepository
 );
 
 const recruiterMonthlyGraphDataUsecase = new RecruiterMonthlyGraphDataUsecase(

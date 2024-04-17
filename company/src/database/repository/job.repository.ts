@@ -294,6 +294,7 @@ export class JobRepository {
       type?: string;
       sort?: string;
       status?: string;
+      applicants?: string;
     };
     id: string;
     companyId: string;
@@ -320,6 +321,7 @@ export class JobRepository {
         $match: {
           "postedBy.id": new ObjectId(id),
           company: new ObjectId(companyId),
+          ...(query?.applicants ? { applicants: { $gte: 1 } } : {}),
           ...(query?.status ? { status: query.status } : { status: "open" }),
           ...(query?.location ? { officeLocation: query.location } : {}),
           ...(query?.type ? { workSpace: query.type } : {}),

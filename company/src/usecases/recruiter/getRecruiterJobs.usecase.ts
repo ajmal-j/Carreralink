@@ -20,6 +20,7 @@ export class GetRecruiterJobsUsecase {
       type?: string;
       sort?: string;
       status?: string;
+      applicants?: string;
     };
     companyId: string;
   }) {

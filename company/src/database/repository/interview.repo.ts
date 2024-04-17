@@ -175,6 +175,7 @@ export class InterviewRepository {
     interviewer: string;
     query: {
       p: number;
+      filter?: string;
     };
   }) {
     const options = {
@@ -185,6 +186,7 @@ export class InterviewRepository {
     const aggregation = this.database.aggregate([
       {
         $match: {
+          ...(query?.filter ? { status: query?.filter } : {}),
           interviewer: new ObjectId(interviewer),
         },
       },

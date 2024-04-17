@@ -25,6 +25,7 @@ const getJobs = async ({
   query: {
     p?: number | string;
     q?: string;
+    applicants?: string;
   };
 }) => {
   const url = new Server().recruiter("getJobs");

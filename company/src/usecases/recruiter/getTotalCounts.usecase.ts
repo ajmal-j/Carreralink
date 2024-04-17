@@ -2,6 +2,7 @@ import { BadRequestError, NotFoundError } from "@carreralink/common";
 import {
   IAppliedJobsRepoType,
   ICompanyRepoType,
+  IInterviewRepoType,
   IJobRepoType,
   IRecruiterRequestRepoType,
   IUserRepoType,
@@ -15,6 +16,7 @@ interface IDashboardData {
     totalApplied: number;
   };
   recentJobs: IJobs[];
+  upcomingInterviews: any[];
 }
 
 export class GetTotalCountUsecaseByRecruiter {
@@ -23,7 +25,8 @@ export class GetTotalCountUsecaseByRecruiter {
     private readonly CompanyRepository: ICompanyRepoType,
     private readonly AppliedJobsRepo: IAppliedJobsRepoType,
     private readonly RecruiterRepository: IRecruiterRequestRepoType,
-    private readonly UserRepository: IUserRepoType
+    private readonly UserRepository: IUserRepoType,
+    private readonly InterviewRepository: IInterviewRepoType
   ) {}
 
   async execute(email: string): Promise<IDashboardData> {
@@ -36,27 +39,35 @@ export class GetTotalCountUsecaseByRecruiter {
     );
     if (!company) throw new NotFoundError("Company not found");
 
-    const [totalJobs, totalApplied, openJobs, recentJobs] = await Promise.all([
-      this.JobRepository.totalJobsByRecruiter({
-        companyId: company.id,
-        userId: user.id,
-      }),
-      this.AppliedJobsRepo.totalApplicantsByRecruiter({
-        companyId: company.id,
-        userId: user.id,
-      }),
-      this.JobRepository.totalOpenJobsByRecruiter({
-        companyId: company.id,
-        userId: user.id,
-      }),
-      this.JobRepository.allJobsByRecruiter({
-        id: user?.id,
-        query: {
-          sort: "most recent",
-        },
-        companyId: company.id,
-      }),
-    ]);
+    const [totalJobs, totalApplied, openJobs, recentJobs, upcomingInterviews] =
+      await Promise.all([
+        this.JobRepository.totalJobsByRecruiter({
+          companyId: company.id,
+          userId: user.id,
+        }),
+        this.AppliedJobsRepo.totalApplicantsByRecruiter({
+          companyId: company.id,
+          userId: user.id,
+        }),
+        this.JobRepository.totalOpenJobsByRecruiter({
+          companyId: company.id,
+          userId: user.id,
+        }),
+        this.JobRepository.allJobsByRecruiter({
+          id: user?.id,
+          query: {
+            sort: "most recent",
+          },
+          companyId: company.id,
+        }),
+        this.InterviewRepository.getInterviewsByRecruiter({
+          interviewer: user.id,
+          query: {
+            p: 1,
+            filter: "scheduled",
+          },
+        }),
+      ]);
 
     return {
       counts: {
@@ -65,6 +76,7 @@ export class GetTotalCountUsecaseByRecruiter {
         openJobs,
       },
       recentJobs,
+      upcomingInterviews,
     };
   }
 }

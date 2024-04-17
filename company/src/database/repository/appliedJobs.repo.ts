@@ -106,7 +106,9 @@ export class AppliedJobsRepo {
     const result = await this.database.aggregate([
       {
         $match: {
-          status: "applied",
+          status: {
+            $ne: "rejected",
+          },
         },
       },
       {
@@ -125,7 +127,9 @@ export class AppliedJobsRepo {
     const result = await this.database.aggregate([
       {
         $match: {
-          status: "applied",
+          status: {
+            $ne: "rejected",
+          },
         },
       },
       {
@@ -165,7 +169,9 @@ export class AppliedJobsRepo {
     const result = await this.database.aggregate([
       {
         $match: {
-          status: "applied",
+          status: {
+            $ne: "rejected",
+          },
         },
       },
       {
@@ -208,7 +214,9 @@ export class AppliedJobsRepo {
     const result = await this.database.aggregate([
       {
         $match: {
-          status: "applied",
+          status: {
+            $ne: "rejected",
+          },
         },
       },
       {
@@ -258,7 +266,9 @@ export class AppliedJobsRepo {
     const result = await this.database.aggregate([
       {
         $match: {
-          status: "applied",
+          status: {
+            $ne: "rejected",
+          },
         },
       },
       {
@@ -304,7 +314,9 @@ export class AppliedJobsRepo {
     const result = await this.database.aggregate([
       {
         $match: {
-          status: "applied",
+          status: {
+            $ne: "rejected",
+          },
         },
       },
       {
@@ -347,7 +359,9 @@ export class AppliedJobsRepo {
     const result = await this.database.aggregate([
       {
         $match: {
-          status: "applied",
+          status: {
+            $ne: "rejected",
+          },
         },
       },
       {
@@ -392,7 +406,9 @@ export class AppliedJobsRepo {
     const result = await this.database.aggregate([
       {
         $match: {
-          status: "applied",
+          status: {
+            $ne: "rejected",
+          },
         },
       },
       {
@@ -430,7 +446,9 @@ export class AppliedJobsRepo {
     const result = await this.database.aggregate([
       {
         $match: {
-          status: "applied",
+          status: {
+            $ne: "rejected",
+          },
         },
       },
       {

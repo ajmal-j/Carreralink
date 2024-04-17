@@ -32,7 +32,10 @@ export default async function Applicants({
   try {
     const response = await getJobs({
       token,
-      query: defaultValues,
+      query: {
+        ...defaultValues,
+        applicants: "true",
+      },
     });
     jobs = response?.data?.docs;
     const {
