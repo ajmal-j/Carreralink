@@ -14,18 +14,40 @@ export class GetTotalCountUsecaseByAdmin {
   ) {}
 
   async execute(): Promise<{
-    totalJobs: number;
-    openJobs: number;
-    totalCompanies: number;
-    totalUsers: number;
-    totalApplied: number;
+    counts: {
+      totalJobs: number;
+      openJobs: number;
+      totalCompanies: number;
+      totalUsers: number;
+      totalApplied: number;
+    };
+    recentJobs: any[];
   }> {
+    const [
+      totalJobs,
+      openJobs,
+      totalCompanies,
+      totalUsers,
+      totalApplied,
+      recentJobs,
+    ] = await Promise.all([
+      this.JobRepository.totalJobs(),
+      this.JobRepository.totalOpenJobs(),
+      this.CompanyRepository.totalCompanies(),
+      this.UserRepository.totalUsers(),
+      this.AppliedJobsRepo.totalApplicants(),
+      this.JobRepository.allJobs({ sort: "most recent" }),
+    ]);
+
     return {
-      totalJobs: await this.JobRepository.totalJobs(),
-      openJobs: await this.JobRepository.totalOpenJobs(),
-      totalCompanies: await this.CompanyRepository.totalCompanies(),
-      totalUsers: await this.UserRepository.totalUsers(),
-      totalApplied: await this.AppliedJobsRepo.totalApplicants(),
+      counts: {
+        totalJobs,
+        openJobs,
+        totalCompanies,
+        totalUsers,
+        totalApplied,
+      },
+      recentJobs,
     };
   }
 }

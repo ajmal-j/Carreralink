@@ -1,5 +1,6 @@
 import { Server } from "@/lib/server";
 import axios from "./axios.interseptor";
+import { IResponseData } from "@/types/paginateResponse";
 
 const currentAdmin = async () => {
   const url = new Server().adminUser("currentAdmin");
@@ -221,23 +222,36 @@ const editCompany = async ({
   return response.data;
 };
 
+interface IDashboardData {
+  data: {
+    counts: {
+      totalJobs: number;
+      openJobs: number;
+      totalApplied: number;
+    };
+    recentJobs: IResponseData;
+  };
+}
+
 const totalCounts = async ({
   token,
 }: {
   token: string;
-}): Promise<{
-  data: {
-    totalJobs: number;
-    openJobs: number;
-    totalCompanies: number;
-    totalUsers: number;
-    totalApplied: number;
-  };
-}> => {
+}): Promise<IDashboardData> => {
   const url = new Server().adminCompany("totalCounts");
   const response = await axios.get(url, {
     headers: {
       adminToken: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+const graphData = async ({ filter }: { filter: "yearly" | "monthly" }) => {
+  const url = new Server().adminCompany("graphData");
+  const response = await axios.get(url, {
+    params: {
+      filter,
     },
   });
   return response.data;
@@ -261,4 +275,5 @@ export {
   deleteJobs,
   editCompany,
   totalCounts,
+  graphData,
 };

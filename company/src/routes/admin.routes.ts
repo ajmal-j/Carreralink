@@ -51,5 +51,6 @@ export function AdminRoutes({
     expressCallback(adminControllers.editCompany)
   );
   router.get("/totalCounts", expressCallback(adminControllers.totalCount));
+  router.get("/graphData", expressCallback(adminControllers.getGraphData));
   return router;
 }

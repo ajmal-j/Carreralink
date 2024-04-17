@@ -1,7 +1,6 @@
 import DashboardPills from "@/components/Custom/DashboardPills";
 import DashboardWrapper from "@/components/Layout/DashboardWrapper";
 import { formatMoney } from "@/lib/utils";
-import { totalCounts } from "@/services/recruiter.service";
 import { IJob } from "@/types/jobs";
 import { formatDistanceToNow } from "date-fns";
 import { BackpackIcon, ClockIcon, HandCoins, MapPin } from "lucide-react";
@@ -9,6 +8,7 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import RecruiterChart from "./_components/chart";
 import PrimaryButton from "@/components/Buttons/PrimaryButton";
+import { totalCounts } from "@/services/recruiter.service";
 
 export default async function Recruiter() {
   const token = cookies().get("userToken")?.value ?? "";

@@ -237,4 +237,53 @@ export class CompanyRepository implements ICompanyRepository {
     if (!company) throw new NotFoundError("Company not found");
     return company?.isVerified;
   }
+
+  async yearlyCompanyGraphDataByAdmin() {
+    const result = await this.database.aggregate([
+      {
+        $group: {
+          _id: {
+            $year: "$createdAt",
+          },
+          count: {
+            $sum: 1,
+          },
+        },
+      },
+      {
+        $sort: { _id: 1 },
+      },
+    ]);
+
+    const now = new Date().getFullYear();
+
+    const data = Array.from({ length: now - 2022 }, () => 0);
+    for (const res of result) {
+      data[res._id - 2023] = res.count;
+    }
+    return data;
+  }
+  async monthlyCompanyGraphDataByAdmin() {
+    const result = await this.database.aggregate([
+      {
+        $group: {
+          _id: {
+            $month: "$createdAt",
+          },
+          count: {
+            $sum: 1,
+          },
+        },
+      },
+      {
+        $sort: { _id: 1 },
+      },
+    ]);
+
+    const data = Array.from({ length: 12 }, () => 0);
+    for (const res of result) {
+      data[res._id - 1] = res.count;
+    }
+    return data;
+  }
 }

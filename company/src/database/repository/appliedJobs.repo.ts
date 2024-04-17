@@ -388,6 +388,84 @@ export class AppliedJobsRepo {
     }
     return data;
   }
+  async monthlyApplicantsByAdmin() {
+    const result = await this.database.aggregate([
+      {
+        $match: {
+          status: "applied",
+        },
+      },
+      {
+        $lookup: {
+          from: "jobs",
+          localField: "job",
+          foreignField: "_id",
+          as: "job",
+        },
+      },
+      {
+        $unwind: "$job",
+      },
+      {
+        $group: {
+          _id: {
+            $month: "$createdAt",
+          },
+          count: {
+            $sum: 1,
+          },
+        },
+      },
+      {
+        $sort: { _id: 1 },
+      },
+    ]);
+    const data = Array.from({ length: 12 }, () => 0);
+    for (const res of result) {
+      data[res._id - 1] = res.count;
+    }
+    return data;
+  }
+  async yearlyApplicantsByAdmin() {
+    const result = await this.database.aggregate([
+      {
+        $match: {
+          status: "applied",
+        },
+      },
+      {
+        $lookup: {
+          from: "jobs",
+          localField: "job",
+          foreignField: "_id",
+          as: "job",
+        },
+      },
+      {
+        $unwind: "$job",
+      },
+      {
+        $group: {
+          _id: {
+            $year: "$createdAt",
+          },
+          count: {
+            $sum: 1,
+          },
+        },
+      },
+      {
+        $sort: { _id: 1 },
+      },
+    ]);
+    const now = new Date().getFullYear();
+
+    const data = Array.from({ length: now - 2022 }, () => 0);
+    for (const res of result) {
+      data[res._id - 2023] = res.count;
+    }
+    return data;
+  }
 
   async getApplicants({
     job,

@@ -8,6 +8,7 @@ import {
   LayersIcon,
   PersonIcon,
 } from "@radix-ui/react-icons";
+import { BarChart2, Building2 } from "lucide-react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
@@ -29,8 +30,8 @@ export default function layout({ children }: { children: ReactNode }) {
             <DashboardSideBar
               items={[
                 {
-                  title: "Dashboard",
-                  icon: <ComponentInstanceIcon className="size-[17px]" />,
+                  title: "Overview",
+                  icon: <BarChart2 className="size-[17px]" />,
                   href: "/dashboard/admin",
                 },
                 {
@@ -45,7 +46,7 @@ export default function layout({ children }: { children: ReactNode }) {
                 },
                 {
                   title: "Companies's",
-                  icon: <Component1Icon className="size-[17px]" />,
+                  icon: <Building2 className="size-[17px]" />,
                   href: "/dashboard/admin/companies",
                 },
                 {

@@ -1,5 +1,11 @@
 import { cn } from "@/lib/utils";
-import { Briefcase, BriefcaseBusiness, UserSearch, Users } from "lucide-react";
+import {
+  Briefcase,
+  BriefcaseBusiness,
+  Building2,
+  UserSearch,
+  Users,
+} from "lucide-react";
 import { Poppins } from "next/font/google";
 import { ReactNode } from "react";
 
@@ -13,6 +19,8 @@ const titles: Record<string, string> = {
   openJobs: "Open Job's",
   totalApplied: "Total Applicant's",
   totalRecruiters: "Total Recruiter's",
+  totalCompanies: "Total Company's",
+  totalUsers: "Total User's",
 };
 
 const icons: Record<string, ReactNode> = {
@@ -20,6 +28,8 @@ const icons: Record<string, ReactNode> = {
   openJobs: <BriefcaseBusiness className="mt-3 text-primaryColor" />,
   totalApplied: <UserSearch className="mt-3 text-primaryColor" />,
   totalRecruiters: <Users className="mt-3 text-primaryColor" />,
+  totalUsers: <Users className="mt-3 text-primaryColor" />,
+  totalCompanies: <Building2 className="mt-3 text-primaryColor" />,
 };
 
 export default function DashboardPills({
@@ -29,7 +39,7 @@ export default function DashboardPills({
 }) {
   return (
     <div className="mb-3 flex flex-wrap items-center justify-between gap-4">
-      {Object.entries(counts).map(([key, value]) => (
+      {Object?.entries(counts).map(([key, value]) => (
         <div
           key={key}
           className={cn(

@@ -5,10 +5,12 @@ import { DeleteJobsByAdminUsecase } from "./admin/deleteJobsByAdmin.usecase.js";
 import { GetJobsByAdminUsecase } from "./admin/getJobs.usecase.js";
 import { SkillsAndCategoryRepository } from "./admin/getSkillsAndCategory.usecase.js";
 import { GetTotalCountUsecaseByAdmin } from "./admin/getTotalCount.usecase.js";
+import { AdminMonthlyGraphDataUsecase } from "./admin/monthlyGraphData.usecase.js";
 import { RejectCompanyUsecase } from "./admin/rejectCompany.usecase.js";
 import { RemoveCategoryUsecase } from "./admin/removeCategory.usecase.js";
 import { RemoveSkillUsecase } from "./admin/removeSkill.usecase.js";
 import { VerifyCompanyUsecase } from "./admin/verifyCompany.usecase.js";
+import { AdminYearlyGraphDataUsecase } from "./admin/yearlyGraphData.usecase.js";
 import { AllCompaniesUsecase } from "./company/allCompanies.usecase.js";
 import { CompanyListUsecase } from "./company/companyList.js";
 import { CreateCompanyUsecase } from "./company/createCompany.usecase.js";
@@ -246,6 +248,19 @@ const companyYearlyGraphDataUsecase = new CompanyYearlyGraphDataUsecase(
   Repositories.JobRepository,
   Repositories.AppliedJobsRepo
 );
+const adminMonthlyGraphDataUsecase = new AdminMonthlyGraphDataUsecase(
+  Repositories.JobRepository,
+  Repositories.AppliedJobsRepo,
+  Repositories.UserRepository,
+  Repositories.CompanyRepository
+);
+
+const adminYearlyGraphDataUsecase = new AdminYearlyGraphDataUsecase(
+  Repositories.JobRepository,
+  Repositories.AppliedJobsRepo,
+  Repositories.UserRepository,
+  Repositories.CompanyRepository
+);
 
 const updateApplicantStatusUsecase = new UpdateApplicantStatusUsecase(
   Repositories.AppliedJobsRepo
@@ -314,5 +329,7 @@ export {
   withdrawAppliedUsecase,
   companyMonthlyGraphDataUsecase,
   companyYearlyGraphDataUsecase,
+  adminMonthlyGraphDataUsecase,
+  adminYearlyGraphDataUsecase,
   updateApplicantStatusUsecase,
 };

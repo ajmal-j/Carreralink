@@ -22,37 +22,42 @@ export interface ICompany extends Document {
   isVerified: boolean;
 }
 
-const companySchema: Schema = new Schema({
-  name: { type: String },
-  website: { type: String },
-  logo: {
-    type: String,
-    default:
-      "https://raw.githubusercontent.com/ajmal-j/Weather-app-with-ums/master/client/public/companyPlaceHolder.png",
+const companySchema: Schema = new Schema(
+  {
+    name: { type: String },
+    website: { type: String },
+    logo: {
+      type: String,
+      default:
+        "https://raw.githubusercontent.com/ajmal-j/Weather-app-with-ums/master/client/public/companyPlaceHolder.png",
+    },
+    isVerified: { type: Boolean, default: false },
+    tagline: { type: String },
+    email: { type: String },
+    industry: { type: String },
+    foundedOn: { type: Number },
+    imageOfCEO: {
+      type: String,
+      default:
+        "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+    },
+    description: { type: String },
+    ceo: { type: String },
+    revenue: { type: String },
+    headquarters: { type: String },
+    size: { type: Number },
+    recruiters: [{ type: String }],
+    jobs: [{ type: Schema.Types.ObjectId, ref: "Jobs" }],
+    coverPhoto: {
+      type: String,
+      default:
+        "https://raw.githubusercontent.com/ajmal-j/Weather-app-with-ums/master/client/public/companyCover.png",
+    },
   },
-  isVerified: { type: Boolean, default: false },
-  tagline: { type: String },
-  email: { type: String },
-  industry: { type: String },
-  foundedOn: { type: Number },
-  imageOfCEO: {
-    type: String,
-    default:
-      "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
-  },
-  description: { type: String },
-  ceo: { type: String },
-  revenue: { type: String },
-  headquarters: { type: String },
-  size: { type: Number },
-  recruiters: [{ type: String }],
-  jobs: [{ type: Schema.Types.ObjectId, ref: "Jobs" }],
-  coverPhoto: {
-    type: String,
-    default:
-      "https://raw.githubusercontent.com/ajmal-j/Weather-app-with-ums/master/client/public/companyCover.png",
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 companySchema.plugin(aggregatePaginate);
 
