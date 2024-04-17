@@ -8,6 +8,7 @@ export class GetJobsUsecase {
       q?: string;
       location?: string;
       type?: string;
+      status?: string;
     },
     companyId: string
   ) {

@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { getAllLocations } from "@/services/jobs.service";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface PageProps {
   defaultValues?: {
@@ -21,9 +22,11 @@ interface PageProps {
     type?: string;
     location?: string;
     sort?: string;
+    status?: string;
   };
   className?: string;
   path: string;
+  showClosedJobs?: boolean;
 }
 
 const sortingOptions = [
@@ -39,17 +42,21 @@ const filterSchema = z.object({
   type: z.string().optional(),
   location: z.string().optional(),
   sort: z.string().optional(),
+  status: z.string().optional(),
 });
 
 async function filterJobs(formData: FormData) {
   "use server";
-  const values = Object.fromEntries(formData.entries());
-  const { q, type, location, sort } = filterSchema.parse(values);
+  const values: Record<string, any> = Object.fromEntries(formData.entries());
+  values["status"] = values["status"] === "on" ? "closed" : "open";
+
+  const { q, type, location, sort, status } = filterSchema.parse(values);
   const searchParams = new URLSearchParams({
     ...(q && { q: q.trim() }),
     ...(type && { type }),
     ...(location && { location }),
     ...(sort && { sort }),
+    ...(status && { status }),
   });
   redirect(`${values?.path}?${searchParams.toString()}`);
 }
@@ -58,6 +65,7 @@ export default async function JobFilterSideBar({
   className,
   defaultValues,
   path,
+  showClosedJobs,
 }: PageProps) {
   let distinctLocationsTypes = [];
   let distinctLocations = [];
@@ -152,6 +160,19 @@ export default async function JobFilterSideBar({
               </SelectContent>
             </Select>
           </div>
+          {showClosedJobs && (
+            <div className="flex gap-3 px-1 text-sm">
+              <Checkbox
+                type="submit"
+                name="status"
+                id="status"
+                defaultChecked={
+                  defaultValues?.status === "closed" ? true : false
+                }
+              />
+              <Label htmlFor="status">Show closed jobs</Label>
+            </div>
+          )}
           <PrimaryButton type="submit">Apply Filters</PrimaryButton>
         </div>
       </form>

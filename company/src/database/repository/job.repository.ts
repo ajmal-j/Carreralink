@@ -158,6 +158,7 @@ export class JobRepository {
       location?: string;
       type?: string;
       sort?: string;
+      status?: string;
     },
     companyId?: string
   ) {
@@ -165,7 +166,6 @@ export class JobRepository {
       page: query?.page ?? 1,
       limit: 6,
     };
-
     const sortOptions = {
       "most recent": { $sort: { createdAt: -1 } },
       "least applied": { $sort: { applicants: 1 } },
@@ -181,7 +181,7 @@ export class JobRepository {
     const aggregation = this.database.aggregate([
       {
         $match: {
-          status: "open",
+          ...(query?.status ? { status: query.status } : { status: "open" }),
           ...(companyId ? { company: new ObjectId(companyId) } : {}),
           ...(query?.location ? { officeLocation: query.location } : {}),
           ...(query?.type ? { workSpace: query.type } : {}),
@@ -220,6 +220,7 @@ export class JobRepository {
     location?: string;
     type?: string;
     sort?: string;
+    status?: string;
   }) {
     const options = {
       page: query?.page ?? 1,
@@ -241,6 +242,7 @@ export class JobRepository {
     const aggregation = this.database.aggregate([
       {
         $match: {
+          ...(query?.status ? { status: query.status } : { status: "open" }),
           ...(query?.location ? { officeLocation: query.location } : {}),
           ...(query?.type ? { workSpace: query.type } : {}),
           ...(query?.q
@@ -291,6 +293,7 @@ export class JobRepository {
       location?: string;
       type?: string;
       sort?: string;
+      status?: string;
     };
     id: string;
     companyId: string;
@@ -317,6 +320,7 @@ export class JobRepository {
         $match: {
           "postedBy.id": new ObjectId(id),
           company: new ObjectId(companyId),
+          ...(query?.status ? { status: query.status } : { status: "open" }),
           ...(query?.location ? { officeLocation: query.location } : {}),
           ...(query?.type ? { workSpace: query.type } : {}),
           ...(query?.q

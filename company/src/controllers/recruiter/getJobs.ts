@@ -7,10 +7,13 @@ import {
 
 export default function () {
   return async (req: Request) => {
-    const { p = 1, q } = req.query;
+    const { p = 1, q, status, location, sort } = req.query;
     const query = {
       page: Number(p) ?? 1,
       q: q as string,
+      status: (status as string) || ("open" as string),
+      location: location as string,
+      sort: sort as string,
     };
     const user = req?.user;
     if (!user?.email) throw new BadRequestError("User not authenticated");

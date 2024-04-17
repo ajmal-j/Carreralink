@@ -64,18 +64,14 @@ export function ProfileDropDown({
 }) {
   const { push } = useRouter();
   const dispatch = useDispatch();
+  const { name } = useStateSelector((state) => state.company);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
       <DropdownMenuContent className="mt-3 w-48" align="end">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel>{name || "My Account"}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          {/* <DropdownMenuItem onClick={() => push("/profile")}>
-            Profile
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem> */}
-        </DropdownMenuGroup>
+        <DropdownMenuGroup></DropdownMenuGroup>
         <DropdownMenuItem onClick={() => push("/dashboard/company")}>
           Company Dashboard
         </DropdownMenuItem>

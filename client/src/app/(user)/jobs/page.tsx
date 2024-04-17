@@ -23,8 +23,9 @@ export interface JobFilterValues {
   location?: string;
   p?: number | string;
   sort?: string;
-  status?: "open" | "closed";
+  status?: "open" | "closed" | string;
   job?: string;
+  filter?: string;
 }
 
 function getTitle({ q, type, location }: JobFilterValues) {

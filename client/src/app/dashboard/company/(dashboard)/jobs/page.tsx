@@ -33,6 +33,7 @@ interface PageProps {
     location?: string;
     p?: number;
     sort?: string;
+    status?: string;
   };
 }
 async function clear(formData: FormData) {
@@ -42,11 +43,11 @@ async function clear(formData: FormData) {
 }
 
 export default async function JobsPage({
-  searchParams: { q, type, location, p = 1, sort },
+  searchParams: { q, type, location, p = 1, sort, status },
 }: PageProps) {
   const token = cookies().get("companyToken")?.value;
   if (!token) return redirect("/dashboard/login");
-  const defaultValues: JobFilterValues = { q, location, type, p, sort };
+  const defaultValues: JobFilterValues = { q, location, type, p, sort, status };
   let jobs;
   let options: any = {};
   try {
@@ -56,6 +57,7 @@ export default async function JobsPage({
       type,
       p,
       sort,
+      status,
     });
     jobs = response?.data?.docs;
     const {
@@ -103,6 +105,7 @@ export default async function JobsPage({
               Filter
             </h1>
             <JobFilterSideBar
+              showClosedJobs
               path="/dashboard/company/jobs"
               defaultValues={defaultValues}
               className="me-3"
@@ -130,6 +133,7 @@ export default async function JobsPage({
                   <DialogTitle>Filter</DialogTitle>
                 </DialogHeader>
                 <JobFilterSideBar
+                  showClosedJobs
                   path="/dashboard/company/jobs"
                   defaultValues={defaultValues}
                 />

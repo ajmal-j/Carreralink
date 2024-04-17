@@ -10,11 +10,26 @@ import {
 } from "@/components/ui/pagination";
 import { IResponseData } from "@/types/paginateResponse";
 
-function generateSearchParam({ q, type, location }: JobFilterValues) {
+function generateSearchParam({
+  q,
+  type,
+  location,
+  filter,
+  job,
+  p,
+  sort,
+  status,
+}: JobFilterValues) {
   const searchParams = new URLSearchParams();
   if (q) searchParams.append("q", q);
   if (type) searchParams.append("type", type);
   if (location) searchParams.append("location", location);
+  if (filter) searchParams.append("filter", filter);
+  if (job) searchParams.append("job", job);
+  // if (p) searchParams.append("p", p.toString());
+  if (sort) searchParams.append("sort", sort);
+  if (status) searchParams.append("status", status);
+
   return searchParams.toString();
 }
 
@@ -31,7 +46,8 @@ export function PaginationComponent({
 }: PageProps) {
   const { page, totalPages, hasPrevPage, hasNextPage, prevPage, nextPage } =
     options;
-  const searchParams = generateSearchParam(defaultValues);
+  const newSearchParams = generateSearchParam(defaultValues);
+
   return (
     <Pagination className="mb-10 mt-10">
       <PaginationContent className="ms-auto">
@@ -40,7 +56,7 @@ export function PaginationComponent({
             isActive={hasPrevPage}
             href={
               hasPrevPage
-                ? `${path}?${searchParams && searchParams.concat("&")}p=${prevPage ? prevPage : 1}`
+                ? `${path}?${newSearchParams && newSearchParams.concat("&")}p=${prevPage ? prevPage : 1}`
                 : "#"
             }
           />
@@ -49,7 +65,7 @@ export function PaginationComponent({
         {hasPrevPage && (
           <PaginationItem>
             <PaginationLink
-              href={`${path}?${searchParams && searchParams.concat("&")}p=${1}`}
+              href={`${path}?${newSearchParams && newSearchParams.concat("&")}p=${1}`}
             >
               1
             </PaginationLink>
@@ -74,7 +90,7 @@ export function PaginationComponent({
         {hasNextPage && (
           <PaginationItem>
             <PaginationLink
-              href={`${path}?${searchParams && searchParams.concat("&")}p=${nextPage ?? page}`}
+              href={`${path}?${newSearchParams && newSearchParams.concat("&")}p=${nextPage ?? page}`}
             >
               {Number(nextPage)}
             </PaginationLink>
@@ -91,7 +107,7 @@ export function PaginationComponent({
             isActive={hasNextPage}
             href={
               hasNextPage
-                ? `${path}?${searchParams && searchParams.concat("&")}p=${nextPage ?? page}`
+                ? `${path}?${newSearchParams && newSearchParams.concat("&")}p=${nextPage ?? page}`
                 : "#"
             }
           />

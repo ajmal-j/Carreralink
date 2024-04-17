@@ -16,6 +16,10 @@ export class GetRecruiterJobsUsecase {
     query: {
       page?: number;
       q?: string;
+      location?: string;
+      type?: string;
+      sort?: string;
+      status?: string;
     };
     companyId: string;
   }) {

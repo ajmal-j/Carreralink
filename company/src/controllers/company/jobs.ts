@@ -7,14 +7,15 @@ export default function () {
   return async (req: Request) => {
     const companyData = req.companyData;
     const email = companyData?.email;
-    
-    const { q, location, type, p } = req.query;
 
+    const { q, location, type, p, status } = req.query;
+    console.log(status);
     const query = {
       page: Number(p) ?? 1,
       q,
       location,
       type,
+      status,
     } as const;
 
     if (!email) throw new NotFoundError("Company id not found");
