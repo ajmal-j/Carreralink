@@ -203,6 +203,7 @@ export default function Profile() {
               <span className="text-foreground/70">
                 {user?.resume?.resumes?.length ? (
                   <Link
+                    target="_blank"
                     href={
                       user?.resume?.resumes[user?.resume?.primary ?? 0]?.url
                     }
