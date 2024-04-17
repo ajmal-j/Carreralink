@@ -1,11 +1,17 @@
 import Markdown from "@/components/Custom/Markdown";
-import { formatMoney } from "@/lib/utils";
+import { cn, formatMoney } from "@/lib/utils";
 import { IJob } from "@/types/jobs";
 import { BackpackIcon, ClockIcon } from "@radix-ui/react-icons";
 import { formatDistanceToNow } from "date-fns";
 import { HandCoins, ListChecks, MapPin } from "lucide-react";
+import { Poppins } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 export function JobDetails({
   job,
@@ -16,7 +22,12 @@ export function JobDetails({
 }) {
   return (
     <main className="flex flex-col gap-3">
-      <h1 className="mt-6 ps-2 text-center text-xl font-semibold md:text-3xl">
+      <h1
+        className={cn(
+          "mt-6 ps-2 text-center text-xl font-semibold md:text-3xl",
+          poppins.className,
+        )}
+      >
         {job.title}
       </h1>
       <div className="mt-6 flex w-full flex-wrap  gap-3">

@@ -32,6 +32,7 @@ import { Loader, Sparkles } from "lucide-react";
 export default function ValidateResume({ job }: { job: IJob }) {
   const [result, setResult] = useState(``);
   const [loading, setLoading] = useState(false);
+  const [previousResume, setPreviousResume] = useState("");
   const { isAuth, user } = useStateSelector((state) => state.user);
   const { push } = useRouter();
 
@@ -44,6 +45,13 @@ export default function ValidateResume({ job }: { job: IJob }) {
             login
           </Button>
         ),
+        variant: "destructive",
+      });
+      return;
+    }
+    if (job.status === "closed") {
+      toast({
+        title: "This job is closed.",
         variant: "destructive",
       });
       return;
@@ -62,6 +70,10 @@ export default function ValidateResume({ job }: { job: IJob }) {
       });
       return;
     }
+    const currentResume = selectedResume ? selectedResume : (resume as string);
+    if (currentResume === previousResume) {
+      return;
+    } else setPreviousResume(currentResume);
 
     const description = job.description
       .concat("\n\n skills: ")
@@ -71,7 +83,7 @@ export default function ValidateResume({ job }: { job: IJob }) {
       setLoading(true);
       const response = await validateResume({
         description,
-        resume: selectedResume ? selectedResume : (resume as string),
+        resume: currentResume,
       });
       const { result } = response.data;
       setResult(result);
@@ -88,11 +100,8 @@ export default function ValidateResume({ job }: { job: IJob }) {
   };
 
   return (
-    <div className="mt-12 rounded-md border px-3 py-5 shadow-md shadow-foreground/5">
-      <div className="mb-3 flex justify-between">
-        <h1 className="font-semibold text-foreground/70">
-          Check you&lsquo;r resume is good for this job.
-        </h1>
+    <div className="mt-12 rounded-md px-3 py-5">
+      <div className="mb-3 flex justify-end">
         <div className="shadow-roundedPrimaryColor flex rounded-full bg-primaryColor">
           <PrimaryButton
             className="rounded-none rounded-l-full border-none px-2"
@@ -158,8 +167,12 @@ export default function ValidateResume({ job }: { job: IJob }) {
         <div className="flex items-center justify-center py-5">
           <Loader className="animate-spin" />
         </div>
-      ) : (
+      ) : result ? (
         <Markdown className="px-3">{result}</Markdown>
+      ) : (
+        <h1 className="mb-3 text-center text-lg font-semibold text-foreground/70">
+          Check you&lsquo;r resume is good for this job.
+        </h1>
       )}
     </div>
   );
