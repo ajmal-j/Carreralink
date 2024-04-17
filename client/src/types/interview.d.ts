@@ -1,13 +1,13 @@
-import { IUser } from "@/store/reducers/user.slice";
+import { IUserCompany } from "./company";
 
 export interface IInterview {
   _id: string;
-  applicant: IUser;
+  applicant: IUserCompany;
   job: IJob;
   startDate: string;
   time: string;
   status: "scheduled" | "cancelled" | "completed";
-  interviewer: IUser;
+  interviewer: IUserCompany;
   agenda: string;
   createdAt: string;
   cancelled: {
@@ -15,3 +15,4 @@ export interface IInterview {
     cancelledBy: "interviewer" | "applicant";
   };
 }
+

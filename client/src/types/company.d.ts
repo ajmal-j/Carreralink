@@ -10,3 +10,11 @@ export interface ICompany {
   jobs: [];
   industry: string;
 }
+
+export interface IUserCompany {
+  _id: string;
+  id: string;
+  username: string;
+  email: string;
+  profile: string;
+}

@@ -31,6 +31,33 @@ export class InterviewRepository {
     );
   }
 
+  async isInterviewer({
+    interviewer,
+    interview,
+  }: {
+    interviewer: string;
+    interview: string;
+  }) {
+    return await this.database
+      .findOne({
+        $and: [{ _id: interview }, { interviewer: new ObjectId(interviewer) }],
+      })
+      .populate("interviewer");
+  }
+  async isApplicant({
+    applicant,
+    interview,
+  }: {
+    applicant: string;
+    interview: string;
+  }) {
+    return await this.database
+      .findOne({
+        $and: [{ _id: interview }, { applicant: new ObjectId(applicant) }],
+      })
+      .populate("applicant");
+  }
+
   async updateInterview({
     agenda,
     startDate,

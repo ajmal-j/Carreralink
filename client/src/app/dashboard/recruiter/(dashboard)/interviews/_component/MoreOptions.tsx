@@ -27,7 +27,7 @@ const formAction = async (values: any, id: string) => {
     });
     revalidatePath(`/dashboard/recruiter/interviews`);
   } catch (error) {
-    console.log(error, "------------------------------------>");
+    console.log(error);
   }
 };
 

@@ -33,5 +33,6 @@ export function InterviewRoutes({
     VerifyUser,
     expressCallback(interviewController.update)
   );
+  router.get("/join", VerifyUser, expressCallback(interviewController.join));
   return router;
 }

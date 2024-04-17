@@ -94,4 +94,24 @@ const updateInterviewData = async ({
   return response.data;
 };
 
-export { createInterview, updateInterviewData, getByUser, cancelInterview, getByRecruiter };
+const joinInterview = async ({ id, token }: { id: string; token: string }) => {
+  const url = new Server().interview("join");
+  const response = await axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    params: {
+      id,
+    },
+  });
+  return response.data;
+};
+
+export {
+  createInterview,
+  updateInterviewData,
+  getByUser,
+  cancelInterview,
+  getByRecruiter,
+  joinInterview,
+};

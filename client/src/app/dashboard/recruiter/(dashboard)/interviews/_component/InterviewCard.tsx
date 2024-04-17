@@ -1,7 +1,6 @@
 import PrimaryButton from "@/components/Buttons/PrimaryButton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-
 import {
   Popover,
   PopoverContent,
@@ -18,7 +17,6 @@ import { cancelReasons } from "@/constants";
 import { formatTime, isTwoDaysLater } from "@/lib/utils";
 import { cancelInterview } from "@/services/interview.service";
 import { IInterview } from "@/types/interview";
-import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { CircleHelp, LucideNotebookText, User } from "lucide-react";
 import { revalidatePath } from "next/cache";
