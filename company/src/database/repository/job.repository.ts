@@ -365,6 +365,38 @@ export class JobRepository {
     return job;
   }
 
+  async hiredOne({ id }: { id: string }) {
+    const job = await this.database.findOne({
+      _id: id,
+    });
+    if (!job) throw new NotFoundError("Job not found");
+    if (Number(job.openings) === 1) {
+      await this.database.updateOne(
+        {
+          _id: id,
+        },
+        {
+          $set: {
+            openings: 0,
+            status: "closed",
+          },
+        }
+      );
+    } else {
+      await this.database.updateOne(
+        {
+          _id: id,
+        },
+        {
+          $set: {
+            openings: Number(job.openings) - 1,
+          },
+        }
+      );
+    }
+    return job;
+  }
+
   async getOfficeLocationsAndLocations() {
     const officeLocations = (
       await this.database.distinct("officeLocation")

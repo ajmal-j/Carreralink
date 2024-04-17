@@ -34,5 +34,10 @@ export function InterviewRoutes({
     expressCallback(interviewController.update)
   );
   router.get("/join", VerifyUser, expressCallback(interviewController.join));
+  router.patch(
+    "/updateStatus",
+    VerifyUser,
+    expressCallback(interviewController.updateStatus)
+  );
   return router;
 }

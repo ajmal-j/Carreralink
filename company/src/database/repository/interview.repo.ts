@@ -80,6 +80,28 @@ export class InterviewRepository {
           agenda,
           startDate,
           time,
+          status: "scheduled",
+        },
+      }
+    );
+  }
+
+  async updateStatus({
+    interview,
+    interviewer,
+    status,
+  }: {
+    status: string;
+    interview: string;
+    interviewer: string;
+  }) {
+    return this.database.updateOne(
+      {
+        $and: [{ _id: interview }, { interviewer: new ObjectId(interviewer) }],
+      },
+      {
+        $set: {
+          status,
         },
       }
     );

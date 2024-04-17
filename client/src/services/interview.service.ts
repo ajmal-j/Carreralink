@@ -107,6 +107,22 @@ const joinInterview = async ({ id, token }: { id: string; token: string }) => {
   return response.data;
 };
 
+const updateInterviewStatus = async ({
+  data,
+  token,
+}: {
+  data: Record<string, any>;
+  token: string;
+}) => {
+  const url = new Server().interview("updateStatus");
+  const response = await axios.patch(url, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
 export {
   createInterview,
   updateInterviewData,
@@ -114,4 +130,5 @@ export {
   cancelInterview,
   getByRecruiter,
   joinInterview,
+  updateInterviewStatus,
 };

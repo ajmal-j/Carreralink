@@ -23,9 +23,11 @@ export function EditInterviewForm({
   defaultValues,
   formAction,
   id,
+  status,
 }: {
   defaultValues: IInterview;
   id?: string;
+  status: "scheduled" | "cancelled" | "completed";
   formAction?: (values: any, id: string) => void;
 }) {
   const [open, setOpen] = useState(false);
@@ -43,7 +45,12 @@ export function EditInterviewForm({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="mt-2 w-full">
         <Button className="flex w-full gap-1" size={"sm"}>
-          <span>Edit</span> <PencilLine size={14} />
+          <span>
+            {status === "cancelled" || status === "completed"
+              ? "Reschedule"
+              : "Edit"}
+          </span>{" "}
+          <PencilLine size={14} />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
