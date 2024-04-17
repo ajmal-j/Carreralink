@@ -20,7 +20,7 @@ export default function DashboardWrapper({
     >
       {title && (
         <div className="sticky top-[5.08rem] z-30 mb-6 flex justify-between pb-3">
-          <h1 className="rounded-br-xl bg-background px-3 pt-2 text-xl text-foreground/70">
+          <h1 className="rounded-br-xl bg-background px-3 py-2 text-xl text-foreground/70">
             {title}
           </h1>
           <div className="pt-2">{components}</div>
