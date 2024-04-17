@@ -31,7 +31,12 @@ export function SingleJob({
         href={job?.href || `${path ? path : ""}/jobs/${job?._id}`}
         className="flex-1 "
       >
-        <h1 className="text-lg font-semibold">{job?.title}</h1>
+        <h1 className="text-lg font-semibold">
+          {job?.title}
+          {job.status === "closed" && (
+            <p className="text-xs text-red-500">(job closed)</p>
+          )}
+        </h1>
         <p className="flex items-center gap-1 text-sm text-foreground/70">
           <Building2 className="text-foreground/70" size={17} />
           {job?.company?.name}

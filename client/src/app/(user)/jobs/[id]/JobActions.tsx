@@ -46,6 +46,13 @@ export default function JobActions({ job }: { job: IJob }) {
   const { isAuth, user } = useStateSelector((state) => state.user);
   const { push } = useRouter();
   const applyJob = async (selectedResume?: string) => {
+    if (job.status === "closed") {
+      toast({
+        title: "This job is closed.",
+        variant: "destructive",
+      });
+      return;
+    }
     try {
       const resume = user?.resume?.resumes[user?.resume?.primary]?.url;
       if (!resume) {
@@ -208,6 +215,9 @@ export default function JobActions({ job }: { job: IJob }) {
             </span>
           </SecondaryButton>
         </>
+      )}
+      {job.status === "closed" && (
+        <p className="text-xs text-center text-red-500">(this job is closed)</p>
       )}
     </div>
   );

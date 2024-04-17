@@ -14,6 +14,7 @@ import BuildWithdrawJobController from "./withdrawApplied.js";
 import BuildGetAppliedJobsController from "./getAppliedJobs.js";
 import BuildIsAppliedController from "./isApplied.js";
 import BuildGetApplicantsController from "./getApplicants.js";
+import BuildUpdateStatusByRecruiterController from "./updateStatusByRecruiter.js";
 
 const create = BuildCreateJobController();
 const getJobById = BuildGetJobByIdController();
@@ -31,6 +32,7 @@ const withdraw = BuildWithdrawJobController();
 const getAppliedJobs = BuildGetAppliedJobsController();
 const isApplied = BuildIsAppliedController();
 const applicants = BuildGetApplicantsController();
+const updateStatusByRecruiter = BuildUpdateStatusByRecruiterController();
 
 export const jobController = {
   create,
@@ -49,6 +51,7 @@ export const jobController = {
   getAppliedJobs,
   isApplied,
   applicants,
+  updateStatusByRecruiter,
 };
 
 export type IJobController = typeof jobController;

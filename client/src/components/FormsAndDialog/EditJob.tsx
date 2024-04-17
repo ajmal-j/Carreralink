@@ -17,6 +17,8 @@ import { Pencil2Icon } from "@radix-ui/react-icons";
 import { IJob } from "@/types/jobs";
 import { RawDraftContentState } from "react-draft-wysiwyg";
 import { updateJob } from "@/services/company.service";
+import PrimaryButton from "../Buttons/PrimaryButton";
+import { PencilIcon } from "lucide-react";
 
 interface IPage {
   defaultValues: Omit<
@@ -129,10 +131,13 @@ export default function EditJobDialogue({
     <>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Pencil2Icon
+          <PrimaryButton
+            icon={<PencilIcon size={13} className="cursor-pointer" />}
             onClick={() => setOpen(true)}
-            className="size-5 cursor-pointer"
-          />
+            size="sm"
+          >
+            edit
+          </PrimaryButton>
         </DialogTrigger>
         <DialogContent className="mt-1 h-full overflow-y-scroll pt-10 sm:max-w-[700px]">
           <DialogHeader>

@@ -39,6 +39,8 @@ export default async function Applicants({
     console.log(error);
     return <NotFound title="Some error occurred." />;
   }
+  if (!applications.length)
+    return <NotFound hideBackButton title="No applicant's." />;
   return (
     <div className="mt-10 flex flex-col gap-2">
       <h1 className="mx-3 mb-2 text-xl font-semibold text-foreground/90">

@@ -92,6 +92,21 @@ const updateApplicantStatus = async ({
   return response.data;
 };
 
+const updateJobStatus = async ({
+  job,
+  status,
+}: {
+  job: string;
+  status: string;
+}) => {
+  const url = new Server().recruiter("updateJobStatus");
+  const response = await axios.patch(url, {
+    job,
+    status,
+  });
+  return response.data;
+};
+
 export {
   createRequest,
   isRecruiter,
@@ -99,4 +114,5 @@ export {
   totalCounts,
   graphData,
   updateApplicantStatus,
+  updateJobStatus,
 };

@@ -47,5 +47,10 @@ export function RecruiterRoutes({
     VerifyUser,
     expressCallback(recruiterController.updateApplicantStatus)
   );
+  router.patch(
+    "/updateJobStatus",
+    VerifyUser,
+    expressCallback(jobController.updateStatusByRecruiter)
+  );
   return router;
 }

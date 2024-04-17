@@ -365,6 +365,27 @@ export class JobRepository {
     return job;
   }
 
+  async updateStatus({
+    job,
+    status,
+    postedBy,
+  }: {
+    job: string;
+    status: string;
+    postedBy: string;
+  }) {
+    return await this.database.updateOne(
+      {
+        $and: [{ _id: job }, { "postedBy.id": new ObjectId(postedBy) }],
+      },
+      {
+        $set: {
+          status,
+        },
+      }
+    );
+  }
+
   async hiredOne({ id }: { id: string }) {
     const job = await this.database.findOne({
       _id: id,

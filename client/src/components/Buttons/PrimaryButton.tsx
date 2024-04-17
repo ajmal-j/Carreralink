@@ -37,14 +37,14 @@ export default function PrimaryButton({
     <button
       disabled={disabled}
       className={cn(
-        "flex w-full items-center justify-center rounded-full border-[0.2px] border-white/20 bg-primaryColor py-1.5 text-sm text-white text-white/90 transition-all duration-200 hover:bg-violet-600 disabled:pointer-events-none disabled:opacity-50",
+        "flex w-full items-center justify-center gap-1 rounded-full border-[0.2px] border-white/20 bg-primaryColor py-1.5 text-sm text-white text-white/90 transition-all duration-200 hover:bg-violet-600 disabled:pointer-events-none disabled:opacity-50",
         className,
         size && sizes[size],
       )}
       onClick={href ? () => push(href) : onClick}
       type={type || "button"}
     >
-      {icon && <span>{icon}</span>}
+      {icon && <>{icon}</>}
       <span>{children}</span>
     </button>
   );

@@ -1,11 +1,17 @@
+"use client";
+
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 interface PropTypes {
   children: React.ReactNode;
   onClick?: () => void;
   className?: string;
+  icon?: React.ReactNode;
+  disabled?: boolean;
   type?: "button" | "submit" | "reset" | undefined;
+  href?: string;
   size?: "default" | "sm" | "lg" | "icon";
 }
 
@@ -16,24 +22,30 @@ const sizes = {
   icon: "h-9 w-9",
 };
 
-export default function AccentButton({
+export default function DangerButton({
   children,
   className,
   onClick,
+  icon,
+  disabled,
   type,
+  href,
   size,
 }: PropTypes) {
+  const { push } = useRouter();
   return (
     <button
+      disabled={disabled}
       className={cn(
-        "w-full rounded-full border-[0.2px] border-white/20 bg-purple-600 py-1.5 text-sm text-white text-white/90 transition-all duration-200 hover:bg-purple-500  ",
+        "flex w-full items-center justify-center rounded-full border-[0.2px] border-white/20 bg-red-600 py-1.5 text-sm text-white text-white/90 transition-all duration-200 hover:bg-red-700 disabled:pointer-events-none disabled:opacity-50",
         className,
         size && sizes[size],
       )}
-      onClick={onClick}
+      onClick={href ? () => push(href) : onClick}
       type={type || "button"}
     >
-      {children}
+      {icon && <span>{icon}</span>}
+      <span>{children}</span>
     </button>
   );
 }
