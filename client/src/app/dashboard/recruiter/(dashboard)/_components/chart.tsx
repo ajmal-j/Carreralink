@@ -8,20 +8,19 @@ import { useEffect, useState } from "react";
 import BarChart from "@/components/Charts/Bar";
 
 const months = [
-  "January",
-  "February",
-  "March",
-  "April",
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
   "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
 ];
-
 const years: number[] = [];
 
 const now = new Date().getFullYear();
