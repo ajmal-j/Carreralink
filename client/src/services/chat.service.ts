@@ -38,8 +38,10 @@ const sendMessages = async (data: { chatId: string; content: string }) => {
 };
 
 const deleteChats = async ({ chatId }: { chatId: string }) => {
-  const url = new Server().chat("delete");
-  const response = await axios.post(url, { chatId });
+  const url = new Server().chat("deleteChats");
+  const response = await axios.delete(url, {
+    params: { chatId },
+  });
   return response.data;
 };
 

@@ -6,6 +6,7 @@ import { formatDistanceToNowStrict } from "date-fns";
 import { User } from "lucide-react";
 import { cookies } from "next/headers";
 import Link from "next/link";
+import MoreOptions from "./MoreOptions";
 
 export default async function MessageSideBar() {
   let chats: IRecruiterChats[] = [];
@@ -25,7 +26,7 @@ export default async function MessageSideBar() {
     <div className="flex min-w-0 flex-col gap-3 px-3 lg:min-w-[500px]">
       {chats.length === 0 && <NotFound hideBackButton title="No message's." />}
       {chats?.map((chat) => (
-        <Link href={`/dashboard/recruiter/messages/${chat.id}`} key={chat.id}>
+        <div key={chat.id}>
           <div className="flex items-start gap-2 rounded-md bg-foreground/5 px-3 py-3 transition-colors duration-200 ease-in-out hover:bg-foreground/10">
             <Avatar className="size-11">
               <AvatarImage src={chat.participants.user?.profile} />
@@ -33,7 +34,10 @@ export default async function MessageSideBar() {
                 <User />
               </AvatarFallback>
             </Avatar>
-            <div className="flex flex-1 flex-col">
+            <Link
+              href={`/dashboard/recruiter/messages/${chat.id}`}
+              className="flex flex-1 flex-col"
+            >
               <div className="font-semibold">
                 {chat.participants.user.username}
               </div>
@@ -51,14 +55,15 @@ export default async function MessageSideBar() {
                   </div>
                 )}
               </div>
-            </div>
-            <div className="place-self-end text-xs text-foreground/40">
+            </Link>
+            <div className="flex flex-col gap-2 text-xs text-foreground/40">
+              <MoreOptions chat={chat} />
               <span>
                 {formatDistanceToNowStrict(chat?.updatedAt || new Date())}
               </span>
             </div>
           </div>
-        </Link>
+        </div>
       ))}
     </div>
   );
