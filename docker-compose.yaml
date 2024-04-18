@@ -72,6 +72,30 @@ services:
     ports:
       - 8080:8080
 
+  communication:
+    build: ./communication
+    container_name: communication-container
+    depends_on:
+      - communication-db
+      - redpanda
+    develop:
+      watch:
+        - action: sync
+          path: ./communication
+          target: ./communication
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: ./communication/package.json
+        - action: rebuild
+          path: ./communication/package-lock.json
+    environment:
+      MONGO_URL: mongodb://communication-db:27017/communication
+      KAFKA_BROKER: redpanda:29092
+      JWT_SECRET: blablablablablablabal
+    ports:
+      - 8000:8000
+
   client:
     build: ./client
     container_name: client-container
@@ -130,6 +154,14 @@ services:
     volumes:
       - users_db:/data/db
 
+  communication-db:
+    image: mongo:7.0
+    restart: always
+    ports:
+      - 27020:27017
+    volumes:
+      - communication_db:/data/db
+
   redpanda:
     image: docker.redpanda.com/vectorized/redpanda:v22.2.2
     container_name: carreralink-redpanda
@@ -147,3 +179,5 @@ volumes:
     name: users-data
   compnay_db:
     name: company-data
+  communication_db:
+    name: communication-data
