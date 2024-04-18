@@ -45,7 +45,7 @@ export default function Meet({ id, user }: PageProps) {
   };
 
   return (
-    <div className="h-[97vh] w-full bg-white">
+    <div className="h-[97vh] w-full">
       <div className="h-full w-full" ref={joinMeeting} />
     </div>
   );
