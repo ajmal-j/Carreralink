@@ -1,14 +1,32 @@
 import mongoose, { Document, ObjectId } from "mongoose";
 import aggregatePaginate from "mongoose-aggregate-paginate-v2";
 
-interface IChat extends Document {
-  users: [ObjectId];
+interface IChat {
+  participants: {
+    user: ObjectId;
+    recruiter: ObjectId;
+    company: string;
+  };
   lastMessage: ObjectId;
 }
 
+interface IChatSchema extends IChat, Document {}
+
 const chatSchema = new mongoose.Schema(
   {
-    users: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    participants: {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
+      recruiter: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
+      company: { type: String, required: true },
+    },
     lastMessage: { type: mongoose.Schema.Types.ObjectId, ref: "Message" },
   },
   {
@@ -23,7 +41,7 @@ const chatSchema = new mongoose.Schema(
 
 chatSchema.plugin(aggregatePaginate);
 
-export const ChatModel = mongoose.model<IChat>("Chat", chatSchema);
+export const ChatModel = mongoose.model<IChatSchema>("Chat", chatSchema);
 
 export type IChatModel = typeof ChatModel & {
   aggregatePaginate?: any;

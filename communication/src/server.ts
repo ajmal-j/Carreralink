@@ -4,6 +4,7 @@ import { errorMiddleware } from "@carreralink/common";
 import cors from "cors";
 import { Connect } from "./database/config/index.js";
 import eventConsumer from "./events/consumer/consumer.js";
+import { chatRoutes } from "./routes/index.js";
 
 const port = 8000;
 dotenv.config();
@@ -29,10 +30,13 @@ app.get("/api/v1/communication/check", (_, res) => {
   res.send(`Communication server is up and running`);
 });
 
+app.use("/api/v1/communication/chat", chatRoutes);
+
 app.all("*", (req, res) => {
   res.send(`${req.originalUrl} not found in Communication server.`);
 });
 
+// @ts-expect-error
 app.use(errorMiddleware);
 
 // listening

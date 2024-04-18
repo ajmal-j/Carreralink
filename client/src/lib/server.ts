@@ -40,4 +40,8 @@ export class Server {
     const ai = `${typeof window !== "undefined" ? "localhost" : "ai-container"}:7000/api/v1/ai`;
     return `${this.baseUrl}${ai}/${path}`;
   }
+  chat(path: string) {
+    const chat = `${typeof window !== "undefined" ? "localhost" : "communication-container"}:8000/api/v1/communication`;
+    return `${this.baseUrl}${chat}/${path}`;
+  }
 }
