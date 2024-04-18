@@ -11,22 +11,16 @@ export function ChatRoutes({
   chatControllers: IChatController;
   messageController: IMessageController;
 }) {
-  router.post("/create", VerifyUser, expressCallback(chatControllers.create));
-  router.post(
-    "/message",
-    VerifyUser,
-    expressCallback(messageController.create)
-  );
-  router.get("/message", VerifyUser, expressCallback(messageController.get));
+  router.use(VerifyUser);
+  router.post("/create", expressCallback(chatControllers.create));
+  router.post("/message", expressCallback(messageController.create));
+  router.get("/message", expressCallback(messageController.get));
   router.get(
     "/recruiterChats",
-    VerifyUser,
     expressCallback(chatControllers.getRecruiterChats)
   );
-  router.get(
-    "/userChats",
-    VerifyUser,
-    expressCallback(chatControllers.getUserChats)
-  );
+  router.get("/userChats", expressCallback(chatControllers.getUserChats));
+  router.delete("/deleteChats", expressCallback(chatControllers.deleteChats));
+
   return router;
 }

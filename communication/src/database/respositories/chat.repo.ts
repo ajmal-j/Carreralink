@@ -22,9 +22,13 @@ export class ChatRepository {
 
   async getUserChats({ user }: { user: string }) {
     return await this.database
-      .find({ "participants.user": user })
+      .find({ "participants.user": user, lastMessage: { $ne: null } })
       .populate("participants.recruiter")
       .populate("lastMessage");
+  }
+
+  async deleteChat({ chatId }: { chatId: string }) {
+    return await this.database.deleteOne({ _id: chatId });
   }
 
   async getRecruiterChats({ recruiter }: { recruiter: string }) {

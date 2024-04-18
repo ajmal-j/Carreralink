@@ -1,5 +1,6 @@
 import { Repositories } from "../../database/index.js";
 import { CreateChatUsecase } from "./create.usecase.js";
+import { DeleteChatUsecase } from "./delete.usecase.js";
 import { FindChatUsecase } from "./find.usecase.js";
 import { GetRecruiterChatsUseCase } from "./recruiterChats.usecase.js";
 import { UpdateLatestUseCase } from "./updateLatest.usecase.js";
@@ -12,6 +13,7 @@ const recruiterChats = new GetRecruiterChatsUseCase(
 );
 const updateLatest = new UpdateLatestUseCase(Repositories.chatRepository);
 const find = new FindChatUsecase(Repositories.chatRepository);
+const deleteChat = new DeleteChatUsecase(Repositories.chatRepository);
 
 export const ChatUsecase = {
   create,
@@ -19,4 +21,5 @@ export const ChatUsecase = {
   recruiterChats,
   updateLatest,
   find,
+  deleteChat,
 };

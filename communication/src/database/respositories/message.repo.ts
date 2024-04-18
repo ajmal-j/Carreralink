@@ -10,4 +10,8 @@ export class MessageRepository {
   async getMessages({ chatId }: { chatId: string }) {
     return await this.database.find({ chatId });
   }
+
+  async deleteMessages({ chatId }: { chatId: string }) {
+    return await this.database.deleteMany({ chatId });
+  }
 }

@@ -37,4 +37,17 @@ const sendMessages = async (data: { chatId: string; content: string }) => {
   return response.data;
 };
 
-export { createChat, recruiterChats, userChats, getMessages, sendMessages };
+const deleteChats = async ({ chatId }: { chatId: string }) => {
+  const url = new Server().chat("delete");
+  const response = await axios.post(url, { chatId });
+  return response.data;
+};
+
+export {
+  createChat,
+  recruiterChats,
+  userChats,
+  getMessages,
+  sendMessages,
+  deleteChats,
+};

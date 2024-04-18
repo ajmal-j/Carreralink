@@ -7,7 +7,7 @@ import { toast } from "@/components/ui/use-toast";
 import { getMessage } from "@/lib/utils";
 import { getMessages, sendMessages } from "@/services/chat.service";
 import { formatDistanceToNow } from "date-fns";
-import { Loader } from "lucide-react";
+import { Loader, Send } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function Chat({ params: { id } }: { params: { id: string } }) {
@@ -49,6 +49,11 @@ export default function Chat({ params: { id } }: { params: { id: string } }) {
       setLoading(false);
     } catch (error) {
       console.log(error);
+      const message = getMessage(error);
+      toast({
+        title: message,
+        variant: "destructive",
+      });
     }
   }, [id, socket]);
 
@@ -141,7 +146,8 @@ export default function Chat({ params: { id } }: { params: { id: string } }) {
             <div className="mt-5 flex w-full gap-2">
               <Input
                 ref={ref}
-                className="mb-2"
+                placeholder="Type here..."
+                className="mb-2 shadow-md shadow-foreground/20 dark:shadow-none"
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     messageSend();
@@ -151,7 +157,7 @@ export default function Chat({ params: { id } }: { params: { id: string } }) {
                 value={input}
               />
               <Button onClick={messageSend} className="h-12">
-                send
+                <Send size={17} />
               </Button>
             </div>
           </div>
