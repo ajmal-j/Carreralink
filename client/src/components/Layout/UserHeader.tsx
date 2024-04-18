@@ -184,6 +184,11 @@ export function ProfileDropDown({
           >
             My Jobs
           </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => push(`${isAuth ? "/messages" : "/login"}`)}
+          >
+            Messages
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuItem onClick={() => push("/dashboard/company")}>
           Company Dashboard

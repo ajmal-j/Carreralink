@@ -4,5 +4,6 @@ export interface IChat {
     recruiter: string;
     company: string;
   };
-  lastMessage: string;
+  lastMessage?: string;
+  messages?: Record<string, unknown>[];
 }

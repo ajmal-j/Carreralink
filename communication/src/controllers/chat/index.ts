@@ -1,12 +1,15 @@
 import BuildCreateChatController from "./create.js";
-import BuildGetChatController from "./get.js";
+import BuildGetRecruiterChatsController from "./getRecruiterChats.js";
+import BuildGetUserChatsController from "./getUserChats.js";
 
 const create = BuildCreateChatController();
-const getChats = BuildGetChatController();
+const getRecruiterChats = BuildGetRecruiterChatsController();
+const getUserChats = BuildGetUserChatsController();
 
 export const chatControllers = {
   create,
-  getChats,
+  getRecruiterChats,
+  getUserChats,
 };
 
 export type IChatController = typeof chatControllers;

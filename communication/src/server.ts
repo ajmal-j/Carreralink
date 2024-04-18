@@ -5,6 +5,7 @@ import cors from "cors";
 import { Connect } from "./database/config/index.js";
 import eventConsumer from "./events/consumer/consumer.js";
 import { chatRoutes } from "./routes/index.js";
+import { Socket } from "./entities/socket.js";
 
 const port = 8000;
 dotenv.config();
@@ -20,6 +21,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 Connect(process.env.MONGO_URL!);
+
+// listening
+const server = app.listen(port, () => {
+  console.log(`Ai server is running on : http://localhost:${port}`);
+  eventConsumer();
+});
+
+// socket io initialization
+const socket = new Socket();
+socket.io.attach(server);
+socket.listen();
 
 app.all("*", (req, res, next) => {
   console.log(req.originalUrl);
@@ -38,9 +50,3 @@ app.all("*", (req, res) => {
 
 // @ts-expect-error
 app.use(errorMiddleware);
-
-// listening
-app.listen(port, () => {
-  console.log(`Ai server is running on : http://localhost:${port}`);
-  eventConsumer();
-});

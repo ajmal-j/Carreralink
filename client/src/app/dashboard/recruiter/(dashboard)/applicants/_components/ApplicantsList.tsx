@@ -19,7 +19,7 @@ import { getApplicants } from "@/services/jobs.service";
 import { updateApplicantStatus } from "@/services/recruiter.service";
 import { IApplicant, IAvailableStatus } from "@/types/jobs";
 import { IResponseData } from "@/types/paginateResponse";
-import { PersonIcon } from "@radix-ui/react-icons";
+import { DotsVerticalIcon, PersonIcon } from "@radix-ui/react-icons";
 import { formatDistanceToNow } from "date-fns";
 import {
   ChevronDownIcon,
@@ -31,6 +31,9 @@ import {
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { InterviewForm } from "../_form/Interviewform";
+import { useRouter } from "next/navigation";
+import { createChat } from "@/services/chat.service";
+import { useStateSelector } from "@/store";
 
 export function ApplicantsComponent({ jobId }: { jobId: string }) {
   const [applicants, setApplicants] = useState<IApplicant[]>([]);
@@ -174,7 +177,7 @@ function ApplicantCard({ applicant }: { applicant: IApplicant }) {
             {formatDistanceToNow(applicant.createdAt)}
           </p>
         </div>
-        <div className="flex h-full flex-col">
+        <div className="flex h-full gap-2">
           <div className="flex w-full flex-col gap-1">
             <DropdownMenu>
               <DropdownMenuTrigger className="w-full" asChild>
@@ -229,6 +232,7 @@ function ApplicantCard({ applicant }: { applicant: IApplicant }) {
               </Button>
             </Link>
           </div>
+          <MoreOptions applicant={applicant} />
         </div>
       </div>
       <InterviewForm
@@ -245,5 +249,63 @@ function ApplicantCard({ applicant }: { applicant: IApplicant }) {
         setStatus={setStatus}
       />
     </>
+  );
+}
+
+function MoreOptions({ applicant }: { applicant: IApplicant }) {
+  const { push } = useRouter();
+  const recruiter = useStateSelector((state) => state.recruiter.recruiter);
+
+  const goToChat = async ({ user }: { user: string }) => {
+    try {
+      const response = await createChat({
+        data: {
+          user,
+          company: recruiter?.company.id,
+        },
+      });
+      const { id } = await response.data;
+      push(`/dashboard/recruiter/messages/${id}`);
+    } catch (error) {
+      console.log(error);
+      const message = getMessage(error);
+      toast({
+        title: message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger className="ms-auto flex size-6 min-w-[1.5rem] items-center justify-center rounded-full border bg-foreground/10 transition-colors duration-200 ease-in-out hover:bg-foreground/30">
+        <DotsVerticalIcon />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel className="text-center">Actions</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <div className="flex flex-col">
+          <Link
+            className="block w-full cursor-pointer rounded-sm px-3 py-1 text-sm transition-colors duration-150 ease-in-out hover:bg-foreground/10"
+            href={`/dashboard/recruiter/jobs/${applicant.job}`}
+          >
+            Job
+          </Link>
+          <Link
+            className="block w-full cursor-pointer rounded-sm px-3 py-1 text-sm transition-colors duration-150 ease-in-out hover:bg-foreground/10"
+            href={`/dashboard/recruiter/jobs/applicant/${applicant.user.username}`}
+          >
+            Applicant
+          </Link>
+          <Button
+            onClick={() => goToChat({ user: applicant.user.email })}
+            className="mt-2"
+            size="sm"
+          >
+            Message
+          </Button>
+        </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

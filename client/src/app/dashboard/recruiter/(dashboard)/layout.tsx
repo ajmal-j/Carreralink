@@ -3,7 +3,7 @@ import RecruiterHeader from "@/components/Layout/RecruiterHeader";
 import { isRecruiter } from "@/services/recruiter.service";
 import { IRecruiter } from "@/store/reducers/recruiter.slice";
 import { BackpackIcon } from "@radix-ui/react-icons";
-import { BarChart2, Building2, CalendarDays, Users2Icon } from "lucide-react";
+import { BarChart2, Building2, CalendarDays, MessageSquareText, Users2Icon } from "lucide-react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
@@ -57,6 +57,11 @@ export default async function layout({ children }: { children: ReactNode }) {
                   title: "Interviews",
                   icon: <CalendarDays className="size-[17px]" />,
                   href: "/dashboard/recruiter/interviews",
+                },
+                {
+                  title: "Messages",
+                  icon: <MessageSquareText className="size-[17px]" />,
+                  href: "/dashboard/recruiter/messages",
                 },
               ]}
               logOut={logOut}

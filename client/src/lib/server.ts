@@ -1,4 +1,6 @@
 export class Server {
+  public readonly _chatServer = `${typeof window !== "undefined" ? "localhost" : "communication-container"}:8000`;
+
   constructor(private baseUrl: string = "http://") {
     return this;
   }
@@ -41,7 +43,7 @@ export class Server {
     return `${this.baseUrl}${ai}/${path}`;
   }
   chat(path: string) {
-    const chat = `${typeof window !== "undefined" ? "localhost" : "communication-container"}:8000/api/v1/communication`;
+    const chat = `${typeof window !== "undefined" ? "localhost" : "communication-container"}:8000/api/v1/communication/chat`;
     return `${this.baseUrl}${chat}/${path}`;
   }
 }
