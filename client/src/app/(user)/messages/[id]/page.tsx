@@ -6,12 +6,24 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { getMessage } from "@/lib/utils";
 import { getMessages, sendMessages } from "@/services/chat.service";
-import { useCallback, useEffect, useState } from "react";
+import { formatDistanceToNow } from "date-fns";
+import { Loader } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function Chat({ params: { id } }: { params: { id: string } }) {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [input, setInput] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
   const { socket } = useSocket();
+  const divRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLInputElement>(null);
+
+  const scrollToBottom = () => {
+    if (divRef.current) {
+      divRef.current.scrollTop = divRef.current.scrollHeight - 100;
+    }
+  };
+
   const [participants, setParticipants] = useState<{
     user: string;
     recruiter: string;
@@ -33,13 +45,18 @@ export default function Chat({ params: { id } }: { params: { id: string } }) {
       socket?.emit("joinChat", {
         id: participants.user,
       });
+      scrollToBottom();
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
   }, [id, socket]);
 
   const messageSend = async () => {
-    if (!input || !id) return;
+    if (!input || !id) {
+      ref?.current?.focus();
+      return;
+    }
     try {
       const response = await sendMessages({
         chatId: id,
@@ -49,6 +66,10 @@ export default function Chat({ params: { id } }: { params: { id: string } }) {
       socket?.emit("message", { message, user: participants.recruiter });
       setMessages([...messages, message]);
       setInput("");
+      ref?.current?.focus();
+      setTimeout(() => {
+        scrollToBottom();
+      }, 500);
     } catch (error) {
       console.log(error);
       const message = getMessage(error);
@@ -66,32 +87,76 @@ export default function Chat({ params: { id } }: { params: { id: string } }) {
   const messageReceived = useCallback(
     (message: IMessage) => {
       setMessages([...messages, message]);
+      setTimeout(() => {
+        scrollToBottom();
+      }, 500);
     },
+
     [messages],
   );
+
+  useEffect(() => {
+    ref?.current?.focus();
+  }, [ref]);
 
   useEffect(() => {
     socket?.on("receiveMessage", messageReceived);
   }, [socket, messageReceived]);
 
   return (
-    <div className="flex flex-col gap-1">
-      {!!messages.length &&
-        messages?.map((message) => (
-          <div key={message?.id} className="flex w-full">
-            <p
-              className={`${message?.sender === participants?.user ? "ms-auto bg-primaryColor" : "bg-foreground/10"}  rounded-full px-3 py-2`}
-            >
-              <span>{message?.content}</span>
-            </p>
+    <>
+      {loading ? (
+        <div className="flex items-center justify-center py-6 text-foreground/60">
+          <Loader className="animate-spin" />
+        </div>
+      ) : (
+        <div className="mt-4 flex min-h-full flex-col gap-1 lg:mt-0">
+          <div className="flex h-full w-full flex-col justify-between gap-1 overflow-x-hidden px-3 pt-3">
+            {!!messages.length && (
+              <div
+                ref={divRef}
+                className="overflow0-y-auto flex max-h-[60vh] min-h-[60vh] flex-col gap-2 overflow-x-hidden scroll-smooth px-1 pb-2"
+              >
+                {messages?.map((message) => (
+                  <div key={message?.id} className="flex">
+                    <p
+                      className={`${message?.sender === participants?.user ? "ms-auto rounded-l-3xl rounded-br rounded-tr-3xl bg-primaryColor text-white" : "rounded-r-3xl rounded-bl rounded-tl-3xl bg-foreground/10"} w-auto max-w-[400px] break-words break-all px-4 py-2 text-sm`}
+                    >
+                      <span className="">{message?.content}</span>
+                      <span
+                        className={`flex flex-grow justify-end text-sm text-foreground/50 ${message?.sender === participants?.user ? "text-white/70" : ""}`}
+                      >
+                        {formatDistanceToNow(new Date(message?.createdAt))}
+                      </span>
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+            {!messages.length && (
+              <div className="flex max-h-[60vh] min-h-[60vh] flex-grow items-center justify-center text-foreground/50">
+                <span>no message&apos;s</span>
+              </div>
+            )}
+            <div className="mt-5 flex w-full gap-2">
+              <Input
+                ref={ref}
+                className="mb-2"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    messageSend();
+                  }
+                }}
+                onChange={(e) => setInput(e.target.value)}
+                value={input}
+              />
+              <Button onClick={messageSend} className="h-12">
+                send
+              </Button>
+            </div>
           </div>
-        ))}
-      <div className="mt-5 flex w-full gap-2">
-        <Input onChange={(e) => setInput(e.target.value)} value={input} />
-        <Button onClick={messageSend} className="h-12">
-          send
-        </Button>
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 }
