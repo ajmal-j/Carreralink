@@ -1,3 +1,4 @@
+import { LandingPageAccordion } from "@/components/Custom/Accordination";
 import Wrapper from "@/components/Custom/Wrapper";
 import Search from "@/components/FormsAndDialog/Search";
 import FeaturedJobs from "@/components/LandingPage/FeaturedJobs";
@@ -25,6 +26,7 @@ export default async function Home() {
           <InfiniteMovingCard />
           <SparklesTitle />
           <ThreeDCard />
+          <LandingPageAccordion />
         </article>
       </Main>
     </Wrapper>
