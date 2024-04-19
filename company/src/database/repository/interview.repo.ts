@@ -168,6 +168,15 @@ export class InterviewRepository {
     );
     return response;
   }
+
+  async totalUpcomingInterviews({ interviewer }: { interviewer: string }) {
+    return await this.database
+      .find({
+        $and: [{ status: "scheduled" }, { interviewer: interviewer }],
+      })
+      ?.countDocuments();
+  }
+
   async getInterviewsByRecruiter({
     interviewer,
     query,

@@ -1,30 +1,41 @@
+"use client";
+
 import NotFound from "@/components/Custom/NotFound";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getMessage } from "@/lib/utils";
 import { recruiterChats } from "@/services/chat.service";
+import { useStateSelector } from "@/store";
 import { formatDistanceToNowStrict } from "date-fns";
 import { User } from "lucide-react";
-import { cookies } from "next/headers";
 import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
 import MoreOptions from "./MoreOptions";
 
-export default async function MessageSideBar() {
-  let chats: IRecruiterChats[] = [];
-  const token = cookies().get("userToken")?.value || "";
-  try {
-    const response = await recruiterChats({
-      token,
-    });
-    chats = response.data;
-  } catch (error) {
-    console.log(error);
-    const message = getMessage(error);
-    return <NotFound title={message} />;
-  }
+export default function MessageSideBar() {
+  const [chats, setChats] = useState<IRecruiterChats[]>([]);
+  const recruiter = useStateSelector((state) => state.recruiter.recruiter);
+  const fetchChats = useCallback(async () => {
+    if (!recruiter?.company.id) return;
+    try {
+      const response = await recruiterChats({
+        company: recruiter?.company.id,
+      });
+      const data = response.data;
+      setChats(data);
+    } catch (error) {
+      console.log(error);
+      const message = getMessage(error);
+      return <NotFound title={message} />;
+    }
+  }, [recruiter?.company.id]);
+
+  useEffect(() => {
+    fetchChats();
+  }, [fetchChats]);
 
   return (
     <div className="flex min-w-0 flex-col gap-3 px-3 lg:min-w-[500px]">
-      {chats.length === 0 && <NotFound hideBackButton title="No message's." />}
+      {chats.length === 0 && <NotFound hideBackButton title="No chat's." />}
       {chats?.map((chat) => (
         <div key={chat.id}>
           <div className="flex items-start gap-2 rounded-md bg-foreground/5 px-3 py-3 transition-colors duration-200 ease-in-out hover:bg-foreground/10">

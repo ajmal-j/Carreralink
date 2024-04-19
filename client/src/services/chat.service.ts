@@ -7,10 +7,17 @@ const createChat = async ({ data }: { data: Record<string, any> }) => {
   return response.data;
 };
 
-const recruiterChats = async ({ token }: { token?: string }) => {
+const recruiterChats = async ({
+  token,
+  company,
+}: {
+  token?: string;
+  company: string;
+}) => {
   const url = new Server().chat("recruiterChats");
   const response = await axios.get(url, {
     ...(token ? { headers: { Authorization: `Bearer ${token}` } } : {}),
+    params: { company },
   });
   return response.data;
 };

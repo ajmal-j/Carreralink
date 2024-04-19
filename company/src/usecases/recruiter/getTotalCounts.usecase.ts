@@ -14,6 +14,7 @@ interface IDashboardData {
     totalJobs: number;
     openJobs: number;
     totalApplied: number;
+    totalUpcomingInterviews: number;
   };
   recentJobs: IJobs[];
   upcomingInterviews: any[];
@@ -39,41 +40,51 @@ export class GetTotalCountUsecaseByRecruiter {
     );
     if (!company) throw new NotFoundError("Company not found");
 
-    const [totalJobs, totalApplied, openJobs, recentJobs, upcomingInterviews] =
-      await Promise.all([
-        this.JobRepository.totalJobsByRecruiter({
-          companyId: company.id,
-          userId: user.id,
-        }),
-        this.AppliedJobsRepo.totalApplicantsByRecruiter({
-          companyId: company.id,
-          userId: user.id,
-        }),
-        this.JobRepository.totalOpenJobsByRecruiter({
-          companyId: company.id,
-          userId: user.id,
-        }),
-        this.JobRepository.allJobsByRecruiter({
-          id: user?.id,
-          query: {
-            sort: "most recent",
-          },
-          companyId: company.id,
-        }),
-        this.InterviewRepository.getInterviewsByRecruiter({
-          interviewer: user.id,
-          query: {
-            p: 1,
-            filter: "scheduled",
-          },
-        }),
-      ]);
+    const [
+      totalJobs,
+      totalApplied,
+      openJobs,
+      recentJobs,
+      upcomingInterviews,
+      totalUpcomingInterviews,
+    ] = await Promise.all([
+      this.JobRepository.totalJobsByRecruiter({
+        companyId: company.id,
+        userId: user.id,
+      }),
+      this.AppliedJobsRepo.totalApplicantsByRecruiter({
+        companyId: company.id,
+        userId: user.id,
+      }),
+      this.JobRepository.totalOpenJobsByRecruiter({
+        companyId: company.id,
+        userId: user.id,
+      }),
+      this.JobRepository.allJobsByRecruiter({
+        id: user?.id,
+        query: {
+          sort: "most recent",
+        },
+        companyId: company.id,
+      }),
+      this.InterviewRepository.getInterviewsByRecruiter({
+        interviewer: user.id,
+        query: {
+          p: 1,
+          filter: "scheduled",
+        },
+      }),
+      this.InterviewRepository.totalUpcomingInterviews({
+        interviewer: user.id,
+      }),
+    ]);
 
     return {
       counts: {
         totalJobs,
         totalApplied,
         openJobs,
+        totalUpcomingInterviews,
       },
       recentJobs,
       upcomingInterviews,

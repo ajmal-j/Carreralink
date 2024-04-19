@@ -31,9 +31,18 @@ export class ChatRepository {
     return await this.database.deleteOne({ _id: chatId });
   }
 
-  async getRecruiterChats({ recruiter }: { recruiter: string }) {
+  async getRecruiterChats({
+    recruiter,
+    company,
+  }: {
+    recruiter: string;
+    company: string;
+  }) {
     return await this.database
-      .find({ "participants.recruiter": recruiter })
+      .find({
+        "participants.recruiter": recruiter,
+        "participants.company": company,
+      })
       .populate("participants.user")
       .populate("lastMessage");
   }
