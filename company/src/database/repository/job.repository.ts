@@ -11,7 +11,9 @@ export class JobRepository {
     return await this.database.create(job);
   }
   async job(id: string) {
-    return await this.database.findById(id).populate("company");
+    return await this.database
+      .findById(id)
+      .populate(["company", "postedBy.id"]);
   }
 
   async applied(id: string) {
@@ -383,6 +385,26 @@ export class JobRepository {
     return await this.database.updateOne(
       {
         $and: [{ _id: job }, { "postedBy.id": new ObjectId(postedBy) }],
+      },
+      {
+        $set: {
+          status,
+        },
+      }
+    );
+  }
+  async updateStatusByCompany({
+    job,
+    status,
+    postedBy,
+  }: {
+    job: string;
+    status: string;
+    postedBy: string;
+  }) {
+    return await this.database.updateOne(
+      {
+        $and: [{ _id: job }, { company: new ObjectId(postedBy) }],
       },
       {
         $set: {

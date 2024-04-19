@@ -1,8 +1,6 @@
 import { BadRequestError, CustomResponse } from "@carreralink/common";
 import { Request } from "express";
-import {
-    getCompanyDataUsecase
-} from "../../usecases/index.js";
+import { getCompanyDataUsecase } from "../../usecases/index.js";
 import { JobUsecase } from "../../usecases/jobs/index.js";
 
 export default function () {
@@ -12,8 +10,8 @@ export default function () {
     if (!job || !status) throw new BadRequestError("Invalid Data");
 
     const company = await getCompanyDataUsecase.execute(companyData?.email);
-    
-    await JobUsecase.updateStatus.execute({
+
+    await JobUsecase.updateStatusByCompany.execute({
       job,
       postedBy: company?._id.toString(),
       status,
