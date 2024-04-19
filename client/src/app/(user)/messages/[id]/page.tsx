@@ -43,7 +43,7 @@ export default function Chat({ params: { id } }: { params: { id: string } }) {
       setMessages(messages);
       setParticipants(participants);
       socket?.emit("joinChat", {
-        id: participants.user,
+        id: participants.user.concat(id),
       });
       scrollToBottom();
       setLoading(false);
@@ -68,7 +68,10 @@ export default function Chat({ params: { id } }: { params: { id: string } }) {
         content: input,
       });
       const message = response.data;
-      socket?.emit("message", { message, user: participants.recruiter });
+      socket?.emit("message", {
+        message,
+        user: participants.recruiter.concat(id),
+      });
       setMessages([...messages, message]);
       setInput("");
       ref?.current?.focus();
@@ -91,13 +94,13 @@ export default function Chat({ params: { id } }: { params: { id: string } }) {
 
   const messageReceived = useCallback(
     (message: IMessage) => {
+      if (!message || message?.chatId !== id) return;
       setMessages([...messages, message]);
       setTimeout(() => {
         scrollToBottom();
       }, 500);
     },
-
-    [messages],
+    [messages, id],
   );
 
   useEffect(() => {

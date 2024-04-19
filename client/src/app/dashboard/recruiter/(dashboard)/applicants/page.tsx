@@ -127,8 +127,8 @@ export default async function Applicants({
           </div>
         ))}
         {!jobs.length && (
-          <span className="mt-10 flex items-center justify-center gap-2 text-2xl text-foreground/70">
-            <span className="pb-1">Uh! No jobs found.</span>
+          <span className="mt-10 flex items-center justify-center gap-2 py-4 text-foreground/70">
+            <span className="pb-1">No jobs found.</span>
             <BackpackIcon className="size-5" />
           </span>
         )}

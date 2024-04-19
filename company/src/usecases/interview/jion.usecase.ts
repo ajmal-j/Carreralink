@@ -1,4 +1,4 @@
-import { UnauthorizedError } from "@carreralink/common";
+import { BadRequestError, UnauthorizedError } from "@carreralink/common";
 import { IInterviewRepoType } from "../../database/index.js";
 
 export class JoinInterviewUsecase {
@@ -10,6 +10,8 @@ export class JoinInterviewUsecase {
       interview,
     });
     if (isApplicant) {
+      if (isApplicant.status === "completed")
+        throw new BadRequestError("Interview already completed");
       return isApplicant.applicant;
     }
     const isInterviewer = await this.InterviewRepo.isInterviewer({
@@ -17,6 +19,8 @@ export class JoinInterviewUsecase {
       interview,
     });
     if (isInterviewer) {
+      if (isInterviewer.status === "completed")
+        throw new BadRequestError("Interview already completed");
       return isInterviewer.interviewer;
     }
     throw new UnauthorizedError("User not authorized to join this interview.");

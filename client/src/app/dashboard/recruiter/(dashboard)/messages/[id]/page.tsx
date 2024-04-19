@@ -8,12 +8,11 @@ import { getMessage } from "@/lib/utils";
 import { getMessages, sendMessages } from "@/services/chat.service";
 import { formatDistanceToNow } from "date-fns";
 import { Loader, Send } from "lucide-react";
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function Chat({ params: { id } }: { params: { id: string } }) {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>("");
   const [input, setInput] = useState<string>("");
   const { socket } = useSocket();
   const divRef = useRef<HTMLDivElement>(null);
@@ -44,7 +43,7 @@ export default function Chat({ params: { id } }: { params: { id: string } }) {
       setMessages(messages);
       setParticipants(participants);
       socket?.emit("joinChat", {
-        id: participants.recruiter,
+        id: participants.recruiter.concat(id),
       });
       scrollToBottom();
       setLoading(false);
@@ -69,7 +68,7 @@ export default function Chat({ params: { id } }: { params: { id: string } }) {
         content: input.trim(),
       });
       const message = response.data;
-      socket?.emit("message", { message, user: participants.user });
+      socket?.emit("message", { message, user: participants.user.concat(id) });
       setMessages([...messages, message]);
       setInput("");
       ref?.current?.focus();
@@ -96,12 +95,13 @@ export default function Chat({ params: { id } }: { params: { id: string } }) {
 
   const messageReceived = useCallback(
     (message: IMessage) => {
+      if (!message || message?.chatId !== id) return;
       setMessages([...messages, message]);
       setTimeout(() => {
         scrollToBottom();
       }, 500);
     },
-    [messages],
+    [messages, id],
   );
 
   useEffect(() => {
