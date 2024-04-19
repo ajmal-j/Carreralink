@@ -32,6 +32,7 @@ interface IPage {
     | "isPaused"
     | "status"
     | "description"
+    | 'postedBy'
   > & {
     description: RawDraftContentState;
   };
