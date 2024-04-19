@@ -15,6 +15,7 @@ import BuildGetAppliedJobsController from "./getAppliedJobs.js";
 import BuildIsAppliedController from "./isApplied.js";
 import BuildGetApplicantsController from "./getApplicants.js";
 import BuildUpdateStatusByRecruiterController from "./updateStatusByRecruiter.js";
+import BuildUpdateStatusByCompanyController from "./updateStatusByCompany.js";
 
 const create = BuildCreateJobController();
 const getJobById = BuildGetJobByIdController();
@@ -33,6 +34,7 @@ const getAppliedJobs = BuildGetAppliedJobsController();
 const isApplied = BuildIsAppliedController();
 const applicants = BuildGetApplicantsController();
 const updateStatusByRecruiter = BuildUpdateStatusByRecruiterController();
+const updateStatusByCompany = BuildUpdateStatusByCompanyController();
 
 export const jobController = {
   create,
@@ -52,6 +54,7 @@ export const jobController = {
   isApplied,
   applicants,
   updateStatusByRecruiter,
+  updateStatusByCompany,
 };
 
 export type IJobController = typeof jobController;
