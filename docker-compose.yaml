@@ -127,6 +127,8 @@ services:
           path: ./ai/package.json
         - action: rebuild
           path: ./ai/package-lock.json
+    environment:
+      KAFKA_BROKER: redpanda:29092
     ports:
       - 7000:7000
 

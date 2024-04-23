@@ -1,4 +1,4 @@
-import { expressCallback } from "@carreralink/common";
+import { VerifyUser, expressCallback } from "@carreralink/common";
 import { IAiController } from "../controllers/index.js";
 
 export function aiRoutes({
@@ -8,6 +8,10 @@ export function aiRoutes({
   router: any;
   aiController: IAiController;
 }) {
-  router.post("/validateResume", expressCallback(aiController.validateResume));
+  router.post(
+    "/validateResume",
+    VerifyUser,
+    expressCallback(aiController.validateResume)
+  );
   return router;
 }

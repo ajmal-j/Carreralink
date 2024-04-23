@@ -14,6 +14,17 @@ export class UserDataRepository implements IUserRepo {
     return await this.database.create(userData);
   }
 
+  async planUsed(email: string) {
+    return await this.database.updateOne(
+      {
+        email,
+      },
+      {
+        $inc: { planUsed: -1 },
+      }
+    );
+  }
+
   async getUsers(query: { p: number; q?: string }) {
     const options = {
       page: query?.p ?? 1,

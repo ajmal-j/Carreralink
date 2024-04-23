@@ -6,6 +6,13 @@ export interface IUserData extends Document {
   profile: string;
   email: string;
   currentStatus: string | null;
+  plans: {
+    currentPlan: string;
+    freeUsage: number;
+    planType: "pro" | "none";
+    expiryDate: Date | string;
+    purchaseDate: Date | string;
+  };
   isBlocked: boolean;
   interviews: String | null;
   education: {
@@ -77,6 +84,13 @@ const userSchema: Schema = new Schema(
         endDate: { type: String },
       },
     ],
+    plans: {
+      currentPlan: { type: String },
+      freeUsage: { type: Number, default: 10 },
+      planType: { type: String, enum: ["pro", "none"], default: "none" },
+      expiryDate: { type: String },
+      purchaseDate: { type: String },
+    },
     place: { type: String },
     resume: {
       visible: { type: Boolean, default: false },
@@ -128,3 +142,16 @@ export const UserDataModel = mongoose.model<IUserData>("User", userSchema);
 export type UserDataModelType = typeof UserDataModel & {
   aggregatePaginate?: any;
 };
+
+// db.users.updateMany(
+//   {},
+//   {
+//     $set: {
+//       currentPlan: "",
+//       freeUsage: 10,
+//       planType: "none",
+//       expiryDate: "",
+//       purchaseDate: "",
+//     }
+//   }
+// );

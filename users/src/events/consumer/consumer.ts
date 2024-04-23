@@ -1,5 +1,5 @@
 import { Kafka } from "kafkajs";
-import { createUserUsecase, googleLoginUsecase } from "../../usecases/index.js";
+import { createUserUsecase, googleLoginUsecase, updatePlanUsageUsecase } from "../../usecases/index.js";
 import { IUser } from "../../entities/userData.entity.js";
 
 const KAFKA_BROKERS = process.env.KAFKA_BROKER;
@@ -13,9 +13,11 @@ export default async () => {
 
     const createdConsumer = kafka.consumer({ groupId: "users" });
     const loginConsumer = kafka.consumer({ groupId: "login" });
+    const planUsageConsumer = kafka.consumer({ groupId: "usage" });
 
     await createdConsumer.connect();
     await loginConsumer.connect();
+    await planUsageConsumer.connect();
 
     await createdConsumer.subscribe({
       topic: "user-created",
@@ -27,16 +29,26 @@ export default async () => {
       fromBeginning: true,
     });
 
+    await planUsageConsumer.subscribe({
+      topic: "plan-used",
+      fromBeginning: true,
+    });
+
     await createdConsumer.run({
       eachMessage: async ({ message }) => {
         const data = message?.value?.toString();
         if (!data) throw new Error("No data found");
-        console.log(
-          data,
-          "-----------------------------------> user created in kafka consumer"
-        );
         const userData = JSON.parse(data) as IUser;
         createUserUsecase.execute(userData);
+      },
+    });
+
+    await planUsageConsumer.run({
+      eachMessage: async ({ message }) => {
+        const data = message?.value?.toString();
+        if (!data) throw new Error("No data found");
+        const userData = JSON.parse(data) as IUser;
+        updatePlanUsageUsecase.execute(userData);
       },
     });
     await loginConsumer.run({
