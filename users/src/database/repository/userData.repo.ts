@@ -15,12 +15,14 @@ export class UserDataRepository implements IUserRepo {
   }
 
   async planUsed(email: string) {
-    return await this.database.updateOne(
+    return await this.database.findOneAndUpdate(
       {
         email,
       },
       {
-        $inc: { planUsed: -1 },
+        $inc: {
+          "plans.freeUsage": -1,
+        },
       }
     );
   }

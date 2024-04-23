@@ -129,6 +129,7 @@ services:
           path: ./ai/package-lock.json
     environment:
       KAFKA_BROKER: redpanda:29092
+      JWT_SECRET: blablablablablablabal11
     ports:
       - 7000:7000
 

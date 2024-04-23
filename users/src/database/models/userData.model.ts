@@ -143,15 +143,4 @@ export type UserDataModelType = typeof UserDataModel & {
   aggregatePaginate?: any;
 };
 
-// db.users.updateMany(
-//   {},
-//   {
-//     $set: {
-//       currentPlan: "",
-//       freeUsage: 10,
-//       planType: "none",
-//       expiryDate: "",
-//       purchaseDate: "",
-//     }
-//   }
-// );
+
