@@ -161,9 +161,9 @@ export default async function JobsPage({
             <SingleJob key={job.id} job={job} />
           ))}
           {!jobs.length && (
-            <span className="mt-10 flex items-center justify-center gap-2 text-2xl text-foreground/70">
-              <span className="pb-1">Uh! No jobs found.</span>
-              <BackpackIcon className="size-5" />
+            <span className="mt-10 flex items-center justify-center gap-2 text-foreground/70">
+              <span className="pb-1">No jobs found.</span>
+              <BackpackIcon className="size-4" />
             </span>
           )}
         </div>

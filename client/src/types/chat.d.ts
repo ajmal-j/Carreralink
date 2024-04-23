@@ -45,4 +45,5 @@ interface IMessage {
   sender: string;
   content: string;
   createdAt: string;
+  chatId: string;
 }

@@ -1,3 +1,5 @@
+import { ICompany, IUserCompany } from "./company";
+
 export interface IJob {
   id: string;
   _id?: string;
@@ -24,6 +26,15 @@ export interface IJob {
   workSpace: string;
   openings: number;
   description: string;
+  postedBy:
+    | {
+        id: IUserCompany;
+        by: "recruiter";
+      }
+    | {
+        id: ICompany;
+        by: "company";
+      };
 }
 
 export interface IApplicant {
@@ -48,37 +59,36 @@ export type IAvailableStatus =
   | "underReview"
   | "hired";
 
-  export type IApplied = {
+export type IApplied = {
+  _id: string;
+  createdAt: string;
+  status: IAvailableStatus;
+  resume: string;
+  job: {
     _id: string;
-    createdAt: string;
-    status: IAvailableStatus;
-    resume: string;
-    job: {
+    title: string;
+    company: {
       _id: string;
-      title: string;
-      company: {
-        _id: string;
-        name: string;
-        website: string;
-        logo: string;
-        tagline: string;
-        email: string;
-        industry: string;
-        headquarters: string;
-      };
-      createdAt: string;
-      type: string;
-      category: string;
-      officeLocation: string;
-      workSpace: string;
-      openings: string;
-      status: string;
-      skills: string[];
-      pay: {
-        maximum: string;
-        minimum: string;
-        rate: string;
-      };
+      name: string;
+      website: string;
+      logo: string;
+      tagline: string;
+      email: string;
+      industry: string;
+      headquarters: string;
+    };
+    createdAt: string;
+    type: string;
+    category: string;
+    officeLocation: string;
+    workSpace: string;
+    openings: string;
+    status: string;
+    skills: string[];
+    pay: {
+      maximum: string;
+      minimum: string;
+      rate: string;
     };
   };
-  
+};

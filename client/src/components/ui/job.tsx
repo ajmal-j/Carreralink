@@ -3,10 +3,20 @@ import { cn, formatMoney } from "@/lib/utils";
 import { IJob } from "@/types/jobs";
 import { BackpackIcon, ClockIcon } from "@radix-ui/react-icons";
 import { formatDistanceToNow } from "date-fns";
-import { HandCoins, ListChecks, MapPin } from "lucide-react";
+import {
+  Blocks,
+  Building,
+  Building2,
+  HandCoins,
+  ListChecks,
+  ListChecksIcon,
+  MapPin,
+  User,
+} from "lucide-react";
 import { Poppins } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -30,7 +40,7 @@ export function JobDetails({
       >
         {job.title}
       </h1>
-      <div className="mt-6 flex w-full flex-wrap  gap-3">
+      <div className="mt-6 flex w-full flex-wrap  gap-3 md:px-8">
         <Link
           href={`/companies/${job.company.id ?? job.company._id}`}
           className="w-full sm:w-min"
@@ -86,10 +96,10 @@ export function JobDetails({
         </span>
       </p>
       <article>
-        <div className="flex">
+        <div className="flex sm:px-4">
           <span className="flex items-start text-nowrap text-lg font-semibold text-foreground/70">
             <span className="flex items-center gap-1">
-              <ListChecks size={20} />
+              <Blocks size={20} />
               <span>Skills :</span>
             </span>
           </span>
@@ -110,6 +120,57 @@ export function JobDetails({
         </h1>
         <Markdown className="md:px-4">{job.description}</Markdown>
       </article>
+      <footer className="mt-10">
+        {job.postedBy.by === "recruiter" ? (
+          <div className="flex flex-col gap-2 px-4">
+            <span className="text-sm text-foreground/70">Posted by :</span>
+            <div className="mx-5 flex gap-3 rounded-md bg-foreground/5 p-4">
+              <Avatar className="size-14">
+                <AvatarImage src={job.postedBy.id.profile} />
+                <AvatarFallback>
+                  <User />
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex flex-col">
+                <Link href={`/${job.postedBy.id.username}`} className="text-xl">
+                  {" "}
+                  {job.postedBy.id.username}{" "}
+                  <span className="text-sm text-foreground/70">
+                    (recruiter at {job.company.name})
+                  </span>
+                </Link>
+                <span className="text-sm text-foreground/70">
+                  {job.postedBy.id.email}
+                </span>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-2 px-4">
+            <span className="text-sm text-foreground/70">Posted by :</span>
+            <div className="mx-5 flex gap-3 rounded-md bg-foreground/5 p-4">
+              <Avatar className="size-14">
+                <AvatarImage src={job.postedBy.id.logo} />
+                <AvatarFallback>
+                  <Building2 />
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex flex-col">
+                <Link
+                  href={`/companies/${job.postedBy.id.id}`}
+                  className="text-xl"
+                >
+                  {" "}
+                  {job.postedBy.id.name}
+                </Link>
+                <span className="text-sm text-foreground/70">
+                  {job.postedBy.id.email}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+      </footer>
     </main>
   );
 }

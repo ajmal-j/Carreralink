@@ -98,5 +98,10 @@ export function CompanyRoutes({
     VerifyCompany,
     expressCallback(companyController.getGraphData)
   );
+  router.patch(
+    "/updateJobStatus",
+    VerifyCompany,
+    expressCallback(jobController.updateStatusByCompany)
+  );
   return router;
 }

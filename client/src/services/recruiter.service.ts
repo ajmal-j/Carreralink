@@ -48,6 +48,7 @@ interface IDashboardData {
       totalApplied: number;
     };
     recentJobs: IResponseData;
+    upcomingInterviews: IResponseData;
   };
 }
 

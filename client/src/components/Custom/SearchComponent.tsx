@@ -75,9 +75,9 @@ export default function SearchComponent() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <div className="flex cursor-pointer items-center gap-1 rounded-lg bg-primaryColor px-3 py-1.5 text-white/90">
+        <div className="flex h-10 cursor-pointer items-center gap-1 rounded-lg bg-primaryColor px-3 py-1.5 text-white/90">
           <MagnifyingGlassIcon className="size-4" />
-          <span className="text-sm">User...</span>
+          <span className="hidden text-sm md:block">User...</span>
         </div>
       </DialogTrigger>
       <DialogContent className="min-h-[300px]">

@@ -35,7 +35,7 @@ export default function DashboardSideBar({ items, logOut }: IPage) {
   const pathname = usePathname();
   return (
     <>
-      <div className="hidden w-[35%] min-w-[200px] max-w-[320px] pe-1 lg:block ">
+      <div className="hidden w-[35%] min-w-[200px] max-w-[320px] pe-1 lg:block">
         <div className="sticky top-28 flex h-full max-h-[85vh] w-full flex-col items-center gap-5 overflow-y-scroll pb-10 pe-2">
           {items.map(({ href, icon, title }, indx) => (
             <motion.div key={indx} className="w-full" whileTap={{ scale: 0.95 }}>

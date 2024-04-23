@@ -66,7 +66,7 @@ export default function UserHeader({ logOut }: { logOut: () => void }) {
   }, []);
   return (
     <header
-      className={`z-10 flex items-center justify-between gap-1 rounded-full py-3 sm:border-[0.2px] sm:px-3 ${pathname !== "/" ? "border" : "border-transparent"} md:gap-2`}
+      className={`z-10 flex items-center justify-between gap-1 rounded-full py-3 sm:border-[0.2px] sm:px-3 ${pathname !== "/" ? "border" : "border-transparent"} px-3 md:gap-2`}
     >
       <Title />
       <div className="hidden flex-1 items-center justify-end gap-4 px-3  text-foreground/60 md:flex">

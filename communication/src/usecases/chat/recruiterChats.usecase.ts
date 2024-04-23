@@ -4,8 +4,14 @@ import { IChatRepository } from "../../database/index.js";
 export class GetRecruiterChatsUseCase {
   constructor(private readonly chatRepository: IChatRepository) {}
 
-  async execute({ recruiter }: { recruiter: string }) {
+  async execute({
+    recruiter,
+    company,
+  }: {
+    recruiter: string;
+    company: string;
+  }) {
     if (!recruiter) throw new BadRequestError("Invalid recruiter");
-    return await this.chatRepository.getRecruiterChats({ recruiter });
+    return await this.chatRepository.getRecruiterChats({ recruiter, company });
   }
 }

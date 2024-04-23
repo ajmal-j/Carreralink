@@ -216,6 +216,21 @@ const graphData = async ({ filter }: { filter: "yearly" | "monthly" }) => {
   return response.data;
 };
 
+const updateJobStatus = async ({
+  job,
+  status,
+}: {
+  job: string;
+  status: string;
+}) => {
+  const url = new Server().company("updateJobStatus");
+  const response = await axios.patch(url, {
+    job,
+    status,
+  });
+  return response.data;
+};
+
 export {
   registerCompany,
   allCompanies,
@@ -237,4 +252,5 @@ export {
   removeRecruiter,
   totalCounts,
   graphData,
+  updateJobStatus,
 };

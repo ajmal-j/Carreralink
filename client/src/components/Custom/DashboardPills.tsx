@@ -3,6 +3,7 @@ import {
   Briefcase,
   BriefcaseBusiness,
   Building2,
+  CalendarDays,
   UserSearch,
   Users,
 } from "lucide-react";
@@ -21,15 +22,17 @@ const titles: Record<string, string> = {
   totalRecruiters: "Total Recruiter's",
   totalCompanies: "Total Company's",
   totalUsers: "Total User's",
+  totalUpcomingInterviews: "Total Upcoming Interviews",
 };
 
-const icons: Record<string, ReactNode> = {
+const icons: Record<keyof typeof titles, ReactNode> = {
   totalJobs: <Briefcase className="mt-3 text-primaryColor" />,
   openJobs: <BriefcaseBusiness className="mt-3 text-primaryColor" />,
   totalApplied: <UserSearch className="mt-3 text-primaryColor" />,
   totalRecruiters: <Users className="mt-3 text-primaryColor" />,
   totalUsers: <Users className="mt-3 text-primaryColor" />,
   totalCompanies: <Building2 className="mt-3 text-primaryColor" />,
+  totalUpcomingInterviews: <CalendarDays className="mt-3 text-primaryColor" />,
 };
 
 export default function DashboardPills({

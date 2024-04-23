@@ -3,9 +3,14 @@
 import { CustomForm } from "@/components/FormsAndDialog/CustomForm";
 import { toast } from "@/components/ui/use-toast";
 import { getMessage } from "@/lib/utils";
+import { updateJob } from "@/services/company.service";
+import { IJob } from "@/types/jobs";
+import { PencilIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
+import { RawDraftContentState } from "react-draft-wysiwyg";
 import { z } from "zod";
+import PrimaryButton from "../Buttons/PrimaryButton";
 import {
   Dialog,
   DialogContent,
@@ -13,12 +18,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { Pencil2Icon } from "@radix-ui/react-icons";
-import { IJob } from "@/types/jobs";
-import { RawDraftContentState } from "react-draft-wysiwyg";
-import { updateJob } from "@/services/company.service";
-import PrimaryButton from "../Buttons/PrimaryButton";
-import { PencilIcon } from "lucide-react";
 
 interface IPage {
   defaultValues: Omit<
@@ -33,6 +32,7 @@ interface IPage {
     | "isPaused"
     | "status"
     | "description"
+    | 'postedBy'
   > & {
     description: RawDraftContentState;
   };
