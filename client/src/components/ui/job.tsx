@@ -89,14 +89,8 @@ export function JobDetails({
         </div>
         {jobActions}
       </div>
-      <p className="ms-auto mt-[-10px] flex items-center gap-1 text-sm text-foreground/60">
-        <ClockIcon />{" "}
-        <span className="text-nowrap">
-          {formatDistanceToNow(job.createdAt)}
-        </span>
-      </p>
       <article>
-        <div className="flex sm:px-4">
+        <div className="flex sm:px-8">
           <span className="flex items-start text-nowrap text-lg font-semibold text-foreground/70">
             <span className="flex items-center gap-1">
               <Blocks size={20} />
@@ -115,6 +109,12 @@ export function JobDetails({
             ))}
           </ul>
         </div>
+        <p className="mt-[-10px] flex items-center justify-end gap-1 text-sm text-foreground/60 md:px-8">
+          <ClockIcon />{" "}
+          <span className="text-nowrap">
+            {formatDistanceToNow(job.createdAt)}
+          </span>
+        </p>
         <h1 className="mb-4 mt-10 text-2xl font-semibold">
           Job Description :{" "}
         </h1>

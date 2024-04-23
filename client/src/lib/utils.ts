@@ -24,7 +24,11 @@ export const formatMoney = (value: number | string) => {
 };
 
 export const getMessage = (error: any) => {
-  return error?.response?.data?.message || "Uh oh! Internal Server Error";
+  return (
+    error?.response?.data?.message ||
+    error?.message ||
+    "Uh oh! Internal Server Error"
+  );
 };
 
 // export const getToken = (name: string) => {

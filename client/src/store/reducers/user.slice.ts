@@ -10,6 +10,13 @@ export interface IUser {
   contact: string;
   createdAt: Date;
   updatedAt: Date;
+  plans: {
+    currentPlan?: string;
+    freeUsage: number;
+    planType: "pro" | "none";
+    expiryDate?: Date | string;
+    purchaseDate?: Date | string;
+  };
   education: {
     _id: string;
     institution: string;
@@ -108,6 +115,11 @@ const userSlice = createSlice({
         state.user.resume = payload;
       }
     },
+    updatePlanUsage: (state) => {
+      if (state.user && state.user.plans.freeUsage > 0) {
+        state.user.plans.freeUsage = state.user.plans.freeUsage - 1;
+      }
+    },
   },
 });
 
@@ -121,5 +133,6 @@ export const {
   addSkillsState,
   updateProfilePicState,
   updateResumeState,
+  updatePlanUsage,
 } = userSlice.actions;
 export default userSlice.reducer;
