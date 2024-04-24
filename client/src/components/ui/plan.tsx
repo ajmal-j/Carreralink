@@ -1,23 +1,28 @@
 import Markdown from "@/components/Custom/Markdown";
 import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { Crown, IndianRupee } from "lucide-react";
 import { Poppins } from "next/font/google";
+import { ReactNode } from "react";
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: "400",
 });
-export default function PlanCard({ plan }: { plan: IPlan }) {
+export default function PlanCard({
+  plan,
+  actions,
+}: {
+  plan: IPlan;
+  actions?: ReactNode;
+}) {
   return (
-    <div
-      className="flex-grow basis-[300px] space-y-4 rounded-md border px-3 py-4 duration-200 ease-in-out hover:bg-foreground/5"
-    >
+    <div className="flex-grow basis-[300px] space-y-4 rounded-md border px-3 py-4 duration-200 ease-in-out hover:bg-foreground/5">
       <div className="flex items-center justify-between">
         <h1 className={cn("text-xl md:text-2xl", poppins.className)}>
           {plan.name}
@@ -48,6 +53,7 @@ export default function PlanCard({ plan }: { plan: IPlan }) {
           {plan.duration === 1 ? "month" : "months"}
         </span>
       </div>
+      <div className="flex justify-end pt-3">{actions}</div>
     </div>
   );
 }

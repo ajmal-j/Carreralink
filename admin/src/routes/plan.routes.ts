@@ -13,5 +13,6 @@ export function PlanRoutes({
   router.post("/create", expressCallback(planControllers.create));
   router.get("/userPlans", expressCallback(planControllers.userPlans));
   router.get("/companyPlans", expressCallback(planControllers.companyPlans));
+  router.patch("/update", expressCallback(planControllers.update));
   return router;
 }

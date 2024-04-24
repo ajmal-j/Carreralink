@@ -35,7 +35,7 @@ export default function layout({ children }: { children: ReactNode }) {
                   href: "/dashboard/admin",
                 },
                 {
-                  title: "Users",
+                  title: "User's",
                   icon: <PersonIcon className="size-[17px]" />,
                   href: "/dashboard/admin/users",
                 },
@@ -50,12 +50,12 @@ export default function layout({ children }: { children: ReactNode }) {
                   href: "/dashboard/admin/companies",
                 },
                 {
-                  title: "Skills & Categories",
+                  title: "Skill's & Categorie's",
                   icon: <LayersIcon className="size-[17px]" />,
                   href: "/dashboard/admin/manage",
                 },
                 {
-                  title: "Plans",
+                  title: "Plan's",
                   icon: <Crown className="size-[17px]" />,
                   href: "/dashboard/admin/plans",
                 },

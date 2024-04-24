@@ -1,26 +1,13 @@
 "use client";
 
-import Markdown from "@/components/Custom/Markdown";
 import NotFound from "@/components/Custom/NotFound";
-import { cn, getMessage } from "@/lib/utils";
-import { Crown, IndianRupee } from "lucide-react";
-import { Poppins } from "next/font/google";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useEffect, useState } from "react";
-import { toast } from "@/components/ui/use-toast";
-import { getCompanyPlans, getUserPlans } from "@/services/admin.service";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import PlanCard from "@/components/ui/plan";
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: "400",
-});
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "@/components/ui/use-toast";
+import { getMessage } from "@/lib/utils";
+import { getCompanyPlans, getUserPlans } from "@/services/admin.service";
+import { useEffect, useState } from "react";
+import UpdatePlan from "./_components/UpdatePlan";
 
 export default function Plans() {
   const [userPlans, setUserPlans] = useState<IPlan[]>([]);
@@ -63,7 +50,19 @@ export default function Plans() {
         <TabsContent value="user">
           <div className="flex w-full flex-wrap gap-3">
             {userPlans.length ? (
-              userPlans.map((plan) => <PlanCard key={plan.id} plan={plan} />)
+              userPlans.map((plan) => (
+                <PlanCard
+                  key={plan.id}
+                  plan={plan}
+                  actions={
+                    <UpdatePlan
+                      plan={plan}
+                      setUserPlans={setUserPlans}
+                      setCompanyPlans={setCompanyPlans}
+                    />
+                  }
+                />
+              ))
             ) : (
               <div className="flex w-full justify-center ">
                 <NotFound title="No plan's found." hideBackButton />
@@ -74,7 +73,19 @@ export default function Plans() {
         <TabsContent value="company">
           <div className="flex w-full flex-wrap gap-3">
             {companyPlans.length ? (
-              companyPlans.map((plan) => <PlanCard key={plan.id} plan={plan} />)
+              companyPlans.map((plan) => (
+                <PlanCard
+                  key={plan.id}
+                  plan={plan}
+                  actions={
+                    <UpdatePlan
+                      plan={plan}
+                      setUserPlans={setUserPlans}
+                      setCompanyPlans={setCompanyPlans}
+                    />
+                  }
+                />
+              ))
             ) : (
               <div className="flex w-full justify-center ">
                 <NotFound title="No plan's found." hideBackButton />

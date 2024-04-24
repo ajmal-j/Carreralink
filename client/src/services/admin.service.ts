@@ -269,15 +269,21 @@ const createPlan = async (data: Omit<IPlan, "id">) => {
   return response.data;
 };
 
-const getUserPlans = async (): Promise<{ data: IPlan[]}> => {
+const getUserPlans = async (): Promise<{ data: IPlan[] }> => {
   const url = new Server().plan("userPlans");
   const response = await axios.get(url);
   return response.data;
 };
 
-const getCompanyPlans = async (): Promise<{ data: IPlan[]}> => {
+const getCompanyPlans = async (): Promise<{ data: IPlan[] }> => {
   const url = new Server().plan("companyPlans");
   const response = await axios.get(url);
+  return response.data;
+};
+
+const updatePlan = async (data: IPlan) => {
+  const url = new Server().plan("update");
+  const response = await axios.patch(url, data);
   return response.data;
 };
 
@@ -304,4 +310,5 @@ export {
   createPlan,
   getUserPlans,
   getCompanyPlans,
+  updatePlan,
 };
