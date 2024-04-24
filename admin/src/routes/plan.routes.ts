@@ -11,6 +11,7 @@ export function PlanRoutes({
   router.use(VerifyAdmin);
 
   router.post("/create", expressCallback(planControllers.create));
-
+  router.get("/userPlans", expressCallback(planControllers.userPlans));
+  router.get("/companyPlans", expressCallback(planControllers.companyPlans));
   return router;
 }

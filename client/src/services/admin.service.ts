@@ -263,9 +263,21 @@ const getSkillsAndCategories = async () => {
   return response.data;
 };
 
-const createPlan = async (data: IPlan) => {
+const createPlan = async (data: Omit<IPlan, "id">) => {
   const url = new Server().plan("create");
   const response = await axios.post(url, data);
+  return response.data;
+};
+
+const getUserPlans = async (): Promise<{ data: IPlan[]}> => {
+  const url = new Server().plan("userPlans");
+  const response = await axios.get(url);
+  return response.data;
+};
+
+const getCompanyPlans = async (): Promise<{ data: IPlan[]}> => {
+  const url = new Server().plan("companyPlans");
+  const response = await axios.get(url);
   return response.data;
 };
 
@@ -290,4 +302,6 @@ export {
   getSkillsAndCategories,
   graphData,
   createPlan,
+  getUserPlans,
+  getCompanyPlans,
 };

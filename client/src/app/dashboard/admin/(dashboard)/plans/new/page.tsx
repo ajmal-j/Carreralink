@@ -10,7 +10,7 @@ import { z } from "zod";
 export default function NewPlan() {
   const { push } = useRouter();
 
-  const defaultValues: IPlan = {
+  const defaultValues: Omit<IPlan, "id"> = {
     name: "",
     price: 0,
     duration: 1,
