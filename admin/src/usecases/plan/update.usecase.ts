@@ -8,9 +8,6 @@ export class UpdatePlanUsecase {
   async execute({ data, plan }: { data: IPlan; plan: string }) {
     const updated = await this.PlanRepository.update({ data, plan });
     if (!updated) throw new NotFoundError("Plan not found");
-    delete updated.__v;
-    // @ts-expect-error
-    delete updated?.createdAt;
     if (updated._id) {
       updated["id"] = updated._id;
       // @ts-expect-error

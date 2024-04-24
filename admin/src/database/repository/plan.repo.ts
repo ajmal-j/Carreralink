@@ -9,13 +9,13 @@ export class PlanRepository {
 
   async getUserPlans() {
     return await this.database.find({
-      for: "user",
+      $and: [{ for: "user" }, { isDeleted: false }],
     });
   }
 
   async getCompanyPlans() {
     return await this.database.find({
-      for: "company",
+      $and: [{ for: "company" }, { isDeleted: false }],
     });
   }
 
