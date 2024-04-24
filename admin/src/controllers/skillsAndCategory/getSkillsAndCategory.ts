@@ -1,10 +1,10 @@
 import { Request } from "express";
 import { CustomResponse } from "@carreralink/common";
-import { getSkillsAndCategory } from "../../usecases/index.js";
+import { SkillAndCategoryUsecase } from "../../usecases/skillAndCategory/index.js";
 
 export default function () {
   return async (req: Request) => {
-    const data = await getSkillsAndCategory.execute();
+    const data = await SkillAndCategoryUsecase.getSkillsAndCategory.execute();
     return new CustomResponse()
       .data(data)
       .message("All Skills and Categories.")

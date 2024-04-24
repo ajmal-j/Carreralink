@@ -50,9 +50,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import {
-  companyList,
-} from "@/services/company.service";
+import { companyList } from "@/services/company.service";
 import { draftToMarkdown } from "markdown-draft-js";
 import { Calendar } from "../ui/calendar";
 import { Textarea } from "../ui/textarea";
@@ -85,17 +83,18 @@ export function CustomForm({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
-
   const {
     watch,
     setValue,
     setFocus,
     formState: { isDirty, isLoading },
   } = form;
+  const values = form.getValues();
 
   useEffect(() => {
     setFocus(Object.keys(defaultValues)[0]);
   }, []);
+
   return (
     <div className={cn(className)}>
       <Form {...form}>
@@ -111,7 +110,7 @@ export function CustomForm({
           }
           className="space-y-5"
         >
-          {Object.keys(defaultValues).map((key) => {
+          {Object.keys(values).map((key) => {
             switch (key) {
               case "password":
               case "confirmPassword":
@@ -128,6 +127,18 @@ export function CustomForm({
 
               case "skills":
                 return <SkillsField key={key} name={key} form={form} />;
+
+              case "plan":
+                return <PlanComponent key={key} name={key} form={form} />;
+
+              case "for":
+                return <PlanForComponent key={key} name={key} form={form} />;
+
+              case "price":
+                return <PriceComponent key={key} name={key} form={form} />;
+
+              case "duration":
+                return <DurationComponent key={key} name={key} form={form} />;
 
               case "currentStatus":
               case "industry":
@@ -266,6 +277,141 @@ function TimeComponent({ name, form }: IFormProps) {
                 {...field}
               />
             </div>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+}
+function PriceComponent({ name, form }: IFormProps) {
+  return (
+    <FormField
+      control={form.control}
+      name={name}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel className="capitalize">{field.name}</FormLabel>
+          <FormControl>
+            <div className="relative">
+              <Input
+                type={"number"}
+                placeholder={`enter price in rupees.`}
+                onChange={(e) => {
+                  field.onChange(Number(e.target.value));
+                }}
+                name={field.name}
+                onBlur={field.onBlur}
+                ref={field.ref}
+                disabled={field.disabled}
+                value={field.value ? field.value : ""}
+              />
+            </div>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+}
+function DurationComponent({ name, form }: IFormProps) {
+  return (
+    <FormField
+      control={form.control}
+      name={name}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel className="capitalize">{field.name}</FormLabel>
+          <FormControl>
+            <Select
+              onValueChange={(value) => field.onChange(Number(value))}
+              defaultValue={field.value.toString()}
+            >
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder={`select ${field.name}`} />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {[
+                  { label: "1 month", value: "1" },
+                  { label: "2 months", value: "2" },
+                  { label: "3 months", value: "3" },
+                  { label: "4 months", value: "4" },
+                  { label: "5 months", value: "5" },
+                  { label: "6 months", value: "6" },
+                  { label: "7 months", value: "7" },
+                  { label: "8 months", value: "8" },
+                  { label: "9 months", value: "9" },
+                  { label: "10 months", value: "10" },
+                ].map(({ label, value }, index: number) => (
+                  <SelectItem id={index.toString()} key={index} value={value}>
+                    {label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+}
+function PlanComponent({ name, form }: IFormProps) {
+  return (
+    <FormField
+      control={form.control}
+      name={name}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel className="capitalize">{field.name}</FormLabel>
+          <FormControl>
+            <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder={`select ${field.name}`} />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {["basic", "premium"].map((plan: string, index: number) => (
+                  <SelectItem id={index.toString()} key={index} value={plan}>
+                    {plan}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+}
+
+function PlanForComponent({ name, form }: IFormProps) {
+  return (
+    <FormField
+      control={form.control}
+      name={name}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel className="capitalize">{field.name}</FormLabel>
+          <FormControl>
+            <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder={`select ${field.name}`} />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {["user", "company"].map((plan: string, index: number) => (
+                  <SelectItem id={index.toString()} key={index} value={plan}>
+                    {plan}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </FormControl>
           <FormMessage />
         </FormItem>

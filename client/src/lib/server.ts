@@ -46,8 +46,12 @@ export class Server {
     const chat = `${typeof window !== "undefined" ? "localhost" : "communication-container"}:8000/api/v1/communication/chat`;
     return `${this.baseUrl}${chat}/${path}`;
   }
-  admin(path: string) {
-    const admin = `${typeof window !== "undefined" ? "localhost" : "admin-container"}:9000/api/v1/admin`;
-    return `${this.baseUrl}${admin}/${path}`;
+  skillAndCategory(path: string) {
+    const skillAndCategory = `${typeof window !== "undefined" ? "localhost" : "admin-container"}:9000/api/v1/admin/skillAndCategory`;
+    return `${this.baseUrl}${skillAndCategory}/${path}`;
+  }
+  plan(path: string) {
+    const plan = `${typeof window !== "undefined" ? "localhost" : "admin-container"}:9000/api/v1/admin/plan`;
+    return `${this.baseUrl}${plan}/${path}`;
   }
 }

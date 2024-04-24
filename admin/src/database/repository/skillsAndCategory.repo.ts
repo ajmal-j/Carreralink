@@ -1,4 +1,4 @@
-import { ISkillsAndCategoryModel } from "../models/skillAndCategoryModel.model.js";
+import { ISkillsAndCategoryModel } from "../models/skillAndCategory.model.js";
 
 export class SkillsAndCategoryRepository {
   constructor(private readonly database: ISkillsAndCategoryModel) {}

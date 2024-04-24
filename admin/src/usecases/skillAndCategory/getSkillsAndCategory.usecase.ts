@@ -1,4 +1,4 @@
-import { ISkillsAndCategoryRepoType } from "../../../../admin/src/database/index.js";
+import { ISkillsAndCategoryRepoType } from "../../database/index.js";
 
 export class SkillsAndCategoryUsecase {
   constructor(

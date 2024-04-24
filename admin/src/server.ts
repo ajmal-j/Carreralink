@@ -4,7 +4,7 @@ import express from "express";
 import { Connect } from "./database/connection/index.js";
 import { errorMiddleware } from "@carreralink/common";
 import cors from "cors";
-import { adminRoutes } from "./routes/index.js";
+import { planRoutes, skillAndCategoryRoutes } from "./routes/index.js";
 
 const app = express();
 const port = 9000;
@@ -29,7 +29,8 @@ app.get("/api/v1/admin/check", (_, res) => {
   res.send(`Admin server is up and running`);
 });
 
-app.use("/api/v1/admin", adminRoutes);
+app.use("/api/v1/admin/skillAndCategory", skillAndCategoryRoutes);
+app.use("/api/v1/admin/plan", planRoutes);
 
 app.all("*", (req, res) => {
   console.log(req.url);

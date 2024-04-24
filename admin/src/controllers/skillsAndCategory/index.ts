@@ -10,7 +10,7 @@ const removeCategory = BuildRemoveCategory();
 const removeSkill = BuildRemoveSkill();
 const getSkillsAndCategories = BuildGetSkillsAndCategories();
 
-export const adminControllers = {
+export const skillAndCategoryControllers = {
   addSkills,
   addCategory,
   removeCategory,
@@ -18,4 +18,4 @@ export const adminControllers = {
   getSkillsAndCategories,
 };
 
-export type IAdminController = typeof adminControllers;
+export type ISkillAndCategoryControllers = typeof skillAndCategoryControllers;

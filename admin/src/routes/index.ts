@@ -1,12 +1,20 @@
 import { Router } from "express";
-import { AdminRoutes } from "./admin.routes.js";
-import { adminControllers } from "../controllers/admin/index.js";
+import { SkillAndCategoryRoutes } from "./skillAndCategory.routes.js";
+import { skillAndCategoryControllers } from "../controllers/skillsAndCategory/index.js";
+import { planControllers } from "../controllers/plan/index.js";
+import { PlanRoutes } from "./plan.routes.js";
 
-const admin = Router();
+const skillAndCategory = Router();
+const plan = Router();
 
-const adminRoutes = AdminRoutes({
-  router: admin,
-  adminControllers,
+const skillAndCategoryRoutes = SkillAndCategoryRoutes({
+  router: skillAndCategory,
+  skillAndCategoryControllers,
 });
 
-export { adminRoutes };
+const planRoutes = PlanRoutes({
+  router: plan,
+  planControllers,
+});
+
+export { skillAndCategoryRoutes, planRoutes };
