@@ -4,7 +4,6 @@ import { InterviewModel } from "./models/interview.model.js";
 import { JobsModel } from "./models/jobs.model.js";
 import { RecruiterRequestModel } from "./models/recruiterRequest.model.js";
 import { SavedJobModel } from "./models/savedJobs.model.js";
-import { SkillAndCategoryModel } from "./models/skillAndCategoryModel.model.js";
 import { UserModel } from "./models/user.model.js";
 import { AppliedJobsRepo } from "./repository/appliedJobs.repo.js";
 import { CompanyRepository } from "./repository/company.repo.js";
@@ -18,9 +17,6 @@ import { UserRepository } from "./repository/user.repo.js";
 export const Repositories = {
   CompanyRepository: new CompanyRepository(CompanyModel),
   JobRepository: new JobRepository(JobsModel),
-  SkillsAndCategoryRepository: new SkillsAndCategoryRepository(
-    SkillAndCategoryModel
-  ),
   RecruiterRequestRepository: new RecruiterRequestRepository(
     RecruiterRequestModel
   ),
@@ -33,8 +29,6 @@ export const Repositories = {
 export type ICompanyRepoType = typeof Repositories.CompanyRepository;
 export type IUserRepoType = typeof Repositories.UserRepository;
 export type IJobRepoType = typeof Repositories.JobRepository;
-export type ISkillsAndCategoryRepoType =
-  typeof Repositories.SkillsAndCategoryRepository;
 
 export type ISavedJobsRepoType = typeof Repositories.SavedJobsRepo;
 export type IAppliedJobsRepoType = typeof Repositories.AppliedJobsRepo;

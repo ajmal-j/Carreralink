@@ -1,6 +1,6 @@
 import { Request } from "express";
-import { getSkillsAndCategory } from "../../usecases/index.js";
 import { CustomResponse } from "@carreralink/common";
+import { getSkillsAndCategory } from "../../usecases/index.js";
 
 export default function () {
   return async (req: Request) => {

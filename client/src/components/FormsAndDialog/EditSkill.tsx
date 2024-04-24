@@ -27,7 +27,7 @@ import { toast } from "../ui/use-toast";
 import { getMessage } from "@/lib/utils";
 import { addSkillsState } from "@/store/reducers/user.slice";
 import AccentButton from "../Buttons/AccentButton";
-import { getSkillsAndCategories } from "@/services/company.service";
+import { getSkillsAndCategories } from "@/services/admin.service";
 
 const FormSchema = z.object({
   skills: z.array(z.string()),

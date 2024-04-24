@@ -34,14 +34,6 @@ export function AdminRoutes({
     expressCallback(adminControllers.rejectCompany)
   );
 
-  router.post("/addCategories", expressCallback(adminControllers.addCategory));
-  router.post("/addSkills", expressCallback(adminControllers.addSkills));
-
-  router.delete(
-    "/removeCategory",
-    expressCallback(adminControllers.removeCategory)
-  );
-  router.delete("/removeSkill", expressCallback(adminControllers.removeSkill));
   router.get("/jobs", expressCallback(adminControllers.getJobs));
   router.delete("/deleteJobs", expressCallback(adminControllers.deleteJobs));
   router.post("/editJob", expressCallback(adminControllers.editJob));

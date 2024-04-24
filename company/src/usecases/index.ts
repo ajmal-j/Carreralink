@@ -1,14 +1,9 @@
 import { Repositories } from "../database/index.js";
-import { AddCategoryUsecase } from "./admin/addCategory.usecase.js";
-import { AddSkillsUsecase } from "./admin/addSkills.usecase.js";
 import { DeleteJobsByAdminUsecase } from "./admin/deleteJobsByAdmin.usecase.js";
 import { GetJobsByAdminUsecase } from "./admin/getJobs.usecase.js";
-import { SkillsAndCategoryRepository } from "./admin/getSkillsAndCategory.usecase.js";
 import { GetTotalCountUsecaseByAdmin } from "./admin/getTotalCount.usecase.js";
 import { AdminMonthlyGraphDataUsecase } from "./admin/monthlyGraphData.usecase.js";
 import { RejectCompanyUsecase } from "./admin/rejectCompany.usecase.js";
-import { RemoveCategoryUsecase } from "./admin/removeCategory.usecase.js";
-import { RemoveSkillUsecase } from "./admin/removeSkill.usecase.js";
 import { VerifyCompanyUsecase } from "./admin/verifyCompany.usecase.js";
 import { AdminYearlyGraphDataUsecase } from "./admin/yearlyGraphData.usecase.js";
 import { AllCompaniesUsecase } from "./company/allCompanies.usecase.js";
@@ -100,25 +95,6 @@ const rejectCompanyUsecase = new RejectCompanyUsecase(
 );
 
 const isVerifiedUsecase = new IsVerifiedUsecase(Repositories.CompanyRepository);
-
-const addCategoryUsecase = new AddCategoryUsecase(
-  Repositories.SkillsAndCategoryRepository
-);
-const addSkillsUsecase = new AddSkillsUsecase(
-  Repositories.SkillsAndCategoryRepository
-);
-
-const getSkillsAndCategory = new SkillsAndCategoryRepository(
-  Repositories.SkillsAndCategoryRepository
-);
-
-const removeSkillUsecase = new RemoveSkillUsecase(
-  Repositories.SkillsAndCategoryRepository
-);
-
-const removeCategoryUsecase = new RemoveCategoryUsecase(
-  Repositories.SkillsAndCategoryRepository
-);
 
 const companyListUsecase = new CompanyListUsecase(
   Repositories.CompanyRepository
@@ -275,8 +251,6 @@ const getUserDataByIdUsecase = new GetUserDataByIdUsecase(
 );
 
 export {
-  addCategoryUsecase,
-  addSkillsUsecase,
   getUserDataByEmailUsecase,
   getUserDataByIdUsecase,
   allCompaniesUsecase,
@@ -303,7 +277,6 @@ export {
   getPendingRequestsUsecase,
   getRecruiterJobsUsecase,
   getRecruitersUsecase,
-  getSkillsAndCategory,
   getTotalCountByAdminUsecase,
   getTotalCountByCompanyUsecase,
   getTotalCountByRecruiterUsecase,
@@ -315,10 +288,8 @@ export {
   recruiterYearlyGraphDataUsecase,
   rejectCompanyUsecase,
   rejectRequestUsecase,
-  removeCategoryUsecase,
   removeRecruiterUsecase,
   removeSavedJobUsecase,
-  removeSkillUsecase,
   saveJobUsecase,
   unverifiedCompaniesUsecase,
   updateCompanyUsecase,

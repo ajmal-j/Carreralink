@@ -3,7 +3,6 @@ import BuildAllJobs from "./allJobs.js";
 import BuildCompanyList from "./companyList.js";
 import BuildData from "./data.js";
 import BuildGet from "./get.js";
-import BuildSkillsAndCategories from "./getSkillsAndCategory.js";
 import BuildGetTotalCount from "./getTotalCount.js";
 import BuildIsVerified from "./isVerified.js";
 import BuildJobs from "./jobs.js";
@@ -18,7 +17,6 @@ const update = BuildUpdate();
 const allJobs = BuildAllJobs();
 const jobs = BuildJobs();
 const isVerified = BuildIsVerified();
-const getSkillsAndCategories = BuildSkillsAndCategories();
 const companyList = BuildCompanyList();
 const updateCoverPhoto = BuildUpdateCoverPhoto();
 const getTotalCount = BuildGetTotalCount();
@@ -32,7 +30,6 @@ export const companyController = {
   update,
   jobs,
   isVerified,
-  getSkillsAndCategories,
   companyList,
   updateCoverPhoto,
   getTotalCount,

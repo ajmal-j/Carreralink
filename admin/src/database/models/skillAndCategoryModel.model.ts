@@ -11,7 +11,7 @@ const skillAndCategorySchema = new Schema({
 });
 
 export const SkillAndCategoryModel = mongoose.model<ISkillsAndCategory>(
-  "SkillAndCategory",
+  "SkillsAndCategories",
   skillAndCategorySchema
 );
 export type ISkillsAndCategoryModel = typeof SkillAndCategoryModel;

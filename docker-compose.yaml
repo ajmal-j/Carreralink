@@ -96,6 +96,30 @@ services:
     ports:
       - 8000:8000
 
+  admin:
+    build: ./admin
+    container_name: admin-container
+    depends_on:
+      - admin-db
+      - redpanda
+    develop:
+      watch:
+        - action: sync
+          path: ./admin
+          target: ./admin
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: ./admin/package.json
+        - action: rebuild
+          path: ./admin/package-lock.json
+    environment:
+      MONGO_URL: mongodb://admin-db:27017/admin
+      KAFKA_BROKER: redpanda:29092
+      JWT_SECRET: blablablablablablabal
+    ports:
+      - 9000:9000
+
   client:
     build: ./client
     container_name: client-container
@@ -165,6 +189,14 @@ services:
     volumes:
       - communication_db:/data/db
 
+  admin-db:
+    image: mongo:7.0
+    restart: always
+    ports:
+      - 27021:27017
+    volumes:
+      - admin_db:/data/db
+
   redpanda:
     image: docker.redpanda.com/vectorized/redpanda:v22.2.2
     container_name: carreralink-redpanda
@@ -184,3 +216,5 @@ volumes:
     name: company-data
   communication_db:
     name: communication-data
+  admin_db:
+    name: admin-data

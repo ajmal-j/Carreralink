@@ -12,15 +12,15 @@ import { Dispatch, SetStateAction, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { CrossCircledIcon, PlusIcon } from "@radix-ui/react-icons";
-import { getMessage } from "@/lib/utils";
-import { toast } from "@/components/ui/use-toast";
 import AccentButton from "@/components/Buttons/AccentButton";
 import PrimaryButton from "@/components/Buttons/PrimaryButton";
+import { Button } from "@/components/ui/button";
 import { Form, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
+import { getMessage } from "@/lib/utils";
 import { addSkills } from "@/services/admin.service";
+import { CrossCircledIcon, PlusIcon } from "@radix-ui/react-icons";
 
 const FormSchema = z.object({
   skills: z.array(z.string()),

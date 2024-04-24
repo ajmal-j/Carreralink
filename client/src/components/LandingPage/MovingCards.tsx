@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { InfiniteMovingCards } from "../ui/infinite-moving-cards";
-import { getSkillsAndCategories } from "@/services/company.service";
+import { getSkillsAndCategories } from "@/services/admin.service";
 
 export function InfiniteMovingCard() {
   const [categories, setCategories] = useState([]);

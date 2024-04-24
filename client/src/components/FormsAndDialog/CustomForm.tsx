@@ -52,11 +52,11 @@ import {
 import { cn } from "@/lib/utils";
 import {
   companyList,
-  getSkillsAndCategories,
 } from "@/services/company.service";
 import { draftToMarkdown } from "markdown-draft-js";
 import { Calendar } from "../ui/calendar";
 import { Textarea } from "../ui/textarea";
+import { getSkillsAndCategories } from "@/services/admin.service";
 
 type FormType = {
   formSchema: ZodObject<Record<string, any>>;

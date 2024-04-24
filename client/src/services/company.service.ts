@@ -128,11 +128,6 @@ const getJobs = async (
   return response.data;
 };
 
-const getSkillsAndCategories = async () => {
-  const url = new Server().company("getSkillsAndCategories");
-  const response = await axios.get(url);
-  return response.data;
-};
 
 const companyList = async (q: string) => {
   const url = new Server().company("companyList");
@@ -241,7 +236,6 @@ export {
   allCompaniesSSR,
   updateJob,
   getJobs,
-  getSkillsAndCategories,
   isVerified,
   companyList,
   updateCoverPhoto,

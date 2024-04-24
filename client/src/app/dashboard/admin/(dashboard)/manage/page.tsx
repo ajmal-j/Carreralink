@@ -16,7 +16,7 @@ import { AddSkill } from "./AddSkills";
 import { AddCategory } from "./AddCategory";
 import { toast } from "@/components/ui/use-toast";
 import { removeCategory, removeSkill } from "@/services/admin.service";
-import { getSkillsAndCategories } from "@/services/company.service";
+import { getSkillsAndCategories } from "@/services/admin.service";
 
 export default function Mange() {
   const [skills, setSkills] = useState<string[]>([]);

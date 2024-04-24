@@ -111,14 +111,14 @@ const getJobs = async ({
 };
 
 const addCategories = async ({ categories }: { categories: string[] }) => {
-  const url = new Server().adminCompany("addCategories");
+  const url = new Server().admin("addCategories");
   const response = await axios.post(url, {
     categories,
   });
   return response.data;
 };
 const addSkills = async ({ skills }: { skills: string[] }) => {
-  const url = new Server().adminCompany("addSkills");
+  const url = new Server().admin("addSkills");
   const response = await axios.post(url, {
     skills,
   });
@@ -126,7 +126,7 @@ const addSkills = async ({ skills }: { skills: string[] }) => {
 };
 
 const removeCategory = async ({ category }: { category: string }) => {
-  const url = new Server().adminCompany("removeCategory");
+  const url = new Server().admin("removeCategory");
   const response = await axios.delete(url, {
     data: {
       category,
@@ -135,7 +135,7 @@ const removeCategory = async ({ category }: { category: string }) => {
   return response.data;
 };
 const removeSkill = async ({ skill }: { skill: string }) => {
-  const url = new Server().adminCompany("removeSkill");
+  const url = new Server().admin("removeSkill");
   const response = await axios.delete(url, {
     data: {
       skill,
@@ -257,6 +257,12 @@ const graphData = async ({ filter }: { filter: "yearly" | "monthly" }) => {
   return response.data;
 };
 
+const getSkillsAndCategories = async () => {
+  const url = new Server().admin("getSkillsAndCategories");
+  const response = await axios.get(url);
+  return response.data;
+};
+
 export {
   getVerifiedCompanies,
   getUnverifiedCompanies,
@@ -275,5 +281,6 @@ export {
   deleteJobs,
   editCompany,
   totalCounts,
+  getSkillsAndCategories,
   graphData,
 };
