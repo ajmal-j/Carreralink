@@ -5,6 +5,7 @@ import { CustomResponse } from "@carreralink/common";
 export default function () {
   return async (req: Request) => {
     const data = await PlanUsecase.userPlans.execute();
+    console.log(data);
     return new CustomResponse()
       .data(data)
       .statusCode(200)

@@ -5,3 +5,4 @@ company-port : 6000
 ai-port : 7000
 communication-port : 8000
 admin-port : 9000
+order-port : 10000

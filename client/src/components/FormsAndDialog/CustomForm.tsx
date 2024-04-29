@@ -134,6 +134,9 @@ export function CustomForm({
               case "for":
                 return <PlanForComponent key={key} name={key} form={form} />;
 
+              case "features":
+                return <FeaturesField key={key} name={key} form={form} />;
+
               case "price":
                 return <PriceComponent key={key} name={key} form={form} />;
 
@@ -974,6 +977,90 @@ function SkillsField({ form, name }: ISkillsFieldProps) {
                   ))}
                 <SelectItem value="skills" disabled>
                   select skills
+                </SelectItem>
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </>
+  );
+}
+
+interface IFeaturesFieldProps extends IFormProps {}
+
+function FeaturesField({ form, name }: IFeaturesFieldProps) {
+  const [currentFeatures, setFeatures] = useState<string[]>(
+    form.getValues(name) || [],
+  );
+  const [newFeatures] = useState<string[]>(["basic", "premium"]);
+
+  return (
+    <>
+      <div className="mb-3 mt-4 flex flex-col flex-wrap gap-2 gap-y-3">
+        <FormLabel>Features</FormLabel>
+        {!currentFeatures.length && (
+          <p className="text-foreground/50">No features selected</p>
+        )}
+        <div className="flex flex-wrap gap-2">
+          {currentFeatures.map((feature: string, index: number) => (
+            <div key={index} className="relative">
+              <PrimaryButton className="w-min text-nowrap px-3">
+                {feature}
+              </PrimaryButton>
+              <span>
+                <CrossCircledIcon
+                  onClick={() => {
+                    setFeatures(currentFeatures.filter((_, i) => i !== index));
+                    form.setValue(
+                      name,
+                      currentFeatures.filter((_, i) => i !== index),
+                    );
+                  }}
+                  className="absolute right-[-5px] top-[-4px] size-5 cursor-pointer rounded-full bg-background text-red-500"
+                />
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <FormField
+        control={form.control}
+        name="features"
+        render={({ field }) => (
+          <FormItem>
+            <Select
+              onValueChange={(feature) => {
+                if (!currentFeatures.includes(feature)) {
+                  form.setValue(name, [...currentFeatures, feature]);
+                  setFeatures((prev) => [...prev, feature]);
+                }
+              }}
+            >
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue
+                    className="placeholder:text-foreground/50"
+                    placeholder="Select features."
+                  />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {newFeatures
+                  .filter((feature) => !currentFeatures.includes(feature))
+                  .map((feature: string, index: number) => (
+                    <SelectItem
+                      className="w-full"
+                      id={index.toString()}
+                      key={index}
+                      value={feature}
+                    >
+                      {feature}
+                    </SelectItem>
+                  ))}
+                <SelectItem value="features" disabled>
+                  select features
                 </SelectItem>
               </SelectContent>
             </Select>

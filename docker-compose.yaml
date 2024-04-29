@@ -120,6 +120,30 @@ services:
     ports:
       - 9000:9000
 
+  order:
+    build: ./order
+    container_name: order-container
+    depends_on:
+      - order-db
+      - redpanda
+    develop:
+      watch:
+        - action: sync
+          path: ./order
+          target: ./order
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: ./order/package.json
+        - action: rebuild
+          path: ./order/package-lock.json
+    environment:
+      MONGO_URL: mongodb://order-db:27017/order
+      KAFKA_BROKER: redpanda:29092
+      JWT_SECRET: blablablablablablabal
+    ports:
+      - 10000:10000
+
   client:
     build: ./client
     container_name: client-container
@@ -197,6 +221,14 @@ services:
     volumes:
       - admin_db:/data/db
 
+  order-db:
+    image: mongo:7.0
+    restart: always
+    ports:
+      - 27022:27017
+    volumes:
+      - order_db:/data/db
+
   redpanda:
     image: docker.redpanda.com/vectorized/redpanda:v22.2.2
     container_name: carreralink-redpanda
@@ -218,3 +250,5 @@ volumes:
     name: communication-data
   admin_db:
     name: admin-data
+  order_db:
+    name: order-data

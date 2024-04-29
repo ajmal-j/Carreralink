@@ -16,6 +16,7 @@ export default function NewPlan() {
     duration: 1,
     for: "user",
     plan: "basic",
+    features: [],
     description: "",
   };
 
@@ -25,12 +26,22 @@ export default function NewPlan() {
     duration: z.number().min(1, { message: "Invalid duration" }),
     for: z.string().nonempty({ message: "Required" }),
     plan: z.string().nonempty({ message: "Required" }),
+    features: z.array(z.string().nonempty({ message: "Required" })),
     description: z.string().min(3, { message: "Invalid description" }),
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      await createPlan(data as IPlan);
+      const { features, ...rest } = data;
+      const newFeatures: Record<string, boolean> = {};
+      for (const feature of features) {
+        newFeatures[feature] = true;
+      }
+      const plan = {
+        ...rest,
+        features: newFeatures,
+      };
+      await createPlan(plan as IPlan);
       toast({
         title: "Plan created successfully",
       });

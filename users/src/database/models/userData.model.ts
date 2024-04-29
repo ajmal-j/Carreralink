@@ -12,6 +12,7 @@ export interface IUserData extends Document {
     planType: "pro" | "none";
     expiryDate: Date | string;
     purchaseDate: Date | string;
+    features: Record<string, boolean>;
   };
   isBlocked: boolean;
   interviews: String | null;
@@ -142,5 +143,3 @@ export const UserDataModel = mongoose.model<IUserData>("User", userSchema);
 export type UserDataModelType = typeof UserDataModel & {
   aggregatePaginate?: any;
 };
-
-

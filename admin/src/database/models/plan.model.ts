@@ -2,12 +2,13 @@ import mongoose, { Schema } from "mongoose";
 
 export interface IPlan {
   name: string;
-  isDeleted: boolean;
   description: string;
   price: number;
   duration: number;
-  for: "company" | "user";
   plan: "basic" | "premium";
+  features: Record<string, boolean>;
+  for: "company" | "user";
+  isDeleted: boolean;
 }
 
 const planSchema = new Schema<IPlan>(
@@ -19,6 +20,7 @@ const planSchema = new Schema<IPlan>(
     for: { type: String, required: true, enum: ["company", "user"] },
     plan: { type: String, required: true, enum: ["basic", "premium"] },
     isDeleted: { type: Boolean, default: false },
+    features: { type: Object },
   },
   {
     timestamps: true,

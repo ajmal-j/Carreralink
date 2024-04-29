@@ -35,8 +35,13 @@ export default function UpdatePlan({
     for: z.enum(["user", "company"]),
     plan: z.enum(["basic", "premium"]),
     description: z.string().min(3, { message: "Invalid description" }),
+    features: z.array(z.string().nonempty({ message: "Required" })),
   });
-  const value = formSchema.parse(plan);
+  const featureArray = Object.keys(plan?.features ?? {});
+  const value = formSchema.parse({
+    ...plan,
+    features: featureArray,
+  });
 
   const { description, ...rest } = value;
   const id = plan.id;
@@ -50,7 +55,16 @@ export default function UpdatePlan({
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      const response = await updatePlan({ ...(data as Omit<IPlan, "id">), id });
+      const { features, ...rest } = data;
+      const newFeatures: Record<string, boolean> = {};
+      for (const feature of features) {
+        newFeatures[feature] = true;
+      }
+      const plan = {
+        ...rest,
+        features: newFeatures,
+      };
+      const response = await updatePlan({ ...(plan as Omit<IPlan, "id">), id });
       toast({
         title: "Plan updated successfully",
       });
