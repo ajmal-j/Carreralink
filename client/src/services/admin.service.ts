@@ -287,6 +287,8 @@ const updatePlan = async (data: IPlan) => {
   return response.data;
 };
 
+
+
 export {
   getVerifiedCompanies,
   getUnverifiedCompanies,

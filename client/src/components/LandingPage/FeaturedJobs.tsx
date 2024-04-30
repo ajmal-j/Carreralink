@@ -26,7 +26,7 @@ const jobs = [
 ];
 export default function FeaturedJobs() {
   return (
-    <div className="mt-6 flex flex-col items-center gap-2 rounded-xl border bg-background px-2 py-3">
+    <div className="flex flex-col items-center gap-2 rounded-xl border bg-background px-2 py-3">
       {jobs.map((job) => (
         <>
           <div className="flex w-full items-center justify-between rounded-lg bg-background px-5 py-2 font-montserrat">

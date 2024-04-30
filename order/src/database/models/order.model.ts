@@ -1,15 +1,16 @@
 import mongoose from "mongoose";
 
-interface IOrder {
+export interface IOrder {
   item: {
+    id: string;
     name: string;
     description: string;
     price: number;
     duration: number;
+    for: "user" | "company";
     plan: "basic" | "premium";
-    features: Record<string, any>[];
+    features: Record<string, any>;
   };
-  purchasedBy: "user" | "company";
   paymentId: string;
   recipient: string;
 }
@@ -17,18 +18,17 @@ interface IOrder {
 const orderSchema = new mongoose.Schema<IOrder>(
   {
     item: {
+      id: { type: String, required: true },
+      for: { type: String, required: true, enum: ["user", "company"] },
       name: { type: String, required: true },
       description: { type: String, required: true },
       price: { type: Number, required: true },
       duration: { type: Number, required: true, default: 1 },
       plan: { type: String, required: true, enum: ["basic", "premium"] },
-      features: [
-        {
-          type: Object,
-        },
-      ],
+      features: {
+        type: Object,
+      },
     },
-    purchasedBy: { type: String, required: true, enum: ["user", "company"] },
     paymentId: { type: String, required: true },
     recipient: { type: String, required: true },
   },

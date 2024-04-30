@@ -4,7 +4,11 @@ import express from "express";
 import { Connect } from "./database/connection/index.js";
 import { errorMiddleware } from "@carreralink/common";
 import cors from "cors";
-import { planRoutes, skillAndCategoryRoutes } from "./routes/index.js";
+import {
+  adminPlanRoutes,
+  skillAndCategoryRoutes,
+  userPlanRoutes,
+} from "./routes/index.js";
 
 const app = express();
 const port = 9000;
@@ -30,7 +34,8 @@ app.get("/api/v1/admin/check", (_, res) => {
 });
 
 app.use("/api/v1/admin/skillAndCategory", skillAndCategoryRoutes);
-app.use("/api/v1/admin/plan", planRoutes);
+app.use("/api/v1/admin/plan/user", userPlanRoutes);
+app.use("/api/v1/admin/plan", adminPlanRoutes);
 
 app.all("*", (req, res) => {
   console.log(req.url);

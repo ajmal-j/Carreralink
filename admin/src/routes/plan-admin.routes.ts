@@ -1,7 +1,7 @@
 import { VerifyAdmin, expressCallback } from "@carreralink/common";
 import { IPlanControllers } from "../controllers/plan/index.js";
 
-export function PlanRoutes({
+export function AdminPlanRoutes({
   router,
   planControllers,
 }: {

@@ -54,4 +54,14 @@ export class Server {
     const plan = `${typeof window !== "undefined" ? "localhost" : "admin-container"}:9000/api/v1/admin/plan`;
     return `${this.baseUrl}${plan}/${path}`;
   }
+
+  userPlan(path: string) {
+    const userPlan = `${typeof window !== "undefined" ? "localhost" : "admin-container"}:9000/api/v1/admin/plan/user`;
+    return `${this.baseUrl}${userPlan}/${path}`;
+  }
+
+  payment(path: string) {
+    const payment = `${typeof window !== "undefined" ? "localhost" : "order-container"}:10000/api/v1/order/payment`;
+    return `${this.baseUrl}${payment}/${path}`;
+  }
 }

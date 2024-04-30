@@ -6,6 +6,9 @@ export class PlanRepository {
   async create(data: IPlan) {
     return await this.database.create(data);
   }
+  async plan(id: string) {
+    return await this.database.findOne({ _id: id });
+  }
 
   async getUserPlans() {
     return await this.database.find({

@@ -17,12 +17,19 @@ const poppins = Poppins({
 export default function PlanCard({
   plan,
   actions,
+  className,
 }: {
   plan: IPlan;
   actions?: ReactNode;
+  className?: string;
 }) {
   return (
-    <div className="flex flex-grow basis-[300px] flex-col space-y-4 rounded-md border px-3 py-4 duration-200 ease-in-out hover:bg-foreground/5">
+    <div
+      className={cn(
+        "flex flex-grow basis-[400px] flex-col space-y-4 rounded-md border px-3 py-4 duration-200 ease-in-out hover:bg-foreground/5",
+        className,
+      )}
+    >
       <div>
         <div className="flex items-center justify-between">
           <h1 className={cn("text-xl md:text-2xl", poppins.className)}>

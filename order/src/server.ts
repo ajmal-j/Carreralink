@@ -4,6 +4,7 @@ import express from "express";
 import { Connect } from "./database/connection/index.js";
 import { errorMiddleware } from "@carreralink/common";
 import cors from "cors";
+import { paymentRoutes } from "./routes/index.js";
 
 const app = express();
 const port = 10000;
@@ -27,6 +28,8 @@ app.all("*", (req, res, next) => {
 app.get("/api/v1/order/check", (_, res) => {
   res.send(`Order server is up and running`);
 });
+
+app.use("/api/v1/order/payment", paymentRoutes);
 
 app.all("*", (req, res) => {
   console.log(req.url);

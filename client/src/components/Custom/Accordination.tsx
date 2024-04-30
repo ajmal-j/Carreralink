@@ -11,11 +11,7 @@ export function LandingPageAccordion() {
       <h1 className="text-center text-3xl font-semibold">
         Frequently Asked Questions
       </h1>
-      <Accordion
-        type="single"
-        collapsible
-        className="mx-auto w-full max-w-[800px]"
-      >
+      <Accordion type="single" collapsible className="mx-auto w-full">
         <AccordionItem value="item-1">
           <AccordionTrigger>What is Carreralink?</AccordionTrigger>
           <AccordionContent>

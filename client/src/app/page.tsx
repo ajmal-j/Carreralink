@@ -7,6 +7,7 @@ import { SparklesTitle } from "@/components/LandingPage/SparklingTitle";
 import { ThreeDCard } from "@/components/LandingPage/ThreeDCard";
 import Main from "@/components/Layout/Main";
 import MainText from "@/components/Layout/MainText";
+import UserPlans from "@/components/ui/UserPlans";
 
 export default async function Home() {
   return (
@@ -16,16 +17,19 @@ export default async function Home() {
           className="absolute inset-0 overflow-hidden bg-[url('/bg.svg')] bg-contain bg-scroll bg-top bg-no-repeat blur-[120px]
         "
         ></div>
-        <article className="relative z-10">
+        <article className="relative z-10 flex flex-col gap-10">
           <MainText />
           <Search action="/jobs" />
           <FeaturedJobs />
-          <span className="block pb-3 pt-10 text-center text-2xl">
+          <span className="block pb-3 text-center text-2xl">
             Popular Job Categorie&apos;s
           </span>
           <InfiniteMovingCard />
-          <SparklesTitle />
-          <ThreeDCard />
+          <div className="mt-10">
+            <SparklesTitle />
+            <ThreeDCard />
+          </div>
+          <UserPlans />
           <LandingPageAccordion />
         </article>
       </Main>
