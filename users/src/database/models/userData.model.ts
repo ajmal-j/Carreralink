@@ -9,7 +9,7 @@ export interface IUserData extends Document {
   plan: {
     currentPlan: string;
     freeUsage?: number;
-    planType: "basic" | "premium";
+    planType: "basic" | "premium" | "none";
     expiryDate: Date | string;
     purchaseDate: Date | string;
     features: Record<string, boolean>;
@@ -88,7 +88,11 @@ const userSchema: Schema = new Schema(
     plan: {
       currentPlan: { type: String },
       freeUsage: { type: Number, default: 10 },
-      planType: { type: String, enum: ["premium", "basic"], default: "none" },
+      planType: {
+        type: String,
+        enum: ["premium", "basic", "none"],
+        default: "none",
+      },
       features: { type: Object },
       expiryDate: { type: String },
       purchaseDate: { type: String },

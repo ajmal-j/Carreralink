@@ -36,18 +36,35 @@ export class UserDataRepository implements IUserRepo {
     }
     return await userData.save();
   }
-
-  async planUsed(email: string) {
+  async updatePlanExpiry({
+    user,
+    plan,
+  }: {
+    user: string;
+    plan: {
+      freeUsage: number;
+    };
+  }) {
     return await this.database.findOneAndUpdate(
+      { email: user },
       {
-        email,
+        $set: {
+          plan,
+        },
       },
       {
-        $inc: {
-          "plan.freeUsage": -1,
-        },
+        new: true,
       }
     );
+  }
+
+  async planUsed(email: string) {
+    const user = await this.database.findOne({ email });
+    if (!user) return console.log("user not found");
+    if (user?.plan?.freeUsage && user?.plan?.planType === "none") {
+      user.plan.freeUsage = user.plan.freeUsage - 1;
+      await user.save();
+    }
   }
 
   async getUsers(query: { p: number; q?: string }) {

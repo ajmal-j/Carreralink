@@ -11,11 +11,12 @@ export interface IUser {
   createdAt: Date;
   updatedAt: Date;
   plan: {
-    currentPlan?: string;
+    currentPlan: string;
     freeUsage: number;
-    planType: "pro" | "none";
-    expiryDate?: Date | string;
-    purchaseDate?: Date | string;
+    planType: "basic" | "premium" | "none";
+    expiryDate: Date | string;
+    purchaseDate: Date | string;
+    features: Record<string, boolean>;
   };
   education: {
     _id: string;

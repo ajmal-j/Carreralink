@@ -1,8 +1,5 @@
-import {
-  CustomResponse,
-  NotFoundError,
-  UnauthorizedError,
-} from "@carreralink/common";
+import { CustomResponse, NotFoundError } from "@carreralink/common";
+import { isPast } from "date-fns";
 import { IUserDataRepo } from "../../database/index.js";
 
 export class CurrentUserUsecase {
@@ -15,8 +12,18 @@ export class CurrentUserUsecase {
       return new CustomResponse()
         .statusCode(401)
         .deleteCookie("userToken")
-        .message("User is blocked")
+        .message("User is blocked");
     }
+
+    if (user?.plan?.expiryDate && isPast(user?.plan?.expiryDate)) {
+      return await this.UserDataRepo.updatePlanExpiry({
+        user: user.email,
+        plan: {
+          freeUsage: user?.plan?.freeUsage || 0,
+        },
+      });
+    }
+
     return user;
   }
 }

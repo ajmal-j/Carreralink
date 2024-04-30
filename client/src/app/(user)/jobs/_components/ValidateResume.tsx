@@ -22,14 +22,14 @@ import { toast } from "@/components/ui/use-toast";
 import { getMessage } from "@/lib/utils";
 import { validateResume } from "@/services/ai.service";
 import { useStateSelector } from "@/store";
+import { updatePlanUsage } from "@/store/reducers/user.slice";
 import { IJob } from "@/types/jobs";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
+import { CoinsIcon, Loader, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Coins, CoinsIcon, Loader, Sparkles } from "lucide-react";
 import { useDispatch } from "react-redux";
-import { updatePlanUsage } from "@/store/reducers/user.slice";
 
 export default function ValidateResume({ job }: { job: IJob }) {
   const [result, setResult] = useState(``);
@@ -107,12 +107,18 @@ export default function ValidateResume({ job }: { job: IJob }) {
       <div className="mb-3 flex justify-between">
         <div className="flex items-center gap-1">
           {isAuth ? (
-            <>
-              <CoinsIcon size={16} />
-              <h4 className="text-sm font-semibold text-foreground/70">
-                {user?.plan.freeUsage || 0} free usage left.
-              </h4>
-            </>
+            user?.plan?.features?.resumeValidation ? (
+              <div className="flex items-center gap-1 text-sm capitalize text-foreground/60">
+                {user.plan.planType} User
+              </div>
+            ) : (
+              <>
+                <CoinsIcon size={16} />
+                <h4 className="text-sm font-semibold text-foreground/70">
+                  {user?.plan.freeUsage || 0} free usage left.
+                </h4>
+              </>
+            )
           ) : (
             <h1 className="text-sm font-semibold text-foreground/70">
               Please login to use this feature.
