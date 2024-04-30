@@ -82,5 +82,6 @@ export default (
     expressCallback(userController.updateResumeVisibility)
   );
   router.get("/getUsers", expressCallback(userController.getUsers));
+  router.get("/userList", expressCallback(userController.userList));
   return router;
 };

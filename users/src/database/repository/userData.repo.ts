@@ -108,6 +108,31 @@ export class UserDataRepository implements IUserRepo {
     return response;
   }
 
+  async usersList(query: { q?: string }) {
+    const regex = new RegExp(query.q || "", "i");
+    const data = await this.database
+      .find({
+        $and: [
+          {
+            username: regex,
+          },
+          {
+            email: {
+              $not: {
+                $eq: "admin@gmail.com",
+              },
+            },
+          },
+        ],
+      })
+      .select("username profile email currentStatus plan")
+      .sort({
+        "plan.features.searchPriority": -1,
+      })
+      .limit(10);
+    return data;
+  }
+
   async toggleBlock(email: string) {
     const user = await this.database.findOne({ email });
     if (!user) throw new Error("User not found");

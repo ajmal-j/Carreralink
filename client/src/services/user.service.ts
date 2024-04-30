@@ -143,6 +143,16 @@ const getUsers = async (query: { q?: string; p?: number }) => {
   });
   return response.data;
 };
+const userList = async (query: { q?: string; p?: number }) => {
+  const url = new Server().user("userList");
+  const response = await axios.get(url, {
+    params: {
+      ...query,
+      p: (query.p && Number(query.p)) || 1,
+    },
+  });
+  return response.data;
+};
 
 export {
   currentUser,
@@ -164,4 +174,5 @@ export {
   updatePrimaryResume,
   updateResumeVisibility,
   getUsers,
+  userList,
 };

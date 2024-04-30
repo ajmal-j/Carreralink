@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/command";
 
 import { companyList } from "@/services/company.service";
-import { getUsers } from "@/services/user.service";
+import { getUsers, userList } from "@/services/user.service";
 import { debounce } from "lodash";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -48,10 +48,10 @@ export default function SearchComponent() {
   const [open, setOpen] = useState(false);
 
   const fetchUsers = async () => {
-    const response = await getUsers({
+    const response = await userList({
       q: input,
     });
-    setUsers(response?.data.docs || []);
+    setUsers(response?.data || []);
   };
   const fetchCompanies = async () => {
     const response = await companyList(input);

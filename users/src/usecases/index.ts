@@ -21,6 +21,7 @@ import { UpdatePrimaryResumeUsecase } from "./users/updatePrimaryResume.usecase.
 import { UpdateResumeVisibilityUsecase } from "./users/updateResumeVisibility.usecase.js";
 import { UpdatePlanUsageUsecase } from "./users/updatePlanUsage.usecase.js";
 import { PlanPurchasedUseCase } from "./users/planPurchased.usecase.js";
+import { UsersListUsecase } from "./users/usersList.usecase.js";
 
 const createUserUsecase = new CreateUserUsecase(Repositories.UserDataRepo);
 const currentUserUsecase = new CurrentUserUsecase(Repositories.UserDataRepo);
@@ -67,6 +68,7 @@ const updatePlanUsageUsecase = new UpdatePlanUsageUsecase(
 const planPurchasedUseCase = new PlanPurchasedUseCase(
   Repositories.UserDataRepo
 );
+const usersListUsecase = new UsersListUsecase(Repositories.UserDataRepo);
 
 export {
   createUserUsecase,
@@ -91,4 +93,5 @@ export {
   updateResumeVisibilityUsecase,
   updatePlanUsageUsecase,
   planPurchasedUseCase,
+  usersListUsecase,
 };

@@ -43,10 +43,14 @@ export default async function Success({
       </p>
       <PlanCard plan={order.item} />
       <div className="flex items-center justify-end gap-2">
-        <PrimaryButton size="sm" className="w-min text-nowrap px-3 ">
+        <PrimaryButton
+          size="sm"
+          href="/plans"
+          className="w-min text-nowrap px-3 "
+        >
           view all purchases
         </PrimaryButton>
-        <SecondaryButton size="sm" className="w-min text-nowrap px-3 ">
+        <SecondaryButton size="sm" href="/" className="w-min text-nowrap px-3 ">
           continue
         </SecondaryButton>
       </div>
