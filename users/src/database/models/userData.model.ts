@@ -6,10 +6,10 @@ export interface IUserData extends Document {
   profile: string;
   email: string;
   currentStatus: string | null;
-  plans: {
+  plan: {
     currentPlan: string;
-    freeUsage: number;
-    planType: "pro" | "none";
+    freeUsage?: number;
+    planType: "basic" | "premium";
     expiryDate: Date | string;
     purchaseDate: Date | string;
     features: Record<string, boolean>;
@@ -85,10 +85,11 @@ const userSchema: Schema = new Schema(
         endDate: { type: String },
       },
     ],
-    plans: {
+    plan: {
       currentPlan: { type: String },
       freeUsage: { type: Number, default: 10 },
-      planType: { type: String, enum: ["pro", "none"], default: "none" },
+      planType: { type: String, enum: ["premium", "basic"], default: "none" },
+      features: { type: Object },
       expiryDate: { type: String },
       purchaseDate: { type: String },
     },

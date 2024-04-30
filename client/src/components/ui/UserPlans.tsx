@@ -82,7 +82,6 @@ const BuyPlan = ({ plan, id }: { id: string; plan: IPlan }) => {
   };
   return (
     <div className="flex gap-3">
-      <h1>buy : {id}</h1>
       <Button variant="outline" onClick={() => buyPlanHandler({ plan })}>
         Buy
       </Button>

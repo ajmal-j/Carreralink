@@ -24,6 +24,7 @@
     "@aws-sdk/client-s3": "^3.540.0",
     "@carreralink/common": "^1.0.23",
     "cors": "^2.8.5",
+    "date-fns": "^3.6.0",
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
     "kafkajs": "^2.2.4",

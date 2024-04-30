@@ -10,7 +10,7 @@ export interface IUser {
   contact: string;
   createdAt: Date;
   updatedAt: Date;
-  plans: {
+  plan: {
     currentPlan?: string;
     freeUsage: number;
     planType: "pro" | "none";
@@ -116,8 +116,8 @@ const userSlice = createSlice({
       }
     },
     updatePlanUsage: (state) => {
-      if (state.user && state.user.plans.freeUsage > 0) {
-        state.user.plans.freeUsage = state.user.plans.freeUsage - 1;
+      if (state.user && state.user.plan.freeUsage > 0) {
+        state.user.plan.freeUsage = state.user.plan.freeUsage - 1;
       }
     },
   },

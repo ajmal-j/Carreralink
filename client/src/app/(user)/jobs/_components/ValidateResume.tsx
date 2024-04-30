@@ -54,7 +54,7 @@ export default function ValidateResume({ job }: { job: IJob }) {
     }
     try {
       if (job.status === "closed") throw new Error("This job is closed.");
-      if (user?.plans && user?.plans?.freeUsage <= 0)
+      if (user?.plan && user?.plan?.freeUsage <= 0)
         throw new Error("You don't have enough credits.");
       const resume = user?.resume?.resumes[user?.resume?.primary]?.url;
       if (!resume) {
@@ -110,7 +110,7 @@ export default function ValidateResume({ job }: { job: IJob }) {
             <>
               <CoinsIcon size={16} />
               <h4 className="text-sm font-semibold text-foreground/70">
-                {user?.plans.freeUsage || 0} free usage left.
+                {user?.plan.freeUsage || 0} free usage left.
               </h4>
             </>
           ) : (

@@ -2,13 +2,17 @@ import { CustomError, InternalServerError } from "@carreralink/common";
 import Stripe from "stripe";
 import { IOrderRepoType } from "../../database/index.js";
 import { IOrder } from "../../database/models/order.model.js";
+import { IEventProducer } from "../../events/producer/producer.js";
 
 process.loadEnvFile();
 
 export class ConfirmPaymentUsecase {
   private readonly _key: string = "";
 
-  constructor(private readonly orderRepository: IOrderRepoType) {
+  constructor(
+    private readonly orderRepository: IOrderRepoType,
+    private readonly eventProducer: IEventProducer
+  ) {
     const key = process.env.STRIPE_SECRET_KEY!;
     if (!key) throw new InternalServerError("Stripe secret key not found");
 
@@ -43,6 +47,15 @@ export class ConfirmPaymentUsecase {
         const order = await this.orderRepository.create(data);
         if (!order) throw new InternalServerError("Unable to create order.");
         //handle events
+        if (order.item.for === "user") {
+          await this.eventProducer.planPurchasedByUser({
+            order,
+          });
+        } else if (order.item.for === "company") {
+          await this.eventProducer.planPurchasedByCompany({
+            order,
+          });
+        }
         return order;
       } else if (event.payment_status === "unpaid") {
         throw new CustomError("Payment not completed", 400);

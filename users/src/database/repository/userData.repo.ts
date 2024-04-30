@@ -1,3 +1,4 @@
+import { NotFoundError } from "@carreralink/common";
 import { IUser } from "../../entities/userData.entity.js";
 import { UserDataModelType, IUserData } from "../models/userData.model.js";
 
@@ -14,6 +15,28 @@ export class UserDataRepository implements IUserRepo {
     return await this.database.create(userData);
   }
 
+  async updatePlan({
+    user,
+    plan,
+  }: {
+    user: string;
+    plan: Omit<IUserData["plan"], "freeUsage">;
+  }) {
+    const userData = await this.database.findOne({
+      email: user,
+    });
+    if (!userData) throw new NotFoundError("User not found");
+    userData.plan.currentPlan = plan.currentPlan;
+    userData.plan.expiryDate = plan.expiryDate;
+    userData.plan.purchaseDate = plan.purchaseDate;
+    userData.plan.planType = plan.planType;
+    if (!userData.plan.features) userData.plan.features = {};
+    for (const key in plan.features) {
+      userData.plan.features[key] = true;
+    }
+    return await userData.save();
+  }
+
   async planUsed(email: string) {
     return await this.database.findOneAndUpdate(
       {
@@ -21,7 +44,7 @@ export class UserDataRepository implements IUserRepo {
       },
       {
         $inc: {
-          "plans.freeUsage": -1,
+          "plan.freeUsage": -1,
         },
       }
     );
