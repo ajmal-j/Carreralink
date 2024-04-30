@@ -53,6 +53,7 @@ export interface IApplicant {
     profile: string;
     email: string;
   };
+  reasonForRejection?: string;
   job: string;
   resume: string;
   createdAt: string;

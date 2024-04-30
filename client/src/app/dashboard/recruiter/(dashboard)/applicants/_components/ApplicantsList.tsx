@@ -122,7 +122,11 @@ function ApplicantCard({ applicant }: { applicant: IApplicant }) {
     } else if (status === "shortlisted") {
       setAvailableStatus(["shortlisted", "rejected", "hired"]);
     } else if (status === "rejected") {
-      setAvailableStatus(["rejected"]);
+      setAvailableStatus(
+        applicant?.reasonForRejection
+          ? ["rejected", "underReview"]
+          : ["rejected"],
+      );
     } else if (status === "underReview") {
       setAvailableStatus(["underReview", "interview", "rejected"]);
     } else if (status === "hired") {
@@ -153,7 +157,7 @@ function ApplicantCard({ applicant }: { applicant: IApplicant }) {
 
   useEffect(() => {
     updateAvailableStatus(status);
-  }, [status]);
+  }, [status, applicant]);
 
   return (
     <>
@@ -176,6 +180,11 @@ function ApplicantCard({ applicant }: { applicant: IApplicant }) {
             <span className="pe-1">applied</span>
             {formatDistanceToNow(applicant.createdAt)}
           </p>
+          {applicant?.reasonForRejection && applicant.status === "rejected" && (
+            <p className="text-sm text-red-700/80">
+              {applicant?.reasonForRejection}
+            </p>
+          )}
         </div>
         <div className="flex h-full gap-2">
           <div className="flex w-full flex-col gap-1">

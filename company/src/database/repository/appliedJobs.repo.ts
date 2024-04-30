@@ -54,6 +54,7 @@ export class AppliedJobsRepo {
       },
       {
         status,
+        reasonForRejection: "",
       },
       {
         new: true,

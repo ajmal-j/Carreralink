@@ -12,6 +12,7 @@ export interface IAppliedJob extends Document {
     | "underReview"
     | "hired";
   id: string;
+  reasonForRejection?: string;
   resume: string;
 }
 
@@ -31,6 +32,7 @@ const appliedJobSchema: Schema = new Schema<IAppliedJob>(
       ],
       default: "applied",
     },
+    reasonForRejection: { type: String },
     resume: { type: String, required: true },
   },
   {
