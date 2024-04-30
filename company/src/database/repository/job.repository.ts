@@ -23,6 +23,25 @@ export class JobRepository {
     );
   }
 
+  async updateAssessment({
+    job,
+    assessments,
+  }: {
+    job: string;
+    assessments: Record<string, any>[];
+  }) {
+    return await this.database.updateOne(
+      {
+        _id: job,
+      },
+      {
+        $set: {
+          assessments,
+        },
+      }
+    );
+  }
+
   async totalJobs(): Promise<number> {
     return await this.database.countDocuments();
   }

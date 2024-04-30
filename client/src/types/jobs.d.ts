@@ -9,6 +9,13 @@ export interface IJob {
     _id?: string;
     name: string;
     logo: string;
+    plan?: {
+      currentPlan: string;
+      planType: "basic" | "premium" | "none";
+      expiryDate: Date | string;
+      purchaseDate: Date | string;
+      features: Record<string, boolean>;
+    };
   };
   type: string;
   skills: string[];

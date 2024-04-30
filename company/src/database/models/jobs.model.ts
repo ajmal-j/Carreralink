@@ -14,6 +14,7 @@ export interface IJobs extends Document {
   status: string;
   description: string;
   skills: string[];
+  assessments: [] | IAssessment[];
   pay: {
     maximum: string;
     minimum: string;
@@ -24,6 +25,12 @@ export interface IJobs extends Document {
     ref: "User" | "Company";
     id: ObjectId;
   };
+}
+
+export interface IAssessment {
+  no: number;
+  question: string;
+  expectedAnswer?: string;
 }
 
 const jobsSchema: Schema = new Schema<IJobs>(
@@ -39,6 +46,7 @@ const jobsSchema: Schema = new Schema<IJobs>(
     status: { type: String, enum: ["closed", "open"], default: "open" },
     description: { type: String },
     skills: [{ type: String }],
+    assessments: [{ type: Object }],
     pay: {
       maximum: { type: String },
       minimum: { type: String },

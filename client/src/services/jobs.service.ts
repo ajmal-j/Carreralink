@@ -153,6 +153,21 @@ const getApplicants = async ({
   return response.data;
 };
 
+const updateAssessment = async ({
+  job,
+  assessments,
+}: {
+  job: string;
+  assessments: Record<string, any>[];
+}) => {
+  const url = new Server().jobs("updateAssessment");
+  const response = await axios.put(url, {
+    job,
+    assessments,
+  });
+  return response.data;
+};
+
 export {
   allCompanyJobs,
   createJob,
@@ -169,4 +184,5 @@ export {
   getAppliedJobs,
   isApplied,
   getApplicants,
+  updateAssessment,
 };
