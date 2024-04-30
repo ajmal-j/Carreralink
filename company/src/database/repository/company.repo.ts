@@ -243,10 +243,14 @@ export class CompanyRepository implements ICompanyRepository {
     );
   }
   async companyList(q: string) {
-    const regex = new RegExp(q, "i");
+    const regex = new RegExp(q || "", "i");
     return await this.database
       .find({ name: regex })
-      .select(["name", "logo", "headquarters", "email"]);
+      .select(["name", "logo", "headquarters", "email"])
+      .sort({
+        "plan.features.searchPriority": -1,
+      })
+      .limit(10);
   }
   async rejectVerification(id: string) {
     const company = await this.database.findOne({ _id: id });
