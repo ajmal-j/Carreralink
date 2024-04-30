@@ -60,7 +60,7 @@ export default function NewPlan() {
   return (
     <div>
       <h1 className="mt-5 text-center text-xl text-foreground/70 md:text-3xl">
-        Post a new Plan
+        Create a new Plan
       </h1>
       <CustomForm
         defaultValues={defaultValues}

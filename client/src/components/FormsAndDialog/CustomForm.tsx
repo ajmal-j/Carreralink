@@ -994,12 +994,22 @@ function FeaturesField({ form, name }: IFeaturesFieldProps) {
   const [currentFeatures, setFeatures] = useState<string[]>(
     form.getValues(name) || [],
   );
-  const [newFeatures] = useState<string[]>(["basic", "premium"]);
+  const userFeatures = ["resumeValidation", "searchPriority"];
+  const companyFeatures = ["searchPriority", "jobAssessments"];
+  const [newFeatures, setNewFeatures] = useState<string[]>(
+    form.watch("for") === "user" ? userFeatures : companyFeatures,
+  );
+  useEffect(() => {
+    const feature =
+      form.watch("for") === "user" ? userFeatures : companyFeatures;
+    setNewFeatures(feature);
+    setFeatures((prev) => prev.filter((f) => feature.includes(f)));
+  }, [form.watch("for")]);
 
   return (
     <>
       <div className="mb-3 mt-4 flex flex-col flex-wrap gap-2 gap-y-3">
-        <FormLabel>Features</FormLabel>
+        <FormLabel>Features for {form.watch("for")}</FormLabel>
         {!currentFeatures.length && (
           <p className="text-foreground/50">No features selected</p>
         )}
