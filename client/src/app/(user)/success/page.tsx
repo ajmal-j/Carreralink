@@ -1,10 +1,9 @@
 import PrimaryButton from "@/components/Buttons/PrimaryButton";
 import SecondaryButton from "@/components/Buttons/SecondaryButton";
 import NotFound from "@/components/Custom/NotFound";
-import { Button } from "@/components/ui/button";
 import PlanCard from "@/components/ui/plan";
 import { getMessage } from "@/lib/utils";
-import { confirmPayment } from "@/services/payment.service";
+import { confirmPaymentByUser } from "@/services/payment.service";
 import { getPlan } from "@/services/plan.service";
 import { cookies } from "next/headers";
 
@@ -24,7 +23,7 @@ export default async function Success({
   try {
     const productPromise = await getPlan({ id: product, token });
     const productData = await productPromise.data;
-    const result = await confirmPayment({
+    const result = await confirmPaymentByUser({
       id,
       token,
       item: productData,

@@ -15,6 +15,7 @@ import { GetTotalCountUsecaseByCompany } from "./company/getTotalCounts.usecase.
 import { IsVerifiedUsecase } from "./company/isVerified.js";
 import { GetJobsUsecase } from "./company/jobs.js";
 import { CompanyMonthlyGraphDataUsecase } from "./company/monthlyGraphData.usecase.js";
+import { PlanPurchasedUsecase } from "./company/planPurchased.usecase.js";
 import { UnverifiedCompaniesUsecase } from "./company/unverifiedCompanies.usecase.js";
 import { UpdateCompanyUsecase } from "./company/updateCompany.usecase.js";
 import { UpdateCoverPhotoUsecase } from "./company/updateCoverPhoto.usecase.js";
@@ -249,6 +250,9 @@ const getUserDataByEmailUsecase = new GetUserDataByEmailUsecase(
 const getUserDataByIdUsecase = new GetUserDataByIdUsecase(
   Repositories.UserRepository
 );
+const planPurchasedUsecase = new PlanPurchasedUsecase(
+  Repositories.CompanyRepository
+);
 
 export {
   getUserDataByEmailUsecase,
@@ -304,4 +308,5 @@ export {
   adminMonthlyGraphDataUsecase,
   adminYearlyGraphDataUsecase,
   updateApplicantStatusUsecase,
+  planPurchasedUsecase,
 };

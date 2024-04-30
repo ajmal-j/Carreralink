@@ -4,5 +4,6 @@ declare module "express" {
       email: string;
       id: string;
     };
+    companyData: { email: string | undefined; id: string | undefined };
   }
 }

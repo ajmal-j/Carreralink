@@ -1,4 +1,8 @@
-import { VerifyUser, expressCallback } from "@carreralink/common";
+import {
+  VerifyCompany,
+  VerifyUser,
+  expressCallback,
+} from "@carreralink/common";
 import { IPaymentController } from "../controllers/payment/index.js";
 
 export const PaymentRoutes = ({
@@ -13,9 +17,14 @@ export const PaymentRoutes = ({
     expressCallback(paymentController.createCheckoutSession)
   );
   router.post(
-    "/confirm",
+    "/confirmByUser",
     VerifyUser,
-    expressCallback(paymentController.confirm)
+    expressCallback(paymentController.confirmByUser)
+  );
+  router.post(
+    "/confirmByCompany",
+    VerifyCompany,
+    expressCallback(paymentController.confirmByCompany)
   );
   return router;
 };

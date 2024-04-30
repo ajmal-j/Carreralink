@@ -13,7 +13,7 @@ const createPaymentSession = async ({
   return response.data;
 };
 
-const confirmPayment = async ({
+const confirmPaymentByUser = async ({
   id,
   token,
   item,
@@ -22,7 +22,7 @@ const confirmPayment = async ({
   token: string;
   item: Record<string, any>;
 }) => {
-  const url = new Server().payment("confirm");
+  const url = new Server().payment("confirmByUser");
   const response = await axios.post(
     url,
     { id, item },
@@ -34,5 +34,26 @@ const confirmPayment = async ({
   );
   return response.data;
 };
+const confirmPaymentByCompany = async ({
+  id,
+  token,
+  item,
+}: {
+  id: string;
+  token: string;
+  item: Record<string, any>;
+}) => {
+  const url = new Server().payment("confirmByCompany");
+  const response = await axios.post(
+    url,
+    { id, item },
+    {
+      headers: {
+        companyToken: `Bearer ${token}`,
+      },
+    },
+  );
+  return response.data;
+};
 
-export { createPaymentSession, confirmPayment };
+export { createPaymentSession, confirmPaymentByCompany, confirmPaymentByUser };

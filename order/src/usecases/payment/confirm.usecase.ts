@@ -21,11 +21,11 @@ export class ConfirmPaymentUsecase {
 
   async execute({
     id,
-    user,
+    email,
     item,
   }: {
     id: string;
-    user: { email: string };
+    email: string;
     item: IOrder["item"];
   }): Promise<IOrder> {
     try {
@@ -36,14 +36,16 @@ export class ConfirmPaymentUsecase {
         const data: IOrder = {
           item,
           paymentId: event.id,
-          recipient: user.email,
+          recipient: email,
         };
         const isOrderExist = await this.orderRepository.isOrderExist({
           paymentId: event.id,
           productId: item.id,
-          recipient: user.email,
+          recipient: email,
         });
+
         if (isOrderExist) return isOrderExist;
+
         const order = await this.orderRepository.create(data);
         if (!order) throw new InternalServerError("Unable to create order.");
         //handle events

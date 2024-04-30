@@ -1,5 +1,6 @@
 import PrimaryButton from "@/components/Buttons/PrimaryButton";
 import DashboardPills from "@/components/Custom/DashboardPills";
+import RefreshPage from "@/components/Custom/RefreshPage";
 import DashboardWrapper from "@/components/Layout/DashboardWrapper";
 import { formatMoney } from "@/lib/utils";
 import { totalCounts } from "@/services/company.service";
@@ -9,7 +10,7 @@ import { BackpackIcon, ClockIcon, HandCoins, MapPin } from "lucide-react";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import CompanyChart from "./chart";
-import RefreshPage from "@/components/Custom/RefreshPage";
+import CompanyPlans from "./_components/CompanyPlans";
 
 export default async function DashBoard() {
   const token = cookies().get("companyToken")?.value ?? "";
@@ -29,6 +30,7 @@ export default async function DashBoard() {
       <DashboardPills counts={counts} />
       <CompanyChart />
       <JobsData recentJobs={recentJobs} />
+      <CompanyPlans />
     </DashboardWrapper>
   );
 }

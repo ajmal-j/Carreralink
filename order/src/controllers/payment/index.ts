@@ -1,12 +1,15 @@
 import BuildCreateCheckoutSession from "./createCheckoutSession.js";
-import BuildConfirm from "./confirm.js";
+import BuildConfirmByUser from "./confirmByUser.js";
+import BuildConfirmByCompany from "./confirmByCompany.js";
 
 const createCheckoutSession = BuildCreateCheckoutSession();
-const confirm = BuildConfirm();
+const confirmByUser = BuildConfirmByUser();
+const confirmByCompany = BuildConfirmByCompany();
 
 export const paymentController = {
   createCheckoutSession,
-  confirm,
+  confirmByUser,
+  confirmByCompany,
 };
 
 export type IPaymentController = typeof paymentController;

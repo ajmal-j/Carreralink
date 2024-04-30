@@ -26,6 +26,29 @@ export class CompanyRepository implements ICompanyRepository {
   async totalCompanies(): Promise<number> {
     return await this.database.countDocuments();
   }
+
+  async updatePlan({
+    company,
+    plan,
+  }: {
+    company: string;
+    plan: ICompany["plan"];
+  }) {
+    const companyData = await this.database.findOne({
+      email: company,
+    });
+    if (!companyData) throw new NotFoundError("Company not found");
+    companyData.plan.currentPlan = plan.currentPlan;
+    companyData.plan.expiryDate = plan.expiryDate;
+    companyData.plan.purchaseDate = plan.purchaseDate;
+    companyData.plan.planType = plan.planType;
+    if (!companyData.plan.features) companyData.plan.features = {};
+    for (const key in plan.features) {
+      companyData.plan.features[key] = true;
+    }
+    return await companyData.save();
+  }
+
   async allCompanies(query: {
     p: number;
     q?: string;

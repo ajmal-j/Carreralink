@@ -32,6 +32,16 @@ export class CreateSessionUseCase {
           unit_amount: product.price * 100,
         },
       };
+
+      const success_url =
+        product.for === "user"
+          ? `http://localhost:3000/success?id={CHECKOUT_SESSION_ID}&product=${product.id}`
+          : `http://localhost:3000/dashboard/company/success?id={CHECKOUT_SESSION_ID}&product=${product.id}`;
+
+      const cancel_url =
+        product.for === "company"
+          ? "http://localhost:3000"
+          : "http://localhost:3000/dashboard/company";
       const stripe = new Stripe(this._key);
 
       const session = await stripe.checkout.sessions.create({
@@ -39,8 +49,8 @@ export class CreateSessionUseCase {
         billing_address_collection: "required",
         customer_email: email,
         line_items: [product_details],
-        success_url: `http://localhost:3000/success?id={CHECKOUT_SESSION_ID}&product=${product.id}`,
-        cancel_url: "http://localhost:3000",
+        success_url,
+        cancel_url,
       });
       return session.id;
     } catch (error) {

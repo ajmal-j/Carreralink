@@ -20,6 +20,13 @@ export interface ICompany extends Document {
   jobs: ObjectId[];
   coverPhoto: string | null;
   isVerified: boolean;
+  plan: {
+    currentPlan: string;
+    planType: "basic" | "premium" | "none";
+    expiryDate: Date | string;
+    purchaseDate: Date | string;
+    features: Record<string, boolean>;
+  };
 }
 
 const companySchema: Schema = new Schema(
@@ -52,6 +59,17 @@ const companySchema: Schema = new Schema(
       type: String,
       default:
         "https://raw.githubusercontent.com/ajmal-j/Weather-app-with-ums/master/client/public/companyCover.png",
+    },
+    plan: {
+      currentPlan: { type: String },
+      planType: {
+        type: String,
+        enum: ["premium", "basic", "none"],
+        default: "none",
+      },
+      features: { type: Object },
+      expiryDate: { type: String },
+      purchaseDate: { type: String },
     },
   },
   {
