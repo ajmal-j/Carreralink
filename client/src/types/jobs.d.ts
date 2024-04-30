@@ -26,6 +26,7 @@ export interface IJob {
   workSpace: string;
   openings: number;
   description: string;
+  assessments: [] | IAssessment[];
   postedBy:
     | {
         id: IUserCompany;
@@ -92,3 +93,9 @@ export type IApplied = {
     };
   };
 };
+
+export interface IAssessment {
+  no: number;
+  question: string;
+  expectedAnswer?: string;
+}

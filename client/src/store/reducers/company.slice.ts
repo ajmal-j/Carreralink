@@ -18,6 +18,13 @@ export interface ICompany {
   recruiters: string[];
   jobs: string[];
   coverPhoto: string;
+  plan?: {
+    currentPlan: string;
+    planType: "basic" | "premium" | "none";
+    expiryDate: Date | string;
+    purchaseDate: Date | string;
+    features: Record<string, boolean>;
+  };
 }
 
 const initialState: ICompany = {

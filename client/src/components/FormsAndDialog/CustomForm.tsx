@@ -140,6 +140,11 @@ export function CustomForm({
               case "price":
                 return <PriceComponent key={key} name={key} form={form} />;
 
+              case "assessments":
+                return (
+                  <AssessmentsComponent key={key} name={key} form={form} />
+                );
+
               case "duration":
                 return <DurationComponent key={key} name={key} form={form} />;
 
@@ -202,7 +207,7 @@ export function CustomForm({
           )}
           <div>
             <PrimaryButton
-              disabled={isLoading || !isDirty}
+              // disabled={isLoading || !isDirty}
               icon={
                 isLoading ? <UpdateIcon className="animate-spin" /> : undefined
               }
@@ -282,6 +287,119 @@ function TimeComponent({ name, form }: IFormProps) {
             </div>
           </FormControl>
           <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+}
+
+function AssessmentsComponent({ name, form }: IFormProps) {
+  const [assessment, setAssessment] = useState<
+    { no: number; question: string; expectedAnswer: string }[]
+  >(
+    form.getValues(name) || [
+      {
+        no: 1,
+        question: "",
+        expectedAnswer: "",
+      },
+    ],
+  );
+  useEffect(() => {
+    form.setValue(name, assessment);
+  }, [assessment, form, name]);
+  return (
+    <FormField
+      control={form.control}
+      name={name}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel className="capitalize">{field.name}</FormLabel>
+          <FormControl className="min-w-[300px] sm:min-w-[400px] md:min-w-[500px]">
+            <div className="relative flex flex-col gap-1">
+              {assessment.map(
+                (item: {
+                  no: number;
+                  question: string;
+                  expectedAnswer?: string;
+                }) => (
+                  <div key={item.no} className="flex flex-col gap-1">
+                    <div className="flex items-baseline justify-between">
+                      <span className="ps-2 text-foreground/70">
+                        Question {item.no} :
+                      </span>
+                      <span
+                        className={`cursor-pointer ${assessment.length === 1 && "hidden"}`}
+                        onClick={() =>
+                          setAssessment((prev) => {
+                            const ass = prev.filter((i) => i.no !== item.no);
+                            for (let i = 0; i < ass.length; i++) {
+                              ass[i].no = i + 1;
+                            }
+                            return ass;
+                          })
+                        }
+                      >
+                        <Cross1Icon className="size-4 text-red-700" />
+                      </span>
+                    </div>
+                    <Input
+                      type={"text"}
+                      className="w-full"
+                      value={item.question}
+                      onChange={(e) => {
+                        setAssessment((prev) => {
+                          const val = prev.map((i) =>
+                            i.no === item.no
+                              ? { ...i, question: e.target.value }
+                              : i,
+                          );
+                          return val;
+                        });
+                      }}
+                      placeholder={`enter question.`}
+                    />
+                    <Input
+                      type={"text"}
+                      className="w-full"
+                      value={item.expectedAnswer}
+                      placeholder={`expected answer.`}
+                      onChange={(e) => {
+                        setAssessment((prev) => {
+                          const val = prev.map((i) =>
+                            i.no === item.no
+                              ? { ...i, expectedAnswer: e.target.value }
+                              : i,
+                          );
+                          return val;
+                        });
+                      }}
+                    />
+                  </div>
+                ),
+              )}
+            </div>
+          </FormControl>
+          <FormMessage />
+          <div className="flex">
+            <Button
+              type="button"
+              variant={"outline"}
+              className="ms-auto mt-3 w-min"
+              onClick={() =>
+                setAssessment((prev) => [
+                  ...prev,
+                  {
+                    no: prev.length + 1,
+                    question: "",
+                    expectedAnswer: "",
+                  },
+                ])
+              }
+            >
+              add more
+            </Button>
+          </div>
         </FormItem>
       )}
     />
