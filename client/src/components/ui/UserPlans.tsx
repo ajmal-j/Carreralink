@@ -38,13 +38,15 @@ export default function UserPlans() {
           <h1 className="mx-1 my-5 text-center text-2xl text-foreground/90 md:text-3xl">
             Upgrade your plan.
           </h1>
-          {userPlans.map((plan) => (
-            <PlanCard
-              key={plan.id}
-              plan={plan}
-              actions={<BuyPlan id={plan.id} plan={plan} />}
-            />
-          ))}
+          <div className="flex gap-2">
+            {userPlans.map((plan) => (
+              <PlanCard
+                key={plan.id}
+                plan={plan}
+                actions={<BuyPlan id={plan.id} plan={plan} />}
+              />
+            ))}
+          </div>
         </div>
       )}
     </div>
