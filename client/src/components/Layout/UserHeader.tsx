@@ -165,6 +165,26 @@ export function ProfileDropDown({
   const { push } = useRouter();
   const { isAuth, user } = useStateSelector((state) => state.user);
   const dispatch = useDispatch();
+
+  const paths: { path: string; name: string }[] = [
+    {
+      path: "/profile",
+      name: "Profile",
+    },
+    {
+      path: "/my-jobs",
+      name: "My Jobs",
+    },
+    {
+      path: "/messages",
+      name: "Messages",
+    },
+    {
+      path: "/plans",
+      name: "My Plans",
+    },
+  ];
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
@@ -174,21 +194,14 @@ export function ProfileDropDown({
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem
-            onClick={() => push(`${isAuth ? "/profile" : "/login"}`)}
-          >
-            Profile
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => push(`${isAuth ? "/my-jobs" : "/login"}`)}
-          >
-            My Jobs
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => push(`${isAuth ? "/messages" : "/login"}`)}
-          >
-            Messages
-          </DropdownMenuItem>
+          {paths.map((path) => (
+            <DropdownMenuItem
+              key={path.path}
+              onClick={() => push(`${isAuth ? path.path : "/login"}`)}
+            >
+              {path.name}
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuGroup>
         <DropdownMenuItem onClick={() => push("/dashboard/company")}>
           Company Dashboard
