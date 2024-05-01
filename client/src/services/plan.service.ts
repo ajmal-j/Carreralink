@@ -14,4 +14,14 @@ const getPlan = async ({ id, token }: { id: string; token: string }) => {
   return response.data;
 };
 
-export { getPlan };
+const userOrders = async ({ token }: { token: string }) => {
+  const url = new Server().order("userOrders");
+  const response = await axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+export { getPlan, userOrders };

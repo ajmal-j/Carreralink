@@ -19,4 +19,9 @@ export class OrderRepository {
       $and: [{ "item.id": productId }, { recipient }, { paymentId }],
     });
   }
+  async allOrderByUser({ user }: { user: string }) {
+    return await this.database
+      .find({ recipient: user })
+      .sort({ createdAt: -1 });
+  }
 }

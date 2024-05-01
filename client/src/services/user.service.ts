@@ -2,10 +2,12 @@ import { AxiosError } from "axios";
 import { Server } from "../lib/server";
 import axios from "./axios.interseptor";
 
-const currentUser = async () => {
+const currentUser = async (token?: string) => {
   try {
     const url = new Server().user("currentUser");
-    const response = await axios.get(url);
+    const response = await axios.get(url, {
+      ...(token ? { headers: { Authorization: `Bearer ${token}` } } : {}),
+    });
     if (response.status === 401) return 401;
     return response.data;
   } catch (error) {

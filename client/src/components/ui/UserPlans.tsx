@@ -10,13 +10,14 @@ import { createPaymentSession } from "@/services/payment.service";
 import { loadStripe } from "@stripe/stripe-js";
 import { useStateSelector } from "@/store";
 
-export default function UserPlans() {
+export default function UserPlans({ id }: { id?: string }) {
   const [userPlans, setUserPlans] = useState<IPlan[]>([]);
 
   const getPlans = async () => {
     try {
       const user = await getUserPlans();
-      setUserPlans(user.data);
+      const plans = user.data as IPlan[];
+      setUserPlans(id ? plans.filter((plan) => plan.id !== id) : plans);
     } catch (error) {
       console.log(error);
       const message = getMessage(error);
@@ -38,7 +39,7 @@ export default function UserPlans() {
           <h1 className="mx-1 my-5 text-center text-2xl text-foreground/90 md:text-3xl">
             Upgrade your plan.
           </h1>
-          <div className="flex gap-2">
+          <div className="flex w-full flex-wrap gap-2">
             {userPlans.map((plan) => (
               <PlanCard
                 key={plan.id}

@@ -8,11 +8,9 @@ export function AdminPlanRoutes({
   router: any;
   planControllers: IPlanControllers;
 }) {
-  router.use(VerifyAdmin);
-
-  router.post("/create", expressCallback(planControllers.create));
+  router.post("/create", VerifyAdmin, expressCallback(planControllers.create));
   router.get("/userPlans", expressCallback(planControllers.userPlans));
   router.get("/companyPlans", expressCallback(planControllers.companyPlans));
-  router.patch("/update", expressCallback(planControllers.update));
+  router.patch("/update", VerifyAdmin, expressCallback(planControllers.update));
   return router;
 }

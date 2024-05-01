@@ -64,4 +64,9 @@ export class Server {
     const payment = `${typeof window !== "undefined" ? "localhost" : "order-container"}:10000/api/v1/order/payment`;
     return `${this.baseUrl}${payment}/${path}`;
   }
+
+  order(path: string) {
+    const order = `${typeof window !== "undefined" ? "localhost" : "order-container"}:10000/api/v1/order`;
+    return `${this.baseUrl}${order}/${path}`;
+  }
 }

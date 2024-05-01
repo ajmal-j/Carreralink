@@ -26,7 +26,7 @@ export default function PlanCard({
   return (
     <div
       className={cn(
-        "flex flex-grow basis-[400px] flex-col space-y-4 rounded-md border px-3 py-4 duration-200 ease-in-out hover:bg-foreground/5",
+        "flex flex-grow basis-[400px] flex-col space-y-4 rounded-md border bg-black/5 px-3 py-4 duration-200 ease-in-out hover:bg-foreground/10 dark:bg-black hover:dark:bg-foreground/5",
         className,
       )}
     >

@@ -8,18 +8,19 @@ export function SkillAndCategoryRoutes({
   router: any;
   skillAndCategoryControllers: ISkillAndCategoryControllers;
 }) {
-  router.use(VerifyAdmin);
-
   router.post(
     "/addCategories",
+    VerifyAdmin,
     expressCallback(skillAndCategoryControllers.addCategory)
   );
   router.post(
     "/addSkills",
+    VerifyAdmin,
     expressCallback(skillAndCategoryControllers.addSkills)
   );
   router.delete(
     "/removeCategory",
+    VerifyAdmin,
     expressCallback(skillAndCategoryControllers.removeCategory)
   );
   router.get(
@@ -28,6 +29,7 @@ export function SkillAndCategoryRoutes({
   );
   router.delete(
     "/removeSkill",
+    VerifyAdmin,
     expressCallback(skillAndCategoryControllers.removeSkill)
   );
   return router;

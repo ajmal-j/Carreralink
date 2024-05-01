@@ -11,6 +11,6 @@ interface IOrder {
   };
   paymentId: string;
   recipient: string;
-  _id: string;
+  id: string;
   createdAt: string;
 }
