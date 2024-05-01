@@ -18,6 +18,7 @@ import BuildUpdateStatusByRecruiterController from "./updateStatusByRecruiter.js
 import BuildUpdateStatusByCompanyController from "./updateStatusByCompany.js";
 import BuildUpdateAssessmentController from "./updateAssessment.js";
 import { eventProducer } from "../../events/producer/producer.js";
+import BuildUpdateApplicantAssessmentController from "./updateApplicationAssessment.js";
 
 const create = BuildCreateJobController();
 const getJobById = BuildGetJobByIdController();
@@ -40,6 +41,7 @@ const applicants = BuildGetApplicantsController();
 const updateStatusByRecruiter = BuildUpdateStatusByRecruiterController();
 const updateStatusByCompany = BuildUpdateStatusByCompanyController();
 const updateAssessment = BuildUpdateAssessmentController();
+const updateApplicantAssessment = BuildUpdateApplicantAssessmentController();
 
 export const jobController = {
   create,
@@ -61,6 +63,7 @@ export const jobController = {
   updateStatusByRecruiter,
   updateStatusByCompany,
   updateAssessment,
+  updateApplicantAssessment,
 };
 
 export type IJobController = typeof jobController;

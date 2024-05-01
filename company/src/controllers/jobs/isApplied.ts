@@ -13,7 +13,10 @@ export default function () {
       user: user.email,
     });
     return new CustomResponse()
-      .data(applied ? true : false)
+      .data({
+        application: applied,
+        status: applied ? true : false,
+      })
       .statusCode(200)
       .message("Applied Status")
       .response();

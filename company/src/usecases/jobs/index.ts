@@ -1,4 +1,5 @@
 import { Repositories } from "../../database/index.js";
+import { ApplicationAssessmentUseCase } from "./applicationAssessment.usecase.js";
 import { HiredOneUsecase } from "./hiredOne.usecase.js";
 import { UpdateApplicationScore } from "./updateApplicationScore.usecase.js";
 import { UpdateAssessmentUsecase } from "./updateAssessment.usecase.js";
@@ -16,6 +17,9 @@ const updateAssessmentUsecase = new UpdateAssessmentUsecase(
 const updateApplicationScore = new UpdateApplicationScore(
   Repositories.AppliedJobsRepo
 );
+const updateApplicationAssessment = new ApplicationAssessmentUseCase(
+  Repositories.AppliedJobsRepo
+);
 
 export const JobUsecase = {
   hiredOneUsecase,
@@ -23,4 +27,5 @@ export const JobUsecase = {
   updateStatusByCompany,
   updateAssessmentUsecase,
   updateApplicationScore,
+  updateApplicationAssessment,
 };

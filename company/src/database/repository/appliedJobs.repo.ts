@@ -64,6 +64,29 @@ export class AppliedJobsRepo {
     );
   }
 
+  async updateAssessment({
+    assessments,
+    job,
+    user,
+  }: {
+    job: string;
+    user: string;
+    assessments: Record<string, any>[];
+  }) {
+    return await this.database.updateOne(
+      {
+        $and: [{ user }, { job }],
+      },
+      {
+        assessments,
+        isAssessmentDone: true,
+      },
+      {
+        new: true,
+      }
+    );
+  }
+
   async updateStatus({
     user,
     job,

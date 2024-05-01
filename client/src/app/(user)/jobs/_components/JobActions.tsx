@@ -32,9 +32,10 @@ import {
   isSaved,
   removeSavedJob,
   saveJob,
+  updateApplicantAssessment,
 } from "@/services/jobs.service";
 import { useStateSelector } from "@/store";
-import { IJob } from "@/types/jobs";
+import { IApplicant, IJob } from "@/types/jobs";
 import {
   BookmarkFilledIcon,
   BookmarkIcon,
@@ -43,13 +44,14 @@ import {
 } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { NotepadText } from "lucide-react";
 import { CustomForm } from "@/components/FormsAndDialog/CustomForm";
 import { z } from "zod";
 
 export default function JobActions({ job }: { job: IJob }) {
   const [isJobApplied, setIsApplied] = useState(false);
+  const [applied, setApplied] = useState<undefined | IApplicant>(undefined);
   const [isJobSaved, setIsSaved] = useState(false);
   const { isAuth, user } = useStateSelector((state) => state.user);
   const { push } = useRouter();
@@ -110,7 +112,9 @@ export default function JobActions({ job }: { job: IJob }) {
         ]);
 
         setIsSaved(savedResponse.data);
-        setIsApplied(appliedResponse.data);
+        const { data } = appliedResponse;
+        setApplied(data?.application);
+        setIsApplied(data?.status);
       } catch (error) {
         console.log(error);
         toast({
@@ -233,12 +237,22 @@ export default function JobActions({ job }: { job: IJob }) {
       {job.status === "closed" && (
         <p className="text-center text-xs text-red-500">(this job is closed)</p>
       )}
-      {job.assessments.length && isJobApplied && <JobAssessment job={job} />}
+      {job.assessments.length &&
+        isJobApplied &&
+        applied?.isAssessmentDone === false && (
+          <JobAssessment setApplied={setApplied} job={job} />
+        )}
     </div>
   );
 }
 
-function JobAssessment({ job }: { job: IJob }) {
+function JobAssessment({
+  job,
+  setApplied,
+}: {
+  job: IJob;
+  setApplied: Dispatch<SetStateAction<IApplicant | undefined>>;
+}) {
   const [open, setOpen] = useState(false);
   const [defaultValues, setDefaultValues] = useState<{
     test: {
@@ -282,7 +296,25 @@ function JobAssessment({ job }: { job: IJob }) {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    alert(JSON.stringify(values));
+    try {
+      await updateApplicantAssessment({
+        job: job.id,
+        assessments: values.test,
+      });
+      setApplied((prev) =>
+        prev?.isAssessmentDone === false
+          ? { ...prev, isAssessmentDone: true }
+          : prev,
+      );
+      setOpen(false);
+    } catch (error) {
+      console.log(error);
+      const message = getMessage(error);
+      toast({
+        title: message,
+        variant: "destructive",
+      });
+    }
   };
 
   return (
