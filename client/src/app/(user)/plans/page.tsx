@@ -61,9 +61,9 @@ export default async function Plans() {
   return (
     <div>
       <div className="my-4 flex justify-between">
-        <h1 className="rounded-full bg-primaryColor px-3 py-1 text-white">
-          my plans
-        </h1>
+        <span className="flex items-center rounded-full bg-primaryColor px-3 pb-[1.5px] text-white">
+          <span>my plans</span>
+        </span>
         <HistoryDrawer orders={orders} />
       </div>
       <div className="flex flex-col gap-2 pb-6">
