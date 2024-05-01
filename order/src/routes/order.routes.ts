@@ -1,4 +1,8 @@
-import { VerifyUser, expressCallback } from "@carreralink/common";
+import {
+  VerifyCompany,
+  VerifyUser,
+  expressCallback,
+} from "@carreralink/common";
 import { IOrderController } from "../controllers/order/index.js";
 
 export function OrderRoutes({
@@ -12,6 +16,11 @@ export function OrderRoutes({
     "/userOrders",
     VerifyUser,
     expressCallback(orderController.userOrders)
+  );
+  router.get(
+    "/companyOrders",
+    VerifyCompany,
+    expressCallback(orderController.companyOrders)
   );
   return router;
 }

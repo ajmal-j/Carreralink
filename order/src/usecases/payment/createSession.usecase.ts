@@ -1,12 +1,14 @@
-import { InternalServerError } from "@carreralink/common";
+import { CustomError, InternalServerError } from "@carreralink/common";
+import { addMonths, isPast } from "date-fns";
 import Stripe from "stripe";
+import { IOrderRepoType } from "../../database/index.js";
 
 process.loadEnvFile();
 
 export class CreateSessionUseCase {
   private readonly _key: string = "";
 
-  constructor() {
+  constructor(private readonly OrderRepository: IOrderRepoType) {
     const key = process.env.STRIPE_SECRET_KEY!;
     if (!key) throw new InternalServerError("Stripe secret key not found");
 
@@ -21,6 +23,17 @@ export class CreateSessionUseCase {
     email: string;
   }): Promise<string> {
     try {
+      const exist = await this.OrderRepository.isCurrent({
+        email,
+        productId: product.id,
+      });
+      if (exist) {
+        const expiryDate = addMonths(exist.createdAt, exist.item.duration);
+        const isExpired = isPast(new Date(expiryDate));
+        if (!isExpired)
+          throw new CustomError("Already have an active subscription", 401);
+      }
+
       const product_details: Stripe.Checkout.SessionCreateParams.LineItem = {
         quantity: 1,
         price_data: {
@@ -55,6 +68,7 @@ export class CreateSessionUseCase {
       return session.id;
     } catch (error) {
       console.log(error);
+      if (error instanceof CustomError) throw error;
       throw new InternalServerError("Currently unable continue with payment");
     }
   }

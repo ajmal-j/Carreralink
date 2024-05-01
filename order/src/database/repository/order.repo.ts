@@ -24,4 +24,23 @@ export class OrderRepository {
       .find({ recipient: user })
       .sort({ createdAt: -1 });
   }
+
+  async isCurrent({
+    email,
+    productId,
+  }: {
+    email: string;
+    productId: string;
+  }): Promise<IOrder | null> {
+    return await this.database
+      .findOne({ $and: [{ recipient: email }, { "item.id": productId }] })
+      .sort({ createdAt: -1 })
+      .limit(1);
+  }
+
+  async allOrderByCompany({ company }: { company: string }) {
+    return await this.database
+      .find({ recipient: company })
+      .sort({ createdAt: -1 });
+  }
 }

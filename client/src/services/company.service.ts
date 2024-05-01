@@ -41,10 +41,10 @@ const getCompany = async (id: string) => {
   return response.data;
 };
 
-const getCompanyData = async () => {
+const getCompanyData = async (token?: string) => {
   const url = new Server().company("data");
   const response = await axios.get(url, {
-    withCredentials: true,
+    ...(token && { headers: { companyToken: `Bearer ${token}` } }),
   });
   return response.data;
 };
@@ -127,7 +127,6 @@ const getJobs = async (
   });
   return response.data;
 };
-
 
 const companyList = async (q: string) => {
   const url = new Server().company("companyList");

@@ -1,7 +1,7 @@
 import CompanyHeader from "@/components/Layout/CompanyHeader";
 import DashboardSideBar from "@/components/Layout/DashboardSideBar";
 import { BackpackIcon, PersonIcon } from "@radix-ui/react-icons";
-import { BarChart2, Building2 } from "lucide-react";
+import { BarChart2, Building2, Crown } from "lucide-react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
@@ -41,6 +41,11 @@ export default function layout({ children }: { children: ReactNode }) {
                   title: "Recruiter's",
                   icon: <PersonIcon className="size-[17px]" />,
                   href: "/dashboard/company/recruiter",
+                },
+                {
+                  title: "Plan's",
+                  icon: <Crown className="size-[17px]" />,
+                  href: "/dashboard/company/plans",
                 },
               ]}
               logOut={logOut}

@@ -13,6 +13,7 @@ export interface IOrder {
   };
   paymentId: string;
   recipient: string;
+  createdAt: string;
 }
 
 const orderSchema = new mongoose.Schema<IOrder>(

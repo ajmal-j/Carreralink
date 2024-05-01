@@ -24,4 +24,14 @@ const userOrders = async ({ token }: { token: string }) => {
   return response.data;
 };
 
-export { getPlan, userOrders };
+const companyOrders = async ({ token }: { token: string }) => {
+  const url = new Server().order("companyOrders");
+  const response = await axios.get(url, {
+    headers: {
+      companyToken: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+export { getPlan, userOrders, companyOrders };

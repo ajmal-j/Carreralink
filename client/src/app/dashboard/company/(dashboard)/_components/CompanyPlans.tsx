@@ -10,13 +10,13 @@ import { toast } from "@/components/ui/use-toast";
 import PlanCard from "@/components/ui/plan";
 import { Button } from "@/components/ui/button";
 
-export default function CompanyPlans() {
+export default function CompanyPlans({ id }: { id?: string }) {
   const [companyPlans, setCompanyPlans] = useState<IPlan[]>([]);
-
   const getPlans = async () => {
     try {
       const company = await getCompanyPlans();
-      setCompanyPlans(company.data);
+      const plans = company.data as IPlan[];
+      setCompanyPlans(id ? plans.filter((plan) => plan.id !== id) : plans);
     } catch (error) {
       console.log(error);
       const message = getMessage(error);
