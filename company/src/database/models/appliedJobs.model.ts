@@ -6,6 +6,8 @@ export interface IAppliedJob extends Document {
   user: string;
   score: string;
   isAssessmentDone: boolean;
+  assessmentScore: string;
+  assessments: Record<string, string | number>[];
   status:
     | "applied"
     | "interview"
@@ -24,6 +26,8 @@ const appliedJobSchema: Schema = new Schema<IAppliedJob>(
     user: { type: String, required: true },
     score: { type: String, default: "Scoring in progress..." },
     isAssessmentDone: { type: Boolean, default: false },
+    assessmentScore: { type: String, default: "0" },
+    assessments: [{ type: Object }],
     status: {
       type: String,
       enum: [

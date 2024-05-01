@@ -145,6 +145,15 @@ export function CustomForm({
                   <AssessmentsComponent key={key} name={key} form={form} />
                 );
 
+              case "test":
+                return (
+                  <CompleteAssessmentsComponent
+                    key={key}
+                    name={key}
+                    form={form}
+                  />
+                );
+
               case "duration":
                 return <DurationComponent key={key} name={key} form={form} />;
 
@@ -400,6 +409,66 @@ function AssessmentsComponent({ name, form }: IFormProps) {
               add more
             </Button>
           </div>
+        </FormItem>
+      )}
+    />
+  );
+}
+
+function CompleteAssessmentsComponent({ name, form }: IFormProps) {
+  const [assessment, setAssessment] = useState<
+    { no: number; question: string; answer: string }[]
+  >(form.getValues(name));
+  useEffect(() => {
+    form.setValue(name, assessment);
+  }, [assessment, form, name]);
+  return (
+    <FormField
+      control={form.control}
+      name={name}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel className="capitalize">{field.name}</FormLabel>
+          <FormControl className="min-w-[300px] sm:min-w-[400px] md:min-w-[500px]">
+            <div className="relative flex flex-col gap-1">
+              {assessment.map(
+                (item: { no: number; question: string; answer?: string }) => (
+                  <div key={item.no} className="flex flex-col gap-1">
+                    <div className="flex items-baseline justify-between">
+                      <span className="ps-2 text-foreground/70">
+                        Question {item.no} :
+                      </span>
+                    </div>
+                    <Input
+                      type={"text"}
+                      disabled
+                      name={"question"}
+                      className="w-full"
+                      value={item.question}
+                    />
+                    <Input
+                      type={"text"}
+                      className="w-full"
+                      name={"answer"}
+                      value={item.answer}
+                      placeholder={`answer here.`}
+                      onChange={(e) => {
+                        setAssessment((prev) => {
+                          const val = prev.map((i) =>
+                            i.no === item.no
+                              ? { ...i, answer: e.target.value }
+                              : i,
+                          );
+                          return val;
+                        });
+                      }}
+                    />
+                  </div>
+                ),
+              )}
+            </div>
+          </FormControl>
+          <FormMessage />
         </FormItem>
       )}
     />

@@ -178,6 +178,11 @@ function ApplicantCard({ applicant }: { applicant: IApplicant }) {
           <p className="flex gap-1 text-sm text-foreground/70">
             <span>score :</span> <span>{applicant.score}</span>
           </p>
+          {applicant?.isAssessmentDone && (
+            <p className="flex gap-1 text-sm text-foreground/70">
+              <span>test score :</span> <span>{applicant.assessmentScore}</span>
+            </p>
+          )}
           <p className="text-sm text-foreground/70">{applicant.user.email}</p>
           <p className="block text-sm text-foreground/70">
             <span className="pe-1">applied</span>

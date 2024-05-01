@@ -1,7 +1,7 @@
 import NotFound from "@/components/Custom/NotFound";
 import { JobDetails } from "@/components/ui/job";
 import { getJob } from "@/services/jobs.service";
-import JobActions from "./JobActions";
+import JobActions from "../_components/JobActions";
 import { IJob } from "@/types/jobs";
 import ValidateResume from "../_components/ValidateResume";
 
