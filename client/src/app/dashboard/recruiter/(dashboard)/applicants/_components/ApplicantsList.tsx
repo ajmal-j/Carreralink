@@ -168,13 +168,16 @@ function ApplicantCard({ applicant }: { applicant: IApplicant }) {
             <PersonIcon />
           </AvatarFallback>
         </Avatar>
-        <div className="flex-1 ">
+        <div className="flex-1">
           <Link
             href={`/dashboard/recruiter/jobs/applicant/${applicant.user.username}`}
             className="font-semibold capitalize hover:underline"
           >
             {applicant.user.username}
           </Link>
+          <p className="flex gap-1 text-sm text-foreground/70">
+            <span>score :</span> <span>{applicant.score}</span>
+          </p>
           <p className="text-sm text-foreground/70">{applicant.user.email}</p>
           <p className="block text-sm text-foreground/70">
             <span className="pe-1">applied</span>

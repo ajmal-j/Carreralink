@@ -39,6 +39,31 @@ export class AppliedJobsRepo {
     return await this.database.findOne({ $and: [{ user }, { job }] });
   }
 
+  async updateScore({
+    application,
+    data,
+  }: {
+    application: string;
+    data: {
+      score: string;
+      reasonForRejection?: string;
+      status?: string;
+    };
+  }) {
+    return await this.database.updateOne(
+      {
+        _id: application,
+      },
+      {
+        $set: {
+          score: data.score,
+          reasonForRejection: data?.reasonForRejection,
+          ...(data.status && { status: data.status }),
+        },
+      }
+    );
+  }
+
   async updateStatus({
     user,
     job,

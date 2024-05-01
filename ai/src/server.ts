@@ -3,6 +3,7 @@ import express from "express";
 import { errorMiddleware } from "@carreralink/common";
 import cors from "cors";
 import { AiRoutes } from "./routes/index.js";
+import eventConsumer from "./events/consumer/index.js";
 
 const port = 7000;
 dotenv.config();
@@ -37,4 +38,5 @@ app.use(errorMiddleware);
 // listening
 app.listen(port, () => {
   console.log(`Ai server is running on : http://localhost:${port}`);
+  eventConsumer();
 });

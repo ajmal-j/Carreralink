@@ -4,6 +4,8 @@ import aggregatePaginate from "mongoose-aggregate-paginate-v2";
 export interface IAppliedJob extends Document {
   job: ObjectId;
   user: string;
+  score: string;
+  isAssessmentDone: boolean;
   status:
     | "applied"
     | "interview"
@@ -20,6 +22,8 @@ const appliedJobSchema: Schema = new Schema<IAppliedJob>(
   {
     job: { type: Schema.Types.ObjectId, ref: "Jobs", required: true },
     user: { type: String, required: true },
+    score: { type: String, default: "Scoring in progress..." },
+    isAssessmentDone: { type: Boolean, default: false },
     status: {
       type: String,
       enum: [

@@ -68,9 +68,15 @@ export default function JobActions({ job }: { job: IJob }) {
         });
         return;
       }
+
+      const description = job.description
+        .concat("\n\n skills: ")
+        .concat(job.skills.join(", "));
+
       await apply({
         job: job?.id as string,
         resume: selectedResume ? selectedResume : resume,
+        description,
       });
       setIsApplied(true);
       toast({
@@ -217,7 +223,7 @@ export default function JobActions({ job }: { job: IJob }) {
         </>
       )}
       {job.status === "closed" && (
-        <p className="text-xs text-center text-red-500">(this job is closed)</p>
+        <p className="text-center text-xs text-red-500">(this job is closed)</p>
       )}
     </div>
   );

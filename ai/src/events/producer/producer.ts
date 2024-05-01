@@ -1,5 +1,6 @@
 import { Kafka } from "kafkajs";
-import { buildPlanUsedProducer } from "./planUsedProducer.js";
+import { buildPlanUsedProducer } from "./planUsed.producer.js";
+import { buildApplicantValidatedProducer } from "./applicantValidated.producer.js";
 
 let KAFKA_BROKER = process.env.KAFKA_BROKER;
 if (!KAFKA_BROKER) throw new Error("Kafka broker not found");
@@ -13,9 +14,11 @@ const producer = kafka.producer();
 await producer.connect();
 
 const planUsed = buildPlanUsedProducer(producer);
+const applicantValidated = buildApplicantValidatedProducer(producer);
 
 export const eventProducer = {
   planUsed,
+  applicantValidated,
 } as const;
 
 export type IEventProducer = typeof eventProducer;

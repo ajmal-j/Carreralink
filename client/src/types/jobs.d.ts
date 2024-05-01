@@ -53,6 +53,8 @@ export interface IApplicant {
     profile: string;
     email: string;
   };
+  score: string;
+  isAssessmentDone: boolean;
   reasonForRejection?: string;
   job: string;
   resume: string;

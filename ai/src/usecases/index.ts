@@ -1,4 +1,10 @@
-import { generateValidateResumePrompt, getPdfText } from "../utils/index.cjs";
+import { eventProducer } from "../events/producer/producer.js";
+import {
+  generateValidateApplicantPrompt,
+  generateValidateResumePrompt,
+  getPdfText,
+} from "../utils/index.cjs";
+import { ValidateJobApplications } from "./validateJobApplications.js";
 import { ValidateResumeUsecase } from "./validateResume.usecase.js";
 
 const validateResumeUsecase = new ValidateResumeUsecase(
@@ -6,6 +12,13 @@ const validateResumeUsecase = new ValidateResumeUsecase(
   generateValidateResumePrompt
 );
 
+const validateJobApplication = new ValidateJobApplications(
+  getPdfText,
+  generateValidateApplicantPrompt,
+  eventProducer
+);
+
 export const AiUsecases = {
   validateResumeUsecase,
+  validateJobApplication,
 };

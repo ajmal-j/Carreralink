@@ -107,11 +107,20 @@ const isApplied = async (job: string) => {
   return response.data;
 };
 
-const apply = async ({ job, resume }: { job: string; resume: string }) => {
+const apply = async ({
+  job,
+  resume,
+  description,
+}: {
+  job: string;
+  resume: string;
+  description: string;
+}) => {
   const url = new Server().jobs("apply");
   const response = await axios.post(url, {
     job,
     resume,
+    description,
   });
   return response.data;
 };

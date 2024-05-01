@@ -17,6 +17,7 @@ import BuildGetApplicantsController from "./getApplicants.js";
 import BuildUpdateStatusByRecruiterController from "./updateStatusByRecruiter.js";
 import BuildUpdateStatusByCompanyController from "./updateStatusByCompany.js";
 import BuildUpdateAssessmentController from "./updateAssessment.js";
+import { eventProducer } from "../../events/producer/producer.js";
 
 const create = BuildCreateJobController();
 const getJobById = BuildGetJobByIdController();
@@ -29,7 +30,9 @@ const saveJob = BuildSaveJobController();
 const getAllSavedJobs = BuildGetAllSavedJobsController();
 const removeSavedJob = BuildRemoveSavedJobController();
 const isSaved = BuildIsSavedController();
-const apply = BuildApplyJobController();
+const apply = BuildApplyJobController({
+  eventProducer,
+});
 const withdraw = BuildWithdrawJobController();
 const getAppliedJobs = BuildGetAppliedJobsController();
 const isApplied = BuildIsAppliedController();

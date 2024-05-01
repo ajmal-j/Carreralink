@@ -23,11 +23,33 @@ function generateValidateResumePrompt({
   return prompt;
 }
 
-export { getPdfText, generateValidateResumePrompt };
+function generateValidateApplicantPrompt({
+  description,
+  resume,
+}: {
+  resume: string;
+  description: string;
+}) {
+  const prompt = `Analyze the resume and job description to determine if the applicant is suitable for the role. Provide a score out of 10 for the applicant's suitability for the specific role. Resume: ${resume}, Job Description: ${description}. Output must be a string between 0 and 10 with no other characters like : 5 , 1 , 10 etc...`;
+  return prompt;
+}
+
+export {
+  getPdfText,
+  generateValidateResumePrompt,
+  generateValidateApplicantPrompt,
+};
 
 export type IUtils = {
   getPdfText: (url: string) => Promise<string>;
   generateValidateResumePrompt: ({
+    description,
+    resume,
+  }: {
+    resume: string;
+    description: string;
+  }) => string;
+  generateValidateApplicantPrompt: ({
     description,
     resume,
   }: {

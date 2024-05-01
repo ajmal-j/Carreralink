@@ -11,7 +11,6 @@ import { InterviewRepository } from "./repository/interview.repo.js";
 import { JobRepository } from "./repository/job.repository.js";
 import { RecruiterRequestRepository } from "./repository/recruiterRequest.repo.js";
 import { SavedJobsRepo } from "./repository/savedJobs.repo.js";
-import { SkillsAndCategoryRepository } from "./repository/skillsAndCategory.repo.js";
 import { UserRepository } from "./repository/user.repo.js";
 
 export const Repositories = {
