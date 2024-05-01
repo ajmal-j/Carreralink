@@ -12,7 +12,7 @@ export class UpdateApplicationScore {
     let reasonForRejection = "";
     let status: IAppliedJob["status"] | undefined;
 
-    if (Number(score) < 3) {
+    if (Number(score) <= 3) {
       reasonForRejection = "Low resume score.";
       status = "rejected";
     }

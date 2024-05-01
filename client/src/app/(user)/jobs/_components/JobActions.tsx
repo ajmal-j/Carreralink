@@ -52,9 +52,19 @@ import { z } from "zod";
 export default function JobActions({ job }: { job: IJob }) {
   const [isJobApplied, setIsApplied] = useState(false);
   const [applied, setApplied] = useState<undefined | IApplicant>(undefined);
+  const [isValidForTest, setIsValidForTest] = useState(false);
   const [isJobSaved, setIsSaved] = useState(false);
   const { isAuth, user } = useStateSelector((state) => state.user);
   const { push } = useRouter();
+
+  useEffect(() => {
+    const check =
+      !!job.assessments.length &&
+      isJobApplied &&
+      applied?.isAssessmentDone === false;
+
+    setIsValidForTest(check);
+  }, [applied?.isAssessmentDone, isJobApplied, job.assessments.length]);
   const applyJob = async (selectedResume?: string) => {
     if (job.status === "closed") {
       toast({
@@ -83,12 +93,15 @@ export default function JobActions({ job }: { job: IJob }) {
         .concat("\n\n skills: ")
         .concat(job.skills.join(", "));
 
-      await apply({
+      const response = await apply({
         job: job?.id as string,
         resume: selectedResume ? selectedResume : resume,
         description,
       });
+      const application = response.data;
+      console.log(response);
       setIsApplied(true);
+      setApplied(application);
       toast({
         title: "Applied successfully",
         description: "We will contact you shortly",
@@ -237,11 +250,7 @@ export default function JobActions({ job }: { job: IJob }) {
       {job.status === "closed" && (
         <p className="text-center text-xs text-red-500">(this job is closed)</p>
       )}
-      {job.assessments.length &&
-        isJobApplied &&
-        applied?.isAssessmentDone === false && (
-          <JobAssessment setApplied={setApplied} job={job} />
-        )}
+      {isValidForTest && <JobAssessment setApplied={setApplied} job={job} />}
     </div>
   );
 }
@@ -300,6 +309,12 @@ function JobAssessment({
       await updateApplicantAssessment({
         job: job.id,
         assessments: values.test,
+        expectedAnswers: job.assessments.map((a) => {
+          return { no: a.no, expectedAnswer: a.expectedAnswer };
+        }),
+        description: job.description
+          .concat("\n\n skills: ")
+          .concat(job.skills.join(", ")),
       });
       setApplied((prev) =>
         prev?.isAssessmentDone === false

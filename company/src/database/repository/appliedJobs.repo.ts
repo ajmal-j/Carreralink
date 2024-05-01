@@ -63,6 +63,33 @@ export class AppliedJobsRepo {
       }
     );
   }
+  async updateAssessmentScore({
+    job,
+    score,
+    user,
+    reasonForRejection,
+    status,
+  }: {
+    job: string;
+    user: string;
+    score: string;
+    reasonForRejection?: string;
+    status?: IAppliedJob["status"];
+  }) {
+    const application = await this.database.findOne({
+      $and: [{ user }, { job }],
+    });
+
+    if (!application) throw new BadRequestError("Application not found");
+
+    if (!application?.reasonForRejection && application.status !== "rejected") {
+      if (reasonForRejection)
+        application.reasonForRejection = reasonForRejection;
+      if (status) application.status = status;
+      application.assessmentScore = score;
+      await application.save();
+    }
+  }
 
   async updateAssessment({
     assessments,

@@ -41,7 +41,8 @@ const applicants = BuildGetApplicantsController();
 const updateStatusByRecruiter = BuildUpdateStatusByRecruiterController();
 const updateStatusByCompany = BuildUpdateStatusByCompanyController();
 const updateAssessment = BuildUpdateAssessmentController();
-const updateApplicantAssessment = BuildUpdateApplicantAssessmentController();
+const updateApplicantAssessment =
+  BuildUpdateApplicantAssessmentController(eventProducer);
 
 export const jobController = {
   create,

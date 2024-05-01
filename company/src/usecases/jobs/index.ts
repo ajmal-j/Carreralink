@@ -3,6 +3,7 @@ import { ApplicationAssessmentUseCase } from "./applicationAssessment.usecase.js
 import { HiredOneUsecase } from "./hiredOne.usecase.js";
 import { UpdateApplicationScore } from "./updateApplicationScore.usecase.js";
 import { UpdateAssessmentUsecase } from "./updateAssessment.usecase.js";
+import { UpdateAssessmentScore } from "./updateAssessmentScore.js";
 import { UpdateStatusUsecase } from "./updateStatus.usecase.js";
 import { UpdateStatusByCompanyUsecase } from "./updateStatusByCompany.js";
 
@@ -20,6 +21,9 @@ const updateApplicationScore = new UpdateApplicationScore(
 const updateApplicationAssessment = new ApplicationAssessmentUseCase(
   Repositories.AppliedJobsRepo
 );
+const updateAssessmentScore = new UpdateAssessmentScore(
+  Repositories.AppliedJobsRepo
+);
 
 export const JobUsecase = {
   hiredOneUsecase,
@@ -28,4 +32,5 @@ export const JobUsecase = {
   updateAssessmentUsecase,
   updateApplicationScore,
   updateApplicationAssessment,
+  updateAssessmentScore,
 };

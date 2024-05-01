@@ -180,14 +180,20 @@ const updateAssessment = async ({
 const updateApplicantAssessment = async ({
   job,
   assessments,
+  expectedAnswers,
+  description,
 }: {
   job: string;
+  description: string;
   assessments: Record<string, any>[];
+  expectedAnswers: Record<string, any>[];
 }) => {
   const url = new Server().jobs("updateApplicantAssessment");
   const response = await axios.patch(url, {
     job,
     assessments,
+    expectedAnswers,
+    description,
   });
   return response.data;
 };
