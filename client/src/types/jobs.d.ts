@@ -55,6 +55,11 @@ export interface IApplicant {
   };
   score: string;
   assessmentScore: string;
+  assessments: {
+    no: number;
+    question: string;
+    answer: string;
+  }[];
   isAssessmentDone: boolean;
   reasonForRejection?: string;
   job: string;

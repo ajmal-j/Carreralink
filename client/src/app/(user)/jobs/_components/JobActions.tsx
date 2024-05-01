@@ -99,7 +99,6 @@ export default function JobActions({ job }: { job: IJob }) {
         description,
       });
       const application = response.data;
-      console.log(response);
       setIsApplied(true);
       setApplied(application);
       toast({

@@ -12,6 +12,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { toast } from "@/components/ui/use-toast";
 import { statusButtonColors } from "@/constants";
 import { getMessage } from "@/lib/utils";
@@ -175,14 +183,17 @@ function ApplicantCard({ applicant }: { applicant: IApplicant }) {
           >
             {applicant.user.username}
           </Link>
-          <p className="flex gap-1 text-sm text-foreground/70">
-            <span>score :</span> <span>{applicant.score}</span>
-          </p>
-          {applicant?.isAssessmentDone && (
+          <div className="flex flex-wrap gap-1">
             <p className="flex gap-1 text-sm text-foreground/70">
-              <span>test score :</span> <span>{applicant.assessmentScore}</span>
+              <span>resume score :</span> <span>{applicant.score}</span>
             </p>
-          )}
+            {applicant?.isAssessmentDone && (
+              <p className="flex gap-1 text-sm text-foreground/70 before:content-[',']">
+                <span>test score :</span>{" "}
+                <span>{applicant.assessmentScore}</span>
+              </p>
+            )}
+          </div>
           <p className="text-sm text-foreground/70">{applicant.user.email}</p>
           <p className="block text-sm text-foreground/70">
             <span className="pe-1">applied</span>
@@ -314,13 +325,56 @@ function MoreOptions({ applicant }: { applicant: IApplicant }) {
           >
             Applicant
           </Link>
-          <Button
-            onClick={() => goToChat({ user: applicant.user.email })}
-            className="mt-2"
-            size="sm"
-          >
-            Message
-          </Button>
+          <div className="mt-2 flex flex-col gap-1">
+            <Button
+              variant={"outline"}
+              onClick={() => goToChat({ user: applicant.user.email })}
+              size="sm"
+            >
+              Message
+            </Button>
+            {applicant.isAssessmentDone && (
+              <Dialog>
+                <DialogTrigger>
+                  <Button variant={"outline"} size="sm">
+                    View Assessment
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>
+                      Assessment by {applicant.user.username}
+                    </DialogTitle>
+                    <DialogDescription>
+                      <h6 className="mb-2 mt-3 text-end">
+                        Score : {applicant.assessmentScore}
+                      </h6>
+                      <div className="flex flex-col gap-2">
+                        {applicant.assessments.map((assessment) => (
+                          <div
+                            key={assessment.no}
+                            className="flex flex-col gap-1"
+                          >
+                            <h5>Question {assessment.no} :</h5>
+                            <div className="mx-2 flex flex-col rounded-md bg-foreground/10 px-2 py-2">
+                              <div className="flex gap-1 capitalize">
+                                <span>question : </span>
+                                <span>{assessment.question}</span>
+                              </div>
+                              <div className="flex gap-1 capitalize">
+                                <span>answer : </span>
+                                <span>{assessment.answer}</span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+            )}
+          </div>
         </div>
       </DropdownMenuContent>
     </DropdownMenu>
