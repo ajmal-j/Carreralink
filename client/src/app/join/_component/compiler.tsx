@@ -2,7 +2,6 @@
 
 import { codeSnippets } from "@/constants";
 
-import Title from "@/components/Custom/Title";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -66,8 +65,7 @@ export default function Compiler({
   };
 
   return (
-    <div className="flex items-start justify-between">
-      <Title className="my-2 ms-3" />
+ 
       <Dialog>
         <DialogTrigger>
           <Button className="my-2 me-3" variant="outline">
@@ -148,6 +146,5 @@ export default function Compiler({
           </div>
         </DialogContent>
       </Dialog>
-    </div>
   );
 }

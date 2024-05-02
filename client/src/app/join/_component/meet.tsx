@@ -4,6 +4,7 @@ import { codeSnippets, languageVersions } from "@/constants";
 import { getMessage } from "@/lib/utils";
 
 import RefreshPage from "@/components/Custom/RefreshPage";
+import Title from "@/components/Custom/Title";
 import { toast } from "@/components/ui/use-toast";
 import { compileCode } from "@/services/compiler.service";
 import { IUserCompany } from "@/types/company";
@@ -29,8 +30,10 @@ export default function Meet({ id, user }: PageProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [result, setResult] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [isJoined, setIsJoined] = useState<boolean>(true);
 
   const joinMeeting = async (element: HTMLDivElement) => {
+    return;
     try {
       const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
         appId,
@@ -47,6 +50,12 @@ export default function Meet({ id, user }: PageProps) {
         showPreJoinView: false,
         scenario: {
           mode: ZegoUIKitPrebuilt.VideoConference,
+        },
+        onJoinRoom() {
+          setIsJoined(true);
+        },
+        onLeaveRoom() {
+          setIsJoined(false);
         },
         turnOnCameraWhenJoining: false,
         turnOnMicrophoneWhenJoining: false,
@@ -93,18 +102,24 @@ export default function Meet({ id, user }: PageProps) {
 
   return (
     <div className="h-[95vh] w-full">
-      <Compiler
-        {...{
-          editorValue,
-          error,
-          language,
-          loading,
-          result,
-          runCode,
-          setEditorValue,
-          setLanguage,
-        }}
-      />
+      <div className="flex items-start justify-between">
+        <Title className="my-2 ms-3" />
+        {isJoined && (
+          <Compiler
+            {...{
+              editorValue,
+              error,
+              language,
+              loading,
+              result,
+              runCode,
+              setEditorValue,
+              setLanguage,
+            }}
+          />
+        )}
+      </div>
+
       <div className="h-full w-full" ref={joinMeeting} />
     </div>
   );
