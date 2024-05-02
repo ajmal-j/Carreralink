@@ -67,6 +67,7 @@ export default function Compiler({
   const [open, setOpen] = useState(false);
   const [prevQuestion, setPrevQuestion] = useState<string>("");
   const [prevListened, setPrevListened] = useState<string>("");
+  const [question, setQuestion] = useState<string>("");
 
   const { socket } = useSocket();
 
@@ -99,15 +100,17 @@ export default function Compiler({
     editorRef?.current.focus();
   };
 
-  const pasteQuestion = (data: string) => {
-    if (!data || !id || !isInterviewer || !applicantId) return;
+  const pasteQuestion = () => {
+    if (!question || !id || !isInterviewer || !applicantId) return;
     try {
-      if (data === prevQuestion) return;
+      if (question === prevQuestion) return;
       socket?.emit("question", {
-        question: data,
+        question,
         user: applicantId.concat(id),
+        sender: user.id.concat(id),
       });
-      setPrevQuestion(data);
+      setPrevQuestion(question);
+      setOpen(false);
     } catch (error) {
       console.log(error);
       const message = getMessage(error);
@@ -127,12 +130,23 @@ export default function Compiler({
     setPrevListened(question);
   };
 
+  const applicantNotJoined = () => {
+    setPrevQuestion("");
+    toast({
+      title: "Applicant not yet joined.",
+      description: "Please wait for applicant to join",
+      variant: "destructive",
+      duration: 2000,
+    });
+  };
+
   useEffect(() => {
     joinInterviewSocket();
   }, [joinInterviewSocket]);
 
   useEffect(() => {
     socket?.on("questionReceived", questionReceived);
+    socket?.on("applicantNotJoined", applicantNotJoined);
   }, [socket]);
 
   return (
@@ -183,29 +197,23 @@ export default function Compiler({
                   <DialogHeader>
                     <DialogTitle>Paste your question</DialogTitle>
                     <DialogDescription>
-                      <form
-                        onSubmit={(
-                          e: FormEvent<HTMLFormElement> & {
-                            target: {
-                              question: { value: string };
-                            };
-                          },
-                        ) => {
-                          e.preventDefault();
-                          pasteQuestion(e?.target?.question?.value);
-                        }}
-                      >
-                        <div className="mt-3 flex w-full flex-col gap-2">
-                          <Textarea name="question" />
-                          <Button
-                            className="ms-auto"
-                            type="submit"
-                            variant={"outline"}
-                          >
-                            paste
-                          </Button>
-                        </div>
-                      </form>
+                      <div className="mt-3 flex w-full flex-col gap-2">
+                        <Textarea
+                          value={question}
+                          onChange={(e) => setQuestion(e.target.value)}
+                          name="question"
+                          className="h-auto"
+                          placeholder="enter or paste your question here..."
+                          rows={15}
+                        />
+                        <Button
+                          onClick={() => pasteQuestion()}
+                          className="ms-auto"
+                          variant={"outline"}
+                        >
+                          send
+                        </Button>
+                      </div>
                     </DialogDescription>
                   </DialogHeader>
                 </DialogContent>

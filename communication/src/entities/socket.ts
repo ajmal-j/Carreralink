@@ -32,10 +32,20 @@ export class Socket {
         socket.join(id);
       });
 
-      socket.on("question", ({ question, user }) => {
-        io.to(user).emit("questionReceived", question);
+      socket.on("question", ({ question, user, sender }) => {
+        const isApplicantJoined = this.isJoined(user);
+        if (isApplicantJoined) {
+          io.to(user).emit("questionReceived", question);
+        } else {
+          io.to(sender).emit("applicantNotJoined");
+        }
       });
     });
+  }
+
+  private isJoined(id: string) {
+    const data = this.io.sockets.adapter.rooms.get(id);
+    return !!data;
   }
 
   get io() {

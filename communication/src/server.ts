@@ -30,7 +30,9 @@ const server = app.listen(port, () => {
 
 // socket io initialization
 const socket = new Socket();
+
 socket.io.attach(server);
+
 socket.listenForChat();
 socket.listenForInterview();
 
