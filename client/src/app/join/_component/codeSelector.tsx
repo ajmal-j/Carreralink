@@ -60,6 +60,7 @@ export default function CodeSelector({
             <CommandList>
               {languages.map((framework) => (
                 <CommandItem
+                  className="cursor-pointer"
                   key={framework.value}
                   value={framework.value}
                   onSelect={(currentValue) => {

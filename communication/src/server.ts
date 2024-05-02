@@ -1,11 +1,11 @@
-import dotenv from "dotenv";
-import express from "express";
 import { errorMiddleware } from "@carreralink/common";
 import cors from "cors";
+import dotenv from "dotenv";
+import express from "express";
 import { Connect } from "./database/config/index.js";
+import { Socket } from "./entities/socket.js";
 import eventConsumer from "./events/consumer/consumer.js";
 import { chatRoutes } from "./routes/index.js";
-import { Socket } from "./entities/socket.js";
 
 const port = 8000;
 dotenv.config();

@@ -3,11 +3,12 @@
 import { codeSnippets, languageVersions } from "@/constants";
 import { getMessage } from "@/lib/utils";
 
+import BackButton from "@/components/Buttons/BackButton";
 import RefreshPage from "@/components/Custom/RefreshPage";
 import Title from "@/components/Custom/Title";
 import { toast } from "@/components/ui/use-toast";
 import { compileCode } from "@/services/compiler.service";
-import { IInterviewUsers, IUserCompany } from "@/types/company";
+import { IInterviewUsers } from "@/types/company";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import { useEffect, useState } from "react";
 import Compiler from "./compiler";
@@ -37,10 +38,9 @@ export default function Meet({
   const [loading, setLoading] = useState<boolean>(false);
   const [result, setResult] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const [isJoined, setIsJoined] = useState<boolean>(true);
+  const [isJoined, setIsJoined] = useState<boolean>(false);
 
   const joinMeeting = async (element: HTMLDivElement) => {
-    return;
     try {
       const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
         appId,
@@ -85,7 +85,7 @@ export default function Meet({
         language,
         code: editorValue,
       });
-      if (result.stderr) {
+      if (result?.stderr) {
         setError(result.stderr);
       } else {
         setResult(result.output);
@@ -110,7 +110,10 @@ export default function Meet({
   return (
     <div className="h-[95vh] w-full">
       <div className="flex items-start justify-between">
-        <Title className="my-2 ms-3" />
+        <div className="my-2 ms-3 flex gap-2">
+          <BackButton />
+          <Title />
+        </div>
         {isJoined && (
           <Compiler
             {...{

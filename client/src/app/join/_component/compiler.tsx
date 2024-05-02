@@ -2,9 +2,11 @@
 
 import { codeSnippets } from "@/constants";
 
+import { useSocket } from "@/Providers/socket-provider";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -17,7 +19,12 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
+import { getMessage } from "@/lib/utils";
+import { IInterviewUsers } from "@/types/company";
 import { Editor, type OnMount } from "@monaco-editor/react";
+import { Cross1Icon } from "@radix-ui/react-icons";
 import {
   Code,
   ListRestart,
@@ -26,13 +33,8 @@ import {
   SpellCheck2,
   Trash2,
 } from "lucide-react";
-import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import CodeSelector from "./codeSelector";
-import { Textarea } from "@/components/ui/textarea";
-import { useSocket } from "@/Providers/socket-provider";
-import { IInterviewUsers } from "@/types/company";
-import { getMessage } from "@/lib/utils";
-import { toast } from "@/components/ui/use-toast";
 
 interface PageProps {
   language: string;
@@ -161,7 +163,7 @@ export default function Compiler({
       <DialogContent className="h-full min-w-full rounded-none">
         <DialogHeader>
           <DialogTitle>Compiler</DialogTitle>
-          <DialogDescription className="flex gap-2 pt-4">
+          <DialogDescription className="flex flex-wrap gap-2 pt-4">
             <CodeSelector language={language} setLanguage={setLanguage} />
             <Button
               onClick={runCode}
@@ -195,7 +197,9 @@ export default function Compiler({
                 </DialogTrigger>
                 <DialogContent className="max-h-[800px] overflow-y-auto">
                   <DialogHeader>
-                    <DialogTitle>Paste your question</DialogTitle>
+                    <DialogTitle className="text-foreground/70">
+                      Give a question to applicant.
+                    </DialogTitle>
                     <DialogDescription>
                       <div className="mt-3 flex w-full flex-col gap-2">
                         <Textarea
@@ -211,7 +215,7 @@ export default function Compiler({
                           className="ms-auto"
                           variant={"outline"}
                         >
-                          send
+                          Submit
                         </Button>
                       </div>
                     </DialogDescription>
@@ -219,6 +223,14 @@ export default function Compiler({
                 </DialogContent>
               </Dialog>
             )}
+            <DialogClose>
+              <Button variant={"outline"}>
+                <div className="flex items-center gap-1">
+                  <Cross1Icon className="size-3" />
+                  <span>close</span>
+                </div>
+              </Button>
+            </DialogClose>
           </DialogDescription>
         </DialogHeader>
         <div>
