@@ -1,17 +1,34 @@
 "use client";
 
+import { codeSnippets, languageVersions } from "@/constants";
+import { getMessage } from "@/lib/utils";
+
 import RefreshPage from "@/components/Custom/RefreshPage";
+import { toast } from "@/components/ui/use-toast";
+import { compileCode } from "@/services/compiler.service";
 import { IUserCompany } from "@/types/company";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
+import { useEffect, useState } from "react";
+import Compiler from "./compiler";
 
 interface PageProps {
   id: string;
   user: IUserCompany;
 }
+const languages = Object.entries(languageVersions).map(([key]) => ({
+  value: key,
+  label: key,
+}));
+
+const appId = Number(process.env.NEXT_PUBLIC_ZEGO_APP_ID) as number;
+const serverSecret = process.env.NEXT_PUBLIC_ZEGO_SERVER_SECRET as string;
 
 export default function Meet({ id, user }: PageProps) {
-  const appId = 1613379029;
-  const serverSecret = "b47092639dd4ca05c1c7a68f2d9a2c1c";
+  const [editorValue, setEditorValue] = useState("");
+  const [language, setLanguage] = useState<string>(languages[0].value);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [result, setResult] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
   const joinMeeting = async (element: HTMLDivElement) => {
     try {
@@ -44,8 +61,50 @@ export default function Meet({ id, user }: PageProps) {
     }
   };
 
+  const runCode = async () => {
+    if (!editorValue) return;
+    try {
+      setLoading(true);
+      const { run: result } = await compileCode({
+        language,
+        code: editorValue,
+      });
+      if (result.stderr) {
+        setError(result.stderr);
+      } else {
+        setResult(result.output);
+        setError("");
+      }
+    } catch (error) {
+      console.log(error);
+      const message = getMessage(error);
+      toast({
+        title: message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    setEditorValue(codeSnippets[language]);
+  }, [language]);
+
   return (
-    <div className="h-[97vh] w-full">
+    <div className="h-[95vh] w-full">
+      <Compiler
+        {...{
+          editorValue,
+          error,
+          language,
+          loading,
+          result,
+          runCode,
+          setEditorValue,
+          setLanguage,
+        }}
+      />
       <div className="h-full w-full" ref={joinMeeting} />
     </div>
   );

@@ -30,7 +30,7 @@ export default async function Interview({
   if (!data.username)
     return <NotFound title="Something went wrong please try again." />;
   return (
-    <div className="flex min-h-screen w-full items-start justify-center pt-3">
+    <div className="flex min-h-screen w-full justify-start">
       <Suspense
         fallback={
           <div className="flex h-screen w-full items-center justify-center">
