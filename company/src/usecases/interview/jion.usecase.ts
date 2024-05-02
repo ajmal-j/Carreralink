@@ -27,6 +27,7 @@ export class JoinInterviewUsecase {
       return {
         user: isInterviewer.interviewer,
         isInterviewer: true,
+        applicantId: isInterviewer.applicant,
       };
     }
     throw new UnauthorizedError("User not authorized to join this interview.");

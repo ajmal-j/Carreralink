@@ -18,3 +18,7 @@ export interface IUserCompany {
   email: string;
   profile: string;
 }
+
+interface IInterviewUsers extends IUserCompany {
+  applicant?: string;
+}

@@ -24,10 +24,15 @@ import {
   Loader,
   SpellCheck,
   SpellCheck2,
+  Trash2,
 } from "lucide-react";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import CodeSelector from "./codeSelector";
 import { Textarea } from "@/components/ui/textarea";
+import { useSocket } from "@/Providers/socket-provider";
+import { IInterviewUsers } from "@/types/company";
+import { getMessage } from "@/lib/utils";
+import { toast } from "@/components/ui/use-toast";
 
 interface PageProps {
   language: string;
@@ -39,6 +44,9 @@ interface PageProps {
   result: string;
   error: string;
   isInterviewer: boolean;
+  id: string;
+  user: IInterviewUsers;
+  applicantId: string;
 }
 
 export default function Compiler({
@@ -51,9 +59,17 @@ export default function Compiler({
   setEditorValue,
   setLanguage,
   isInterviewer,
+  id,
+  user,
+  applicantId,
 }: PageProps) {
   const editorRef = useRef<OnMount["prototype"] | null>(null);
   const [open, setOpen] = useState(false);
+  const [prevQuestion, setPrevQuestion] = useState<string>("");
+  const [prevListened, setPrevListened] = useState<string>("");
+
+  const { socket } = useSocket();
+
   const options = {
     minimap: { enabled: false },
   };
@@ -63,16 +79,64 @@ export default function Compiler({
     editor.focus();
   };
 
+  const joinInterviewSocket = useCallback(() => {
+    try {
+      socket?.emit("joinInterview", {
+        id: user.id.concat(id),
+      });
+    } catch (error) {
+      console.log(error);
+      const message = getMessage(error);
+      toast({
+        title: message,
+        variant: "destructive",
+      });
+    }
+  }, [socket, id, user]);
+
   const resetValue = () => {
     setEditorValue(codeSnippets[language]);
+    editorRef?.current.focus();
   };
 
   const pasteQuestion = (data: string) => {
-    alert(data);
+    if (!data || !id || !isInterviewer || !applicantId) return;
+    try {
+      if (data === prevQuestion) return;
+      socket?.emit("question", {
+        question: data,
+        user: applicantId.concat(id),
+      });
+      setPrevQuestion(data);
+    } catch (error) {
+      console.log(error);
+      const message = getMessage(error);
+      toast({
+        title: message,
+        variant: "destructive",
+      });
+    }
   };
 
+  const questionReceived = (question: string) => {
+    if (!question) return;
+    console.log(question);
+    if (question === prevListened) return;
+    setEditorValue((prev) => question.concat("\n\n" + prev));
+    editorRef?.current.focus();
+    setPrevListened(question);
+  };
+
+  useEffect(() => {
+    joinInterviewSocket();
+  }, [joinInterviewSocket]);
+
+  useEffect(() => {
+    socket?.on("questionReceived", questionReceived);
+  }, [socket]);
+
   return (
-    <Dialog open>
+    <Dialog>
       <DialogTrigger>
         <Button className="my-2 me-3" variant="outline">
           <div className="flex items-center gap-1.5">
@@ -97,6 +161,15 @@ export default function Compiler({
                   <Code size={16} /> Run
                 </div>
               )}
+            </Button>
+            <Button
+              onClick={() => {
+                setEditorValue("");
+                editorRef?.current.focus();
+              }}
+              variant={"outline"}
+            >
+              <Trash2 size={18} />
             </Button>
             <Button onClick={resetValue} variant={"outline"}>
               <ListRestart size={18} />

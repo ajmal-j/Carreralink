@@ -1,7 +1,7 @@
 import NotFound from "@/components/Custom/NotFound";
 import { getMessage } from "@/lib/utils";
 import { joinInterview } from "@/services/interview.service";
-import { IUserCompany } from "@/types/company";
+import { IInterviewUsers, IUserCompany } from "@/types/company";
 import { cookies } from "next/headers";
 import Meet from "../_component/meet";
 import { Suspense } from "react";
@@ -14,8 +14,9 @@ export default async function Interview({
     id: string;
   };
 }) {
-  let data: IUserCompany = {} as IUserCompany;
+  let data: IInterviewUsers = {} as IInterviewUsers;
   let isInterviewer: boolean = false;
+  let applicantId: string = "";
 
   const token = cookies().get("userToken")?.value || "";
   try {
@@ -25,6 +26,7 @@ export default async function Interview({
     });
     data = response?.data?.user;
     isInterviewer = response?.data?.isInterviewer;
+    applicantId = response?.data?.applicantId;
   } catch (error) {
     console.log(error);
     const message = getMessage(error);
@@ -41,7 +43,12 @@ export default async function Interview({
           </div>
         }
       >
-        <Meet id={id} isInterviewer={isInterviewer} user={data} />
+        <Meet
+          id={id}
+          isInterviewer={isInterviewer}
+          applicantId={applicantId}
+          user={data}
+        />
       </Suspense>
     </div>
   );

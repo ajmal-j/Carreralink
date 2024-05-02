@@ -12,7 +12,7 @@ export class Socket {
     });
     console.log("socket server is up and running.");
   }
-  public listen() {
+  public listenForChat() {
     const io = this.io;
     io.on("connection", (socket) => {
       socket.on("joinChat", ({ id }) => {
@@ -21,6 +21,19 @@ export class Socket {
 
       socket.on("message", ({ message, user }) => {
         io.to(user).emit("receiveMessage", message);
+      });
+    });
+  }
+
+  public listenForInterview() {
+    const io = this.io;
+    io.on("connection", (socket) => {
+      socket.on("joinInterview", ({ id }) => {
+        socket.join(id);
+      });
+
+      socket.on("question", ({ question, user }) => {
+        io.to(user).emit("questionReceived", question);
       });
     });
   }

@@ -31,7 +31,8 @@ const server = app.listen(port, () => {
 // socket io initialization
 const socket = new Socket();
 socket.io.attach(server);
-socket.listen();
+socket.listenForChat();
+socket.listenForInterview();
 
 app.all("*", (req, res, next) => {
   console.log(req.originalUrl);

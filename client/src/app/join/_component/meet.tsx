@@ -7,15 +7,16 @@ import RefreshPage from "@/components/Custom/RefreshPage";
 import Title from "@/components/Custom/Title";
 import { toast } from "@/components/ui/use-toast";
 import { compileCode } from "@/services/compiler.service";
-import { IUserCompany } from "@/types/company";
+import { IInterviewUsers, IUserCompany } from "@/types/company";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import { useEffect, useState } from "react";
 import Compiler from "./compiler";
 
 interface PageProps {
   id: string;
-  user: IUserCompany;
+  user: IInterviewUsers;
   isInterviewer: boolean;
+  applicantId: string;
 }
 const languages = Object.entries(languageVersions).map(([key]) => ({
   value: key,
@@ -25,7 +26,12 @@ const languages = Object.entries(languageVersions).map(([key]) => ({
 const appId = Number(process.env.NEXT_PUBLIC_ZEGO_APP_ID) as number;
 const serverSecret = process.env.NEXT_PUBLIC_ZEGO_SERVER_SECRET as string;
 
-export default function Meet({ id, user, isInterviewer }: PageProps) {
+export default function Meet({
+  id,
+  user,
+  isInterviewer,
+  applicantId,
+}: PageProps) {
   const [editorValue, setEditorValue] = useState("");
   const [language, setLanguage] = useState<string>(languages[0].value);
   const [loading, setLoading] = useState<boolean>(false);
@@ -110,6 +116,8 @@ export default function Meet({ id, user, isInterviewer }: PageProps) {
             {...{
               editorValue,
               isInterviewer,
+              applicantId,
+              id,
               error,
               language,
               loading,
@@ -117,6 +125,7 @@ export default function Meet({ id, user, isInterviewer }: PageProps) {
               runCode,
               setEditorValue,
               setLanguage,
+              user,
             }}
           />
         )}
