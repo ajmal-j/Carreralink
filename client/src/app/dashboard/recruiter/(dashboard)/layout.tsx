@@ -8,7 +8,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
-export const logOut = async () => {
+const logOut = async () => {
   "use server";
   cookies().delete("userToken");
   redirect("/login");

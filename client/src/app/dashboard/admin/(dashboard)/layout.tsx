@@ -1,19 +1,12 @@
-// import CompanyHeader from "@/components/Layout/CompanyHeader";
 import AdminHeader from "@/components/Layout/AdminHeader";
 import DashboardSideBar from "@/components/Layout/DashboardSideBar";
-import {
-  BackpackIcon,
-  Component1Icon,
-  ComponentInstanceIcon,
-  LayersIcon,
-  PersonIcon,
-} from "@radix-ui/react-icons";
+import { BackpackIcon, LayersIcon, PersonIcon } from "@radix-ui/react-icons";
 import { BarChart2, Building2, Crown } from "lucide-react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
-export const logOut = async () => {
+const logOut = async () => {
   "use server";
   cookies().delete("adminToken");
   redirect("/dashboard/admin/login");
