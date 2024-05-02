@@ -15,6 +15,7 @@ import Compiler from "./compiler";
 interface PageProps {
   id: string;
   user: IUserCompany;
+  isInterviewer: boolean;
 }
 const languages = Object.entries(languageVersions).map(([key]) => ({
   value: key,
@@ -24,7 +25,7 @@ const languages = Object.entries(languageVersions).map(([key]) => ({
 const appId = Number(process.env.NEXT_PUBLIC_ZEGO_APP_ID) as number;
 const serverSecret = process.env.NEXT_PUBLIC_ZEGO_SERVER_SECRET as string;
 
-export default function Meet({ id, user }: PageProps) {
+export default function Meet({ id, user, isInterviewer }: PageProps) {
   const [editorValue, setEditorValue] = useState("");
   const [language, setLanguage] = useState<string>(languages[0].value);
   const [loading, setLoading] = useState<boolean>(false);
@@ -108,6 +109,7 @@ export default function Meet({ id, user }: PageProps) {
           <Compiler
             {...{
               editorValue,
+              isInterviewer,
               error,
               language,
               loading,

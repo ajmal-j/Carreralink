@@ -17,7 +17,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Editor } from "@monaco-editor/react";
+import { Editor, type OnMount } from "@monaco-editor/react";
 import {
   Code,
   ListRestart,
@@ -25,8 +25,9 @@ import {
   SpellCheck,
   SpellCheck2,
 } from "lucide-react";
-import { useRef } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import CodeSelector from "./codeSelector";
+import { Textarea } from "@/components/ui/textarea";
 
 interface PageProps {
   language: string;
@@ -37,6 +38,7 @@ interface PageProps {
   setEditorValue: React.Dispatch<React.SetStateAction<string>>;
   result: string;
   error: string;
+  isInterviewer: boolean;
 }
 
 export default function Compiler({
@@ -48,14 +50,15 @@ export default function Compiler({
   runCode,
   setEditorValue,
   setLanguage,
+  isInterviewer,
 }: PageProps) {
-  const editorRef = useRef(null);
-
+  const editorRef = useRef<OnMount["prototype"] | null>(null);
+  const [open, setOpen] = useState(false);
   const options = {
     minimap: { enabled: false },
   };
 
-  const onMount = (editor: any) => {
+  const onMount: OnMount = (editor) => {
     editorRef.current = editor;
     editor.focus();
   };
@@ -64,8 +67,12 @@ export default function Compiler({
     setEditorValue(codeSnippets[language]);
   };
 
+  const pasteQuestion = (data: string) => {
+    alert(data);
+  };
+
   return (
-    <Dialog>
+    <Dialog open>
       <DialogTrigger>
         <Button className="my-2 me-3" variant="outline">
           <div className="flex items-center gap-1.5">
@@ -94,6 +101,43 @@ export default function Compiler({
             <Button onClick={resetValue} variant={"outline"}>
               <ListRestart size={18} />
             </Button>
+            {isInterviewer && (
+              <Dialog open={open} onOpenChange={setOpen}>
+                <DialogTrigger>
+                  <Button variant={"outline"}>give question</Button>
+                </DialogTrigger>
+                <DialogContent className="max-h-[800px] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>Paste your question</DialogTitle>
+                    <DialogDescription>
+                      <form
+                        onSubmit={(
+                          e: FormEvent<HTMLFormElement> & {
+                            target: {
+                              question: { value: string };
+                            };
+                          },
+                        ) => {
+                          e.preventDefault();
+                          pasteQuestion(e?.target?.question?.value);
+                        }}
+                      >
+                        <div className="mt-3 flex w-full flex-col gap-2">
+                          <Textarea name="question" />
+                          <Button
+                            className="ms-auto"
+                            type="submit"
+                            variant={"outline"}
+                          >
+                            paste
+                          </Button>
+                        </div>
+                      </form>
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+            )}
           </DialogDescription>
         </DialogHeader>
         <div>

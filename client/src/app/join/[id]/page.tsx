@@ -15,13 +15,16 @@ export default async function Interview({
   };
 }) {
   let data: IUserCompany = {} as IUserCompany;
+  let isInterviewer: boolean = false;
+
   const token = cookies().get("userToken")?.value || "";
   try {
     const response = await joinInterview({
       token,
       id,
     });
-    data = response.data;
+    data = response?.data?.user;
+    isInterviewer = response?.data?.isInterviewer;
   } catch (error) {
     console.log(error);
     const message = getMessage(error);
@@ -38,7 +41,7 @@ export default async function Interview({
           </div>
         }
       >
-        <Meet id={id} user={data} />
+        <Meet id={id} isInterviewer={isInterviewer} user={data} />
       </Suspense>
     </div>
   );
