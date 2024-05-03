@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  availableLanguages,
-  codeSnippets,
-  languageVersions,
-} from "@/constants";
+import { availableLanguages, codeSnippets } from "@/constants";
 import { getMessage } from "@/lib/utils";
 
 import BackButton from "@/components/Buttons/BackButton";
@@ -42,10 +38,9 @@ export default function Meet({
   const [loading, setLoading] = useState<boolean>(false);
   const [result, setResult] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const [isJoined, setIsJoined] = useState<boolean>(!false);
+  const [isJoined, setIsJoined] = useState<boolean>(false);
 
   const joinMeeting = async (element: HTMLDivElement) => {
-    return;
     try {
       const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
         appId,

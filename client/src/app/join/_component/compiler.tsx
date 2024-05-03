@@ -1,7 +1,5 @@
 "use client";
 
-import { codeSnippets } from "@/constants";
-
 import { useSocket } from "@/Providers/socket-provider";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,10 +19,12 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
+import { codeSnippets } from "@/constants";
 import { getMessage } from "@/lib/utils";
 import { IInterviewUsers } from "@/types/company";
 import { Editor, type OnMount } from "@monaco-editor/react";
 import { Cross1Icon } from "@radix-ui/react-icons";
+import AnsiToHtml from "ansi-to-html";
 import {
   Code,
   ListRestart,
@@ -33,8 +33,11 @@ import {
   SpellCheck2,
   Trash2,
 } from "lucide-react";
+import PrettyError from "pretty-error";
 import { useCallback, useEffect, useRef, useState } from "react";
 import CodeSelector from "./codeSelector";
+const pe = new PrettyError();
+const ansiToHtml = new AnsiToHtml();
 
 interface PageProps {
   language: string;
@@ -270,8 +273,14 @@ export default function Compiler({
                     <div className="mt-2 flex items-center gap-1 border-b-[1px] pb-2 text-sm text-foreground/70">
                       <SpellCheck2 color="red" size={16} /> <span>Error :</span>
                     </div>
-                    <ScrollArea className="mt-3 h-full pb-14 text-red-700">
-                      {error}
+                    <ScrollArea className="mt-3 h-full pb-14">
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html:
+                            error &&
+                            ansiToHtml.toHtml(pe.render(new Error(error))),
+                        }}
+                      />
                     </ScrollArea>
                   </ResizablePanel>
                 </ResizablePanelGroup>
