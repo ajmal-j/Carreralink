@@ -585,9 +585,30 @@ export class AppliedJobsRepo {
         },
       },
       {
+        $addFields: {
+          totalScore: {
+            $add: [
+              {
+                $convert: {
+                  input: "$score",
+                  to: "double",
+                  onError: 0,
+                  onNull: 0,
+                },
+              },
+              { $toDouble: "$assessmentScore" },
+            ],
+          },
+        },
+      },
+      {
         $unwind: "$user",
       },
+      {
+        $sort: { totalScore: -1 },
+      },
     ]);
-    return await this.database.aggregatePaginate(aggregation, options);
+    const data = await this.database.aggregatePaginate(aggregation, options);
+    return data;
   }
 }
