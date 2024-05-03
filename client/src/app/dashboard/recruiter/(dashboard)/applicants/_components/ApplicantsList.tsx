@@ -4,6 +4,14 @@ import NotFound from "@/components/Custom/NotFound";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
@@ -12,24 +20,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { toast } from "@/components/ui/use-toast";
 import { statusButtonColors } from "@/constants";
 import { getMessage } from "@/lib/utils";
+import { createChat } from "@/services/chat.service";
 import { getApplicants } from "@/services/jobs.service";
 import { updateApplicantStatus } from "@/services/recruiter.service";
+import { useStateSelector } from "@/store";
 import { IApplicant, IAvailableStatus } from "@/types/jobs";
 import { IResponseData } from "@/types/paginateResponse";
 import { DotsVerticalIcon, PersonIcon } from "@radix-ui/react-icons";
 import { formatDistanceToNow } from "date-fns";
 import {
+  ArrowDownWideNarrow,
   ChevronDownIcon,
   ChevronLeft,
   ChevronRight,
@@ -37,11 +40,9 @@ import {
   Loader,
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { InterviewForm } from "../_form/Interviewform";
-import { useRouter } from "next/navigation";
-import { createChat } from "@/services/chat.service";
-import { useStateSelector } from "@/store";
 
 export function ApplicantsComponent({ jobId }: { jobId: string }) {
   const [applicants, setApplicants] = useState<IApplicant[]>([]);
@@ -49,9 +50,28 @@ export function ApplicantsComponent({ jobId }: { jobId: string }) {
   const [options, setOptions] = useState<Omit<IResponseData, "docs">>(
     {} as Omit<IResponseData, "docs">,
   );
-  const [query, setQuery] = useState({
+  const [query, setQuery] = useState<{
+    p: number;
+    status:
+      | "applied"
+      | "interview"
+      | "shortlisted"
+      | "rejected"
+      | "underReview"
+      | "hired";
+  }>({
     p: 1,
+    status: "applied",
   });
+
+  const availableStatus = [
+    "applied",
+    "interview",
+    "shortlisted",
+    "rejected",
+    "underReview",
+    "hired",
+  ];
 
   const fetchApplicants = async () => {
     if (!jobId || query.p < 1) return;
@@ -66,16 +86,47 @@ export function ApplicantsComponent({ jobId }: { jobId: string }) {
   }, [query]);
 
   return (
-    <>
+    <div className="mt-6 flex flex-col gap-2">
+      <h1 className="mx-3 text-xl font-semibold text-foreground/90">
+        Applicants :{" "}
+      </h1>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <div className="flex justify-end">
+            <Button variant="outline" className="flex items-center gap-1">
+              <ArrowDownWideNarrow size={17} />
+              <span className="capitalize">{query.status}</span>
+            </Button>
+          </div>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56" align="end">
+          <DropdownMenuLabel>Filter by Status</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuRadioGroup
+            value={query.status}
+            onValueChange={(value) =>
+              setQuery((prev) => ({
+                ...prev,
+                status: value as IAvailableStatus,
+              }))
+            }
+          >
+            {availableStatus.map((status) => (
+              <DropdownMenuRadioItem value={status} key={status}>
+                <span className="capitalize">{status}</span>
+              </DropdownMenuRadioItem>
+            ))}
+          </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
       {applicants.length ? (
-        <div className="mt-6">
-          <h1 className="mx-3 mb-2 text-xl font-semibold text-foreground/90">
-            Applicants :{" "}
-          </h1>
-          {applicants.map((applicant, index) => (
-            <ApplicantCard key={index} applicant={applicant} />
-          ))}
-          <div className="mt-4 flex justify-end">
+        <div key={applicants[0]?._id}>
+          <div className="flex flex-col gap-1">
+            {applicants.map((applicant, index) => (
+              <ApplicantCard key={index} applicant={applicant} />
+            ))}
+          </div>
+          <div className="mt-2 flex justify-end">
             {loadingMore ? (
               <Loader className="animate-spin" />
             ) : (
@@ -83,7 +134,10 @@ export function ApplicantsComponent({ jobId }: { jobId: string }) {
                 <Button
                   disabled={!options?.hasPrevPage}
                   onClick={() =>
-                    setQuery((prev) => ({ p: options.prevPage ?? prev.p - 1 }))
+                    setQuery((prev) => ({
+                      ...prev,
+                      p: options.prevPage ?? prev.p - 1,
+                    }))
                   }
                   variant={"outline"}
                   size={"icon"}
@@ -96,7 +150,10 @@ export function ApplicantsComponent({ jobId }: { jobId: string }) {
                 <Button
                   disabled={!options?.hasNextPage}
                   onClick={() =>
-                    setQuery((prev) => ({ p: options?.nextPage ?? prev.p + 1 }))
+                    setQuery((prev) => ({
+                      ...prev,
+                      p: options?.nextPage ?? prev.p + 1,
+                    }))
                   }
                   variant={"outline"}
                   size={"icon"}
@@ -110,7 +167,7 @@ export function ApplicantsComponent({ jobId }: { jobId: string }) {
       ) : (
         <NotFound hideBackButton title="No applicant's" />
       )}
-    </>
+    </div>
   );
 }
 
@@ -168,7 +225,7 @@ function ApplicantCard({ applicant }: { applicant: IApplicant }) {
   }, [status, applicant]);
 
   return (
-    <>
+    <div key={applicant._id}>
       <div className="flex cursor-pointer gap-3 rounded-xl bg-foreground/5 px-4 py-3 transition-colors duration-200 hover:bg-foreground/10 dark:bg-foreground/[0.02] hover:dark:bg-foreground/5">
         <Avatar className="size-12">
           <AvatarImage src={applicant.user.profile} />
@@ -207,7 +264,7 @@ function ApplicantCard({ applicant }: { applicant: IApplicant }) {
         </div>
         <div className="flex h-full gap-2">
           <div className="flex w-full flex-col gap-1">
-            <DropdownMenu>
+            <DropdownMenu key={applicant._id}>
               <DropdownMenuTrigger className="w-full" asChild>
                 <Button
                   variant="default"
@@ -276,7 +333,7 @@ function ApplicantCard({ applicant }: { applicant: IApplicant }) {
         key={applicant._id}
         setStatus={setStatus}
       />
-    </>
+    </div>
   );
 }
 

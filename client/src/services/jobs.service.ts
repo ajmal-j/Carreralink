@@ -147,7 +147,7 @@ const getApplicants = async ({
   token,
 }: {
   job: string;
-  query: { p: number | string };
+  query: Record<string, any>;
   token?: string;
 }) => {
   const url = new Server().jobs("applicants");

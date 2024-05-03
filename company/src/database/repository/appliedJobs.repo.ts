@@ -566,7 +566,7 @@ export class AppliedJobsRepo {
     query,
   }: {
     job: string;
-    query: { p: number };
+    query: Record<string, any>;
   }): Promise<AggregatePaginateResult<IAppliedJob[]>> {
     const options = {
       page: query?.p ?? 1,
@@ -574,7 +574,10 @@ export class AppliedJobsRepo {
     };
     const aggregation = this.database.aggregate([
       {
-        $match: { job: new ObjectId(job) },
+        $match: {
+          job: new ObjectId(job),
+          ...(query.status ? { status: query.status } : {}),
+        },
       },
       {
         $lookup: {

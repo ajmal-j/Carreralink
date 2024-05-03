@@ -4,9 +4,10 @@ import { getApplicantsUsecase } from "../../usecases/index.js";
 
 export default function () {
   return async (req: Request) => {
-    const { job, p = 1 } = req.query;
+    const { job, p = 1, status } = req.query;
     const query = {
       p: Number(p) ?? 1,
+      status: status as string,
     };
     if (!job) throw new BadRequestError("Job not found");
     const applicants = await getApplicantsUsecase.execute({
