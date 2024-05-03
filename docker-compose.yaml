@@ -180,6 +180,23 @@ services:
     ports:
       - 7000:7000
 
+  compiler:
+    build: ./compiler
+    container_name: compiler-container
+    develop:
+      watch:
+        - action: sync
+          path: ./compiler
+          target: ./compiler
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: ./compiler/package.json
+        - action: rebuild
+          path: ./compiler/package-lock.json
+    ports:
+      - 11000:11000
+
   auth-db:
     image: mongo:7.0
     restart: always

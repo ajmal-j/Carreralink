@@ -69,4 +69,9 @@ export class Server {
     const order = `${typeof window !== "undefined" ? "localhost" : "order-container"}:10000/api/v1/order`;
     return `${this.baseUrl}${order}/${path}`;
   }
+
+  compiler(path: string) {
+    const compiler = `${typeof window !== "undefined" ? "localhost" : "compiler-container"}:11000/api/v1/compiler`;
+    return `${this.baseUrl}${compiler}/${path}`;
+  }
 }

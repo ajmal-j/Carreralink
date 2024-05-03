@@ -12,7 +12,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { languageVersions } from "@/constants";
+import { availableLanguages, languageVersions } from "@/constants";
 import { cn } from "@/lib/utils";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { CommandList } from "cmdk";
@@ -20,7 +20,7 @@ import { CommandList } from "cmdk";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
-const languages = Object.entries(languageVersions).map(([key]) => ({
+const languages = Object.entries(availableLanguages).map(([key]) => ({
   value: key,
   label: key,
 }));

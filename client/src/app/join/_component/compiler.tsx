@@ -270,7 +270,7 @@ export default function Compiler({
                     <div className="mt-2 flex items-center gap-1 border-b-[1px] pb-2 text-sm text-foreground/70">
                       <SpellCheck2 color="red" size={16} /> <span>Error :</span>
                     </div>
-                    <ScrollArea className="mt-3 h-full text-red-700">
+                    <ScrollArea className="mt-3 h-full pb-14 text-red-700">
                       {error}
                     </ScrollArea>
                   </ResizablePanel>

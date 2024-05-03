@@ -1,0 +1,9 @@
+{
+  "ignore": [
+    "node_modules/",
+    "dist/outputs/",
+    "dist/codes/",
+    "outputs/",
+    "codes/"
+  ]
+}

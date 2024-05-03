@@ -6,3 +6,4 @@ ai-port : 7000
 communication-port : 8000
 admin-port : 9000
 order-port : 10000
+compiler-port : 11000

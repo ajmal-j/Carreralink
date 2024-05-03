@@ -1,6 +1,10 @@
 "use client";
 
-import { codeSnippets, languageVersions } from "@/constants";
+import {
+  availableLanguages,
+  codeSnippets,
+  languageVersions,
+} from "@/constants";
 import { getMessage } from "@/lib/utils";
 
 import BackButton from "@/components/Buttons/BackButton";
@@ -19,7 +23,7 @@ interface PageProps {
   isInterviewer: boolean;
   applicantId: string;
 }
-const languages = Object.entries(languageVersions).map(([key]) => ({
+const languages = Object.entries(availableLanguages).map(([key]) => ({
   value: key,
   label: key,
 }));
@@ -38,9 +42,10 @@ export default function Meet({
   const [loading, setLoading] = useState<boolean>(false);
   const [result, setResult] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const [isJoined, setIsJoined] = useState<boolean>(false);
+  const [isJoined, setIsJoined] = useState<boolean>(!false);
 
   const joinMeeting = async (element: HTMLDivElement) => {
+    return;
     try {
       const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
         appId,
@@ -81,14 +86,14 @@ export default function Meet({
     if (!editorValue) return;
     try {
       setLoading(true);
-      const { run: result } = await compileCode({
+      const { data: result } = await compileCode({
         language,
         code: editorValue,
       });
       if (result?.stderr) {
-        setError(result.stderr);
+        setError(result?.stderr);
       } else {
-        setResult(result.output);
+        setResult(result?.stdout);
         setError("");
       }
     } catch (error) {

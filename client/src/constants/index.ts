@@ -29,14 +29,24 @@ const languageVersions: Record<string, string> = {
   php: "8.2.3",
 };
 
-const codeSnippets: Record<string, string> = {
-  javascript: `\nfunction greet(name) {\n\tconsole.log("Hello, " + name + "!");\n}\n\ngreet("Carreralink");\n`,
-  typescript: `\ntype Params = {\n\tname: string;\n}\n\nfunction greet(data: Params) {\n\tconsole.log("Hello, " + data.name + "!");\n}\n\ngreet({ name: "Carreralink" });\n`,
-  python: `\ndef greet(name):\n\tprint("Hello, " + name + "!")\n\ngreet("Carreralink")\n`,
-  java: `\npublic class HelloWorld {\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println("Hello Carreralink!");\n\t}\n}\n`,
-  csharp:
-    'using System;\n\nnamespace HelloWorld\n{\n\tclass Hello { \n\t\tstatic void Main(string[] args) {\n\t\t\tConsole.WriteLine("Hello Carreralink!");\n\t\t}\n\t}\n}\n',
-  php: "<?php\n\n$name = 'Carreralink';\necho $name;\n",
+const availableLanguages: Record<string, string> = {
+  javascript: "js",
+  cpp: "cpp",
+  python: "py",
+  php: "php",
 };
 
-export { statusButtonColors, cancelReasons, languageVersions, codeSnippets };
+const codeSnippets: Record<string, string> = {
+  javascript: `\nfunction greet(name) {\n\tconsole.log("Hello, " + name + "!");\n}\n\ngreet("Carreralink javascript");\n`,
+  python: `\ndef greet(name):\n\tprint("Hello, " + name + "!")\n\ngreet("Carreralink python")\n`,
+  php: "<?php\n\n$name = 'Carreralink php';\necho $name;\n",
+  cpp: '#include <iostream>\n\nint main() {\n\tstd::cout << "Hello Carreralink C++" << std::endl;\n\treturn 0;\n}\n',
+};
+
+export {
+  statusButtonColors,
+  cancelReasons,
+  languageVersions,
+  codeSnippets,
+  availableLanguages,
+};

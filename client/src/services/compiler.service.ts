@@ -1,17 +1,11 @@
-import { languageVersions } from "@/constants";
-import axios from "axios";
+import { Server } from "@/lib/server";
+import axios from "./axios.interseptor";
 
-const compilerAPI = axios.create({
-  baseURL: "https://emkc.org/api/v2/piston",
-});
-
-interface RunData {
-  run: {
+interface CompileResponse {
+  data: {
+    error?: string;
     stdout: string;
     stderr: string;
-    code: number;
-    signal: string;
-    output: string;
   };
 }
 
@@ -21,22 +15,12 @@ const compileCode = async ({
 }: {
   language: string;
   code: string;
-}): Promise<RunData> => {
-  const response = await compilerAPI.post(
-    "/execute",
-    {
-      language: language,
-      version: languageVersions[language],
-      files: [
-        {
-          content: code,
-        },
-      ],
-    },
-    {
-      withCredentials: false,
-    },
-  );
+}): Promise<CompileResponse> => {
+  const url = new Server().compiler("compile");
+  const response = await axios.post(url, {
+    language,
+    code,
+  });
   return response.data;
 };
 
