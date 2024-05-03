@@ -34,6 +34,25 @@ export class CreateSessionUseCase {
           throw new CustomError("Already have an active subscription", 401);
       }
 
+      let price: number = product.price;
+      let discount: number = 0;
+
+      const currentPlan = await this.OrderRepository.currentPlan({
+        email,
+      });
+
+      if (currentPlan) {
+        const expiryDate = addMonths(
+          currentPlan.createdAt,
+          currentPlan.item.duration
+        );
+        const isExpired = isPast(new Date(expiryDate));
+        if (!isExpired) {
+          discount = product.price * 0.3;
+          price = Math.floor(product.price - discount);
+        }
+      }
+
       const product_details: Stripe.Checkout.SessionCreateParams.LineItem = {
         quantity: 1,
         price_data: {
@@ -42,7 +61,7 @@ export class CreateSessionUseCase {
             name: product.name,
             description: product.description,
           },
-          unit_amount: product.price * 100,
+          unit_amount: price * 100,
         },
       };
 
@@ -60,6 +79,9 @@ export class CreateSessionUseCase {
       const session = await stripe.checkout.sessions.create({
         mode: "payment",
         billing_address_collection: "required",
+        metadata: {
+          discount,
+        },
         customer_email: email,
         line_items: [product_details],
         success_url,

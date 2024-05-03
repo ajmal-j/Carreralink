@@ -48,6 +48,12 @@ export default function UserPlans({ id }: { id?: string }) {
               />
             ))}
           </div>
+          <div className="mt-3 flex justify-end">
+            <span className="text-sm text-foreground/70">
+              * Instant 30% discount for every purchase before the end of the
+              current plan.
+            </span>
+          </div>
         </div>
       )}
     </div>

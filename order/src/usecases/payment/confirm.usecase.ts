@@ -33,10 +33,19 @@ export class ConfirmPaymentUsecase {
       let event = await stripe.checkout.sessions.retrieve(id);
       if (!event) throw new InternalServerError("Session not found");
       if (event.payment_status === "paid") {
-        const data: IOrder = {
-          item,
+        const product = {
+          ...item,
+          price:
+            (event?.amount_total && event?.amount_total / 100) || item.price,
+        };
+        const data: Omit<IOrder, "createdAt"> = {
+          item: product,
           paymentId: event.id,
           recipient: email,
+          expired: false,
+          discount: Number(event.metadata?.discount)
+            ? event.metadata?.discount
+            : "",
         };
         const isOrderExist = await this.orderRepository.isOrderExist({
           paymentId: event.id,

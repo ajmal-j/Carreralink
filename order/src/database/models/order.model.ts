@@ -12,6 +12,8 @@ export interface IOrder {
     features: Record<string, any>;
   };
   paymentId: string;
+  expired: boolean;
+  discount?: string;
   recipient: string;
   createdAt: string;
 }
@@ -30,6 +32,8 @@ const orderSchema = new mongoose.Schema<IOrder>(
         type: Object,
       },
     },
+    discount: { type: String },
+    expired: { type: Boolean, default: false },
     paymentId: { type: String, required: true },
     recipient: { type: String, required: true },
   },

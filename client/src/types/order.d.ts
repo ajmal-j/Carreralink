@@ -10,7 +10,9 @@ interface IOrder {
     features: Record<string, any>;
   };
   paymentId: string;
+  expired: boolean;
   recipient: string;
+  discount?: string;
   id: string;
   createdAt: string;
 }

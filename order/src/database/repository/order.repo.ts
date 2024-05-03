@@ -3,7 +3,15 @@ import { IOrder, IOrderModel } from "../models/order.model.js";
 export class OrderRepository {
   constructor(private readonly database: IOrderModel) {}
 
-  async create(data: IOrder): Promise<IOrder> {
+  async create(data: Omit<IOrder, "createdAt">): Promise<IOrder> {
+    await this.database.updateMany(
+      { recipient: data.recipient },
+      {
+        $set: {
+          expired: true,
+        },
+      }
+    );
     return await this.database.create(data);
   }
   async isOrderExist({
@@ -33,7 +41,20 @@ export class OrderRepository {
     productId: string;
   }): Promise<IOrder | null> {
     return await this.database
-      .findOne({ $and: [{ recipient: email }, { "item.id": productId }] })
+      .findOne({
+        $and: [
+          { recipient: email },
+          { "item.id": productId },
+          { expired: false },
+        ],
+      })
+      .sort({ createdAt: -1 })
+      .limit(1);
+  }
+
+  async currentPlan({ email }: { email: string }): Promise<IOrder | null> {
+    return await this.database
+      .findOne({ $and: [{ recipient: email }, { expired: false }] })
       .sort({ createdAt: -1 })
       .limit(1);
   }

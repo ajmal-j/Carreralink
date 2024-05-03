@@ -42,7 +42,17 @@ export default async function Success({
         <p className="text-foreground/70">
           Thank you for your payment. Your payment ID : <b>{id}</b>
         </p>
-        <PlanCard plan={order.item} />
+        <PlanCard
+          plan={order.item}
+          className="bg-gradient-to-br from-violet-400 to-indigo-600 text-white sm:px-6 sm:py-16"
+          actions={
+            order?.discount && (
+              <div className="flex w-full justify-end">
+                <span>Discount : {order.discount} ₹</span>
+              </div>
+            )
+          }
+        />
         <div className="flex items-center justify-end gap-2">
           <PrimaryButton
             size="sm"

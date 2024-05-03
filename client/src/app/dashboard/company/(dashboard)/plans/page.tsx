@@ -1,11 +1,6 @@
+import Markdown from "@/components/Custom/Markdown";
 import NotFound from "@/components/Custom/NotFound";
-import UserPlans from "@/components/ui/UserPlans";
-import PlanCard from "@/components/ui/plan";
-import { cn, getMessage } from "@/lib/utils";
-import { companyOrders, userOrders } from "@/services/plan.service";
-import { currentUser } from "@/services/user.service";
-import { IUser } from "@/store/reducers/user.slice";
-import { cookies } from "next/headers";
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -16,21 +11,23 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Button } from "@/components/ui/button";
-import { Crown, History, IndianRupee } from "lucide-react";
-import { Cross1Icon } from "@radix-ui/react-icons";
+import PlanCard from "@/components/ui/plan";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Poppins } from "next/font/google";
-import Markdown from "@/components/Custom/Markdown";
-import { add, format } from "date-fns";
-import CompanyPlans from "../_components/CompanyPlans";
+import { cn, getMessage } from "@/lib/utils";
 import { getCompanyData } from "@/services/company.service";
+import { companyOrders } from "@/services/plan.service";
 import { ICompany } from "@/store/reducers/company.slice";
+import { Cross1Icon } from "@radix-ui/react-icons";
+import { add, format } from "date-fns";
+import { Crown, History, IndianRupee } from "lucide-react";
+import { Poppins } from "next/font/google";
+import { cookies } from "next/headers";
+import CompanyPlans from "../_components/CompanyPlans";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -98,6 +95,11 @@ export default async function Plans() {
                       )}
                     </p>
                   </div>
+                  {currentPlan?.discount && (
+                    <div className="flex w-full justify-end text-foreground/70">
+                      <span>Discount : {currentPlan.discount} ₹</span>
+                    </div>
+                  )}
                 </div>
               }
             />
@@ -122,7 +124,7 @@ function HistoryDrawer({ orders }: { orders: IOrder[] }) {
           <span>History</span>
         </div>
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent className="max-h-[calc(100vh-100px)]">
         <DrawerHeader>
           <DrawerTitle className="flex justify-between">
             <div className="flex gap-1">
@@ -139,7 +141,7 @@ function HistoryDrawer({ orders }: { orders: IOrder[] }) {
             The plans may have changed.Please check latest plans.
           </DrawerDescription>
         </DrawerHeader>
-        <DrawerFooter className="mb-10">
+        <DrawerFooter className="mb-10 overflow-y-auto">
           <div className="mx-auto flex w-full max-w-[900px] flex-col gap-3">
             {!!orders.length && (
               <h2 className="text-foreground/70">
@@ -183,19 +185,28 @@ function HistoryDrawer({ orders }: { orders: IOrder[] }) {
                   <Markdown className="px-2 text-foreground/70">
                     {order.item.description}
                   </Markdown>
+                  {order?.discount && (
+                    <div className="flex w-full justify-end text-foreground/70">
+                      <span>Discount : {order.discount} ₹</span>
+                    </div>
+                  )}
                   <div className="flex justify-between gap-1 text-sm">
                     <p className="text-foreground/70">
                       purchased : {format(order.createdAt, "dd MMM , yy")}
                     </p>
-                    <p className="text-red-500/70">
-                      expiry :{" "}
-                      {format(
-                        add(order.createdAt, {
-                          months: order.item.duration,
-                        }),
-                        "dd MMM , yy",
-                      )}
-                    </p>
+                    {order?.expired ? (
+                      <p className="text-red-500/70">expired</p>
+                    ) : (
+                      <p className="text-red-500/70">
+                        expiry :{" "}
+                        {format(
+                          add(order.createdAt, {
+                            months: order.item.duration,
+                          }),
+                          "dd MMM , yy",
+                        )}
+                      </p>
+                    )}
                   </div>
                 </div>
               ))
