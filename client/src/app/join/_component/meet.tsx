@@ -133,7 +133,6 @@ export default function Meet({
           />
         )}
       </div>
-
       <div className="h-full w-full" ref={joinMeeting} />
     </div>
   );

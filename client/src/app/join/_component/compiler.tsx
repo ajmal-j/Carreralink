@@ -241,14 +241,13 @@ export default function Compiler({
             direction="horizontal"
             className="min-h-[200px] rounded-lg border"
           >
-            <ResizablePanel minSize={10} defaultSize={70}>
+            <ResizablePanel minSize={10} maxSize={70}>
               <div className="flex h-full">
                 <Editor
                   height={"100%"}
                   theme="vs-dark"
                   language={language}
                   onMount={onMount}
-                  defaultValue={'console.log("hello world")'}
                   value={editorValue}
                   onChange={(value) => setEditorValue(value || "")}
                   options={options}
@@ -256,7 +255,7 @@ export default function Compiler({
               </div>
             </ResizablePanel>
             <ResizableHandle withHandle />
-            <ResizablePanel minSize={30} defaultSize={30}>
+            <ResizablePanel minSize={10} defaultSize={30}>
               <div className="flex h-full flex-col p-3">
                 <ResizablePanelGroup direction="vertical">
                   <ResizablePanel className="p-2">
@@ -273,7 +272,7 @@ export default function Compiler({
                     <div className="mt-2 flex items-center gap-1 border-b-[1px] pb-2 text-sm text-foreground/70">
                       <SpellCheck2 color="red" size={16} /> <span>Error :</span>
                     </div>
-                    <ScrollArea className="mt-3 h-full pb-14">
+                    <ScrollArea className="mt-3 h-full w-full pb-14">
                       <div
                         dangerouslySetInnerHTML={{
                           __html:
