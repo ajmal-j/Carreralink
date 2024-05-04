@@ -287,7 +287,11 @@ const updatePlan = async (data: IPlan) => {
   return response.data;
 };
 
-
+const allOrders = async () => {
+  const url = new Server().order("allOrders");
+  const response = await axios.get(url);
+  return response.data;
+};
 
 export {
   getVerifiedCompanies,
@@ -313,4 +317,5 @@ export {
   getUserPlans,
   getCompanyPlans,
   updatePlan,
+  allOrders,
 };

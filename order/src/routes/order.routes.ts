@@ -1,4 +1,5 @@
 import {
+  VerifyAdmin,
   VerifyCompany,
   VerifyUser,
   expressCallback,
@@ -21,6 +22,11 @@ export function OrderRoutes({
     "/companyOrders",
     VerifyCompany,
     expressCallback(orderController.companyOrders)
+  );
+  router.get(
+    "/allOrders",
+    VerifyAdmin,
+    expressCallback(orderController.allOrders)
   );
   return router;
 }

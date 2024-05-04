@@ -64,4 +64,16 @@ export class OrderRepository {
       .find({ recipient: company })
       .sort({ createdAt: -1 });
   }
+
+  async companyOrders() {
+    return await this.database.find({
+      "item.for": "company",
+    });
+  }
+
+  async userOrders() {
+    return await this.database.find({
+      "item.for": "user",
+    });
+  }
 }
