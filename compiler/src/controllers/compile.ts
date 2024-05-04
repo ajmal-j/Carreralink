@@ -11,6 +11,8 @@ import {
   executePhp,
   executePython,
 } from "../codeRunner/execute.cjs";
+import fs from "fs";
+import path from "path";
 
 export default function ({
   generateFile,
@@ -35,6 +37,15 @@ export default function ({
         response = await executeCpp({
           filepath,
         });
+        const outputPath = path.join(
+          "outputs",
+          path.basename(filepath).split(".")[0] + ".out"
+        );
+        fs.unlink(outputPath, (err) => {
+          if (err) {
+            console.log(err);
+          }
+        });
       } else if (format === "js") {
         response = await executeJs({
           filepath,
@@ -54,6 +65,12 @@ export default function ({
       }
       response = error;
     }
+
+    fs.unlink(filepath, (err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
 
     return new CustomResponse()
       .message("Compiled")
