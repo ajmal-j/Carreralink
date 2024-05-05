@@ -293,6 +293,12 @@ const allOrders = async () => {
   return response.data;
 };
 
+const deletePlan = async ({ id }: { id: string }) => {
+  const url = new Server().plan("delete");
+  const response = await axios.patch(url, { id });
+  return response.data;
+};
+
 export {
   getVerifiedCompanies,
   getUnverifiedCompanies,
@@ -318,4 +324,5 @@ export {
   getCompanyPlans,
   updatePlan,
   allOrders,
+  deletePlan,
 };

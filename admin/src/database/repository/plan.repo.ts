@@ -22,6 +22,13 @@ export class PlanRepository {
     });
   }
 
+  async delete({ id }: { id: string }) {
+    return await this.database.updateOne(
+      { _id: id },
+      { $set: { isDeleted: true } }
+    );
+  }
+
   async update({ data, plan }: { data: IPlan; plan: string }) {
     return await this.database.findOneAndUpdate(
       { _id: plan },

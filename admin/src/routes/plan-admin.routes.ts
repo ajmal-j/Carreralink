@@ -12,5 +12,10 @@ export function AdminPlanRoutes({
   router.get("/userPlans", expressCallback(planControllers.userPlans));
   router.get("/companyPlans", expressCallback(planControllers.companyPlans));
   router.patch("/update", VerifyAdmin, expressCallback(planControllers.update));
+  router.patch(
+    "/delete",
+    VerifyAdmin,
+    expressCallback(planControllers.deletePlan)
+  );
   return router;
 }

@@ -93,28 +93,26 @@ export default function UpdatePlan({
   };
 
   return (
-    <div>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <div className="cursor-pointer p-1">
-            <Pencil className="size-4" />
-          </div>
-        </DialogTrigger>
-        <DialogContent className="mt-1 h-full overflow-y-scroll pt-10 sm:max-w-[700px]">
-          <DialogHeader>
-            <DialogTitle className="pb-3 text-xl text-foreground/70">
-              Update Plan
-            </DialogTitle>
-          </DialogHeader>
-          <CustomForm
-            defaultValues={defaultValues}
-            formSchema={formSchema}
-            onSubmit={onSubmit}
-            action="update plan"
-            className="mx-auto mb-10 mt-10 max-w-[700px]"
-          />
-        </DialogContent>
-      </Dialog>
-    </div>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <div className="cursor-pointer p-1">
+          <Pencil size={16} />
+        </div>
+      </DialogTrigger>
+      <DialogContent className="mt-1 h-full overflow-y-scroll pt-10 sm:max-w-[700px]">
+        <DialogHeader>
+          <DialogTitle className="pb-3 text-xl text-foreground/70">
+            Update Plan
+          </DialogTitle>
+        </DialogHeader>
+        <CustomForm
+          defaultValues={defaultValues}
+          formSchema={formSchema}
+          onSubmit={onSubmit}
+          action="update plan"
+          className="mx-auto mb-10 mt-10 max-w-[700px]"
+        />
+      </DialogContent>
+    </Dialog>
   );
 }

@@ -1,19 +1,8 @@
 "use client";
 
-import NotFound from "@/components/Custom/NotFound";
-import PlanCard from "@/components/ui/plan";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { toast } from "@/components/ui/use-toast";
-import { getMessage } from "@/lib/utils";
-import {
-  allOrders,
-  getCompanyPlans,
-  getUserPlans,
-} from "@/services/admin.service";
-import { useEffect, useState } from "react";
-import UpdatePlan from "./_components/UpdatePlan";
-
+import DangerButton from "@/components/Buttons/DangerButton";
 import Markdown from "@/components/Custom/Markdown";
+import NotFound from "@/components/Custom/NotFound";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -24,17 +13,34 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import PlanCard from "@/components/ui/plan";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { toast } from "@/components/ui/use-toast";
+import { cn, getMessage } from "@/lib/utils";
+import {
+  allOrders,
+  deletePlan,
+  getCompanyPlans,
+  getUserPlans,
+} from "@/services/admin.service";
 import { Cross1Icon } from "@radix-ui/react-icons";
+import { PopoverClose } from "@radix-ui/react-popover";
 import { add, format } from "date-fns";
-import { Crown, History, IndianRupee } from "lucide-react";
+import { Crown, History, IndianRupee, Trash2 } from "lucide-react";
 import { Poppins } from "next/font/google";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import UpdatePlan from "./_components/UpdatePlan";
 
 export default function Plans() {
   const [userPlans, setUserPlans] = useState<IPlan[]>([]);
@@ -68,10 +74,11 @@ export default function Plans() {
   useEffect(() => {
     getPlans();
   }, []);
+
   return (
     <div>
       <Tabs defaultValue="user" className="w-full">
-        <TabsList className="mb-5 flex">
+        <TabsList className="flex">
           <TabsTrigger value="user" className="flex-grow">
             User Plan&apos;s
           </TabsTrigger>
@@ -80,7 +87,10 @@ export default function Plans() {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="user">
-          <div className="mb-2 flex justify-end">
+          <div className="mb-2 flex justify-between">
+            <div className="ps-2 text-foreground/70">
+              Total : {userPlans.length}
+            </div>
             <AllOrdersDrawer orders={userOrders} />
           </div>
           <div className="flex w-full flex-wrap gap-3">
@@ -90,10 +100,8 @@ export default function Plans() {
                   key={plan.id}
                   plan={plan}
                   actions={
-                    <UpdatePlan
-                      plan={plan}
-                      setUserPlans={setUserPlans}
-                      setCompanyPlans={setCompanyPlans}
+                    <PlansActions
+                      {...{ plan, setUserPlans, setCompanyPlans }}
                     />
                   }
                 />
@@ -106,7 +114,10 @@ export default function Plans() {
           </div>
         </TabsContent>
         <TabsContent value="company">
-          <div className="mb-2 flex justify-end">
+          <div className="mb-2 flex justify-between">
+            <div className="ps-2 text-foreground/70">
+              Total : {companyPlans.length}
+            </div>
             <AllOrdersDrawer orders={companyOrders} />
           </div>
           <div className="flex w-full flex-wrap gap-3">
@@ -116,10 +127,8 @@ export default function Plans() {
                   key={plan.id}
                   plan={plan}
                   actions={
-                    <UpdatePlan
-                      plan={plan}
-                      setUserPlans={setUserPlans}
-                      setCompanyPlans={setCompanyPlans}
+                    <PlansActions
+                      {...{ plan, setUserPlans, setCompanyPlans }}
                     />
                   }
                 />
@@ -245,5 +254,85 @@ function AllOrdersDrawer({ orders }: { orders: IOrder[] }) {
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
+  );
+}
+
+function PlansActions({
+  plan,
+  setUserPlans,
+  setCompanyPlans,
+}: {
+  plan: IPlan;
+  setUserPlans: Dispatch<SetStateAction<IPlan[]>>;
+  setCompanyPlans: Dispatch<SetStateAction<IPlan[]>>;
+}) {
+  const deleteFunc = async ({
+    id,
+    forWho,
+  }: {
+    id: string;
+    forWho: "company" | "user";
+  }) => {
+    try {
+      await deletePlan({ id });
+
+      if (forWho === "user") {
+        setUserPlans((prev) => prev.filter((p) => p.id !== id));
+      } else if (forWho === "company") {
+        setCompanyPlans((prev) => prev.filter((p) => p.id !== id));
+      }
+
+      toast({
+        title: "Plan Deleted",
+        duration: 500,
+      });
+    } catch (error) {
+      console.log(error);
+      const message = getMessage(error);
+      toast({
+        title: message,
+        variant: "destructive",
+        duration: 500,
+      });
+    }
+  };
+  return (
+    <div className="flex items-center gap-2">
+      <UpdatePlan
+        plan={plan}
+        setUserPlans={setUserPlans}
+        setCompanyPlans={setCompanyPlans}
+      />
+      <Popover>
+        <PopoverTrigger>
+          <DangerButton
+            className="w-full opacity-55 hover:opacity-100"
+            size="icon"
+          >
+            <Trash2 size={16} />
+          </DangerButton>
+        </PopoverTrigger>
+        <PopoverContent className="bg-background">
+          <h1 className="mb-2 text-sm text-foreground/70">
+            Are you sure you want to delete this plan?
+          </h1>
+          <div className="flex items-end justify-end">
+            <PopoverClose>
+              <DangerButton
+                size="sm"
+                onClick={() =>
+                  deleteFunc({
+                    id: plan.id,
+                    forWho: plan.for,
+                  })
+                }
+              >
+                confirm
+              </DangerButton>
+            </PopoverClose>
+          </div>
+        </PopoverContent>
+      </Popover>
+    </div>
   );
 }
