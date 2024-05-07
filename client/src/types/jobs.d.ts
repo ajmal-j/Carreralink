@@ -25,6 +25,7 @@ export interface IJob {
     rate: string;
   };
   href?: string;
+  managedBy?: IUserCompany;
   category: string;
   applicants: number;
   createdAt: string;

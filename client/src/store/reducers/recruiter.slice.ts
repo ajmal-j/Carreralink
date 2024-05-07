@@ -5,6 +5,7 @@ export interface IRecruiter {
   id: string;
   user: {
     id: string;
+    _id?: string;
     email: string;
     username: string;
     profile: string;

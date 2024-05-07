@@ -13,13 +13,34 @@ export class JobRepository {
   async job(id: string) {
     return await this.database
       .findById(id)
-      .populate(["company", "postedBy.id"]);
+      .populate(["company", "postedBy.id", "managedBy"]);
   }
 
   async applied(id: string) {
     return await this.database.updateOne(
       { _id: id },
       { $inc: { applicants: 1 } }
+    );
+  }
+
+  async assignRecruiter({
+    job,
+    recruiter,
+    company,
+  }: {
+    job: string;
+    recruiter: string;
+    company: string;
+  }) {
+    return await this.database.updateOne(
+      {
+        $and: [{ _id: job }, { company: new ObjectId(company) }],
+      },
+      {
+        $set: {
+          managedBy: new ObjectId(recruiter),
+        },
+      }
     );
   }
 
@@ -76,7 +97,14 @@ export class JobRepository {
       {
         $match: {
           company: new ObjectId(companyId),
-          "postedBy.id": new ObjectId(userId),
+          $or: [
+            {
+              "postedBy.id": new ObjectId(userId),
+            },
+            {
+              managedBy: new ObjectId(userId),
+            },
+          ],
         },
       },
       {
@@ -125,8 +153,15 @@ export class JobRepository {
       {
         $match: {
           company: new ObjectId(companyId),
-          "postedBy.id": new ObjectId(userId),
           status: "open",
+          $or: [
+            {
+              "postedBy.id": new ObjectId(userId),
+            },
+            {
+              managedBy: new ObjectId(userId),
+            },
+          ],
         },
       },
       {
@@ -340,7 +375,14 @@ export class JobRepository {
     const aggregation = this.database.aggregate([
       {
         $match: {
-          "postedBy.id": new ObjectId(id),
+          $or: [
+            {
+              "postedBy.id": new ObjectId(id),
+            },
+            {
+              managedBy: new ObjectId(id),
+            },
+          ],
           company: new ObjectId(companyId),
           ...(query?.applicants ? { applicants: { $gte: 1 } } : {}),
           ...(query?.status ? { status: query.status } : { status: "open" }),
@@ -369,6 +411,7 @@ export class JobRepository {
       },
       sort,
     ]);
+
     const response = await this.database.aggregatePaginate(
       aggregation,
       options
@@ -403,7 +446,15 @@ export class JobRepository {
   }) {
     return await this.database.updateOne(
       {
-        $and: [{ _id: job }, { "postedBy.id": new ObjectId(postedBy) }],
+        _id: job,
+        $or: [
+          {
+            "postedBy.id": new ObjectId(postedBy),
+          },
+          {
+            managedBy: new ObjectId(postedBy),
+          },
+        ],
       },
       {
         $set: {
@@ -490,7 +541,14 @@ export class JobRepository {
       {
         $match: {
           company: new ObjectId(companyId),
-          "postedBy.id": new ObjectId(userId),
+          $or: [
+            {
+              "postedBy.id": new ObjectId(userId),
+            },
+            {
+              managedBy: new ObjectId(userId),
+            },
+          ],
         },
       },
       {
@@ -525,7 +583,14 @@ export class JobRepository {
       {
         $match: {
           company: new ObjectId(companyId),
-          "postedBy.id": new ObjectId(userId),
+          $or: [
+            {
+              "postedBy.id": new ObjectId(userId),
+            },
+            {
+              managedBy: new ObjectId(userId),
+            },
+          ],
         },
       },
       {
