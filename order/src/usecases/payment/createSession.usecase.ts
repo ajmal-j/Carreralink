@@ -7,10 +7,12 @@ process.loadEnvFile();
 
 export class CreateSessionUseCase {
   private readonly _key: string = "";
+  private readonly origin: string = process.env.CLIENT_URL!;
 
   constructor(private readonly OrderRepository: IOrderRepoType) {
     const key = process.env.STRIPE_SECRET_KEY!;
     if (!key) throw new InternalServerError("Stripe secret key not found");
+    if (!this.origin) throw new InternalServerError("Client url not found");
 
     this._key = key;
   }
@@ -67,13 +69,14 @@ export class CreateSessionUseCase {
 
       const success_url =
         product.for === "user"
-          ? `http://localhost:3000/success?id={CHECKOUT_SESSION_ID}&product=${product.id}`
-          : `http://localhost:3000/dashboard/company/success?id={CHECKOUT_SESSION_ID}&product=${product.id}`;
+          ? `${this.origin}/success?id={CHECKOUT_SESSION_ID}&product=${product.id}`
+          : `${this.origin}/dashboard/company/success?id={CHECKOUT_SESSION_ID}&product=${product.id}`;
 
       const cancel_url =
         product.for === "company"
-          ? "http://localhost:3000"
-          : "http://localhost:3000/dashboard/company";
+          ? `${this.origin}`
+          : `${this.origin}/dashboard/company`;
+          
       const stripe = new Stripe(this._key);
 
       const session = await stripe.checkout.sessions.create({
