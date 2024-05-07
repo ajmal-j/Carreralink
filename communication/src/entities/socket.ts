@@ -2,12 +2,14 @@ import { Server } from "socket.io";
 
 export class Socket {
   private readonly _io: Server;
+  private readonly origin: string = process.env.CLIENT_URL!;
 
   constructor() {
+    if (!this.origin) throw new Error("Origin not found");
     this._io = new Server({
       pingTimeout: 30000,
       cors: {
-        origin: "http://localhost:3000",
+        origin: this.origin,
       },
     });
     console.log("socket server is up and running.");
