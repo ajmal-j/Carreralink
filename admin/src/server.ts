@@ -42,7 +42,6 @@ app.all("*", (req, res) => {
   res.send(`${req.originalUrl} not found in company server.`);
 });
 
-// @ts-ignore
 app.use(errorMiddleware);
 
 process.on("uncaughtException", (error) => {

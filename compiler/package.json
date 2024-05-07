@@ -20,7 +20,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@carreralink/common": "^1.0.40",
+    "@carreralink/common": "^1.0.44",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "pretty-error": "^4.0.0",

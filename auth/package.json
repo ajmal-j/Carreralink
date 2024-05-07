@@ -21,7 +21,7 @@
     "typescript": "^5.4.2"
   },
   "dependencies": {
-    "@carreralink/common": "^1.0.19",
+    "@carreralink/common": "^1.0.44",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
