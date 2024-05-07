@@ -109,6 +109,15 @@ const updateJobStatus = async ({
   return response.data;
 };
 
+const updateJobByRecruiter = async (id: string, data: Record<string, any>) => {
+  const url = new Server().jobs("updateJobByRecruiter");
+  const response = await axios.put(url, {
+    id,
+    data,
+  });
+  return response.data;
+};
+
 export {
   createRequest,
   isRecruiter,
@@ -117,4 +126,5 @@ export {
   graphData,
   updateApplicantStatus,
   updateJobStatus,
+  updateJobByRecruiter,
 };

@@ -3,7 +3,7 @@
 import AccentButton from "@/components/Buttons/AccentButton";
 import DangerButton from "@/components/Buttons/DangerButton";
 import MangeJobAssessment from "@/components/Custom/MangeJobAssessments";
-import EditJobDialogue from "@/components/FormsAndDialog/EditJob";
+import EditJobDialogueByRecruiter from "@/components/FormsAndDialog/EditJobByRecruiter";
 import {
   Popover,
   PopoverContent,
@@ -43,7 +43,7 @@ export const JobActions = ({ id, job }: { id: string; job: IJob }) => {
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex flex-col gap-2 sm:flex-row">
-        <EditJobDialogue
+        <EditJobDialogueByRecruiter
           defaultValues={{
             title: job.title,
             type: job.type,
