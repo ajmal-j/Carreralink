@@ -5,11 +5,16 @@ import { JobDetails } from "@/components/ui/job";
 import { getJob } from "@/services/jobs.service";
 import { IJob } from "@/types/jobs";
 import JobActions from "../_components/JobActions";
-
+import { revalidatePath } from "next/cache";
 
 interface JobSinglePageProps {
   params: { id: string };
 }
+
+const revalidatePage = async () => {
+  "use server";
+  revalidatePath("/");
+};
 
 export default async function JobSinglePage({
   params: { id },
@@ -30,7 +35,10 @@ export default async function JobSinglePage({
   return (
     <DashboardWrapper>
       <BackButton className="w-min" />
-      <JobDetails job={job} jobActions={<JobActions job={job} id={id} />} />
+      <JobDetails
+        job={job}
+        jobActions={<JobActions {...{ job, id, revalidatePage }} />}
+      />
     </DashboardWrapper>
   );
 }

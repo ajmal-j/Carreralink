@@ -225,6 +225,21 @@ const updateJobStatus = async ({
   return response.data;
 };
 
+const assignRecruiterToJob = async ({
+  job,
+  recruiter,
+}: {
+  recruiter: string;
+  job: string;
+}) => {
+  const url = new Server().jobs("assignRecruiter");
+  const response = await axios.patch(url, {
+    job,
+    recruiter,
+  });
+  return response.data;
+};
+
 export {
   registerCompany,
   allCompanies,
@@ -246,4 +261,5 @@ export {
   totalCounts,
   graphData,
   updateJobStatus,
+  assignRecruiterToJob,
 };

@@ -58,5 +58,10 @@ export function JobRoutes(router: any, jobController: IJobController) {
     VerifyUser,
     expressCallback(jobController.updateApplicantAssessment)
   );
+  router.patch(
+    "/assignRecruiter",
+    VerifyCompany,
+    expressCallback(jobController.assignRecruiter)
+  );
   return router;
 }
