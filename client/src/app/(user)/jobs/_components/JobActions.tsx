@@ -129,8 +129,9 @@ export default function JobActions({ job }: { job: IJob }) {
         setIsApplied(data?.status);
       } catch (error) {
         console.log(error);
+        const message = getMessage(error);
         toast({
-          title: "Something went wrong",
+          title: message,
           variant: "destructive",
         });
       }

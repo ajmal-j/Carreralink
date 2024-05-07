@@ -6,6 +6,7 @@ import { toast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
 import BarChart from "@/components/Charts/Bar";
 import { graphData } from "@/services/admin.service";
+import { getMessage } from "@/lib/utils";
 
 const months = [
   "Jan",
@@ -90,8 +91,9 @@ export default function AdminChart() {
       return response.data;
     } catch (error) {
       console.log(error);
+      const message = getMessage(error);
       toast({
-        title: "Something went wrong",
+        title: message,
         variant: "destructive",
         duration: 500,
       });
