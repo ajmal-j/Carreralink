@@ -1,4 +1,21 @@
 services:
+  client:
+    build: ./client
+    container_name: client-container
+    develop:
+      watch:
+        - action: sync
+          path: ./client
+          target: ./client
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: ./client/package.json
+        - action: rebuild
+          path: ./client/package-lock.json
+    ports:
+      - 3000:3000
+
   auth:
     build: ./auth
     container_name: auth-container
@@ -25,7 +42,7 @@ services:
 
   users:
     build: ./users
-    container_name: users-container
+    container_name: user-container
     depends_on:
       - users-db
       - redpanda
@@ -143,23 +160,6 @@ services:
     ports:
       - 10000:10000
 
-  client:
-    build: ./client
-    container_name: client-container
-    develop:
-      watch:
-        - action: sync
-          path: ./client
-          target: ./client
-          ignore:
-            - node_modules/
-        - action: rebuild
-          path: ./client/package.json
-        - action: rebuild
-          path: ./client/package-lock.json
-    ports:
-      - 3000:3000
-
   ai:
     build: ./ai
     container_name: ai-container
@@ -176,7 +176,7 @@ services:
           path: ./ai/package-lock.json
     environment:
       KAFKA_BROKER: redpanda:29092
-      JWT_SECRET: blablablablablablabal11
+      JWT_SECRET: blablablablablablabal
     ports:
       - 7000:7000
 

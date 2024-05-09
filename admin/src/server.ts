@@ -15,9 +15,19 @@ const port = 9000;
 
 Connect(process.env.MONGO_URL!);
 
+let origin: string = process.env.CLIENT_URL!;
+const isProduction = process.env.IS_PRODUCTION;
+
+if (isProduction) {
+  const productionUrl = process.env.PRODUCTION_URL!;
+  origin = productionUrl ? productionUrl : origin;
+}
+
+console.log(origin);
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL!,
+    origin,
     credentials: true,
   })
 );

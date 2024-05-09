@@ -10,9 +10,18 @@ const app = express();
 dotenv.config();
 
 Connect(process.env.MONGO_URL!);
+
+let origin: string = process.env.CLIENT_URL!;
+const isProduction = process.env.IS_PRODUCTION;
+
+if (isProduction) {
+  const productionUrl = process.env.PRODUCTION_URL!;
+  origin = productionUrl ? productionUrl : origin;
+}
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL!,
+    origin,
     credentials: true,
   })
 );
@@ -34,7 +43,7 @@ app.use("/api/v1/users", userRouter);
 app.all("*", (req, res) => {
   res.send(`${req.originalUrl} not found in users server.`);
 });
-// @ts-ignore
+
 app.use(errorMiddleware);
 
 process.on("uncaughtException", (error) => {

@@ -11,9 +11,17 @@ const port = 8000;
 dotenv.config();
 const app = express();
 
+let origin: string = process.env.CLIENT_URL!;
+const isProduction = process.env.IS_PRODUCTION;
+
+if (isProduction) {
+  const productionUrl = process.env.PRODUCTION_URL!;
+  origin = productionUrl ? productionUrl : origin;
+}
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL!,
+    origin,
     credentials: true,
   })
 );
@@ -51,5 +59,4 @@ app.all("*", (req, res) => {
   res.send(`${req.originalUrl} not found in Communication server.`);
 });
 
-// @ts-expect-error
 app.use(errorMiddleware);

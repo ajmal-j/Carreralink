@@ -1,7 +1,7 @@
 client-port : 3000
 auth-port : 4000
 users-port : 5000
-company-port : 6000
+company-port : 8080
 ai-port : 7000
 communication-port : 8000
 admin-port : 9000
