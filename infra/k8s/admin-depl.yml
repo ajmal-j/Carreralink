@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: admin
+  template:
+    metadata:
+      labels:
+        app: admin
+    spec:
+      containers:
+        - name: admin
+          image: ajmalj/carreralink-admin
+          env:
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+            - name: MONGO_URL
+              value: "mongodb://admin-db-service:27017/admin"
+            - name: KAFKA_BROKER
+              value: kafka-service:9092
+            - name: IS_PRODUCTION
+              value: "true"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-service
+spec:
+  selector:
+    app: admin
+  ports:
+    - name: admin
+      protocol: TCP
+      port: 9000
+      targetPort: 9000

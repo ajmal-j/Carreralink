@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: company
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: company
+  template:
+    metadata:
+      labels:
+        app: company
+    spec:
+      containers:
+        - name: company
+          image: ajmalj/carreralink-company
+          env:
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+            - name: MONGO_URL
+              value: "mongodb://company-db-service:27017/company"
+            - name: KAFKA_BROKER
+              value: kafka-service:9092
+            - name: IS_PRODUCTION
+              value: "true"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: company-service
+spec:
+  selector:
+    app: company
+  ports:
+    - name: company
+      protocol: TCP
+      port: 8080
+      targetPort: 8080

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: compiler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: compiler
+  template:
+    metadata:
+      labels:
+        app: compiler
+    spec:
+      containers:
+        - name: compiler
+          image: ajmalj/carreralink-compiler
+          env:
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+            - name: IS_PRODUCTION
+              value: "true"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: compiler-service
+spec:
+  selector:
+    app: compiler
+  ports:
+    - name: compiler
+      protocol: TCP
+      port: 11000
+      targetPort: 11000
