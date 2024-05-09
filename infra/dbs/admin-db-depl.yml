@@ -1,31 +1,38 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: order-db
+  name: admin-db
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: order-db
+      app: admin-db
   template:
     metadata:
       labels:
-        app: order-db
+        app: admin-db
     spec:
       containers:
-        - name: order-db
+        - name: admin-db
           image: mongo:7.0
           ports:
             - containerPort: 27017
+          volumeMounts:
+            - name: admin-storage
+              mountPath: /data/db
+      volumes:
+        - name: admin-storage
+          persistentVolumeClaim:
+            claimName: admin-storage
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: order-db-service
+  name: admin-db-service
 spec:
   selector:
-    app: order-db
+    app: admin-db
   ports:
     - protocol: TCP
       port: 27017
