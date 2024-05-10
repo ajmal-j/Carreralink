@@ -1,87 +1,218 @@
 export class Server {
   public readonly _chatServer = `http://communication-service:8000`;
   private baseUrl: string = "http://localhost";
-  private type: string = "-container";
+  private isProduction: boolean = false;
   constructor() {
     const isPro = process.env.NEXT_PUBLIC_IS_PRODUCTION;
     console.log(process.env.NEXT_PUBLIC_NODE_IP, "this is node ip");
     console.log(process.env.NEXT_PUBLIC_MINIKUBE_IP, "minikube ip from env.");
     if (isPro) {
+      this.isProduction = true;
       this.baseUrl = "http://carreralink.com";
-      this.type = "-service";
-    } else console.log("This is production code!!!!!");
+    } else console.log("This is development code!!!!!");
 
     return this;
   }
 
+  createPath({
+    actualPath,
+    port,
+    path,
+    service,
+  }: {
+    actualPath: string;
+    port: number;
+    path: string;
+    service:
+      | "admin"
+      | "ai"
+      | "auth"
+      | "communication"
+      | "company"
+      | "compiler"
+      | "order"
+      | "user";
+  }) {
+    const isInClient = typeof window !== "undefined";
+    if (this.isProduction) {
+      if (isInClient) {
+        return this.baseUrl.concat(actualPath, "/", path);
+      } else {
+        return `http://${service}-service:${port}${actualPath}/${path}`;
+      }
+    } else {
+      if (isInClient) {
+        return this.baseUrl.concat(`:${port}`, actualPath, "/", path);
+      } else {
+        return `http://${service}-container:${port}${actualPath}/${path}`;
+      }
+    }
+  }
+
   auth(path: string) {
     const auth = `/api/v1/auth`;
-    return `${typeof window !== "undefined" ? this.baseUrl : "http://auth" + this.type}:4000${auth}/${path}`;
+    const port = 4000;
+    return this.createPath({
+      actualPath: auth,
+      path,
+      port,
+      service: "auth",
+    });
   }
   user(path: string) {
     const user = `/api/v1/users`;
-    return `${typeof window !== "undefined" ? this.baseUrl : "http://user" + this.type}:5000${user}/${path}`;
+    const port = 5000;
+    return this.createPath({
+      actualPath: user,
+      path,
+      port,
+      service: "user",
+    });
   }
   adminUser(path: string) {
     const user = `/api/v1/users/admin`;
-    return `${typeof window !== "undefined" ? this.baseUrl : "http://user" + this.type}:5000${user}/${path}`;
+    const port = 5000;
+    return this.createPath({
+      actualPath: user,
+      path,
+      port,
+      service: "user",
+    });
   }
   adminCompany(path: string) {
     const company = `/api/v1/companies/admin`;
-    return `${typeof window !== "undefined" ? this.baseUrl : "http://company" + this.type}:8080${company}/${path}`;
+    const port = 8080;
+    return this.createPath({
+      actualPath: company,
+      path,
+      port,
+      service: "company",
+    });
   }
   company(path: string) {
     const company = `/api/v1/companies`;
-    return `${typeof window !== "undefined" ? this.baseUrl : "http://company" + this.type}:8080${company}/${path}`;
+    const port = 8080;
+    return this.createPath({
+      actualPath: company,
+      path,
+      port,
+      service: "company",
+    });
   }
   jobs(path: string) {
     const jobs = `/api/v1/companies/jobs`;
-    return `${typeof window !== "undefined" ? this.baseUrl : "http://company" + this.type}:8080${jobs}/${path}`;
+    const port = 8080;
+    return this.createPath({
+      actualPath: jobs,
+      path,
+      port,
+      service: "company",
+    });
   }
   recruiter(path: string) {
     const recruiter = `/api/v1/companies/recruiter`;
-    return `${typeof window !== "undefined" ? this.baseUrl : "http://company" + this.type}:8080${recruiter}/${path}`;
+    const port = 8080;
+    return this.createPath({
+      actualPath: recruiter,
+      path,
+      port,
+      service: "company",
+    });
   }
 
   interview(path: string) {
     const interview = `/api/v1/companies/interview`;
-    return `${typeof window !== "undefined" ? this.baseUrl : "http://company" + this.type}:8080${interview}/${path}`;
+    const port = 8080;
+    return this.createPath({
+      actualPath: interview,
+      path,
+      port,
+      service: "company",
+    });
   }
   ai(path: string) {
     const ai = `/api/v1/ai`;
-    return `${typeof window !== "undefined" ? this.baseUrl : "http://ai" + this.type}:7000${ai}/${path}`;
+    const port = 7000;
+    return this.createPath({
+      actualPath: ai,
+      path,
+      port,
+      service: "ai",
+    });
   }
   chat(path: string) {
     const chat = `/api/v1/communication/chat`;
-    return `${typeof window !== "undefined" ? this.baseUrl : "http://communication" + this.type}:8000${chat}/${path}`;
+    const port = 8000;
+    return this.createPath({
+      actualPath: chat,
+      path,
+      port,
+      service: "communication",
+    });
   }
   skillAndCategory(path: string) {
     const skillAndCategory = `/api/v1/admin/skillAndCategory`;
-    return `${typeof window !== "undefined" ? this.baseUrl : "http://admin" + this.type}:9000${skillAndCategory}/${path}`;
+    const port = 9000;
+    return this.createPath({
+      actualPath: skillAndCategory,
+      path,
+      port,
+      service: "admin",
+    });
   }
   plan(path: string) {
     const plan = `/api/v1/admin/plan`;
-    return `${typeof window !== "undefined" ? this.baseUrl : "http://admin" + this.type}:9000${plan}/${path}`;
+    const port = 9000;
+    return this.createPath({
+      actualPath: plan,
+      path,
+      port,
+      service: "admin",
+    });
   }
 
   userPlan(path: string) {
     const userPlan = `/api/v1/admin/plan/user`;
-    return `${typeof window !== "undefined" ? this.baseUrl : "http://admin" + this.type}:9000${userPlan}/${path}`;
+    const port = 9000;
+    return this.createPath({
+      actualPath: userPlan,
+      path,
+      port,
+      service: "admin",
+    });
   }
 
   payment(path: string) {
     const payment = `/api/v1/order/payment`;
-    return `${typeof window !== "undefined" ? this.baseUrl : "http://order" + this.type}:10000${payment}/${path}`;
+    const port = 10000;
+    return this.createPath({
+      actualPath: payment,
+      path,
+      port,
+      service: "order",
+    });
   }
 
   order(path: string) {
     const order = `/api/v1/order`;
-    return `${typeof window !== "undefined" ? this.baseUrl : "http://order" + this.type}:10000${order}/${path}`;
+    const port = 10000;
+    return this.createPath({
+      actualPath: order,
+      path,
+      port,
+      service: "order",
+    });
   }
 
   compiler(path: string) {
     const compiler = `/api/v1/compiler`;
-    return `${typeof window !== "undefined" ? this.baseUrl : "http://compiler" + this.type}:11000${compiler}/${path}`;
+    const port = 11000;
+    return this.createPath({
+      actualPath: compiler,
+      path,
+      port,
+      service: "compiler",
+    });
   }
 }
 

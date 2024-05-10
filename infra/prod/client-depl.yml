@@ -24,11 +24,6 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
-            - name: NEXT_PUBLIC_MINIKUBE_IP
-              valueFrom:
-                configMapKeyRef:
-                  name: minikube-ip
-                  key: ip
 
 ---
 apiVersion: v1

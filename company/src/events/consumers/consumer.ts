@@ -4,6 +4,8 @@ import BuildUpdateUserConsumer from "./updateUser.consumer.js";
 import BuildPlanPurchasedConsumer from "./planPurchased.consumer.js";
 import BuildUpdateApplicationScoreConsumer from "./applicationValidated.consumer.js";
 import BuildUpdateAssessmentScoreConsumer from "./assessmentValidated.consumer.js";
+import BuildCreateCompanyConsumer from "./createCompany.consumer.js";
+
 export default async () => {
   try {
     BuildCreateUserConsumer(kafka);
@@ -11,6 +13,7 @@ export default async () => {
     BuildPlanPurchasedConsumer(kafka);
     BuildUpdateApplicationScoreConsumer(kafka);
     BuildUpdateAssessmentScoreConsumer(kafka);
+    BuildCreateCompanyConsumer(kafka);
   } catch (error) {
     console.log(error);
     console.log("error connecting to kafka broker");

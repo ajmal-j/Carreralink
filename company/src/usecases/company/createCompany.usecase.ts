@@ -12,7 +12,7 @@ export class CreateCompanyUsecase {
     );
 
     if (companyExist) throw new CustomError("Company already exists", 409);
-    
+
     const company = await this.CompanyRepository.create(companyData);
     return;
   }
