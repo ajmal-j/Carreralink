@@ -21,6 +21,26 @@ spec:
                 secretKeyRef:
                   name: jwt-secret
                   key: JWT_KEY
+            - name: PRODUCTION_URL
+              valueFrom:
+                secretKeyRef:
+                  name: static-secret
+                  key: PRODUCTION_URL
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secret
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_ACCESS_KEY_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secret
+                  key: AWS_ACCESS_KEY_SECRET
+            - name: AWS_REGION
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secret
+                  key: AWS_REGION
             - name: MONGO_URL
               value: "mongodb://company-db-service:27017/company"
             - name: KAFKA_BROKER

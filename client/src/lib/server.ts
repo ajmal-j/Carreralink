@@ -1,14 +1,16 @@
 export class Server {
-  public readonly _chatServer = `http://communication-service:8000`;
+  public readonly _chatServer: string = `http://communication-service:8000`;
   private baseUrl: string = "http://localhost";
   private isProduction: boolean = false;
   constructor() {
-    const isPro = process.env.NEXT_PUBLIC_IS_PRODUCTION;
-    console.log(process.env.NEXT_PUBLIC_NODE_IP, "this is node ip");
-    console.log(process.env.NEXT_PUBLIC_MINIKUBE_IP, "minikube ip from env.");
-    if (isPro) {
+    const isDev = process.env.NEXT_PUBLIC_IS_DEVELOPMENT;
+    const ip = process.env.NEXT_PUBLIC_NODE_IP;
+    if (ip) {
+      this._chatServer = `http://${ip}:30000`;
+    }
+    if (!isDev) {
       this.isProduction = true;
-      this.baseUrl = "http://carreralink.com";
+      this.baseUrl = "http://carreralink.live";
     } else console.log("This is development code!!!!!");
 
     return this;
@@ -34,6 +36,8 @@ export class Server {
       | "user";
   }) {
     const isInClient = typeof window !== "undefined";
+    // if isInClient true then the request is from the browser.
+
     if (this.isProduction) {
       if (isInClient) {
         return this.baseUrl.concat(actualPath, "/", path);
@@ -80,7 +84,7 @@ export class Server {
     });
   }
   adminCompany(path: string) {
-    const company = `/api/v1/companies/admin`;
+    const company = `/api/v1/company/admin`;
     const port = 8080;
     return this.createPath({
       actualPath: company,
@@ -90,7 +94,7 @@ export class Server {
     });
   }
   company(path: string) {
-    const company = `/api/v1/companies`;
+    const company = `/api/v1/company`;
     const port = 8080;
     return this.createPath({
       actualPath: company,
@@ -100,7 +104,7 @@ export class Server {
     });
   }
   jobs(path: string) {
-    const jobs = `/api/v1/companies/jobs`;
+    const jobs = `/api/v1/company/jobs`;
     const port = 8080;
     return this.createPath({
       actualPath: jobs,
@@ -110,7 +114,7 @@ export class Server {
     });
   }
   recruiter(path: string) {
-    const recruiter = `/api/v1/companies/recruiter`;
+    const recruiter = `/api/v1/company/recruiter`;
     const port = 8080;
     return this.createPath({
       actualPath: recruiter,
@@ -121,7 +125,7 @@ export class Server {
   }
 
   interview(path: string) {
-    const interview = `/api/v1/companies/interview`;
+    const interview = `/api/v1/company/interview`;
     const port = 8080;
     return this.createPath({
       actualPath: interview,
@@ -236,24 +240,24 @@ export class Server {
 //     return `${this.baseUrl}${user}/${path}`;
 //   }
 //   adminCompany(path: string) {
-//     const company = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/companies/admin`;
+//     const company = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/company/admin`;
 //     return `${this.baseUrl}${company}/${path}`;
 //   }
 //   company(path: string) {
-//     const company = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/companies`;
+//     const company = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/company`;
 //     return `${this.baseUrl}${company}/${path}`;
 //   }
 //   jobs(path: string) {
-//     const jobs = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/companies/jobs`;
+//     const jobs = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/company/jobs`;
 //     return `${this.baseUrl}${jobs}/${path}`;
 //   }
 //   recruiter(path: string) {
-//     const recruiter = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/companies/recruiter`;
+//     const recruiter = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/company/recruiter`;
 //     return `${this.baseUrl}${recruiter}/${path}`;
 //   }
 
 //   interview(path: string) {
-//     const interview = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/companies/interview`;
+//     const interview = `${typeof window !== "undefined" ? "localhost" : "company-container"}:8080/api/v1/company/interview`;
 //     return `${this.baseUrl}${interview}/${path}`;
 //   }
 //   ai(path: string) {

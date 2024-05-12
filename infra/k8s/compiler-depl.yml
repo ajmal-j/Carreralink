@@ -21,6 +21,11 @@ spec:
                 secretKeyRef:
                   name: jwt-secret
                   key: JWT_KEY
+            - name: PRODUCTION_URL
+              valueFrom:
+                secretKeyRef:
+                  name: static-secret
+                  key: PRODUCTION_URL
             - name: IS_PRODUCTION
               value: "true"
 ---

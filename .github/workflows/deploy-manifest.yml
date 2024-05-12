@@ -4,20 +4,20 @@ on:
     branches:
       - main
     paths:
-      - 'infra/**'
+      - "infra/**"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses : actions/checkout@v2
+      - uses: actions/checkout@v2
       - uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       - run: doctl kubernetes cluster kubeconfig save carreralink
       - run: kubectl apply -f infra/secrets
-      - run: kubectl apply -f infra/storage
       - run: kubectl apply -f infra/kafka
-      - run: kubectl apply -f infra/prod
+      - run: kubectl apply -f infra/storage
       - run: kubectl apply -f infra/dbs
+      - run: kubectl apply -f infra/prod
       - run: kubectl apply -f infra/k8s

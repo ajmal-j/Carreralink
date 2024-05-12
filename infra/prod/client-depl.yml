@@ -18,12 +18,53 @@ spec:
           env:
             - name: NEXT_PUBLIC_BASE_URL
               value: carreralink.com
-            - name: NEXT_PUBLIC_IS_PRODUCTION
-              value: "true"
+
             - name: NEXT_PUBLIC_NODE_IP
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
+
+            - name: NEXT_PUBLIC_PRODUCTION_URL
+              valueFrom:
+                secretKeyRef:
+                  name: static-secret
+                  key: PRODUCTION_URL
+
+            - name: NEXT_PUBLIC_GOOGLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: google-secret
+                  key: NEXT_PUBLIC_GOOGLE_CLIENT_SECRET
+
+            - name: NEXT_PUBLIC_GOOGLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: google-secret
+                  key: NEXT_PUBLIC_GOOGLE_CLIENT_ID
+
+            - name: NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: stripe-secret
+                  key: STRIPE_PUBLISHABLE_KEY
+
+            - name: NEXT_PUBLIC_STRIPE_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: stripe-secret
+                  key: STRIPE_SECRET_KEY
+
+            - name: NEXT_PUBLIC_ZEGO_APP_ID
+              valueFrom:
+                secretKeyRef:
+                  name: zegocloud-secret
+                  key: NEXT_PUBLIC_ZEGO_APP_ID
+
+            - name: NEXT_PUBLIC_ZEGO_SERVER_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: zegocloud-secret
+                  key: NEXT_PUBLIC_ZEGO_SERVER_SECRET
 
 ---
 apiVersion: v1

@@ -13,6 +13,8 @@ services:
           path: ./client/package.json
         - action: rebuild
           path: ./client/package-lock.json
+    environment:
+      NEXT_PUBLIC_IS_DEVELOPMENT: development
     ports:
       - 3000:3000
 
