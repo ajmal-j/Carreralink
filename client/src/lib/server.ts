@@ -41,13 +41,13 @@ export class Server {
       if (isInClient) {
         return this.baseUrl.concat(actualPath, "/", path);
       } else {
-        return `http://${service}-service:${port}${actualPath}/${path}`;
+        return `http://${service}-service:${port}/${actualPath}/${path}`;
       }
     } else {
       if (isInClient) {
         return this.baseUrl.concat(`:${port}`, actualPath, "/", path);
       } else {
-        return `http://${service}-container:${port}${actualPath}/${path}`;
+        return `http://${service}-container:${port}/${actualPath}/${path}`;
       }
     }
   }
