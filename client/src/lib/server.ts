@@ -1,6 +1,6 @@
 export class Server {
   public readonly _chatServer: string = `http://communication-service:8000`;
-  private baseUrl: string = "http://localhost";
+  private baseUrl: string = "/";
   private isProduction: boolean = false;
   constructor() {
     const isDev = process.env.NEXT_PUBLIC_IS_DEVELOPMENT;
@@ -10,7 +10,6 @@ export class Server {
     }
     if (!isDev) {
       this.isProduction = true;
-      this.baseUrl = "http://carreralink.live";
     } else console.log("This is development code!!!!!");
 
     return this;
@@ -54,7 +53,7 @@ export class Server {
   }
 
   auth(path: string) {
-    const auth = `/api/v1/auth`;
+    const auth = `api/v1/auth`;
     const port = 4000;
     return this.createPath({
       actualPath: auth,
@@ -64,7 +63,7 @@ export class Server {
     });
   }
   user(path: string) {
-    const user = `/api/v1/users`;
+    const user = `api/v1/users`;
     const port = 5000;
     return this.createPath({
       actualPath: user,
@@ -74,7 +73,7 @@ export class Server {
     });
   }
   adminUser(path: string) {
-    const user = `/api/v1/users/admin`;
+    const user = `api/v1/users/admin`;
     const port = 5000;
     return this.createPath({
       actualPath: user,
@@ -84,7 +83,7 @@ export class Server {
     });
   }
   adminCompany(path: string) {
-    const company = `/api/v1/company/admin`;
+    const company = `api/v1/company/admin`;
     const port = 8080;
     return this.createPath({
       actualPath: company,
@@ -94,7 +93,7 @@ export class Server {
     });
   }
   company(path: string) {
-    const company = `/api/v1/company`;
+    const company = `api/v1/company`;
     const port = 8080;
     return this.createPath({
       actualPath: company,
@@ -104,7 +103,7 @@ export class Server {
     });
   }
   jobs(path: string) {
-    const jobs = `/api/v1/company/jobs`;
+    const jobs = `api/v1/company/jobs`;
     const port = 8080;
     return this.createPath({
       actualPath: jobs,
@@ -114,7 +113,7 @@ export class Server {
     });
   }
   recruiter(path: string) {
-    const recruiter = `/api/v1/company/recruiter`;
+    const recruiter = `api/v1/company/recruiter`;
     const port = 8080;
     return this.createPath({
       actualPath: recruiter,
@@ -125,7 +124,7 @@ export class Server {
   }
 
   interview(path: string) {
-    const interview = `/api/v1/company/interview`;
+    const interview = `api/v1/company/interview`;
     const port = 8080;
     return this.createPath({
       actualPath: interview,
@@ -135,7 +134,7 @@ export class Server {
     });
   }
   ai(path: string) {
-    const ai = `/api/v1/ai`;
+    const ai = `api/v1/ai`;
     const port = 7000;
     return this.createPath({
       actualPath: ai,
@@ -145,7 +144,7 @@ export class Server {
     });
   }
   chat(path: string) {
-    const chat = `/api/v1/communication/chat`;
+    const chat = `api/v1/communication/chat`;
     const port = 8000;
     return this.createPath({
       actualPath: chat,
@@ -155,7 +154,7 @@ export class Server {
     });
   }
   skillAndCategory(path: string) {
-    const skillAndCategory = `/api/v1/admin/skillAndCategory`;
+    const skillAndCategory = `api/v1/admin/skillAndCategory`;
     const port = 9000;
     return this.createPath({
       actualPath: skillAndCategory,
@@ -165,7 +164,7 @@ export class Server {
     });
   }
   plan(path: string) {
-    const plan = `/api/v1/admin/plan`;
+    const plan = `api/v1/admin/plan`;
     const port = 9000;
     return this.createPath({
       actualPath: plan,
@@ -176,7 +175,7 @@ export class Server {
   }
 
   userPlan(path: string) {
-    const userPlan = `/api/v1/admin/plan/user`;
+    const userPlan = `api/v1/admin/plan/user`;
     const port = 9000;
     return this.createPath({
       actualPath: userPlan,
@@ -187,7 +186,7 @@ export class Server {
   }
 
   payment(path: string) {
-    const payment = `/api/v1/order/payment`;
+    const payment = `api/v1/order/payment`;
     const port = 10000;
     return this.createPath({
       actualPath: payment,
@@ -198,7 +197,7 @@ export class Server {
   }
 
   order(path: string) {
-    const order = `/api/v1/order`;
+    const order = `api/v1/order`;
     const port = 10000;
     return this.createPath({
       actualPath: order,
@@ -209,7 +208,7 @@ export class Server {
   }
 
   compiler(path: string) {
-    const compiler = `/api/v1/compiler`;
+    const compiler = `api/v1/compiler`;
     const port = 11000;
     return this.createPath({
       actualPath: compiler,
