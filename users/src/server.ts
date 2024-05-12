@@ -25,6 +25,7 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -44,6 +45,7 @@ app.all("*", (req, res) => {
   res.send(`${req.originalUrl} not found in users server.`);
 });
 
+// error middleware
 app.use(errorMiddleware);
 
 process.on("uncaughtException", (error) => {
