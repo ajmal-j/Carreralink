@@ -39,7 +39,11 @@ const server = app.listen(port, () => {
 // socket io initialization
 const socket = new Socket();
 
-socket.io.attach(server);
+const socketServer = express().listen(4040, () => {
+  console.log(`Socket server is running on : http://localhost:4040`);
+});
+
+socket.io.attach(socketServer);
 
 socket.listenForChat();
 socket.listenForInterview();

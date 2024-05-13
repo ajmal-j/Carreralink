@@ -56,5 +56,5 @@ spec:
   ports:
     - name: communication
       protocol: TCP
-      port: 8000
-      targetPort: 8000
+      port: 4040
+      targetPort: 4040

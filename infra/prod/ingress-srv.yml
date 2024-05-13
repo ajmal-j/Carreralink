@@ -71,11 +71,14 @@ spec:
                 name: client-service
                 port:
                   number: 3000
-          # socket server connection
-          - path: /socket-server
+      # socket server connection
+    - host: socket.carreralink.live
+      http:
+        paths:
+          - path: /
             pathType: Prefix
             backend:
               service:
                 name: communication-socket-service
                 port:
-                  number: 8000
+                  number: 4040
