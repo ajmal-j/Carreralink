@@ -40,6 +40,8 @@ spec:
               value: "mongodb://order-db-service:27017/order"
             - name: KAFKA_BROKER
               value: kafka-service:9092
+            - name: CLIENT_URL
+              value: https://carreralink.live
             - name: IS_PRODUCTION
               value: "true"
 ---

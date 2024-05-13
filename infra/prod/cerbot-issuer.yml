@@ -1,0 +1,8 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  email: ajmaljaleel8589946195@gmail.com
+  provider: letsencrypt
+  staging: false

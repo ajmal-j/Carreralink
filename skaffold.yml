@@ -1,0 +1,86 @@
+apiVersion: skaffold/v1
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/secrets/*
+      - ./infra/dbs/*
+      - ./infra/kafka/*
+      - ./infra/dev/*
+      - ./infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: ajmalj/carreralink-admin
+      context: admin
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: ajmalj/carreralink-ai
+      context: ai
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: ajmalj/carreralink-auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: ajmalj/carreralink-client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "**/*.js"
+            dest: .
+    - image: ajmalj/carreralink-communication
+      context: communication
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: ajmalj/carreralink-company
+      context: company
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: ajmalj/carreralink-compiler
+      context: compiler
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: ajmalj/carreralink-order
+      context: order
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: ajmalj/carreralink-user
+      context: users
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .

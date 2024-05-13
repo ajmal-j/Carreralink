@@ -96,6 +96,11 @@ function JobsData({
               </div>
             </div>
           ))}
+          {!recentJobs?.length && (
+            <p className="my-10 text-center text-sm text-foreground/60">
+              No recent job&apos;s
+            </p>
+          )}
           <div>
             <PrimaryButton
               className="ms-auto w-min text-nowrap px-3 py-1"

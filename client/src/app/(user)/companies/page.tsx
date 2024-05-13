@@ -102,7 +102,7 @@ export default async function Companies({
                   <p className="pb-1 text-sm text-foreground/70">
                     {company?.email}
                   </p>
-                  <span className="w-min rounded-full border border-foreground/60 px-1.5 pb-[1.5px] text-xs text-foreground/80">
+                  <span className="w-min text-nowrap rounded-full border border-foreground/60 px-1.5 pb-[1.5px] text-xs text-foreground/80">
                     {company.industry}
                   </span>
                 </div>

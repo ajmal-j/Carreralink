@@ -27,7 +27,9 @@ export default function Mange() {
     (async () => {
       try {
         const response = await getSkillsAndCategories();
-        const { skills, category } = response?.data[0];
+        const data = response?.data[0];
+        const skills = data?.skills || [];
+        const category = data?.category || [];
         setSkills(skills);
         setCategories(category);
         setSelectedSkills(skills);

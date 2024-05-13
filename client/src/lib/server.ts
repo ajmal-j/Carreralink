@@ -1,13 +1,10 @@
 export class Server {
-  public readonly _chatServer: string = `http://communication-service:8000`;
+  public readonly _chatServer: string = `https://carreralink.live/socket-server`;
   private baseUrl: string = "/";
   private isProduction: boolean = false;
   constructor() {
     const isDev = process.env.NEXT_PUBLIC_IS_DEVELOPMENT;
     const ip = process.env.NEXT_PUBLIC_NODE_IP;
-    if (ip) {
-      this._chatServer = `http://${ip}:30000`;
-    }
     if (!isDev) {
       this.isProduction = true;
     } else console.log("This is development code!!!!!");

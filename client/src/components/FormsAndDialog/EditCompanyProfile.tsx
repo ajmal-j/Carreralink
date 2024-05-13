@@ -53,9 +53,7 @@ export function EditCompanyProfile({
     tagline: z
       .string()
       .min(10, "Company tagline must be at least 10 characters long"),
-    industry: z.enum(["Software", "Technology", "Products", "Other"], {
-      errorMap: () => ({ message: "Please select an industry" }),
-    }),
+    industry: z.string().min(1, "Please select an industry"),
     foundedOn: z
       .string()
       .min(4, "Invalid year")
@@ -66,7 +64,7 @@ export function EditCompanyProfile({
           message: "Invalid year",
         },
       ),
-    revenue: z.string().min(4, "Invalid revenue"),
+    revenue: z.string().min(1, "Invalid revenue"),
     headquarters: z.string().min(5, "Invalid headquarters"),
     size: z
       .string()

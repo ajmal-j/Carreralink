@@ -21,7 +21,7 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
     const server = new Server()._chatServer;
     const _socket = io(server);
     setSocket(_socket);
-    
+
     return () => {
       _socket.disconnect();
     };
