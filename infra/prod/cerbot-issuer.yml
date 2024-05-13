@@ -9,6 +9,8 @@ spec:
     privateKeySecretRef:
       name: carreralink-cert-tls
     solvers:
-      - http01:
-          ingress:
-            ingressClassName: nginx
+      cloudflare:
+        email: ajmaljaleel7860@gmail.com
+        apiKeySecretRef:
+          name: cloudflare-secret
+          key: api-key
