@@ -45,5 +45,16 @@ spec:
       protocol: TCP
       port: 8000
       targetPort: 8000
-      nodePort: 30000
-  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: communication-socket-service
+spec:
+  selector:
+    app: communication
+  ports:
+    - name: communication
+      protocol: TCP
+      port: 8000
+      targetPort: 8000
