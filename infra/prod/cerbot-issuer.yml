@@ -3,6 +3,12 @@ kind: ClusterIssuer
 metadata:
   name: letsencrypt-prod
 spec:
-  email: ajmaljaleel8589946195@gmail.com
-  provider: letsencrypt
-  staging: false
+  acme:
+    email: user@example.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-prod-key
+    solvers:
+      - http01:
+          ingress:
+            ingressClassName: nginx

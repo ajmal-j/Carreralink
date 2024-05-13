@@ -1,16 +1,11 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: carreralink.live-tls
+  name: carreralink-cert
 spec:
-  secretName: carreralink.live-tls-secret
+  secretName: carreralink-cert-tls
+  dnsNames:
+    - carreralink.live
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
-  dnsNames:
-    - carreralink.live
-  acme:
-    http01:
-      ingress:
-        name: ingress-srv
-        class: ingress-nginx
