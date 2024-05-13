@@ -9,8 +9,9 @@ spec:
     privateKeySecretRef:
       name: carreralink-cert-tls
     solvers:
-      cloudflare:
-        email: ajmaljaleel7860@gmail.com
-        apiKeySecretRef:
-          name: cloudflare-secret
-          key: api-key
+      - dns01:
+          cloudflare:
+            email: ajmaljaleel7860@gmail.com
+            apiKeySecretRef:
+              name: cloudflare-secret
+              key: api-key
