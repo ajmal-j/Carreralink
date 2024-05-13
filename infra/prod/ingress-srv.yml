@@ -75,3 +75,11 @@ spec:
                 name: client-service
                 port:
                   number: 3000
+          # socket server connection
+          - path: /socket-server
+            pathType: Prefix
+            backend:
+              service:
+                name: communication-service
+                port:
+                  number: 8000
