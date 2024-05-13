@@ -18,7 +18,7 @@ spec:
     - server auth
     - client auth
   dnsNames:
-    - secure.carreralink.live
+    - carreralink.live
   ipAddresses:
     - 144.126.255.188
   issuerRef:
