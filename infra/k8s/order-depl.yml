@@ -41,7 +41,7 @@ spec:
             - name: KAFKA_BROKER
               value: kafka-service:9092
             - name: CLIENT_URL
-              value: https://carreralink.live
+              value: http://carreralink.live
             - name: IS_PRODUCTION
               value: "true"
 ---

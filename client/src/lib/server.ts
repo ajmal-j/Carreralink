@@ -1,5 +1,5 @@
 export class Server {
-  public readonly _chatServer: string = `https://carreralink.live/socket-server`;
+  public readonly _chatServer: string = `http://carreralink.live/socket-server`;
   private baseUrl: string = "/";
   private isProduction: boolean = false;
   constructor() {

@@ -5,10 +5,6 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
-  tls:
-    - hosts:
-        - carreralink.live
-      secretName: carreralink-cert-tls
   ingressClassName: nginx
   rules:
     - host: www.carreralink.live
