@@ -9,10 +9,13 @@ export class Socket {
     this._io = new Server({
       pingTimeout: 30000,
       cors: {
-        origin: "*",
+        origin: [
+          "https://carreralink.live",
+          "http://localhost:3000",
+          "https://socket.carreralink.live",
+        ],
       },
     });
-    console.log("socket server is up and running.");
   }
   public listenForChat() {
     const io = this.io;
