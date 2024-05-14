@@ -67,7 +67,12 @@ export default async function Layout({ params: { id }, children }: IPage) {
             href={company.website}
             className="flex items-center gap-2 text-foreground/60 underline hover:text-foreground/90"
           >
-            {company.website} <ExternalLinkIcon />
+            {company?.website?.length > 15
+                      ? (company.website as string)
+                          .substring(0, 16)
+                          .concat("...")
+                      : company.website}
+            <ExternalLinkIcon />
           </a>
         </div>
       </div>
