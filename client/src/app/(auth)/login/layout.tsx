@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 export const metadata = {
-  title:"Login | Carreralink",
+  title:"Login | Carreralink.live",
   referrer:"origin",
 }
 
