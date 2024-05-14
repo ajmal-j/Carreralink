@@ -15,11 +15,6 @@ import { jwtDecode } from "jwt-decode";
 import { googleLogin } from "@/services/user.service";
 import MainText from "@/components/Layout/MainText";
 
-export const metadata = {
-  title:"Login | Carreralink",
-  origin:"origin-when-cross-origin",
-}
-
 const formSchema = z.object({
   email: z.string().email("invalid email"),
   password: z.string().min(8, "password must be at least 8 characters"),
