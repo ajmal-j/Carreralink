@@ -66,6 +66,7 @@ spec:
                   name: zegocloud-secret
                   key: NEXT_PUBLIC_ZEGO_SERVER_SECRET
 
+# service
 ---
 apiVersion: v1
 kind: Service
