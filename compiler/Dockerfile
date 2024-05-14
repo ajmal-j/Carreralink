@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:21-alpine3.18
 
 # install dependencies
 RUN apk update && apk add --no-cache build-base g++ python3 py3-pip php php-cli && rm -rf /var/cache/apk/*
