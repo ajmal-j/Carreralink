@@ -38,7 +38,8 @@ export default async function Success({
     <div className="flex flex-col gap-5">
       <h1 className="text-3xl">Payment Success.</h1>
       <p className="text-foreground/70">
-        Thank you for your payment. Your payment ID : <b>{id}</b>
+        Thank you for your payment. Your payment ID :{" "}
+        <b className="break-words">{id}</b>
       </p>
       <PlanCard
         className="bg-gradient-to-br from-violet-400 to-indigo-600 text-white sm:px-6 sm:py-16"

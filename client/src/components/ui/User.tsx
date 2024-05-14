@@ -17,6 +17,8 @@ import BackButton from "../Buttons/BackButton";
 export default async function User({ username }: { username: string }) {
   let user: IUser | null = null;
   try {
+    if (!username || username === "favicon.ico")
+      return <NotFound title="User not found." />;
     const response = await getUser(username);
     user = response?.data;
   } catch (error) {

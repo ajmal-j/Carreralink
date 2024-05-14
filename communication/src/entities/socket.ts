@@ -9,7 +9,7 @@ export class Socket {
     this._io = new Server({
       pingTimeout: 30000,
       cors: {
-        origin: this.origin,
+        origin: "*",
       },
     });
     console.log("socket server is up and running.");
