@@ -6,9 +6,10 @@ import { Breadcrumbs } from "./BreadCrums";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export const logOut = async () => {
+const logOut = async () => {
   "use server";
   cookies().delete("userToken");
+  console.log("logged out ---------------- and token deleted");
   redirect("/login");
 };
 export default function Main({
