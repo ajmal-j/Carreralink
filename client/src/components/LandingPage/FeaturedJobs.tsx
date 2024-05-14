@@ -1,30 +1,28 @@
 import Image from "next/image";
 import PrimaryButton from "../Buttons/PrimaryButton";
+import NotFound from "../Custom/NotFound";
+import { IResponseData } from "@/types/paginateResponse";
+import { getAllJobs } from "@/services/jobs.service";
+import { IJob } from "@/types/jobs";
 
-const jobs = [
-  {
-    id: 1,
-    title: "Software Engineer",
-    company: "Google",
-    location: "Mountain View, CA",
-    icon: "https://cdn2.hubspot.net/hubfs/53/image8-2.jpg",
-  },
-  {
-    id: 2,
-    title: "Product Designer",
-    company: "Facebook",
-    location: "Menlo Park, CA",
-    icon: "https://1000logos.net/wp-content/uploads/2017/02/Facebook-Logosu.png",
-  },
-  {
-    id: 3,
-    title: "Unit Test Engineer",
-    company: "Apple",
-    location: "San Francisco, CA",
-    icon: "https://images.crowdspring.com/blog/wp-content/uploads/2022/08/18131304/apple_logo_black.svg_.png",
-  },
-];
-export default function FeaturedJobs() {
+export default async function FeaturedJobs() {
+  let jobs: IJob[] = [];
+  let options: IResponseData = {} as IResponseData;
+  try {
+    const response = await getAllJobs({
+      p: 1,
+    });
+    jobs = response?.data?.docs.splice(0, 3);
+    const { totalDocs, ...rest } = response.data;
+    options = {
+      totalDocs,
+      ...rest,
+    };
+  } catch (error) {
+    console.log(error);
+    return <NotFound />;
+  }
+  if (!jobs.length) return null;
   return (
     <div className="flex flex-col items-center gap-2 rounded-xl border bg-background px-2 py-3">
       {jobs.map((job) => (
@@ -32,14 +30,14 @@ export default function FeaturedJobs() {
           <div className="flex w-full items-center justify-between rounded-lg bg-background px-5 py-2 font-montserrat">
             <div className="flex-1">
               <p className="pb-2 text-lg  text-foreground/90">{job.title}</p>
-              <p className="text-foreground/60">{job.company}</p>
-              <p className="text-foreground/60">{job.location}</p>
+              <p className="text-foreground/60">{job.company.name}</p>
+              <p className="text-foreground/60">{job.workSpace}</p>
             </div>
             <div className="flex h-[100px] items-center overflow-hidden rounded-xl bg-white">
               <Image
                 alt="logo"
                 className="rounded-lg"
-                src={job.icon}
+                src={job.company.logo}
                 width={100}
                 height={100}
               />
@@ -48,7 +46,9 @@ export default function FeaturedJobs() {
         </>
       ))}
       <div className="me-5 ms-auto mt-5">
-        <PrimaryButton className="px-5">View all</PrimaryButton>
+        <PrimaryButton href="/jobs" className="px-5">
+          View all {options.totalDocs} jobs
+        </PrimaryButton>
       </div>
     </div>
   );

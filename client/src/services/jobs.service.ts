@@ -18,11 +18,11 @@ const getJob = async (id: string) => {
 };
 
 const getAllJobs = async (query: {
-  location: string | undefined;
-  type: string | undefined;
-  q: string | undefined;
+  location?: string;
+  type?: string;
+  q?: string;
   p: number;
-  sort: string | undefined;
+  sort?: string;
 }) => {
   const url = new Server().jobs("allJobs");
   const response = await axios.get(url, {
