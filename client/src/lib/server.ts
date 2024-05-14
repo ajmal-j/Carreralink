@@ -42,7 +42,13 @@ export class Server {
       }
     } else {
       if (isInClient) {
-        return this.baseUrl.concat(`:${port}`, actualPath, "/", path);
+        return "http://localhost".concat(
+          `:${port}`,
+          "/",
+          actualPath,
+          "/",
+          path,
+        );
       } else {
         return `http://${service}-container:${port}/${actualPath}/${path}`;
       }
