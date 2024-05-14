@@ -1,31 +1,44 @@
+"use client";
+
 import Image from "next/image";
 import PrimaryButton from "../Buttons/PrimaryButton";
 import { IResponseData } from "@/types/paginateResponse";
 import { getAllJobs } from "@/services/jobs.service";
 import { IJob } from "@/types/jobs";
+import { useEffect, useState } from "react";
 
 export const revalidate = 0;
 
-export default async function FeaturedJobs() {
-  let jobs: IJob[] = [];
-  let options: IResponseData = {} as IResponseData;
-  try {
-    const response = await getAllJobs({
-      p: 1,
-    });
-    jobs = response?.data?.docs?.splice(0, 3);
-    const { totalDocs, ...rest } = response.data;
-    options = {
-      totalDocs,
-      ...rest,
-    };
-  } catch (error) {
-    console.log(error);
-  }
+export default function FeaturedJobs() {
+  const [options, setOptions] = useState<IResponseData>({} as IResponseData);
+  const [jobs, setJobs] = useState<IJob[]>([]);
+
+  const fetchJobs = async () => {
+    try {
+      const response = await getAllJobs({
+        p: 1,
+      });
+      const job = response?.data?.docs?.splice(0, 3);
+      const { totalDocs, ...rest } = response.data;
+      const option = {
+        totalDocs,
+        ...rest,
+      };
+      setOptions(option);
+      setJobs(job);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
   if (!jobs.length) return null;
   return (
     <div className="flex flex-col items-center gap-2 rounded-xl border bg-background px-2 py-3">
-      {jobs.map((job) => (
+      {jobs?.map((job) => (
         <>
           <div className="flex w-full items-center justify-between rounded-lg bg-background px-5 py-2 font-montserrat">
             <div className="flex-1">
@@ -47,7 +60,7 @@ export default async function FeaturedJobs() {
       ))}
       <div className="me-5 ms-auto mt-5">
         <PrimaryButton href="/jobs" className="px-5">
-          View all {options.totalDocs} jobs
+          View all {options?.totalDocs} jobs
         </PrimaryButton>
       </div>
     </div>
