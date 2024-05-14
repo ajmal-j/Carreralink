@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "server.js",
   "scripts": {
     "dev": "concurrently \"npx tsc -w\"  \"nodemon dist/server.js\""
   },

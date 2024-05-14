@@ -1,7 +1,6 @@
 {
   "name": "compiler",
   "version": "1.0.0",
-  "main": "server.js",
   "type": "module",
   "scripts": {
     "dev": "concurrently \"npx tsc -w\"  \"nodemon dist/server.js\""
