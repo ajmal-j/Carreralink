@@ -1,6 +1,11 @@
 "use client";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
+export const metadata = {
+  title:"Login | Carreralink",
+  referrer:"origin",
+}
+
 export default function GoogleProvider({
   children,
 }: {
