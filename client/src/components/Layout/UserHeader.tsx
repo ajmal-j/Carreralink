@@ -38,7 +38,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { toast } from "../ui/use-toast";
 import SearchComponent from "../Custom/SearchComponent";
 
-export default function UserHeader({ logOut }: { logOut: () => void }) {
+export default function UserHeader({
+  logOut,
+}: {
+  logOut: () => Promise<never>;
+}) {
   const { user } = useStateSelector((state) => state.user);
   const { push } = useRouter();
   const dispatch = useDispatch();
@@ -160,7 +164,7 @@ export function ProfileDropDown({
   logOut,
 }: {
   children: React.ReactNode;
-  logOut: () => void;
+  logOut: () => Promise<never>;
 }) {
   const { push } = useRouter();
   const { isAuth, user } = useStateSelector((state) => state.user);
@@ -217,11 +221,12 @@ export function ProfileDropDown({
               Log In
             </Link>
           ) : (
-            <form action={logOut}>
+            <>
               <button
                 className="rounded-full bg-red-500/20 px-3 py-1 text-sm text-red-500"
                 type="submit"
-                onClick={() => {
+                onClick={async () => {
+                  await logOut();
                   localStorage.removeItem("userToken");
                   googleLogout();
                   dispatch(logout());
@@ -229,7 +234,7 @@ export function ProfileDropDown({
               >
                 Log out
               </button>
-            </form>
+            </>
           )}
         </DropdownMenuItem>
       </DropdownMenuContent>
