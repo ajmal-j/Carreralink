@@ -8,9 +8,7 @@ export default function GoogleProvider({
 }) {
   return (
     <GoogleOAuthProvider
-      clientId={
-        "444055010869-ie946hi941u1hcsf1on8vp6a33eqiggs.apps.googleusercontent.com"
-      }
+      clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string}
     >
       {children}
     </GoogleOAuthProvider>

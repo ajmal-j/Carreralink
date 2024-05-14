@@ -1,9 +1,10 @@
 import Image from "next/image";
 import PrimaryButton from "../Buttons/PrimaryButton";
-import NotFound from "../Custom/NotFound";
 import { IResponseData } from "@/types/paginateResponse";
 import { getAllJobs } from "@/services/jobs.service";
 import { IJob } from "@/types/jobs";
+
+export const revalidate = 0;
 
 export default async function FeaturedJobs() {
   let jobs: IJob[] = [];
@@ -12,7 +13,7 @@ export default async function FeaturedJobs() {
     const response = await getAllJobs({
       p: 1,
     });
-    jobs = response?.data?.docs.splice(0, 3);
+    jobs = response?.data?.docs?.splice(0, 3);
     const { totalDocs, ...rest } = response.data;
     options = {
       totalDocs,
@@ -20,7 +21,6 @@ export default async function FeaturedJobs() {
     };
   } catch (error) {
     console.log(error);
-    return <NotFound />;
   }
   if (!jobs.length) return null;
   return (
