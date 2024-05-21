@@ -12,6 +12,8 @@ import Link from "next/link";
 import CompanyChart from "./chart";
 import CompanyPlans from "./_components/CompanyPlans";
 
+const stripePublishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!;
+
 export default async function DashBoard() {
   const token = cookies().get("companyToken")?.value ?? "";
   let counts: Record<string, number> = {};
@@ -30,7 +32,7 @@ export default async function DashBoard() {
       <DashboardPills counts={counts} />
       <CompanyChart />
       <JobsData recentJobs={recentJobs} />
-      <CompanyPlans />
+      <CompanyPlans stripePublishableKey={stripePublishableKey} />
     </DashboardWrapper>
   );
 }
