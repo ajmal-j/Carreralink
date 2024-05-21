@@ -15,7 +15,7 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       - run: doctl kubernetes cluster kubeconfig save carreralink
-      - run: kubectl apply -f infra/secrets
+      # - run: kubectl apply -f infra/secrets
       - run: kubectl apply -f infra/kafka
       # - run: kubectl apply -f infra/storage
       - run: kubectl apply -f infra/dbs
