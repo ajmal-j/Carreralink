@@ -216,7 +216,7 @@ export function CustomForm({
           )}
           <div>
             <PrimaryButton
-              // disabled={isLoading || !isDirty}
+              disabled={isLoading || !isDirty}
               icon={
                 isLoading ? <UpdateIcon className="animate-spin" /> : undefined
               }
