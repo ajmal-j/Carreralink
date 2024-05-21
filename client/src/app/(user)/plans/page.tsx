@@ -34,6 +34,8 @@ const poppins = Poppins({
   weight: "400",
 });
 
+const stripePublishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!;
+
 export default async function Plans() {
   let user: IUser = {} as IUser;
   const token = cookies().get("userToken")?.value || "";
@@ -112,7 +114,10 @@ export default async function Plans() {
         )}
       </div>
       <div className="mx-4">
-        <UserPlans id={currentPlan?.item?.id} />
+        <UserPlans
+          id={currentPlan?.item?.id}
+          stripePublishableKey={stripePublishableKey}
+        />
       </div>
     </div>
   );

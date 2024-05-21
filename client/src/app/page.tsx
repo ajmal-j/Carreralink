@@ -9,6 +9,8 @@ import Main from "@/components/Layout/Main";
 import MainText from "@/components/Layout/MainText";
 import UserPlans from "@/components/ui/UserPlans";
 
+const stripePublishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!;
+
 export default async function Home() {
   return (
     <Wrapper>
@@ -29,7 +31,7 @@ export default async function Home() {
             <SparklesTitle />
             <ThreeDCard />
           </div>
-          <UserPlans />
+          <UserPlans {...{ stripePublishableKey }} />
           <LandingPageAccordion />
         </article>
       </Main>

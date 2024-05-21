@@ -10,7 +10,13 @@ import { toast } from "@/components/ui/use-toast";
 import PlanCard from "@/components/ui/plan";
 import { Button } from "@/components/ui/button";
 
-export default function CompanyPlans({ id }: { id?: string }) {
+export default function CompanyPlans({
+  id,
+  stripePublishableKey,
+}: {
+  id?: string;
+  stripePublishableKey: string;
+}) {
   const [companyPlans, setCompanyPlans] = useState<IPlan[]>([]);
   const getPlans = async () => {
     try {
@@ -43,7 +49,13 @@ export default function CompanyPlans({ id }: { id?: string }) {
               <PlanCard
                 key={plan.id}
                 plan={plan}
-                actions={<BuyPlan id={plan.id} plan={plan} />}
+                actions={
+                  <BuyPlan
+                    {...{ stripePublishableKey }}
+                    id={plan.id}
+                    plan={plan}
+                  />
+                }
               />
             ))}
           </div>
@@ -59,7 +71,15 @@ export default function CompanyPlans({ id }: { id?: string }) {
   );
 }
 
-const BuyPlan = ({ plan, id }: { id: string; plan: IPlan }) => {
+const BuyPlan = ({
+  plan,
+  id,
+  stripePublishableKey,
+}: {
+  id: string;
+  plan: IPlan;
+  stripePublishableKey: string;
+}) => {
   const companyData = useStateSelector((state) => state.company);
   const buyPlanHandler = async ({ plan }: { plan: IPlan }) => {
     try {
@@ -70,9 +90,7 @@ const BuyPlan = ({ plan, id }: { id: string; plan: IPlan }) => {
         email: companyData.email,
       });
       const sessionId = session.data.id;
-      const stripe = await loadStripe(
-        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,
-      );
+      const stripe = await loadStripe(stripePublishableKey);
       if (!stripe) throw new Error("Stripe not found");
       const result = await stripe.redirectToCheckout({
         sessionId,

@@ -10,7 +10,13 @@ import { createPaymentSession } from "@/services/payment.service";
 import { loadStripe } from "@stripe/stripe-js";
 import { useStateSelector } from "@/store";
 
-export default function UserPlans({ id }: { id?: string }) {
+export default function UserPlans({
+  id,
+  stripePublishableKey,
+}: {
+  id?: string;
+  stripePublishableKey: string;
+}) {
   const [userPlans, setUserPlans] = useState<IPlan[]>([]);
 
   const getPlans = async () => {
@@ -44,7 +50,13 @@ export default function UserPlans({ id }: { id?: string }) {
               <PlanCard
                 key={plan.id}
                 plan={plan}
-                actions={<BuyPlan id={plan.id} plan={plan} />}
+                actions={
+                  <BuyPlan
+                    id={plan.id}
+                    plan={plan}
+                    stripePublishableKey={stripePublishableKey}
+                  />
+                }
               />
             ))}
           </div>
@@ -60,7 +72,15 @@ export default function UserPlans({ id }: { id?: string }) {
   );
 }
 
-const BuyPlan = ({ plan, id }: { id: string; plan: IPlan }) => {
+const BuyPlan = ({
+  plan,
+  id,
+  stripePublishableKey,
+}: {
+  id: string;
+  plan: IPlan;
+  stripePublishableKey: string;
+}) => {
   const userData = useStateSelector((state) => state.user.user);
   const buyPlanHandler = async ({ plan }: { plan: IPlan }) => {
     try {
@@ -71,9 +91,7 @@ const BuyPlan = ({ plan, id }: { id: string; plan: IPlan }) => {
         email: userData.email,
       });
       const sessionId = session.data.id;
-      const stripe = await loadStripe(
-        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,
-      );
+      const stripe = await loadStripe(stripePublishableKey as string);
       if (!stripe) throw new Error("Stripe not found");
       const result = await stripe.redirectToCheckout({
         sessionId,
