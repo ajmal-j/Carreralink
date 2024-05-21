@@ -7,6 +7,9 @@ import Meet from "../_component/meet";
 import { Suspense } from "react";
 import { Loader } from "lucide-react";
 
+const appId = Number(process.env.NEXT_PUBLIC_ZEGO_APP_ID) as number;
+const serverSecret = process.env.NEXT_PUBLIC_ZEGO_SERVER_SECRET as string;
+
 export default async function Interview({
   params: { id },
 }: {
@@ -17,6 +20,11 @@ export default async function Interview({
   let data: IInterviewUsers = {} as IInterviewUsers;
   let isInterviewer: boolean = false;
   let applicantId: string = "";
+
+  if (!appId || !serverSecret)
+    return (
+      <NotFound title="Something went wrong please try again.(appId or serverSecret not found)" />
+    );
 
   const token = cookies().get("userToken")?.value || "";
   try {
@@ -48,6 +56,8 @@ export default async function Interview({
           isInterviewer={isInterviewer}
           applicantId={applicantId}
           user={data}
+          serverSecret={serverSecret}
+          appId={appId}
         />
       </Suspense>
     </div>

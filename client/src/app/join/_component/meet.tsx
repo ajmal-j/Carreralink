@@ -18,20 +18,21 @@ interface PageProps {
   user: IInterviewUsers;
   isInterviewer: boolean;
   applicantId: string;
+  appId: number;
+  serverSecret: string;
 }
 const languages = Object.entries(availableLanguages).map(([key]) => ({
   value: key,
   label: key,
 }));
 
-const appId = Number(process.env.NEXT_PUBLIC_ZEGO_APP_ID) as number;
-const serverSecret = process.env.NEXT_PUBLIC_ZEGO_SERVER_SECRET as string;
-
 export default function Meet({
   id,
   user,
   isInterviewer,
   applicantId,
+  appId,
+  serverSecret,
 }: PageProps) {
   const [editorValue, setEditorValue] = useState("");
   const [language, setLanguage] = useState<string>(languages[0].value);
