@@ -3,9 +3,9 @@ kind: Config
 deploy:
   kubectl:
     manifests:
-      - ./infra/secrets/*
-      - ./infra/dbs/*
+      - ./secrets/*
       - ./infra/kafka/*
+      - ./infra/dbs/*
       - ./infra/dev/*
       - ./infra/k8s/*
 build:

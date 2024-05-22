@@ -33,15 +33,9 @@ spec:
                   name: google-secret
                   key: NEXT_PUBLIC_GOOGLE_CLIENT_SECRET
             - name: NEXT_PUBLIC_GOOGLE_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: google-secret
-                  key: NEXT_PUBLIC_GOOGLE_CLIENT_ID
+              value: 444055010869-ie946hi941u1hcsf1on8vp6a33eqiggs.apps.googleusercontent.com
             - name: NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: stripe-secret
-                  key: STRIPE_PUBLISHABLE_KEY
+              value: pk_test_51P8fbcSI3pvxBFAB4X8BjlbbG58yLcKdYIFPf82A8bmq9hGNA4PhwfJdRaqQ4HyLwEbj7esJOUA5k82TF2FYUz0K00Ay7dQi6F
             - name: NEXT_PUBLIC_STRIPE_SECRET_KEY
               valueFrom:
                 secretKeyRef:
