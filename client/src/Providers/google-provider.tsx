@@ -1,6 +1,7 @@
-import GoogleProviderClient from "./_components/google";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
-const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID! as string;
+const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!;
+if (!clientId) throw new Error("Missing NEXT_PUBLIC_GOOGLE_CLIENT_ID");
 
 export default function GoogleProvider({
   children,
@@ -8,6 +9,13 @@ export default function GoogleProvider({
   children: React.ReactNode;
 }) {
   return (
-    <GoogleProviderClient clientId={clientId}>{children}</GoogleProviderClient>
+    <GoogleOAuthProvider
+      // added this because of its not getting from the container also it will not work with any other domain google will restrict it.
+      clientId={
+        "444055010869-ie946hi941u1hcsf1on8vp6a33eqiggs.apps.googleusercontent.com"
+      }
+    >
+      {children}
+    </GoogleOAuthProvider>
   );
 }
