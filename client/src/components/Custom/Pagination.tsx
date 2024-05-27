@@ -54,6 +54,7 @@ export function PaginationComponent({
         <PaginationItem>
           <PaginationPrevious
             isActive={hasPrevPage}
+            className={`${hasPrevPage ? "cursor-pointer" : "cursor-not-allowed opacity-40"}`}
             href={
               hasPrevPage
                 ? `${path}?${newSearchParams && newSearchParams.concat("&")}p=${prevPage ? prevPage : 1}`
@@ -105,6 +106,7 @@ export function PaginationComponent({
         <PaginationItem>
           <PaginationNext
             isActive={hasNextPage}
+            className={`${hasNextPage ? "cursor-pointer" : "cursor-not-allowed opacity-40"}`}
             href={
               hasNextPage
                 ? `${path}?${newSearchParams && newSearchParams.concat("&")}p=${nextPage ?? page}`
