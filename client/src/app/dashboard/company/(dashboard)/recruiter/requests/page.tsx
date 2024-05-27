@@ -10,7 +10,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import {
@@ -212,13 +212,31 @@ const RequestComponent = ({
               </PopoverClose>
             </PopoverContent>
           </Popover>
-          <Button
-            onClick={() => assignRec(recruiter._id)}
-            variant={"default"}
-            className="w-full border border-green-500/60 bg-green-500/10 text-green-500/60 hover:bg-green-500/30 hover:text-white"
-          >
-            assign
-          </Button>
+
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant={"default"}
+                className="w-full border border-green-500/60 bg-green-500/10 text-green-500/60 hover:bg-green-500/30 hover:text-white"
+              >
+                assign
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent align="start" className="flex flex-col gap-2">
+              <Label>
+                Are you sure you want to assign this person as recruiter?
+              </Label>
+              <PopoverClose className="ms-auto space-x-1">
+                <Button
+                  onClick={() => assignRec(recruiter._id)}
+                  size={"sm"}
+                  className="bg-red-500/20 text-red-500 hover:bg-red-500/50 hover:text-white"
+                >
+                  confirm
+                </Button>
+              </PopoverClose>
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
     </div>
