@@ -21,7 +21,6 @@ export default function Request() {
         title: "Request Submitted",
         description: "We will get back to you soon",
       });
-      redirect("/");
     } catch (error) {
       console.log(error);
       const message = getMessage(error);
