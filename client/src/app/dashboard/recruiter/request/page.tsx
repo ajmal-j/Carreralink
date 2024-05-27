@@ -4,7 +4,7 @@ import { CustomForm } from "@/components/FormsAndDialog/CustomForm";
 import { toast } from "@/components/ui/use-toast";
 import { getMessage } from "@/lib/utils";
 import { createRequest } from "@/services/recruiter.service";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { z } from "zod";
 
@@ -21,6 +21,7 @@ export default function Request() {
         title: "Request Submitted",
         description: "We will get back to you soon",
       });
+      redirect("/");
     } catch (error) {
       console.log(error);
       const message = getMessage(error);
