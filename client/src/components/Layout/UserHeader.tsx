@@ -89,9 +89,6 @@ export default function UserHeader({
         <Link className="hover:text-foreground" href="/dashboard/recruiter">
           Hire
         </Link>
-        <Link className="hover:text-foreground" href="/about">
-          About
-        </Link>
       </div>
       <div className="flex flex-1 justify-end md:flex-none ">
         <div className="hidden md:block">
@@ -145,10 +142,6 @@ export function MobileNav() {
           <span className="flex items-center rounded-2xl py-1.5 ps-5 text-foreground/70 transition-all duration-150 hover:bg-foreground/20 hover:text-foreground">
             <FileTextIcon className="mr-4 h-4 w-4 text-foreground" />
             <Link href="/dashboard/recruiter">Hire</Link>
-          </span>
-          <span className="flex items-center rounded-2xl py-1.5 ps-5 text-foreground/70 transition-all duration-150 hover:bg-foreground/20 hover:text-foreground">
-            <InfoCircledIcon className="mr-4 h-4 w-4 text-foreground" />
-            <Link href="/about">About</Link>
           </span>
           <div className="flex justify-end">
             <ThemeToggler />

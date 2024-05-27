@@ -90,29 +90,29 @@ services:
     ports:
       - 8080:8080
 
-  communication:
-    build: ./communication
-    container_name: communication-container
-    depends_on:
-      - communication-db
-      - redpanda
-    develop:
-      watch:
-        - action: sync
-          path: ./communication
-          target: ./communication
-          ignore:
-            - node_modules/
-        - action: rebuild
-          path: ./communication/package.json
-        - action: rebuild
-          path: ./communication/package-lock.json
-    environment:
-      MONGO_URL: mongodb://communication-db:27017/communication
-      KAFKA_BROKER: redpanda:29092
-      JWT_SECRET: blablablablablablabal
-    ports:
-      - 8000:8000
+  # communication:
+  #   build: ./communication
+  #   container_name: communication-container
+  #   depends_on:
+  #     - communication-db
+  #     - redpanda
+  #   develop:
+  #     watch:
+  #       - action: sync
+  #         path: ./communication
+  #         target: ./communication
+  #         ignore:
+  #           - node_modules/
+  #       - action: rebuild
+  #         path: ./communication/package.json
+  #       - action: rebuild
+  #         path: ./communication/package-lock.json
+  #   environment:
+  #     MONGO_URL: mongodb://communication-db:27017/communication
+  #     KAFKA_BROKER: redpanda:29092
+  #     JWT_SECRET: blablablablablablabal
+  #   ports:
+  #     - 8000:8000
 
   admin:
     build: ./admin
@@ -138,66 +138,66 @@ services:
     ports:
       - 9000:9000
 
-  order:
-    build: ./order
-    container_name: order-container
-    depends_on:
-      - order-db
-      - redpanda
-    develop:
-      watch:
-        - action: sync
-          path: ./order
-          target: ./order
-          ignore:
-            - node_modules/
-        - action: rebuild
-          path: ./order/package.json
-        - action: rebuild
-          path: ./order/package-lock.json
-    environment:
-      MONGO_URL: mongodb://order-db:27017/order
-      KAFKA_BROKER: redpanda:29092
-      JWT_SECRET: blablablablablablabal
-    ports:
-      - 10000:10000
+  # order:
+  #   build: ./order
+  #   container_name: order-container
+  #   depends_on:
+  #     - order-db
+  #     - redpanda
+  #   develop:
+  #     watch:
+  #       - action: sync
+  #         path: ./order
+  #         target: ./order
+  #         ignore:
+  #           - node_modules/
+  #       - action: rebuild
+  #         path: ./order/package.json
+  #       - action: rebuild
+  #         path: ./order/package-lock.json
+  #   environment:
+  #     MONGO_URL: mongodb://order-db:27017/order
+  #     KAFKA_BROKER: redpanda:29092
+  #     JWT_SECRET: blablablablablablabal
+  #   ports:
+  #     - 10000:10000
 
-  ai:
-    build: ./ai
-    container_name: ai-container
-    develop:
-      watch:
-        - action: sync
-          path: ./ai
-          target: ./ai
-          ignore:
-            - node_modules/
-        - action: rebuild
-          path: ./ai/package.json
-        - action: rebuild
-          path: ./ai/package-lock.json
-    environment:
-      KAFKA_BROKER: redpanda:29092
-      JWT_SECRET: blablablablablablabal
-    ports:
-      - 7000:7000
+  # ai:
+  #   build: ./ai
+  #   container_name: ai-container
+  #   develop:
+  #     watch:
+  #       - action: sync
+  #         path: ./ai
+  #         target: ./ai
+  #         ignore:
+  #           - node_modules/
+  #       - action: rebuild
+  #         path: ./ai/package.json
+  #       - action: rebuild
+  #         path: ./ai/package-lock.json
+  #   environment:
+  #     KAFKA_BROKER: redpanda:29092
+  #     JWT_SECRET: blablablablablablabal
+  #   ports:
+  #     - 7000:7000
 
-  compiler:
-    build: ./compiler
-    container_name: compiler-container
-    develop:
-      watch:
-        - action: sync
-          path: ./compiler
-          target: ./compiler
-          ignore:
-            - node_modules/
-        - action: rebuild
-          path: ./compiler/package.json
-        - action: rebuild
-          path: ./compiler/package-lock.json
-    ports:
-      - 11000:11000
+  # compiler:
+  #   build: ./compiler
+  #   container_name: compiler-container
+  #   develop:
+  #     watch:
+  #       - action: sync
+  #         path: ./compiler
+  #         target: ./compiler
+  #         ignore:
+  #           - node_modules/
+  #       - action: rebuild
+  #         path: ./compiler/package.json
+  #       - action: rebuild
+  #         path: ./compiler/package-lock.json
+  #   ports:
+  #     - 11000:11000
 
   auth-db:
     image: mongo:7.0
@@ -223,13 +223,13 @@ services:
     volumes:
       - users_db:/data/db
 
-  communication-db:
-    image: mongo:7.0
-    restart: always
-    ports:
-      - 27020:27017
-    volumes:
-      - communication_db:/data/db
+  # communication-db:
+  #   image: mongo:7.0
+  #   restart: always
+  #   ports:
+  #     - 27020:27017
+  #   volumes:
+  #     - communication_db:/data/db
 
   admin-db:
     image: mongo:7.0
@@ -239,13 +239,13 @@ services:
     volumes:
       - admin_db:/data/db
 
-  order-db:
-    image: mongo:7.0
-    restart: always
-    ports:
-      - 27022:27017
-    volumes:
-      - order_db:/data/db
+  # order-db:
+  #   image: mongo:7.0
+  #   restart: always
+  #   ports:
+  #     - 27022:27017
+  #   volumes:
+  #     - order_db:/data/db
 
   redpanda:
     image: docker.redpanda.com/vectorized/redpanda:v22.2.2
