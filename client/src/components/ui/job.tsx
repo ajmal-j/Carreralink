@@ -3,16 +3,7 @@ import { cn, formatMoney } from "@/lib/utils";
 import { IJob } from "@/types/jobs";
 import { BackpackIcon, ClockIcon } from "@radix-ui/react-icons";
 import { formatDistanceToNow } from "date-fns";
-import {
-  Blocks,
-  Building,
-  Building2,
-  HandCoins,
-  ListChecks,
-  ListChecksIcon,
-  MapPin,
-  User,
-} from "lucide-react";
+import { Blocks, Building2, HandCoins, MapPin, User } from "lucide-react";
 import { Poppins } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
@@ -40,7 +31,7 @@ export function JobDetails({
       >
         {job.title}
       </h1>
-      <div className="mt-6 flex w-full flex-wrap  gap-3 md:px-8">
+      <div className="mt-6 flex w-full flex-wrap gap-3">
         <Link
           href={`/companies/${job.company.id ?? job.company._id}`}
           className="w-full sm:w-min"
@@ -90,7 +81,7 @@ export function JobDetails({
         {jobActions}
       </div>
       <article>
-        <div className="flex sm:px-8">
+        <div className="flex">
           <span className="flex items-start text-nowrap text-lg font-semibold text-foreground/70">
             <span className="flex items-center gap-1">
               <Blocks size={20} />
@@ -104,12 +95,11 @@ export function JobDetails({
                 key={index}
               >
                 {skill}
-                {index !== job.skills.length - 1 && <span>,</span>}
               </li>
             ))}
           </ul>
         </div>
-        <p className="mt-[-10px] flex items-center justify-end gap-1 text-sm text-foreground/60 md:px-8">
+        <p className="mt-[-10px] flex items-center justify-end gap-1 text-sm text-foreground/60">
           <ClockIcon />{" "}
           <span className="text-nowrap">
             {formatDistanceToNow(job.createdAt)}
@@ -118,13 +108,13 @@ export function JobDetails({
         <h1 className="mb-4 mt-10 text-2xl font-semibold">
           Job Description :{" "}
         </h1>
-        <Markdown className="md:px-4">{job.description}</Markdown>
+        <Markdown>{job.description}</Markdown>
       </article>
       <footer className="mt-10">
         {job.postedBy.by === "recruiter" ? (
-          <div className="flex flex-col gap-2 px-4">
+          <div className="flex flex-col gap-2">
             <span className="text-sm text-foreground/70">Posted by :</span>
-            <div className="mx-5 flex gap-3 rounded-md bg-foreground/5 p-4">
+            <div className="flex gap-3 rounded-md bg-foreground/5 p-4">
               <Avatar className="size-14">
                 <AvatarImage src={job.postedBy.id.profile} />
                 <AvatarFallback>
@@ -139,7 +129,7 @@ export function JobDetails({
                     (recruiter at {job.company.name})
                   </span>
                 </Link>
-                <span className="text-sm text-foreground/70">
+                <span className="break-all text-sm text-foreground/70">
                   {job.postedBy.id.email}
                 </span>
               </div>
