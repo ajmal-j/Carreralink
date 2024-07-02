@@ -27,7 +27,6 @@ export default function Login() {
   };
 
   const onsubmit = async (values: z.infer<typeof formSchema>) => {
-    alert(JSON.stringify(values, null, 2));
     try {
       const response = (await LogInAction(values)) as any;
       if (response === 403) {

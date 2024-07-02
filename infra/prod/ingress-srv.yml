@@ -82,3 +82,23 @@ spec:
                 name: communication-socket-service
                 port:
                   number: 4040
+    - host: rarekicks.shop
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rarekicks-service
+                port:
+                  number: 3001
+    - host: www.rarekicks.shop
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rarekicks-service
+                port:
+                  number: 3001
