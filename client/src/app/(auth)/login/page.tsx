@@ -19,7 +19,7 @@ const formSchema = z.object({
   password: z.string().min(8, "password must be at least 8 characters"),
 });
 
-export default function Login() {
+export default function Login({ searchParams: { redirect = "/" } }) {
   const router = useRouter();
   const defaultValues: z.infer<typeof formSchema> = {
     email: "",
@@ -40,7 +40,7 @@ export default function Login() {
           title: "LogIn successful",
           duration: 2000,
         });
-        router.push("/");
+        router.push(redirect);
       } else {
         const message = getMessage(response);
         toast({

@@ -3,7 +3,13 @@ import RecruiterHeader from "@/components/Layout/RecruiterHeader";
 import { isRecruiter } from "@/services/recruiter.service";
 import { IRecruiter } from "@/store/reducers/recruiter.slice";
 import { BackpackIcon } from "@radix-ui/react-icons";
-import { BarChart2, Building2, CalendarDays, MessageSquareText, Users2Icon } from "lucide-react";
+import {
+  BarChart2,
+  Building2,
+  CalendarDays,
+  MessageSquareText,
+  Users2Icon,
+} from "lucide-react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
@@ -16,7 +22,10 @@ const logOut = async () => {
 
 export default async function layout({ children }: { children: ReactNode }) {
   const kookie = cookies().get("userToken")?.value;
-  if (!kookie) return redirect("/login");
+  if (!kookie)
+    return redirect(
+      `/login?redirect=https://carreralink.live/dashboard/recruiter`,
+    );
   let isRec: boolean | IRecruiter;
   try {
     const response = await isRecruiter(kookie);
