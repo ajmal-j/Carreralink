@@ -1,5 +1,6 @@
 "use client";
 
+import ReviewAccessButton from "@/components/Buttons/ReviewAccess";
 import Title from "@/components/Custom/Title";
 import { CustomForm } from "@/components/FormsAndDialog/CustomForm";
 import MainText from "@/components/Layout/MainText";
@@ -26,6 +27,7 @@ export default function Login() {
   };
 
   const onsubmit = async (values: z.infer<typeof formSchema>) => {
+    alert(JSON.stringify(values, null, 2));
     try {
       const response = (await LogInAction(values)) as any;
       if (response === 403) {
@@ -131,6 +133,11 @@ export default function Login() {
             }
           />
         </div>
+        <ReviewAccessButton
+          onsubmit={onsubmit}
+          email="ajmaljaleel8589946195@gmail.com"
+          password="ajmaljaleel"
+        />
         <div className="z-20 mt-5 flex h-14 w-full max-w-[370px] items-center justify-center rounded-full bg-white">
           <GoogleLogin
             onSuccess={(credentialResponse) => {

@@ -9,6 +9,7 @@ import { getMessage } from "@/lib/utils";
 import { toast } from "@/components/ui/use-toast";
 import { LogInAction } from "./actions";
 import { useRouter } from "next/navigation";
+import ReviewAccessButton from "@/components/Buttons/ReviewAccess";
 
 const formSchema = z.object({
   email: z.string().email("invalid email"),
@@ -51,6 +52,13 @@ export default function Login() {
               defaultValues={defaultValues}
               onSubmit={onsubmit}
               action="Login to admin dashboard"
+              comment={
+                <ReviewAccessButton
+                  email="admin@gmail.com"
+                  password="adminadmin"
+                  onsubmit={onsubmit}
+                />
+              }
             />
           </div>
         </div>
